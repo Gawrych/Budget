@@ -1,16 +1,16 @@
-package com.example.budgetmanagement.ui.Statistics;
+package com.example.budgetmanagement.ui.Category;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class StatisticsViewModel extends ViewModel {
+public class CategoryViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public StatisticsViewModel() {
+    public CategoryViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is statistics fragment");
+        mText.setValue("This is category fragment");
     }
 
     public LiveData<String> getText() {

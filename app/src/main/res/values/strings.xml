@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BudgetManagement</string>
+    <string name="title_statistics">Statistics</string>
+    <string name="title_history">History</string>
+    <string name="title_incoming">Incoming</string>
+    <string name="title_category">Category</string>
 </resources>

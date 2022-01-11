@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:id="@+id/mobile_navigation">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_statistics">
 
+    <fragment
+        android:id="@+id/navigation_statistics"
+        android:name="com.example.budgetmanagement.ui.Statistics.StatisticsFragment"
+        android:label="@string/title_statistics"
+        tools:layout="@layout/statistics_fragment" />
+    <fragment
+        android:id="@+id/navigation_category"
+        android:name="com.example.budgetmanagement.ui.Category.CategoryFragment"
+        android:label="@string/title_category"
+        tools:layout="@layout/category_fragment" />
+    <fragment
+        android:id="@+id/navigation_history"
+        android:name="com.example.budgetmanagement.ui.History.HistoryFragment"
+        android:label="@string/title_history"
+        tools:layout="@layout/history_fragment" />
+    <fragment
+        android:id="@+id/navigation_incoming"
+        android:name="com.example.budgetmanagement.ui.Incoming.IncomingFragment"
+        android:label="@string/title_incoming"
+        tools:layout="@layout/incoming_fragment" />
 </navigation>

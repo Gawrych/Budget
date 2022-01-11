@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_category.xml" value="0.3712962962962963" />
+        <entry key="app/src/main/res/drawable/ic_baseline_hourglass_24.xml" value="0.3712962962962963" />
+        <entry key="app/src/main/res/drawable/ic_baseline_statistics.xml" value="0.3712962962962963" />
+        <entry key="app/src/main/res/drawable/ic_outline_hourglass_24.xml" value="0.3712962962962963" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/category_fragment.xml" value="0.38125" />
+        <entry key="app/src/main/res/layout/fragment_statistics.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/history_fragment.xml" value="0.38125" />
+        <entry key="app/src/main/res/layout/incoming_fragment.xml" value="0.38125" />
+        <entry key="app/src/main/res/layout/statistics_fragment.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.33" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
