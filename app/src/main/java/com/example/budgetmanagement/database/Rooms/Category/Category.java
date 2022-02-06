@@ -1,10 +1,9 @@
 package com.example.budgetmanagement.database.Rooms.Category;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
-import lombok.NonNull;
 
 @Entity(tableName = "categories")
 public class Category {
@@ -30,7 +29,7 @@ public class Category {
     @ColumnInfo(name = "modified_date")
     private long modified_date;
 
-    public Category(int category_id, String name, String icon_name, int budget, long add_date, long modified_date) {
+    public Category(int category_id, @NonNull String name, @NonNull String icon_name, int budget, long add_date, long modified_date) {
         this.category_id = category_id;
         this.name = name;
         this.icon_name = icon_name;
@@ -43,10 +42,12 @@ public class Category {
         return category_id;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
+    @NonNull
     public String getIcon_name() {
         return icon_name;
     }
