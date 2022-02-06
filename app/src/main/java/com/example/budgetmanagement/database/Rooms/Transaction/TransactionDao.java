@@ -1,7 +1,8 @@
-package com.example.budgetmanagement.database.TransactionRoom;
+package com.example.budgetmanagement.database.Rooms.Transaction;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -18,8 +19,8 @@ public interface TransactionDao {
     @Update
     void update(Transaction transaction);
 
-    @Query("DELETE FROM transactions WHERE id = :id")
-    void delete(int id);
+    @Delete
+    void delete(Transaction transaction);
 
     @Query("SELECT * FROM transactions ORDER BY add_date DESC")
     LiveData<List<Transaction>> getAllTransactions();
