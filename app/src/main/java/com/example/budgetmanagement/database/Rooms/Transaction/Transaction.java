@@ -9,16 +9,11 @@ import androidx.room.PrimaryKey;
 
 import com.example.budgetmanagement.database.Rooms.Category.Category;
 
-@Entity(tableName = "transactions",
-        foreignKeys = {@ForeignKey(entity = Category.class,
-                parentColumns = "category_id",
-                childColumns = "category_id",
-                onDelete = ForeignKey.CASCADE)
-        })
+@Entity(tableName = "transactions")
 public class Transaction {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "transaction_id")
     private int transactionId;
 
     @ColumnInfo(name = "category_id")

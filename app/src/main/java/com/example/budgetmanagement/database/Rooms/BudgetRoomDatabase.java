@@ -15,10 +15,11 @@ import com.example.budgetmanagement.database.Rooms.Category.CategoryDao;
 import com.example.budgetmanagement.database.Rooms.Transaction.Transaction;
 import com.example.budgetmanagement.database.Rooms.Transaction.TransactionDao;
 
+import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class}, version = 2, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class}, version = 1, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -36,6 +37,7 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             BudgetRoomDatabase.class, "BudgetManagement")
                             .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries()
                             .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
@@ -43,16 +45,17 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
-//  Populate database at first run
+
+    //  Populate database at first run
     private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
             databaseWriteExecutor.execute(() -> {
-//                CategoryDao categoryDao = INSTANCE.categoryDao();
-//                Category category = new Category(0, "Inne", 0, LocalDate.now(), 0);
-//                categoryDao.insert(category);
+                CategoryDao categoryDao = INSTANCE.categoryDao();
+                Category category = new Category(0, "Inne", "icon", 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                categoryDao.insert(category);
             });
         }
     };
