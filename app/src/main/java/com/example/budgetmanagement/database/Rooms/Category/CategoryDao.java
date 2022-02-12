@@ -33,7 +33,7 @@ public interface CategoryDao {
     @Query("SELECT * FROM categories WHERE category_id = :id")
     Category getCategoryById(int id);
 
-    @Query("SELECT name, budget FROM categories ORDER BY category_id ASC")
+    @Query("SELECT category_id, name, budget FROM categories ORDER BY category_id ASC")
     LiveData<List<CategoryName>> getAllCategoryNames();
 
 }

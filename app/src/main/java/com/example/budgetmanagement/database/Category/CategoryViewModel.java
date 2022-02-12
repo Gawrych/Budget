@@ -1,8 +1,10 @@
 package com.example.budgetmanagement.database.Category;
 
 import android.app.Application;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -11,6 +13,7 @@ import com.example.budgetmanagement.database.Rooms.BudgetRepository;
 import com.example.budgetmanagement.database.Rooms.Category.Category;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CategoryViewModel extends AndroidViewModel {
 
@@ -37,6 +40,7 @@ public class CategoryViewModel extends AndroidViewModel {
         return allCategoryNames;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public Category getCategoryById(int id) {
         return budgetRepository.getCategoryById(id);
     }

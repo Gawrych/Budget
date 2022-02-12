@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.budgetmanagement.database.Category.utils.CategoryName;
 import com.example.budgetmanagement.database.Rooms.Category.Category;
@@ -11,8 +12,10 @@ import com.example.budgetmanagement.database.Rooms.Category.CategoryDao;
 import com.example.budgetmanagement.database.Rooms.Transaction.Transaction;
 import com.example.budgetmanagement.database.Rooms.Transaction.TransactionDao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class BudgetRepository {
 
@@ -28,15 +31,11 @@ public class BudgetRepository {
     private Category categoryId1;
 
     public BudgetRepository(Application app) {
-        Log.d("CheckForMe", "I'm here! 1");
         database = BudgetRoomDatabase.getDatabase(app);
         transactionDao = database.transactionDao();
         allTransactions = transactionDao.getAllTransactions();
         categoryDao = database.categoryDao();
         allCategories = categoryDao.getAllCategories();
-
-        categoryNames = categoryDao.getAllCategoryNames();
-        Log.d("CheckForMe", "Hello World");
     }
 
     public LiveData<List<Transaction>> getAllTransactions() {
@@ -56,7 +55,7 @@ public class BudgetRepository {
     }
 
     public LiveData<List<CategoryName>> getCategoryNames() {
-        return categoryNames;
+        return categoryDao.getAllCategoryNames();
     }
 
     public void insert(Transaction transaction) {

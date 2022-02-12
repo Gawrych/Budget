@@ -1,7 +1,9 @@
 package com.example.budgetmanagement.ui.Category;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Category.CategoryAdapter;
@@ -22,11 +26,14 @@ import com.example.budgetmanagement.database.Category.CategoryViewModel;
 import com.example.budgetmanagement.database.Rooms.Category.Category;
 import com.example.budgetmanagement.databinding.CategoryFragmentBinding;
 
+import java.util.Objects;
+
 public class CategoryFragment extends Fragment implements CategoryViewHolder.OnNoteListener{
 
     private CategoryViewModel categoryViewModel;
     private CategoryFragmentBinding binding;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root;
@@ -41,7 +48,6 @@ public class CategoryFragment extends Fragment implements CategoryViewHolder.OnN
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         categoryViewModel.getAllCategories().observe(getViewLifecycleOwner(), adapter::submitList);
 
-//        To include grid layout
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(),2);
         recyclerView.setLayoutManager(mLayoutManager);
 
