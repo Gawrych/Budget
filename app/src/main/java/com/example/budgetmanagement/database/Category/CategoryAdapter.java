@@ -33,7 +33,7 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         Category current = getItem(position);
-        holder.bind(current.getCategory_id(), current.getName(), current.getBudget());
+        holder.bind(current.getCategoryId(), current.getName(), current.getBudget());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -53,7 +53,7 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
 
         @Override
         public boolean areContentsTheSame(@NonNull Category oldItem, @NonNull Category newItem) {
-            return oldItem.getCategory_id() == newItem.getCategory_id();
+            return oldItem.getCategoryId() == newItem.getCategoryId();
         }
     }
 }

@@ -13,10 +13,10 @@ import com.example.budgetmanagement.database.Rooms.Category.Category;
 public class Transaction {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "transaction_id")
+    @ColumnInfo(name = "transactionId")
     private int transactionId;
 
-    @ColumnInfo(name = "category_id")
+    @ColumnInfo(name = "categoryId")
     private int categoryId;
 
     @NonNull
@@ -26,21 +26,21 @@ public class Transaction {
     @ColumnInfo(name="amount")
     private float amount;
 
-    @ColumnInfo(name="add_date")
-    private long add_date;
+    @ColumnInfo(name="addDate")
+    private long addDate;
 
-    @ColumnInfo(name="last_modified_data")
+    @ColumnInfo(name="lastModifiedData")
     private long lastModifiedData;
 
     @ColumnInfo(name="profit")
     private boolean profit;
 
-    public Transaction(int transactionId, int categoryId, @NonNull String title, float amount, long add_date, long lastModifiedData, boolean profit) {
+    public Transaction(int transactionId, int categoryId, @NonNull String title, float amount, long addDate, long lastModifiedData, boolean profit) {
         this.transactionId = transactionId;
         this.categoryId = categoryId;
         this.title = title;
         this.amount = amount;
-        this.add_date = add_date;
+        this.addDate = addDate;
         this.lastModifiedData = lastModifiedData;
         this.profit = profit;
     }
@@ -62,8 +62,8 @@ public class Transaction {
         return amount;
     }
 
-    public long getAdd_date() {
-        return add_date;
+    public long getAddDate() {
+        return addDate;
     }
 
     public long getLastModifiedData() {

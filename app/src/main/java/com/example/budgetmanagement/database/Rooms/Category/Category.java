@@ -9,37 +9,37 @@ import androidx.room.PrimaryKey;
 public class Category {
 
     @PrimaryKey
-    @ColumnInfo(name = "category_id")
-    private int category_id;
+    @ColumnInfo(name = "categoryId")
+    private int categoryId;
 
     @NonNull
     @ColumnInfo(name = "name")
     private String name;
 
     @NonNull
-    @ColumnInfo(name = "icon_name")
-    private String icon_name;
+    @ColumnInfo(name = "iconName")
+    private String iconName;
 
     @ColumnInfo(name = "budget")
     private int budget;
 
     @ColumnInfo(name = "add_date")
-    private long add_date;
+    private long addDate;
 
     @ColumnInfo(name = "modified_date")
-    private long modified_date;
+    private long modifiedDate;
 
-    public Category(int category_id, @NonNull String name, @NonNull String icon_name, int budget, long add_date, long modified_date) {
-        this.category_id = category_id;
+    public Category(int categoryId, @NonNull String name, @NonNull String iconName, int budget, long addDate, long modifiedDate) {
+        this.categoryId = categoryId;
         this.name = name;
-        this.icon_name = icon_name;
+        this.iconName = iconName;
         this.budget = budget;
-        this.add_date = add_date;
-        this.modified_date = modified_date;
+        this.addDate = addDate;
+        this.modifiedDate = modifiedDate;
     }
 
-    public int getCategory_id() {
-        return category_id;
+    public int getCategoryId() {
+        return categoryId;
     }
 
     @NonNull
@@ -48,19 +48,19 @@ public class Category {
     }
 
     @NonNull
-    public String getIcon_name() {
-        return icon_name;
+    public String getIconName() {
+        return iconName;
     }
 
     public int getBudget() {
         return budget;
     }
 
-    public long getAdd_date() {
-        return add_date;
+    public long getAddDate() {
+        return addDate;
     }
 
-    public long getModified_date() {
-        return modified_date;
+    public long getModifiedDate() {
+        return modifiedDate;
     }
 }
