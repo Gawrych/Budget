@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData;
 import com.example.budgetmanagement.database.Category.utils.CategoryName;
 import com.example.budgetmanagement.database.Rooms.BudgetRepository;
 import com.example.budgetmanagement.database.Rooms.Category.Category;
+import com.example.budgetmanagement.database.Rooms.Transaction.TransactionAndCategory;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +20,7 @@ public class CategoryViewModel extends AndroidViewModel {
 
     private BudgetRepository budgetRepository;
     private LiveData<List<Category>> allCategory;
+    private LiveData<List<TransactionAndCategory>> transactionAndCategory;
     private LiveData<List<CategoryName>> allCategoryNames;
 
     public CategoryViewModel(@NonNull Application app) {
@@ -26,6 +28,7 @@ public class CategoryViewModel extends AndroidViewModel {
         budgetRepository = new BudgetRepository(app);
         allCategory = budgetRepository.getAllCategories();
         allCategoryNames = budgetRepository.getCategoryNames();
+        transactionAndCategory = budgetRepository.getAllTransactions();
     }
 
     public void insert(Category category) {
@@ -34,6 +37,10 @@ public class CategoryViewModel extends AndroidViewModel {
 
     public LiveData<List<Category>> getAllCategories() {
         return allCategory;
+    }
+
+    public LiveData<List<TransactionAndCategory>> getTransactionAndCategory() {
+        return transactionAndCategory;
     }
 
     public LiveData<List<CategoryName>> getAllCategoryNames() {

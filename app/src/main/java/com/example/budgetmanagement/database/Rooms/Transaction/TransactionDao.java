@@ -22,6 +22,10 @@ public interface TransactionDao {
     @Delete
     void delete(Transaction transaction);
 
-    @Query("SELECT * FROM transactions ORDER BY addDate DESC")
-    LiveData<List<Transaction>> getAllTransactions();
+//    @Query("SELECT * FROM transactions ORDER BY addDate DESC")
+//    LiveData<List<Transaction>> getAllTransactions();
+
+    @androidx.room.Transaction
+    @Query("SELECT * FROM transactions")
+    LiveData<List<TransactionAndCategory>> getAllTransactions();
 }

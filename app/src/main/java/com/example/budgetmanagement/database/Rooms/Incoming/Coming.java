@@ -2,38 +2,36 @@ package com.example.budgetmanagement.database.Rooms.Incoming;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import com.example.budgetmanagement.database.Rooms.Transaction.Transaction;
 
-@Entity(tableName = "incoming", foreignKeys = @ForeignKey(entity=Transaction.class, parentColumns="transactionId", childColumns="transactionId"))
-public class Incoming {
+@Entity(tableName = "coming")
+public class Coming {
 
-    @PrimaryKey
-    @ColumnInfo(name = "incoming_id")
-    private int incomingId;
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "comingId")
+    private int comingId;
 
-    @ColumnInfo(name = "transaction_id")
+    @ColumnInfo(name = "transactionId")
     private int transactionId;
 
-    @ColumnInfo(name = "amount_repeat")
+    @ColumnInfo(name = "amountRepeat")
     private int amountRepeat;
 
-    @ColumnInfo(name = "period_of_time")
+    @ColumnInfo(name = "periodOfTime")
     private long periodOfTime;
 
     @ColumnInfo(name = "deadline")
     private long deadline;
 
-    @ColumnInfo(name = "modified_date")
+    @ColumnInfo(name = "modifiedDate")
     private long modifiedDate;
 
-    @ColumnInfo(name = "add_date")
+    @ColumnInfo(name = "addDate")
     private long addDate;
 
-    public Incoming(int incomingId, int transactionId, int amountRepeat, long periodOfTime, long deadline, long modifiedDate, long addDate) {
-        this.incomingId = incomingId;
+    public Coming(int incomingId, int transactionId, int amountRepeat, long periodOfTime, long deadline, long modifiedDate, long addDate) {
+        this.comingId = incomingId;
         this.transactionId = transactionId;
         this.amountRepeat = amountRepeat;
         this.periodOfTime = periodOfTime;
@@ -42,8 +40,8 @@ public class Incoming {
         this.addDate = addDate;
     }
 
-    public int getIncomingId() {
-        return incomingId;
+    public int getComingId() {
+        return comingId;
     }
 
     public int getTransactionId() {

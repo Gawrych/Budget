@@ -10,6 +10,7 @@ import com.example.budgetmanagement.database.Category.utils.CategoryName;
 import com.example.budgetmanagement.database.Rooms.Category.Category;
 import com.example.budgetmanagement.database.Rooms.Category.CategoryDao;
 import com.example.budgetmanagement.database.Rooms.Transaction.Transaction;
+import com.example.budgetmanagement.database.Rooms.Transaction.TransactionAndCategory;
 import com.example.budgetmanagement.database.Rooms.Transaction.TransactionDao;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class BudgetRepository {
     private BudgetRoomDatabase database;
 //    Rest tables...
     private TransactionDao transactionDao;
-    private LiveData<List<Transaction>> allTransactions;
+    private LiveData<List<TransactionAndCategory>> allTransactions;
 
     private CategoryDao categoryDao;
     private LiveData<List<Category>> allCategories;
@@ -38,7 +39,7 @@ public class BudgetRepository {
         allCategories = categoryDao.getAllCategories();
     }
 
-    public LiveData<List<Transaction>> getAllTransactions() {
+    public LiveData<List<TransactionAndCategory>> getAllTransactions() {
         return allTransactions;
     }
 

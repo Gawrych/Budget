@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class}, version = 4, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class}, version = 5, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -56,6 +56,12 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 CategoryDao categoryDao = INSTANCE.categoryDao();
                 Category category = new Category(0, "Inne", "icon", 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
                 categoryDao.insert(category);
+
+                TransactionDao transactionDao = INSTANCE.transactionDao();
+                Transaction transaction = new Transaction(0, 0,
+                        "RandomName", 200, LocalDate.now().toEpochDay(),
+                         LocalDate.now().toEpochDay(), true);
+                transactionDao.insert(transaction);
             });
         }
     };
