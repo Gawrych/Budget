@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.database.Rooms.Category;
+package com.example.budgetmanagement.database.Rooms;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -8,7 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.budgetmanagement.database.Category.utils.CategoryName;
+import com.example.budgetmanagement.database.utils.CategoryName;
 
 import java.util.List;
 

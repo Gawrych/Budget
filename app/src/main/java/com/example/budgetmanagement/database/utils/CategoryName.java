@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.database.Category.utils;
+package com.example.budgetmanagement.database.utils;
 
 public class CategoryName {
 

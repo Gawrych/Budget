@@ -1,14 +1,14 @@
-package com.example.budgetmanagement.ui.Incoming;
+package com.example.budgetmanagement.database.ViewModels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class IncomingViewModel extends ViewModel {
+public class ComingViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public IncomingViewModel() {
+    public ComingViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is incoming fragment");
     }

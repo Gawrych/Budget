@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.database.Category;
+package com.example.budgetmanagement.database.ViewModels;
 
 import android.app.Application;
 import android.os.Build;
@@ -8,13 +8,12 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.budgetmanagement.database.Category.utils.CategoryName;
+import com.example.budgetmanagement.database.utils.CategoryName;
 import com.example.budgetmanagement.database.Rooms.BudgetRepository;
-import com.example.budgetmanagement.database.Rooms.Category.Category;
-import com.example.budgetmanagement.database.Rooms.Transaction.TransactionAndCategory;
+import com.example.budgetmanagement.database.Rooms.Category;
+import com.example.budgetmanagement.database.Rooms.TransactionAndCategory;
 
 import java.util.List;
-import java.util.Objects;
 
 public class CategoryViewModel extends AndroidViewModel {
 

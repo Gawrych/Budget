@@ -1,9 +1,7 @@
-package com.example.budgetmanagement.database.Rooms.Transaction;
+package com.example.budgetmanagement.database.Rooms;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;
-
-import com.example.budgetmanagement.database.Rooms.Category.Category;
 
 public class TransactionAndCategory {
 

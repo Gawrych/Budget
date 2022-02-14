@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.database.Rooms.Category;
+package com.example.budgetmanagement.database.Rooms;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

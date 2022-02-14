@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.database.Rooms.Incoming;
+package com.example.budgetmanagement.database.Rooms;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

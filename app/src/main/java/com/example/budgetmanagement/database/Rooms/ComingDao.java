@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.database.Rooms.Incoming;
+package com.example.budgetmanagement.database.Rooms;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

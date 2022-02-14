@@ -1,13 +1,9 @@
-package com.example.budgetmanagement.database.Rooms.Transaction;
+package com.example.budgetmanagement.database.Rooms;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-
-
-import com.example.budgetmanagement.database.Rooms.Category.Category;
 
 @Entity(tableName = "transactions")
 public class Transaction {

@@ -1,7 +1,6 @@
 package com.example.budgetmanagement.ui.Category;
 
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Build;
@@ -13,25 +12,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.Category.CategoryAdapter;
-import com.example.budgetmanagement.database.Category.CategoryViewHolder;
-import com.example.budgetmanagement.database.Category.CategoryViewModel;
-import com.example.budgetmanagement.database.Rooms.Category.Category;
-import com.example.budgetmanagement.database.Rooms.Transaction.Transaction;
-import com.example.budgetmanagement.database.Rooms.Transaction.TransactionAndCategory;
+import com.example.budgetmanagement.database.Adapters.CategoryAdapter;
+import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
+import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
 import com.example.budgetmanagement.databinding.CategoryFragmentBinding;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class CategoryFragment extends Fragment implements CategoryViewHolder.OnNoteListener{
 

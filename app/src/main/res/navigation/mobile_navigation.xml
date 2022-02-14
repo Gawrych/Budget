@@ -22,7 +22,7 @@
         tools:layout="@layout/history_fragment" />
     <fragment
         android:id="@+id/navigation_incoming"
-        android:name="com.example.budgetmanagement.ui.Incoming.IncomingFragment"
+        android:name="com.example.budgetmanagement.ui.Incoming.ComingFragment"
         android:label="@string/title_incoming"
         tools:layout="@layout/incoming_fragment" />
 </navigation>

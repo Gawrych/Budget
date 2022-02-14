@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.database.Rooms.Transaction;
+package com.example.budgetmanagement.database.Rooms;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

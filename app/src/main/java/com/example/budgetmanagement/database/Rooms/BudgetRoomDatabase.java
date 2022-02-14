@@ -10,11 +10,6 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.example.budgetmanagement.database.Rooms.Category.Category;
-import com.example.budgetmanagement.database.Rooms.Category.CategoryDao;
-import com.example.budgetmanagement.database.Rooms.Transaction.Transaction;
-import com.example.budgetmanagement.database.Rooms.Transaction.TransactionDao;
-
 import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

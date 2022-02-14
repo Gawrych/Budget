@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.database.Category;
+package com.example.budgetmanagement.database.Adapters;
 
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.Rooms.Category.Category;
+import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
+import com.example.budgetmanagement.database.Rooms.Category;
 
 public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
 

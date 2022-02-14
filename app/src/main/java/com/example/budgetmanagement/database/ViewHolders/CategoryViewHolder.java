@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.database.Category;
+package com.example.budgetmanagement.database.ViewHolders;
 
 import android.os.Build;
 import android.view.View;
