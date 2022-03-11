@@ -30,8 +30,8 @@ public class Coming {
     @ColumnInfo(name = "addDate")
     private long addDate;
 
-    public Coming(int incomingId, int transactionId, int amountRepeat, long periodOfTime, long deadline, long modifiedDate, long addDate) {
-        this.comingId = incomingId;
+    public Coming(int comingId, int transactionId, int amountRepeat, long periodOfTime, long deadline, long modifiedDate, long addDate) {
+        this.comingId = comingId;
         this.transactionId = transactionId;
         this.amountRepeat = amountRepeat;
         this.periodOfTime = periodOfTime;

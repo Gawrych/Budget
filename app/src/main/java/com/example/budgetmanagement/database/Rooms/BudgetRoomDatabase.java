@@ -14,11 +14,12 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class}, version = 5, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class}, version = 21, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
     public abstract CategoryDao categoryDao();
+    public abstract ComingDao comingDao();
 
     private static volatile BudgetRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -49,14 +50,20 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
             super.onOpen(db);
             databaseWriteExecutor.execute(() -> {
                 CategoryDao categoryDao = INSTANCE.categoryDao();
-                Category category = new Category(0, "Inne", "icon", 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category = new Category(1, "Inne", "icon", 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category2 = new Category(2, "Inne", "icon", 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
                 categoryDao.insert(category);
+                categoryDao.insert(category2);
 
                 TransactionDao transactionDao = INSTANCE.transactionDao();
-                Transaction transaction = new Transaction(0, 0,
+                Transaction transaction = new Transaction(1, 1,
                         "RandomName", 200, LocalDate.now().toEpochDay(),
                          LocalDate.now().toEpochDay(), true);
+                Transaction transaction2 = new Transaction(2, 2,
+                        "Kawa", 200, LocalDate.now().toEpochDay(),
+                        LocalDate.now().toEpochDay(), true);
                 transactionDao.insert(transaction);
+                transactionDao.insert(transaction2);
             });
         }
     };

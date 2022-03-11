@@ -25,7 +25,5 @@ public interface TransactionDao {
 //    @Query("SELECT * FROM transactions ORDER BY addDate DESC")
 //    LiveData<List<Transaction>> getAllTransactions();
 
-    @androidx.room.Transaction
-    @Query("SELECT * FROM transactions")
-    LiveData<List<TransactionAndCategory>> getAllTransactions();
+
 }

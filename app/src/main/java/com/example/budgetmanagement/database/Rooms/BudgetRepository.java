@@ -13,7 +13,7 @@ public class BudgetRepository {
     private BudgetRoomDatabase database;
 //    Rest tables...
     private TransactionDao transactionDao;
-    private LiveData<List<TransactionAndCategory>> allTransactions;
+    private List<CategoryAndTransaction> allTransactions;
 
     private CategoryDao categoryDao;
     private LiveData<List<Category>> allCategories;
@@ -24,13 +24,17 @@ public class BudgetRepository {
     public BudgetRepository(Application app) {
         database = BudgetRoomDatabase.getDatabase(app);
         transactionDao = database.transactionDao();
-        allTransactions = transactionDao.getAllTransactions();
+//        allTransactions = categoryDao.getAllTransactions();
         categoryDao = database.categoryDao();
         allCategories = categoryDao.getAllCategories();
     }
 
-    public LiveData<List<TransactionAndCategory>> getAllTransactions() {
-        return allTransactions;
+//    public List<CategoryAndTransaction> getAllTransactions() {
+//        return allTransactions;
+//    }
+
+    public List<CategoryAndTransaction> getCategoryAndTransaction() {
+        return categoryDao.getCategoryAndTransaction();
     }
 
     public Category getCategoryById(int id) {

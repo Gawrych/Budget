@@ -12,7 +12,7 @@ public class Transaction {
     @ColumnInfo(name = "transactionId")
     private int transactionId;
 
-    @ColumnInfo(name = "categoryId")
+    @ColumnInfo(name = "categoryCreationId")
     private int categoryId;
 
     @NonNull

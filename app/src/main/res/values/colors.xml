@@ -8,4 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#EAC68B</color>
+
+    <color name="nonProfitTransaction">#FF6347</color>
+    <color name="profitTransaction">#2a9d8f</color>
+    <color name="light_grey">#C0C0C0</color>
+    <color name="main_blue">#2374f7</color>
 </resources>
