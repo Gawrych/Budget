@@ -36,8 +36,11 @@ public interface CategoryDao {
     @Query("SELECT name, budget FROM categories ORDER BY categoryId ASC")
     LiveData<List<CategoryName>> getAllCategoryNames();
 
-
     @androidx.room.Transaction
     @Query("SELECT * FROM categories")
     List<CategoryAndTransaction> getCategoryAndTransaction();
+
+    @androidx.room.Transaction
+    @Query("SELECT * FROM coming")
+    List<ComingWithTransactionAndCategory> getComingWithTransactionAndCategory();
 }

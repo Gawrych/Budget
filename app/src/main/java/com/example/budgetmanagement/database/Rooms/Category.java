@@ -12,6 +12,9 @@ public class Category {
     @ColumnInfo(name = "categoryId", index = true)
     private int categoryId;
 
+    @ColumnInfo(name = "comingCreationId")
+    private int comingCreationId;
+
     @NonNull
     @ColumnInfo(name = "name")
     private String name;
@@ -29,7 +32,8 @@ public class Category {
     @ColumnInfo(name = "modified_date")
     private long modifiedDate;
 
-    public Category(int categoryId, @NonNull String name, @NonNull String iconName, int budget, long addDate, long modifiedDate) {
+    public Category(int categoryId, int comingCreationId, @NonNull String name, @NonNull String iconName, int budget, long addDate, long modifiedDate) {
+        this.comingCreationId = comingCreationId;
         this.categoryId = categoryId;
         this.name = name;
         this.iconName = iconName;
@@ -62,5 +66,9 @@ public class Category {
 
     public long getModifiedDate() {
         return modifiedDate;
+    }
+
+    public int getComingCreationId() {
+        return comingCreationId;
     }
 }

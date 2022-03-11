@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class}, version = 21, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class, ComingTransactionCrossRef.class}, version = 22, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -50,8 +50,8 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
             super.onOpen(db);
             databaseWriteExecutor.execute(() -> {
                 CategoryDao categoryDao = INSTANCE.categoryDao();
-                Category category = new Category(1, "Inne", "icon", 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
-                Category category2 = new Category(2, "Inne", "icon", 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category = new Category(1, 1, "Inne", "icon", 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category2 = new Category(2, 1, "Inne", "icon", 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
                 categoryDao.insert(category);
                 categoryDao.insert(category2);
 
@@ -64,6 +64,14 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                         LocalDate.now().toEpochDay(), true);
                 transactionDao.insert(transaction);
                 transactionDao.insert(transaction2);
+
+                ComingDao comingDao = INSTANCE.comingDao();
+                Coming coming = new Coming(1, 1, 2, 5,
+                        5454, 3232, LocalDate.now().toEpochDay());
+                Coming coming2 = new Coming(2, 2, 2, 5,
+                        5454, 3232, LocalDate.now().toEpochDay());
+                comingDao.insert(coming2);
+                comingDao.insert(coming);
             });
         }
     };

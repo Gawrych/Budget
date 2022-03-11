@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.CategoryAdapter;
 import com.example.budgetmanagement.database.Rooms.CategoryAndTransaction;
+import com.example.budgetmanagement.database.Rooms.ComingWithTransactionAndCategory;
 import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
 import com.example.budgetmanagement.databinding.CategoryFragmentBinding;
@@ -50,6 +51,9 @@ public class CategoryFragment extends Fragment implements CategoryViewHolder.OnN
 
 //        List<CategoryAndTransaction> categoryAndTransactionList = categoryViewModel.getCategoryAndTransaction();
 //        Toast.makeText(getContext(), String.valueOf(Objects.requireNonNull(categoryAndTransactionList).get(0).transactionList.get(0).getTitle()), Toast.LENGTH_SHORT).show();
+
+        List<ComingWithTransactionAndCategory> comingWithTransactionAndCategory = categoryViewModel.getComingWithTransactionAndCategory();
+        Toast.makeText(getContext(), String.valueOf(Objects.requireNonNull(comingWithTransactionAndCategory).get(0).comingWithTransactions.get(0).category.getName()), Toast.LENGTH_SHORT).show();
 
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(),2);
         recyclerView.setLayoutManager(mLayoutManager);
