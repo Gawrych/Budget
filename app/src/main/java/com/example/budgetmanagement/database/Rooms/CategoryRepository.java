@@ -8,22 +8,19 @@ import com.example.budgetmanagement.database.utils.CategoryName;
 
 import java.util.List;
 
-public class BudgetRepository {
+public class CategoryRepository {
 
     private BudgetRoomDatabase database;
 //    Rest tables...
-    private TransactionDao transactionDao;
     private List<CategoryAndTransaction> allTransactions;
 
     private CategoryDao categoryDao;
     private LiveData<List<Category>> allCategories;
     private Category firstCategory;
     private LiveData<List<CategoryName>> categoryNames;
-    private Category categoryId1;
 
-    public BudgetRepository(Application app) {
+    public CategoryRepository(Application app) {
         database = BudgetRoomDatabase.getDatabase(app);
-        transactionDao = database.transactionDao();
 //        allTransactions = categoryDao.getAllTransactions();
         categoryDao = database.categoryDao();
         allCategories = categoryDao.getAllCategories();
@@ -51,25 +48,6 @@ public class BudgetRepository {
 
     public LiveData<List<CategoryName>> getCategoryNames() {
         return categoryDao.getAllCategoryNames();
-    }
-
-    public void insert(Transaction transaction) {
-
-        database.databaseWriteExecutor.execute(() -> {
-            transactionDao.insert(transaction);
-        });
-    }
-
-    public void update(Transaction transaction) {
-        database.databaseWriteExecutor.execute(() -> {
-            transactionDao.update(transaction);
-        });
-    }
-
-    public void delete(Transaction transaction) {
-        database.databaseWriteExecutor.execute(() -> {
-            transactionDao.delete(transaction);
-        });
     }
 
     public void insert(Category category) {

@@ -9,31 +9,30 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.budgetmanagement.database.Rooms.CategoryAndTransaction;
-import com.example.budgetmanagement.database.Rooms.ComingWithTransactionAndCategory;
 import com.example.budgetmanagement.database.utils.CategoryName;
-import com.example.budgetmanagement.database.Rooms.BudgetRepository;
+import com.example.budgetmanagement.database.Rooms.CategoryRepository;
 import com.example.budgetmanagement.database.Rooms.Category;
 
 import java.util.List;
 
 public class CategoryViewModel extends AndroidViewModel {
 
-    private BudgetRepository budgetRepository;
+    private CategoryRepository categoryRepository;
     private LiveData<List<Category>> allCategory;
     private LiveData<List<CategoryName>> allCategoryNames;
     private List<CategoryAndTransaction> allCategoryAndTransaction;
 
     public CategoryViewModel(@NonNull Application app) {
         super(app);
-        budgetRepository = new BudgetRepository(app);
-        allCategory = budgetRepository.getAllCategories();
-        allCategoryNames = budgetRepository.getCategoryNames();
+        categoryRepository = new CategoryRepository(app);
+        allCategory = categoryRepository.getAllCategories();
+        allCategoryNames = categoryRepository.getCategoryNames();
 //        transactionAndCategory = budgetRepository.getAllTransactions();
-        allCategoryAndTransaction = budgetRepository.getCategoryAndTransaction();
+        allCategoryAndTransaction = categoryRepository.getCategoryAndTransaction();
     }
 
     public void insert(Category category) {
-        budgetRepository.insert(category);
+        categoryRepository.insert(category);
     }
 
     public List<CategoryAndTransaction> getCategoryAndTransaction() {
@@ -54,6 +53,6 @@ public class CategoryViewModel extends AndroidViewModel {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Category getCategoryById(int id) {
-        return budgetRepository.getCategoryById(id);
+        return categoryRepository.getCategoryById(id);
     }
 }
