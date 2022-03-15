@@ -14,12 +14,13 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class, CategoryTransactionCrossRef.class}, version = 26, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class, History.class, CategoryTransactionCrossRef.class}, version = 32, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
     public abstract CategoryDao categoryDao();
     public abstract ComingDao comingDao();
+    public abstract HistoryDao historyDao();
 
     private static volatile BudgetRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -59,10 +60,10 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
 
                 TransactionDao transactionDao = INSTANCE.transactionDao();
                 Transaction transaction = new Transaction(1, 1,
-                        "RandomName", 200, LocalDate.now().toEpochDay(),
+                        "RandomName", 200, 1,
                          LocalDate.now().toEpochDay(), true);
                 Transaction transaction2 = new Transaction(2, 2,
-                        "Kawa", 200, LocalDate.now().toEpochDay(),
+                        "Kawa", 22, 1,
                         LocalDate.now().toEpochDay(), true);
                 transactionDao.insert(transaction);
                 transactionDao.insert(transaction2);
@@ -74,6 +75,13 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                         5454, 3232, LocalDate.now().toEpochDay());
                 comingDao.insert(coming2);
                 comingDao.insert(coming);
+
+                HistoryDao historyDao = INSTANCE.historyDao();
+                History history = new History(1, 2, LocalDate.now().toEpochDay());
+                History history2 = new History(2, 1, LocalDate.now().toEpochDay());
+                historyDao.insert(history);
+                historyDao.insert(history2);
+
             });
         }
     };

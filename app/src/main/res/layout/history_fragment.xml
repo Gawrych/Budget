@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.History.HistoryFragment">
 
-    <TextView
-        android:id="@+id/TextViewHistory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World in Incoming fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
