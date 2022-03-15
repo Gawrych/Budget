@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "categories")
 public class Category {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "categoryId", index = true)
     private int categoryId;
 
@@ -23,10 +23,10 @@ public class Category {
     @ColumnInfo(name = "budget")
     private int budget;
 
-    @ColumnInfo(name = "add_date")
+    @ColumnInfo(name = "addDate")
     private long addDate;
 
-    @ColumnInfo(name = "modified_date")
+    @ColumnInfo(name = "modifiedDate")
     private long modifiedDate;
 
     public Category(int categoryId, @NonNull String name, @NonNull String iconName, int budget, long addDate, long modifiedDate) {
