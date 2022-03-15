@@ -33,6 +33,7 @@ public interface CategoryDao {
     @Query("SELECT * FROM categories WHERE categoryId = :id")
     Category getCategoryById(int id);
 
+
     @Query("SELECT name, budget FROM categories ORDER BY categoryId ASC")
     LiveData<List<CategoryName>> getAllCategoryNames();
 
@@ -40,7 +41,10 @@ public interface CategoryDao {
     @Query("SELECT * FROM categories")
     List<CategoryAndTransaction> getCategoryAndTransaction();
 
-    @androidx.room.Transaction
-    @Query("SELECT * FROM coming")
-    List<ComingWithTransactionAndCategory> getComingWithTransactionAndCategory();
+//    @androidx.room.Transaction
+//    @Query("SELECT * FROM coming")
+//    List<ComingWithTransactionAndCategory> getComingWithTransactionAndCategory();
+
+//    @Query("SELECT * FROM categories WHERE categoryId = :id")
+//    CategoryAndTransaction> getCategoryAndTransaction(int id);
 }

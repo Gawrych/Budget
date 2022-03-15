@@ -6,13 +6,13 @@ import androidx.room.Junction;
 
 import java.util.List;
 
-public class ComingWithTransaction {
+public class CategoryWithTransaction {
     @Embedded
     public Category category;
     @Relation(
             parentColumn = "categoryId",
             entityColumn = "transactionId",
-            associateBy = @Junction(ComingTransactionCrossRef.class)
+            associateBy = @Junction(CategoryTransactionCrossRef.class)
     )
-    public List<Transaction> transactionList2;
+    public List<Transaction> transactionList;
 }

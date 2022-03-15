@@ -11,7 +11,7 @@ public class ComingWithTransactionAndCategory {
     @Relation(
             entity = Category.class,
             parentColumn = "comingId",
-            entityColumn = "comingCreationId"
+            entityColumn = "categoryId"
     )
-    public List<ComingWithTransaction> comingWithTransactions;
+    public List<CategoryWithTransaction> comingWithTransactions;
 }

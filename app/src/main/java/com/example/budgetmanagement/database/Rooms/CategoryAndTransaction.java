@@ -10,7 +10,7 @@ public class CategoryAndTransaction {
     public Category category;
     @Relation(
             parentColumn = "categoryId",
-            entityColumn = "categoryCreationId"
+            entityColumn = "categoryId"
     )
     public List<Transaction> transactionList;
 }

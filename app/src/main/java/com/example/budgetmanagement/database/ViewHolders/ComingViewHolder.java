@@ -18,7 +18,6 @@ public class ComingViewHolder extends RecyclerView.ViewHolder implements View.On
     public ComingViewHolder(View itemView, ComingViewHolder.OnNoteListener onNoteListener) {
         super(itemView);
         text = itemView.findViewById(R.id.textView);
-        idTextView = itemView.findViewById(R.id.idTextView);
         this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
     }

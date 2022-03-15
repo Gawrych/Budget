@@ -34,7 +34,7 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         Category current = getItem(position);
-        holder.bind(current.getCategoryId(), current.getName(), current.getBudget());
+        holder.bind(current.getIconName(), current.getName(), current.getBudget());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

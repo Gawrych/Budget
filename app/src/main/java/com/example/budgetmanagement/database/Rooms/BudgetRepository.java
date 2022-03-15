@@ -37,10 +37,6 @@ public class BudgetRepository {
         return categoryDao.getCategoryAndTransaction();
     }
 
-    public List<ComingWithTransactionAndCategory> getComingWithTransactionAndCategory() {
-        return categoryDao.getComingWithTransactionAndCategory();
-    }
-
     public Category getCategoryById(int id) {
         return categoryDao.getCategoryById(id);
     }
