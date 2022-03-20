@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.budgetmanagement.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class AddNewCategory extends AppCompatActivity {
@@ -19,7 +20,7 @@ public class AddNewCategory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_add_new_category_element);
+        setContentView(R.layout.activity_add_new_category);
 //
 //        nameEditText = findViewById(R.id.category_name);
 //        plannedBudgetEditText = findViewById(R.id.planned_budget);

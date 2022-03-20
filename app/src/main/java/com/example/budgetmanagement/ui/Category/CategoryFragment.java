@@ -26,7 +26,6 @@ import android.widget.Toast;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.CategoryAdapter;
 import com.example.budgetmanagement.database.Rooms.Category;
-import com.example.budgetmanagement.database.Rooms.CategoryAndTransaction;
 import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
 import com.example.budgetmanagement.databinding.CategoryFragmentBinding;
