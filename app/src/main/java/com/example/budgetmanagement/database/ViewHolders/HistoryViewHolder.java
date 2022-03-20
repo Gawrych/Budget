@@ -32,7 +32,7 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void bind(String aTitle, int aAmount, long aDate, String aIconName) {
+    public void bind(String aTitle, float aAmount, long aDate, String aIconName) {
         title.setText(aTitle);
         amount.setText(String.valueOf(aAmount));
 

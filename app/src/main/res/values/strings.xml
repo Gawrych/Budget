@@ -7,4 +7,5 @@
     <string name="default_item_title_value">This is title</string>
     <string name="default_amount_value">10</string>
     <string name="default_date_in_item">26.02.2020</string>
+    <string name="icon">Icon</string>
 </resources>

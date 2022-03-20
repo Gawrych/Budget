@@ -15,6 +15,8 @@ public class Transaction {
     @ColumnInfo(name = "categoryId")
     private int categoryId;
 
+// TODO: String iconName;
+    
     @NonNull
     @ColumnInfo(name = "title")
     private String title;

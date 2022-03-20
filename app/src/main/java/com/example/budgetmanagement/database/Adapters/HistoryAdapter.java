@@ -39,7 +39,7 @@ public class HistoryAdapter extends ListAdapter<HistoryAndTransaction, HistoryVi
     public void onBindViewHolder(HistoryViewHolder holder, int position) {
         HistoryAndTransaction historyAndTransaction = getItem(position);
         holder.bind(historyAndTransaction.transaction.getTitle(),
-                Math.round(historyAndTransaction.transaction.getAmount()),
+                historyAndTransaction.transaction.getAmount(),
                 historyAndTransaction.history.getAddDate(),
                 "ic_baseline_shopping_basket_24");
     }

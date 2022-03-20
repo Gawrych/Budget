@@ -22,6 +22,9 @@ public interface HistoryDao {
     @Delete
     void delete(History history);
 
+    @Query("SELECT * FROM history")
+    LiveData<List<History>> getAllHistory();
+
     @androidx.room.Transaction
     @Query("SELECT * FROM history WHERE historyId = :id")
     HistoryAndTransaction getHistoryAndTransaction(int id);

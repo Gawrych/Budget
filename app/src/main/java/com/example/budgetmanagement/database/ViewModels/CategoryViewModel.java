@@ -14,6 +14,7 @@ import com.example.budgetmanagement.database.Rooms.CategoryRepository;
 import com.example.budgetmanagement.database.Rooms.Category;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CategoryViewModel extends AndroidViewModel {
 
@@ -37,6 +38,10 @@ public class CategoryViewModel extends AndroidViewModel {
 
     public List<CategoryAndTransaction> getCategoryAndTransaction() {
         return allCategoryAndTransaction;
+    }
+
+    public Category getCategory(int position) {
+        return Objects.requireNonNull(allCategory.getValue()).get(position);
     }
 
     public LiveData<List<Category>> getAllCategories() {
