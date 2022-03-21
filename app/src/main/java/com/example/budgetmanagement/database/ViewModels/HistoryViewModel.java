@@ -25,7 +25,7 @@ public class HistoryViewModel extends AndroidViewModel {
         super(app);
         historyRepository = new HistoryRepository(app);
         allHistory = historyRepository.getAllHistory();
-        allHistoryAndTransaction = historyRepository.getAllHistoryAndTransaction();
+        allHistoryAndTransaction = historyRepository.getAllHistoryAndTransactionInAmountOrder();
     }
 
 //    @RequiresApi(api = Build.VERSION_CODES.N)
@@ -37,7 +37,11 @@ public class HistoryViewModel extends AndroidViewModel {
         return Objects.requireNonNull(allHistoryAndTransaction.getValue()).get(position);
     }
 
-    public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransaction() {
-        return historyRepository.getAllHistoryAndTransaction();
+    public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionInAmountOrder() {
+        return historyRepository.getAllHistoryAndTransactionInAmountOrder();
+    }
+
+    public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionByCategory(int categoryId) {
+        return historyRepository.getAllHistoryAndTransactionByCategory(categoryId);
     }
 }

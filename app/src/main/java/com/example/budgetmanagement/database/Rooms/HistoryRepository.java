@@ -22,8 +22,12 @@ public class HistoryRepository {
         return historyDao.getHistoryAndTransaction(id);
     }
 
-    public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransaction() {
-        return historyDao.getHistoryAndTransaction();
+    public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionInAmountOrder() {
+        return historyDao.getAllHistoryAndTransactionInAmountOrder();
+    }
+
+    public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionByCategory(int categoryId) {
+        return historyDao.getAllHistoryAndTransactionByCategory(categoryId);
     }
 
     public LiveData<List<History>> getAllHistory() {

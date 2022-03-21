@@ -18,6 +18,8 @@ import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.example.budgetmanagement.database.ViewHolders.HistoryViewHolder;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 
+import java.util.List;
+
 public class HistoryAdapter extends ListAdapter<HistoryAndTransaction, HistoryViewHolder> {
 
     private HistoryViewHolder.OnNoteListener mOnNoteListener;
