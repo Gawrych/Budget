@@ -30,7 +30,7 @@ public interface HistoryDao {
     HistoryAndTransaction getHistoryAndTransaction(int id);
 
     @androidx.room.Transaction
-    @Query("SELECT * FROM history LEFT JOIN transactions ON history.transactionId = transactions.transactionId ORDER BY amount")
+    @Query("SELECT * FROM history LEFT JOIN transactions ON history.transactionId = transactions.transactionId ORDER BY amount DESC")
     LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionInAmountOrder();
 
     @androidx.room.Transaction

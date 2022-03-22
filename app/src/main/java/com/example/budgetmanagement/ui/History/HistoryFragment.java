@@ -3,7 +3,9 @@ package com.example.budgetmanagement.ui.History;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
@@ -30,13 +32,15 @@ import com.example.budgetmanagement.database.ViewHolders.HistoryViewHolder;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.databinding.HistoryFragmentBinding;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNoteListener {
 
     private HistoryViewModel historyViewModel;
     private HistoryFragmentBinding binding;
-    private LiveData<List<HistoryAndTransaction>> liveDataHistoryAndTransaction;
+    private LiveData<List<HistoryAndTransaction>> currentLiveDataHistoryAndTransactionList;
 
     ActivityResultLauncher<Intent> startActivityForResult =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -65,8 +69,9 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
 
-        liveDataHistoryAndTransaction = historyViewModel.getAllHistoryAndTransactionInAmountOrder();
-        liveDataHistoryAndTransaction.observe(getViewLifecycleOwner(), adapter::submitList);
+        currentLiveDataHistoryAndTransactionList = historyViewModel.getAllHistoryAndTransactionInAmountOrder();
+        currentLiveDataHistoryAndTransactionList.observe(getViewLifecycleOwner(), adapter::submitList);
+
 
         ImageButton addButton = root.findViewById(R.id.addButton);
         addButton.setOnClickListener(view -> {
@@ -74,10 +79,18 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
             startActivityForResult.launch(intent);
         });
 
-        ImageButton orderFilter = root.findViewById(R.id.categoryFilterButton);
+        ImageButton categoryFilter = root.findViewById(R.id.categoryFilterButton);
+        categoryFilter.setOnClickListener(view -> {
+            currentLiveDataHistoryAndTransactionList = historyViewModel.getAllHistoryAndTransactionByCategory(1);
+            currentLiveDataHistoryAndTransactionList.observe(getViewLifecycleOwner(), adapter::submitList);
+        });
+
+        ImageButton orderFilter = root.findViewById(R.id.orderFilterButton);
         orderFilter.setOnClickListener(view -> {
-            LiveData<List<HistoryAndTransaction>> liveDataHistoryAndTransactionByCategory = historyViewModel.getAllHistoryAndTransactionByCategory(1);
-            liveDataHistoryAndTransactionByCategory.observe(getViewLifecycleOwner(), adapter::submitList);
+            currentLiveDataHistoryAndTransactionList = Transformations.map(currentLiveDataHistoryAndTransactionList,
+                    input -> input.stream().sorted(Comparator.comparingDouble(historyAndTransaction
+                            -> historyAndTransaction.transaction.getAmount())).collect(Collectors.toList()));
+            currentLiveDataHistoryAndTransactionList.observe(getViewLifecycleOwner(), adapter::submitList);
         });
 
         return root;
@@ -94,7 +107,7 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 //        ((MainActivity) requireActivity()).turnOnProgressBar();
 //        Intent intent = new Intent(getActivity(), AddNewCategoryElement.class);
 //        startActivityForResult.launch(intent);
-        HistoryAndTransaction historyAndTransaction = liveDataHistoryAndTransaction.getValue().get(position);
+        HistoryAndTransaction historyAndTransaction = currentLiveDataHistoryAndTransactionList.getValue().get(position);
         Toast.makeText(getContext(), String.valueOf(historyAndTransaction.transaction.getCategoryId()), Toast.LENGTH_SHORT).show();
     }
 }

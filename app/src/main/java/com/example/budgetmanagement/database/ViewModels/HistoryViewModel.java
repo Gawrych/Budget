@@ -1,18 +1,24 @@
 package com.example.budgetmanagement.database.ViewModels;
 
 import android.app.Application;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import com.example.budgetmanagement.database.Rooms.History;
 import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.example.budgetmanagement.database.Rooms.HistoryRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 public class HistoryViewModel extends AndroidViewModel {
@@ -38,7 +44,7 @@ public class HistoryViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionInAmountOrder() {
-        return historyRepository.getAllHistoryAndTransactionInAmountOrder();
+        return allHistoryAndTransaction;
     }
 
     public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionByCategory(int categoryId) {
