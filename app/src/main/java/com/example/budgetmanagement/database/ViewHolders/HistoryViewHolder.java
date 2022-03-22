@@ -38,9 +38,8 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         date.setText(LocalDate.ofEpochDay(aDate).format(formatter));
-
-        int resourceId = itemView.getContext().getResources().getIdentifier(aIconName, "drawable", itemView.getContext().getPackageName());
-        imageView.setImageResource(resourceId);
+//        int resourceId = itemView.getContext().getResources().getIdentifier(aIconName, "drawable", itemView.getContext().getPackageName());
+//        imageView.setImageResource(resourceId);
     }
 
     @Override

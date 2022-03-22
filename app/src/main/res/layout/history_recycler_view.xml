@@ -4,30 +4,28 @@
     android:layout_height="75dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="75dp"
-        android:layout_height="match_parent"
-        android:padding="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_shopping_basket_24" />
+<!--    <ImageView-->
+<!--        android:id="@+id/icon"-->
+<!--        android:layout_width="75dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:padding="25dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/ic_baseline_shopping_basket_24" />-->
 
     <TextView
         android:id="@+id/title"
         android:layout_width="236dp"
         android:layout_height="75dp"
         android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:paddingRight="10dp"
         android:text="@string/default_item_title_value"
         android:textColor="#303030"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/amount"
-        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
