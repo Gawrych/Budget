@@ -37,8 +37,8 @@ import java.util.Objects;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class CategoryFragment extends Fragment implements CategoryViewHolder.OnNoteListener {
 
-    private CategoryViewModel categoryViewModel;
     private CategoryFragmentBinding binding;
+    private CategoryViewModel categoryViewModel;
 
     ActivityResultLauncher<Intent> startActivityForResult =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -67,7 +67,6 @@ public class CategoryFragment extends Fragment implements CategoryViewHolder.OnN
         recyclerView = root.findViewById(R.id.recyclerView);
         final CategoryAdapter adapter = new CategoryAdapter(new CategoryAdapter.CategoryDiff(), this);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         categoryViewModel.getAllCategories().observe(getViewLifecycleOwner(), adapter::submitList);

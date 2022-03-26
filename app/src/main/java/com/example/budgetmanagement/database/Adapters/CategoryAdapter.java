@@ -1,6 +1,7 @@
 package com.example.budgetmanagement.database.Adapters;
 
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,16 @@ import com.example.budgetmanagement.database.Rooms.Category;
 public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
 
     private CategoryViewHolder.OnNoteListener mOnNoteListener;
+    private String layoutName = "";
 
     public CategoryAdapter(@NonNull DiffUtil.ItemCallback<Category> diffCallback, CategoryViewHolder.OnNoteListener onNoteListener) {
         super(diffCallback);
+        this.mOnNoteListener = onNoteListener;
+    }
+
+    public CategoryAdapter(@NonNull DiffUtil.ItemCallback<Category> diffCallback, CategoryViewHolder.OnNoteListener onNoteListener, String aLayoutName) {
+        super(diffCallback);
+        layoutName = aLayoutName;
         this.mOnNoteListener = onNoteListener;
     }
 
@@ -37,11 +45,15 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
         holder.bind(current.getIconName(), current.getName(), current.getBudget());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public CategoryViewHolder create(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.category_recycler_view, parent, false);
-
+        View view;
+        if (layoutName.equals("history_bottom_sheet_recycler_view")) {
+             view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.history_bottom_sheet_recycler_view, parent, false);
+        } else {
+             view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.category_recycler_view, parent, false);
+        }
         return new CategoryViewHolder(view, mOnNoteListener);
     }
 

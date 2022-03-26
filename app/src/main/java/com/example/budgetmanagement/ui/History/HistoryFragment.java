@@ -3,9 +3,7 @@ package com.example.budgetmanagement.ui.History;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
@@ -31,16 +29,19 @@ import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.example.budgetmanagement.database.ViewHolders.HistoryViewHolder;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.databinding.HistoryFragmentBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNoteListener {
 
     private HistoryViewModel historyViewModel;
     private HistoryFragmentBinding binding;
     private LiveData<List<HistoryAndTransaction>> currentLiveDataHistoryAndTransactionList;
+    private HistoryBottomSheetCategoryFilter historyBottomSheetDialog;
+    private BottomSheetDialog bottomSheetDialog;
+    private HistoryAdapter adapter;
 
     ActivityResultLauncher<Intent> startActivityForResult =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -63,7 +64,7 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         root =  inflater.inflate(R.layout.history_fragment, container, false);
         recyclerView = root.findViewById(R.id.recyclerView);
-        final HistoryAdapter adapter = new HistoryAdapter(new HistoryAdapter.HistoryAndTransactionDiff(), this);
+        adapter = new HistoryAdapter(new HistoryAdapter.HistoryAndTransactionDiff(), this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
@@ -71,7 +72,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         currentLiveDataHistoryAndTransactionList = historyViewModel.getAllHistoryAndTransactionInAmountOrder();
         currentLiveDataHistoryAndTransactionList.observe(getViewLifecycleOwner(), adapter::submitList);
-
 
         ImageButton addButton = root.findViewById(R.id.addButton);
         addButton.setOnClickListener(view -> {
@@ -81,16 +81,27 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         ImageButton categoryFilter = root.findViewById(R.id.categoryFilterButton);
         categoryFilter.setOnClickListener(view -> {
-            currentLiveDataHistoryAndTransactionList = historyViewModel.getAllHistoryAndTransactionByCategory(1);
-            currentLiveDataHistoryAndTransactionList.observe(getViewLifecycleOwner(), adapter::submitList);
+            if (Objects.isNull(historyBottomSheetDialog)) {
+                bottomSheetDialog = new BottomSheetDialog(requireContext());
+                bottomSheetDialog.setContentView(R.layout.history_bottom_sheet_dialog);
+                historyBottomSheetDialog = new HistoryBottomSheetCategoryFilter(this.getContext(), bottomSheetDialog, this, getViewLifecycleOwner());
+            }
+            historyBottomSheetDialog.show();
+
+            bottomSheetDialog.setOnDismissListener(dialogInterface -> {
+                getTransactionAndHistoryFromCategory();
+            });
         });
 
         ImageButton orderFilter = root.findViewById(R.id.orderFilterButton);
         orderFilter.setOnClickListener(view -> {
-            currentLiveDataHistoryAndTransactionList = Transformations.map(currentLiveDataHistoryAndTransactionList,
-                    input -> input.stream().sorted(Comparator.comparingDouble(historyAndTransaction
-                            -> historyAndTransaction.transaction.getAmount())).collect(Collectors.toList()));
-            currentLiveDataHistoryAndTransactionList.observe(getViewLifecycleOwner(), adapter::submitList);
+//            currentLiveDataHistoryAndTransactionList = Transformations.map(currentLiveDataHistoryAndTransactionList,
+//                    input -> input.stream().sorted(Comparator.comparingDouble(o -> o.transaction.getAmount()))
+//                            .collect(Collectors.toList()));
+//            currentLiveDataHistoryAndTransactionList.observe(getViewLifecycleOwner(), adapter::submitList);
+
+
+
         });
 
         return root;
@@ -104,10 +115,16 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
     @Override
     public void onNoteClick(int position) {
-//        ((MainActivity) requireActivity()).turnOnProgressBar();
-//        Intent intent = new Intent(getActivity(), AddNewCategoryElement.class);
-//        startActivityForResult.launch(intent);
         HistoryAndTransaction historyAndTransaction = currentLiveDataHistoryAndTransactionList.getValue().get(position);
         Toast.makeText(getContext(), String.valueOf(historyAndTransaction.transaction.getCategoryId()), Toast.LENGTH_SHORT).show();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void getTransactionAndHistoryFromCategory() {
+        int categoryId = historyBottomSheetDialog.getSelectedCategoryId();
+        if (categoryId > 0) {
+            currentLiveDataHistoryAndTransactionList = historyViewModel.getAllHistoryAndTransactionByCategory(categoryId);
+            currentLiveDataHistoryAndTransactionList.observe(getViewLifecycleOwner(), adapter::submitList);
+        }
     }
 }
