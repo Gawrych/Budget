@@ -9,6 +9,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.budgetmanagement.database.utils.CategoryName;
+import com.example.budgetmanagement.ui.History.HistoryBottomSheetEntity;
 
 import java.util.List;
 
@@ -40,6 +41,9 @@ public interface CategoryDao {
     @androidx.room.Transaction
     @Query("SELECT * FROM categories")
     List<CategoryAndTransaction> getCategoryAndTransaction();
+
+    @Query("SELECT categoryId, iconName, name FROM categories")
+    LiveData<List<HistoryBottomSheetEntity>> getHistoryBottomSheetEntity();
 
 //    @androidx.room.Transaction
 //    @Query("SELECT * FROM coming")

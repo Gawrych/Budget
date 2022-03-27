@@ -4,6 +4,8 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.budgetmanagement.ui.History.HistoryBottomSheetEntity;
+
 import java.util.List;
 
 public class HistoryRepository {
@@ -11,11 +13,18 @@ public class HistoryRepository {
     private BudgetRoomDatabase database;
     private HistoryDao historyDao;
     private LiveData<List<History>> allHistory;
+    private LiveData<List<HistoryBottomSheetEntity>> historyBottomSheetEntity;
 
     public HistoryRepository(Application app) {
         database = BudgetRoomDatabase.getDatabase(app);
         historyDao = database.historyDao();
         allHistory = historyDao.getAllHistory();
+        CategoryDao categoryDao = database.categoryDao();
+        historyBottomSheetEntity = categoryDao.getHistoryBottomSheetEntity();
+    }
+
+    public LiveData<List<HistoryBottomSheetEntity>> getHistoryBottomSheetEntity() {
+        return historyBottomSheetEntity;
     }
 
     public HistoryAndTransaction getAllHistoryAndTransaction(int id) {

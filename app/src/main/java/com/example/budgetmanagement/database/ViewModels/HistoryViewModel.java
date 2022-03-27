@@ -14,6 +14,7 @@ import androidx.lifecycle.Transformations;
 import com.example.budgetmanagement.database.Rooms.History;
 import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.example.budgetmanagement.database.Rooms.HistoryRepository;
+import com.example.budgetmanagement.ui.History.HistoryBottomSheetEntity;
 
 import java.util.Comparator;
 import java.util.List;
@@ -26,18 +27,24 @@ public class HistoryViewModel extends AndroidViewModel {
     private HistoryRepository historyRepository;
     private LiveData<List<History>> allHistory;
     private LiveData<List<HistoryAndTransaction>> allHistoryAndTransaction;
+    private LiveData<List<HistoryBottomSheetEntity>> historyBottomSheetEntity;
 
     public HistoryViewModel(@NonNull Application app) {
         super(app);
         historyRepository = new HistoryRepository(app);
         allHistory = historyRepository.getAllHistory();
         allHistoryAndTransaction = historyRepository.getAllHistoryAndTransactionInAmountOrder();
+        historyBottomSheetEntity = historyRepository.getHistoryBottomSheetEntity();
     }
 
 //    @RequiresApi(api = Build.VERSION_CODES.N)
 //    public HistoryAndTransaction getAllHistoryAndTransaction(int id) {
 //        return historyRepository.getHistoryAndTransaction(id);
 //    }
+
+    public LiveData<List<HistoryBottomSheetEntity>> getHistoryBottomSheetEntity() {
+        return historyBottomSheetEntity;
+    }
 
     public HistoryAndTransaction getAllHistoryAndTransaction(int position) {
         return Objects.requireNonNull(allHistoryAndTransaction.getValue()).get(position);

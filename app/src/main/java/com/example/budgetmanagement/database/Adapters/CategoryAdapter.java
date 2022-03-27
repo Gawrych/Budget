@@ -47,13 +47,8 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
 
     public CategoryViewHolder create(ViewGroup parent) {
         View view;
-        if (layoutName.equals("history_bottom_sheet_recycler_view")) {
-             view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.history_bottom_sheet_recycler_view, parent, false);
-        } else {
-             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.category_recycler_view, parent, false);
-        }
+        view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.category_recycler_view, parent, false);
         return new CategoryViewHolder(view, mOnNoteListener);
     }
 

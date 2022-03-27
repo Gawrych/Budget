@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,6 +57,20 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
                         }
                     });
 
+
+    ActivityResultLauncher<Intent> startActivityForResultFilter =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent data = result.getData();
+                            if (data != null) {
+
+                            } else {
+                                Log.println(Log.ERROR, "NULL", "Null as request from 'AddNewTransactionElement' class");
+                            }
+                        }
+                    });
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -81,13 +96,15 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         ImageButton categoryFilter = root.findViewById(R.id.categoryFilterButton);
         categoryFilter.setOnClickListener(view -> {
+
+//            Navigation.findNavController(view).navigate(R.id.transaction_fragment_to_bottom_sheet_fragment);
             if (Objects.isNull(historyBottomSheetDialog)) {
                 bottomSheetDialog = new BottomSheetDialog(requireContext());
                 bottomSheetDialog.setContentView(R.layout.history_bottom_sheet_dialog);
-                historyBottomSheetDialog = new HistoryBottomSheetCategoryFilter(this.getContext(), bottomSheetDialog, this, getViewLifecycleOwner());
+                historyBottomSheetDialog = new HistoryBottomSheetCategoryFilter(this.getContext(), bottomSheetDialog, this, getViewLifecycleOwner(), currentLiveDataHistoryAndTransactionList, adapter);
             }
             historyBottomSheetDialog.show();
-
+//
             bottomSheetDialog.setOnDismissListener(dialogInterface -> {
                 getTransactionAndHistoryFromCategory();
             });
