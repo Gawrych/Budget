@@ -96,15 +96,13 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         ImageButton categoryFilter = root.findViewById(R.id.categoryFilterButton);
         categoryFilter.setOnClickListener(view -> {
-
-//            Navigation.findNavController(view).navigate(R.id.transaction_fragment_to_bottom_sheet_fragment);
             if (Objects.isNull(historyBottomSheetDialog)) {
                 bottomSheetDialog = new BottomSheetDialog(requireContext());
                 bottomSheetDialog.setContentView(R.layout.history_bottom_sheet_dialog);
-                historyBottomSheetDialog = new HistoryBottomSheetCategoryFilter(this.getContext(), bottomSheetDialog, this, getViewLifecycleOwner(), currentLiveDataHistoryAndTransactionList, adapter);
+                historyBottomSheetDialog = new HistoryBottomSheetCategoryFilter(bottomSheetDialog, historyViewModel, getViewLifecycleOwner());
             }
             historyBottomSheetDialog.show();
-//
+
             bottomSheetDialog.setOnDismissListener(dialogInterface -> {
                 getTransactionAndHistoryFromCategory();
             });
