@@ -96,13 +96,7 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         ImageButton categoryFilter = root.findViewById(R.id.categoryFilterButton);
         categoryFilter.setOnClickListener(view -> {
-            if (Objects.isNull(historyBottomSheetDialog)) {
-                bottomSheetDialog = new BottomSheetDialog(requireContext());
-                bottomSheetDialog.setContentView(R.layout.history_bottom_sheet_dialog);
-                historyBottomSheetDialog = new HistoryBottomSheetCategoryFilter(bottomSheetDialog, historyViewModel, getViewLifecycleOwner());
-            }
-            historyBottomSheetDialog.show();
-
+            showBottomSheetCategoryFilter();
             bottomSheetDialog.setOnDismissListener(dialogInterface -> {
                 getTransactionAndHistoryFromCategory();
             });
@@ -114,9 +108,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 //                    input -> input.stream().sorted(Comparator.comparingDouble(o -> o.transaction.getAmount()))
 //                            .collect(Collectors.toList()));
 //            currentLiveDataHistoryAndTransactionList.observe(getViewLifecycleOwner(), adapter::submitList);
-
-
-
         });
 
         return root;
@@ -132,6 +123,17 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
     public void onNoteClick(int position) {
         HistoryAndTransaction historyAndTransaction = currentLiveDataHistoryAndTransactionList.getValue().get(position);
         Toast.makeText(getContext(), String.valueOf(historyAndTransaction.transaction.getCategoryId()), Toast.LENGTH_SHORT).show();
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void showBottomSheetCategoryFilter() {
+        if (Objects.isNull(historyBottomSheetDialog)) {
+            bottomSheetDialog = new BottomSheetDialog(requireContext());
+            bottomSheetDialog.setContentView(R.layout.history_bottom_sheet_dialog);
+            historyBottomSheetDialog = new HistoryBottomSheetCategoryFilter(bottomSheetDialog, historyViewModel, getViewLifecycleOwner());
+        }
+        historyBottomSheetDialog.show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
