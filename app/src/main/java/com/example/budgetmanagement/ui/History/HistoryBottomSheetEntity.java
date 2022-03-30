@@ -4,25 +4,35 @@ import androidx.room.ColumnInfo;
 
 public class HistoryBottomSheetEntity {
 
-    @ColumnInfo(name = "categoryId")
+    @ColumnInfo(name = "id")
     private int id;
 
     @ColumnInfo(name = "iconName")
-    private String IconName;
+    private String iconName;
 
     @ColumnInfo(name = "name")
-    private String Name;
+    private String name;
+
+    public HistoryBottomSheetEntity() {
+
+    }
+
+    public HistoryBottomSheetEntity(int id, String iconName, String name) {
+        this.id = id;
+        this.iconName = iconName;
+        this.name = name;
+    }
 
     public void setId(int id) {
         this.id = id;
     }
 
     public void setIconName(String iconName) {
-        IconName = iconName;
+        this.iconName = iconName;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public int getId() {
@@ -30,10 +40,10 @@ public class HistoryBottomSheetEntity {
     }
 
     public String getIconName() {
-        return IconName;
+        return iconName;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 }

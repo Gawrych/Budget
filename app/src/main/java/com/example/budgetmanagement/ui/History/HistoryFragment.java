@@ -13,7 +13,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,20 +56,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
                         }
                     });
 
-
-    ActivityResultLauncher<Intent> startActivityForResultFilter =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            Intent data = result.getData();
-                            if (data != null) {
-
-                            } else {
-                                Log.println(Log.ERROR, "NULL", "Null as request from 'AddNewTransactionElement' class");
-                            }
-                        }
-                    });
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -97,17 +82,13 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         ImageButton categoryFilter = root.findViewById(R.id.categoryFilterButton);
         categoryFilter.setOnClickListener(view -> {
             showBottomSheetCategoryFilter();
-            bottomSheetDialog.setOnDismissListener(dialogInterface -> {
-                getTransactionAndHistoryFromCategory();
-            });
+            bottomSheetDialog.setOnDismissListener(dialogInterface ->
+                    getTransactionAndHistoryFromCategory());
         });
 
         ImageButton orderFilter = root.findViewById(R.id.orderFilterButton);
         orderFilter.setOnClickListener(view -> {
-//            currentLiveDataHistoryAndTransactionList = Transformations.map(currentLiveDataHistoryAndTransactionList,
-//                    input -> input.stream().sorted(Comparator.comparingDouble(o -> o.transaction.getAmount()))
-//                            .collect(Collectors.toList()));
-//            currentLiveDataHistoryAndTransactionList.observe(getViewLifecycleOwner(), adapter::submitList);
+
         });
 
         return root;
@@ -121,7 +102,7 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
     @Override
     public void onNoteClick(int position) {
-        HistoryAndTransaction historyAndTransaction = currentLiveDataHistoryAndTransactionList.getValue().get(position);
+        HistoryAndTransaction historyAndTransaction = Objects.requireNonNull(currentLiveDataHistoryAndTransactionList.getValue()).get(position);
         Toast.makeText(getContext(), String.valueOf(historyAndTransaction.transaction.getCategoryId()), Toast.LENGTH_SHORT).show();
     }
 

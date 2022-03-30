@@ -22,11 +22,11 @@ public class HistoryBottomSheetCategoryFilter extends Fragment implements Catego
 
     private BottomSheetDialog bottomSheetDialog;
     private LiveData<List<HistoryBottomSheetEntity>> historyBottomSheetEntity;
-    private int selectedCategory;
+    private int selectedId;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public HistoryBottomSheetCategoryFilter(BottomSheetDialog bottomSheet, HistoryViewModel historyViewModel, LifecycleOwner lifeCycleOwner) {
-        bottomSheetDialog = bottomSheet;
+    public HistoryBottomSheetCategoryFilter(BottomSheetDialog bottomSheetDialog, HistoryViewModel historyViewModel, LifecycleOwner lifeCycleOwner) {
+        this.bottomSheetDialog = bottomSheetDialog;
         final HistoryBottomSheetAdapter historyBottomSheetAdapter = new HistoryBottomSheetAdapter(new HistoryBottomSheetAdapter.HistoryBottomSheetEntityDiff(), this::onNoteClick);
 
         historyBottomSheetEntity = historyViewModel.getHistoryBottomSheetEntity();
@@ -43,11 +43,11 @@ public class HistoryBottomSheetCategoryFilter extends Fragment implements Catego
 
     @Override
     public void onNoteClick(int position) {
-        selectedCategory = Objects.requireNonNull(historyBottomSheetEntity.getValue()).get(position).getId();
+        selectedId = Objects.requireNonNull(historyBottomSheetEntity.getValue()).get(position).getId();
         bottomSheetDialog.cancel();
     }
 
     public int getSelectedCategoryId() {
-        return selectedCategory;
+        return selectedId;
     }
 }
