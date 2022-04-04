@@ -66,7 +66,7 @@ public class Transaction {
         return lastModifiedData;
     }
 
-    public boolean isProfit() {
+    public boolean getProfit() {
         return profit;
     }
 }

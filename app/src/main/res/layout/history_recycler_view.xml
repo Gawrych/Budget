@@ -4,16 +4,6 @@
     android:layout_height="75dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/icon"-->
-<!--        android:layout_width="75dp"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:padding="25dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:srcCompat="@drawable/ic_baseline_shopping_basket_24" />-->
-
     <TextView
         android:id="@+id/title"
         android:layout_width="236dp"

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 39, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 43, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -65,8 +65,12 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 Transaction transaction2 = new Transaction(2, 2,
                         "Kawa", 22, 1,
                         LocalDate.now().toEpochDay(), true);
+                Transaction transaction3 = new Transaction(3, 2,
+                        "Herbatka", 99, LocalDate.now().toEpochDay(),
+                        LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(transaction);
                 transactionDao.insert(transaction2);
+                transactionDao.insert(transaction3);
 
                 ComingDao comingDao = INSTANCE.comingDao();
                 Coming coming = new Coming(1, 1, 2, 5,
@@ -79,8 +83,10 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 HistoryDao historyDao = INSTANCE.historyDao();
                 History history = new History(1, 2, LocalDate.now().toEpochDay());
                 History history2 = new History(2, 1, LocalDate.now().toEpochDay());
+                History history3 = new History(3, 3, LocalDate.parse("2022-04-03").toEpochDay());
                 historyDao.insert(history);
                 historyDao.insert(history2);
+                historyDao.insert(history3);
 
             });
         }

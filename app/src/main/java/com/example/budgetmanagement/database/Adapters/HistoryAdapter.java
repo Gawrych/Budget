@@ -1,6 +1,7 @@
 package com.example.budgetmanagement.database.Adapters;
 
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,8 +43,7 @@ public class HistoryAdapter extends ListAdapter<HistoryAndTransaction, HistoryVi
         HistoryAndTransaction historyAndTransaction = getItem(position);
         holder.bind(historyAndTransaction.transaction.getTitle(),
                 historyAndTransaction.transaction.getAmount(),
-                historyAndTransaction.history.getAddDate(),
-                "ic_baseline_shopping_basket_24");
+                historyAndTransaction.history.getAddDate());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

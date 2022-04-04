@@ -32,8 +32,8 @@ public interface HistoryDao {
     HistoryAndTransaction getHistoryAndTransaction(int id);
 
     @androidx.room.Transaction
-    @Query("SELECT * FROM history LEFT JOIN transactions ON history.transactionId = transactions.transactionId ORDER BY amount DESC")
-    LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionInAmountOrder();
+    @Query("SELECT * FROM history ORDER BY addDate ASC")
+    LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionInDateOrder();
 
     @androidx.room.Transaction
     @Query("SELECT * FROM history LEFT JOIN transactions ON history.transactionId = transactions.transactionId WHERE categoryId = :categoryId")

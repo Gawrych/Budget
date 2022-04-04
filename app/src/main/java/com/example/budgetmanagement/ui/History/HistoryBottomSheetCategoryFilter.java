@@ -1,5 +1,6 @@
 package com.example.budgetmanagement.ui.History;
 
+import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -25,8 +26,10 @@ public class HistoryBottomSheetCategoryFilter extends Fragment implements Catego
     private int selectedId;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public HistoryBottomSheetCategoryFilter(BottomSheetDialog bottomSheetDialog, HistoryViewModel historyViewModel, LifecycleOwner lifeCycleOwner) {
-        this.bottomSheetDialog = bottomSheetDialog;
+    public HistoryBottomSheetCategoryFilter(Context context, HistoryViewModel historyViewModel, LifecycleOwner lifeCycleOwner) {
+        bottomSheetDialog = new BottomSheetDialog(context);
+        bottomSheetDialog.setContentView(R.layout.history_bottom_sheet_dialog);
+
         final HistoryBottomSheetAdapter historyBottomSheetAdapter = new HistoryBottomSheetAdapter(new HistoryBottomSheetAdapter.HistoryBottomSheetEntityDiff(), this::onNoteClick);
 
         historyBottomSheetEntity = historyViewModel.getHistoryBottomSheetEntity();
@@ -39,6 +42,10 @@ public class HistoryBottomSheetCategoryFilter extends Fragment implements Catego
 
     public void show() {
         bottomSheetDialog.show();
+    }
+
+    public BottomSheetDialog getBottomSheetDialog() {
+        return this.bottomSheetDialog;
     }
 
     @Override

@@ -8,4 +8,7 @@
     <string name="default_amount_value">10</string>
     <string name="default_date_in_item">26.02.2020</string>
     <string name="icon">Icon</string>
+    <string name="sort_by_amount">Po cenie</string>
+    <string name="sort_by_name">Alfabetycznie</string>
+    <string name="sort_by_date">Po danie</string>
 </resources>

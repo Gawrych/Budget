@@ -15,7 +15,6 @@ import java.time.format.DateTimeFormatter;
 
 public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    private ImageView imageView;
     private TextView title;
     private TextView amount;
     private TextView date;
@@ -26,20 +25,17 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
         title = itemView.findViewById(R.id.title);
         amount = itemView.findViewById(R.id.amount);
         date = itemView.findViewById(R.id.date);
-        imageView = itemView.findViewById(R.id.icon);
         this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void bind(String aTitle, float aAmount, long aDate, String aIconName) {
+    public void bind(String aTitle, float aAmount, long aDate) {
         title.setText(aTitle);
         amount.setText(String.valueOf(aAmount));
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         date.setText(LocalDate.ofEpochDay(aDate).format(formatter));
-//        int resourceId = itemView.getContext().getResources().getIdentifier(aIconName, "drawable", itemView.getContext().getPackageName());
-//        imageView.setImageResource(resourceId);
     }
 
     @Override

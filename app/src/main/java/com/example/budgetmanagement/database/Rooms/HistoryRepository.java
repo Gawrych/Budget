@@ -31,8 +31,8 @@ public class HistoryRepository {
         return historyDao.getHistoryAndTransaction(id);
     }
 
-    public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionInAmountOrder() {
-        return historyDao.getAllHistoryAndTransactionInAmountOrder();
+    public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionInDateOrder() {
+        return historyDao.getAllHistoryAndTransactionInDateOrder();
     }
 
     public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionByCategory(int categoryId) {

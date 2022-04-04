@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 
 public class HistoryBottomSheetEntity {
 
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "categoryId")
     private int id;
 
     @ColumnInfo(name = "iconName")
@@ -12,16 +12,6 @@ public class HistoryBottomSheetEntity {
 
     @ColumnInfo(name = "name")
     private String name;
-
-    public HistoryBottomSheetEntity() {
-
-    }
-
-    public HistoryBottomSheetEntity(int id, String iconName, String name) {
-        this.id = id;
-        this.iconName = iconName;
-        this.name = name;
-    }
 
     public void setId(int id) {
         this.id = id;
