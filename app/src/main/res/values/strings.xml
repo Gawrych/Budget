@@ -11,4 +11,8 @@
     <string name="sort_by_amount">Po cenie</string>
     <string name="sort_by_name">Alfabetycznie</string>
     <string name="sort_by_date">Po danie</string>
+    <string name="AreYouSureToDelete">Czy na pewno chcesz usunąć?</string>
+    <string name="delete">Usuń</string>
+    <string name="cancel">Anuluj</string>
+    <string name="no_data">Brak danych</string>
 </resources>

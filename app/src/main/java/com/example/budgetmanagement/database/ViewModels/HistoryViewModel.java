@@ -20,20 +20,26 @@ public class HistoryViewModel extends AndroidViewModel {
     private HistoryRepository historyRepository;
     private LiveData<List<HistoryAndTransaction>> allHistoryAndTransaction;
     private LiveData<List<HistoryBottomSheetEntity>> historyBottomSheetEntity;
+    private List<HistoryBottomSheetEntity> historyBottomSheetEntityList;
 
     public HistoryViewModel(@NonNull Application app) {
         super(app);
         historyRepository = new HistoryRepository(app);
         allHistoryAndTransaction = historyRepository.getAllHistoryAndTransactionInDateOrder();
         historyBottomSheetEntity = historyRepository.getHistoryBottomSheetEntity();
+        historyBottomSheetEntityList = historyRepository.getHistoryBottomSheetEntityList();
+    }
+
+    public void delete(int historyId) {
+        historyRepository.delete(historyId);
+    }
+
+    public List<HistoryBottomSheetEntity> getHistoryBottomSheetEntityList() {
+        return historyBottomSheetEntityList;
     }
 
     public LiveData<List<HistoryBottomSheetEntity>> getHistoryBottomSheetEntity() {
         return historyBottomSheetEntity;
-    }
-
-    public HistoryAndTransaction getAllHistoryAndTransaction(int position) {
-        return Objects.requireNonNull(allHistoryAndTransaction.getValue()).get(position);
     }
 
     public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionInDateOrder() {

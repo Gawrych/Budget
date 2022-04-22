@@ -14,6 +14,7 @@ public class HistoryRepository {
     private HistoryDao historyDao;
     private LiveData<List<History>> allHistory;
     private LiveData<List<HistoryBottomSheetEntity>> historyBottomSheetEntity;
+    private List<HistoryBottomSheetEntity> historyBottomSheetEntityList;
 
     public HistoryRepository(Application app) {
         database = BudgetRoomDatabase.getDatabase(app);
@@ -21,14 +22,15 @@ public class HistoryRepository {
         allHistory = historyDao.getAllHistory();
         CategoryDao categoryDao = database.categoryDao();
         historyBottomSheetEntity = categoryDao.getHistoryBottomSheetEntity();
+        historyBottomSheetEntityList = categoryDao.getHistoryBottomSheetEntityList();
     }
 
     public LiveData<List<HistoryBottomSheetEntity>> getHistoryBottomSheetEntity() {
         return historyBottomSheetEntity;
     }
 
-    public HistoryAndTransaction getAllHistoryAndTransaction(int id) {
-        return historyDao.getHistoryAndTransaction(id);
+    public List<HistoryBottomSheetEntity> getHistoryBottomSheetEntityList() {
+        return historyBottomSheetEntityList;
     }
 
     public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionInDateOrder() {
@@ -44,7 +46,6 @@ public class HistoryRepository {
     }
 
     public void insert(History history) {
-
         database.databaseWriteExecutor.execute(() -> {
             historyDao.insert(history);
         });
@@ -59,6 +60,12 @@ public class HistoryRepository {
     public void delete(History history) {
         database.databaseWriteExecutor.execute(() -> {
             historyDao.delete(history);
+        });
+    }
+
+    public void delete(int historyId) {
+        database.databaseWriteExecutor.execute(() -> {
+            historyDao.delete(historyId);
         });
     }
 }

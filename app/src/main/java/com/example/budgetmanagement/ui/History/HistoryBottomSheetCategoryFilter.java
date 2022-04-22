@@ -2,6 +2,7 @@ package com.example.budgetmanagement.ui.History;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;

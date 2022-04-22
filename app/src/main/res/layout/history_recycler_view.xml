@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/createDate"
         android:layout_width="100dp"
         android:layout_height="35dp"
         android:gravity="center"

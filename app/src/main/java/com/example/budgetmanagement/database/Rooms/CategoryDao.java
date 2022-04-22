@@ -45,6 +45,9 @@ public interface CategoryDao {
     @Query("SELECT categoryId, iconName, name FROM categories")
     LiveData<List<HistoryBottomSheetEntity>> getHistoryBottomSheetEntity();
 
+    @Query("SELECT categoryId, iconName, name FROM categories")
+    List<HistoryBottomSheetEntity> getHistoryBottomSheetEntityList();
+
 //    @androidx.room.Transaction
 //    @Query("SELECT * FROM coming")
 //    List<ComingWithTransactionAndCategory> getComingWithTransactionAndCategory();

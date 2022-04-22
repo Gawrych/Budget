@@ -1,8 +1,9 @@
 package com.example.budgetmanagement.database.ViewHolders;
 
+import static com.example.budgetmanagement.MainActivity.DATE_FORMAT;
+
 import android.os.Build;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -24,7 +25,7 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
         super(itemView);
         title = itemView.findViewById(R.id.title);
         amount = itemView.findViewById(R.id.amount);
-        date = itemView.findViewById(R.id.date);
+        date = itemView.findViewById(R.id.createDate);
         this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
     }
@@ -34,7 +35,7 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
         title.setText(aTitle);
         amount.setText(String.valueOf(aAmount));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         date.setText(LocalDate.ofEpochDay(aDate).format(formatter));
     }
 

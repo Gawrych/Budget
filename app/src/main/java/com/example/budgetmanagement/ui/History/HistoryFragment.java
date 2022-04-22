@@ -37,10 +37,12 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
     private HistoryViewModel historyViewModel;
     private HistoryFragmentBinding binding;
-    private LiveData<List<HistoryAndTransaction>> currentLiveDataHistoryAndTransactionList;
+    private LiveData<List<HistoryAndTransaction>> currentLiveDataHistoryAndTransaction;
+    private LiveData<List<HistoryAndTransaction>> historyAndTransactionListToViewHolder;
+    private List<HistoryBottomSheetEntity> historyBottomSheetEntity;
     private HistoryBottomSheetCategoryFilter historyBottomSheetCategoryFilter;
     private HistoryBottomSheetOrder historyBottomSheetOrder;
-
+    private HistoryBottomSheetDetails historyBottomSheetDetails;
     private HistoryAdapter adapter;
 
     ActivityResultLauncher<Intent> startActivityForResult =
@@ -70,8 +72,15 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
 
-        currentLiveDataHistoryAndTransactionList = historyViewModel.getAllHistoryAndTransactionInDateOrder();
-        currentLiveDataHistoryAndTransactionList.observe(getViewLifecycleOwner(), adapter::submitList);
+        currentLiveDataHistoryAndTransaction = historyViewModel.getAllHistoryAndTransactionInDateOrder();
+        historyAndTransactionListToViewHolder = currentLiveDataHistoryAndTransaction;
+        historyAndTransactionListToViewHolder.observe(getViewLifecycleOwner(), adapter::submitList);
+
+        historyBottomSheetEntity = historyViewModel.getHistoryBottomSheetEntity().getValue();
+
+        Toast.makeText(getContext(), String.valueOf(Objects.isNull(historyBottomSheetEntity)), Toast.LENGTH_SHORT).show();
+
+        historyBottomSheetDetails = new HistoryBottomSheetDetails(getContext(), getActivity(), historyViewModel);
 
         ImageButton addButton = root.findViewById(R.id.addButton);
         addButton.setOnClickListener(view -> {
@@ -99,13 +108,14 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         binding = null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onNoteClick(int position) {
-        HistoryAndTransaction historyAndTransaction = Objects.requireNonNull(currentLiveDataHistoryAndTransactionList.getValue()).get(position);
-        Toast.makeText(getContext(), String.valueOf(historyAndTransaction.transaction.getCategoryId()), Toast.LENGTH_SHORT).show();
+        HistoryAndTransaction historyAndTransaction = Objects.requireNonNull(historyAndTransactionListToViewHolder.getValue()).get(position);
+        historyBottomSheetDetails.setData(historyAndTransaction);
+        historyBottomSheetDetails.show();
     }
-
-
+    
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showBottomSheetToFilterByCategory() {
         if (Objects.isNull(historyBottomSheetCategoryFilter)) {
@@ -115,8 +125,9 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         historyBottomSheetCategoryFilter.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {
             int categoryId = historyBottomSheetCategoryFilter.getSelectedCategoryId();
             if (categoryId > 0) {
-                currentLiveDataHistoryAndTransactionList = historyViewModel.getAllHistoryAndTransactionByCategory(categoryId);
-                currentLiveDataHistoryAndTransactionList.observe(getViewLifecycleOwner(), adapter::submitList);
+                currentLiveDataHistoryAndTransaction = historyViewModel.getAllHistoryAndTransactionByCategory(categoryId);
+                historyAndTransactionListToViewHolder = currentLiveDataHistoryAndTransaction;
+                historyAndTransactionListToViewHolder.observe(getViewLifecycleOwner(), adapter::submitList);
             }
         });
     }
@@ -126,9 +137,11 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         if (Objects.isNull(historyBottomSheetOrder)) {
             historyBottomSheetOrder = new HistoryBottomSheetOrder(getContext());
         }
-        historyBottomSheetOrder.setListToSort(currentLiveDataHistoryAndTransactionList);
+        historyBottomSheetOrder.setListToSort(currentLiveDataHistoryAndTransaction);
         historyBottomSheetOrder.show();
-        historyBottomSheetOrder.getBottomSheetDialog().setOnDismissListener(dialogInterface ->
-                historyBottomSheetOrder.getSortedList().observe(getViewLifecycleOwner(), adapter::submitList));
+        historyBottomSheetOrder.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {
+            historyAndTransactionListToViewHolder = historyBottomSheetOrder.getSortedList();
+            historyAndTransactionListToViewHolder.observe(getViewLifecycleOwner(), adapter::submitList);
+        });
     }
 }

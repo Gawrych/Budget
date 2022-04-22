@@ -24,12 +24,11 @@ public interface HistoryDao {
     @Delete
     void delete(History history);
 
+    @Query("DELETE FROM history WHERE historyId = :historyId")
+    void delete(int historyId);
+
     @Query("SELECT * FROM history")
     LiveData<List<History>> getAllHistory();
-
-    @androidx.room.Transaction
-    @Query("SELECT * FROM history WHERE historyId = :id")
-    HistoryAndTransaction getHistoryAndTransaction(int id);
 
     @androidx.room.Transaction
     @Query("SELECT * FROM history ORDER BY addDate ASC")
