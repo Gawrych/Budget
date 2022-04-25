@@ -15,4 +15,9 @@
     <string name="delete">Usuń</string>
     <string name="cancel">Anuluj</string>
     <string name="no_data">Brak danych</string>
+    <string name="transaction_title">Nazwa</string>
+    <string name="amount">Kwota</string>
+    <string name="date">Data</string>
+    <string name="default_category">Inne</string>
+    <string name="Icon">Icon</string>
 </resources>
