@@ -27,7 +27,7 @@ public class ListSorting {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void sort(CheckBox profitCheckBox, CheckBox filterByProfitCheckBox, CheckBox reversedCheckBox, int sortMethod) {
-        setProfitFilter(profitCheckBox, filterByProfitCheckBox);
+        setProfitFilter(profitCheckBox.isChecked(), filterByProfitCheckBox.isChecked());
 
         if (sortMethod == NAME_SORT_METHOD) sortByName();
         else if (sortMethod == AMOUNT_SORT_METHOD) sortByAmount();
@@ -37,9 +37,7 @@ public class ListSorting {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void setProfitFilter(CheckBox profitCheckBox, CheckBox filterByProfitCheckBox) {
-        boolean profit = profitCheckBox.isChecked();
-        boolean filterProfit = filterByProfitCheckBox.isChecked();
+    private void setProfitFilter(boolean profit, boolean filterProfit) {
 
         if (profit && filterProfit) {
             historyAndTransactionList = Transformations.map(historyAndTransactionList,
