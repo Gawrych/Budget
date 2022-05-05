@@ -31,7 +31,10 @@ public class ListSorting {
 
         if (sortMethod == NAME_SORT_METHOD) sortByName();
         else if (sortMethod == AMOUNT_SORT_METHOD) sortByAmount();
-        else if (sortMethod == DATE_SORT_METHOD) sortByDate();
+        else {
+            assert sortMethod == DATE_SORT_METHOD;
+            sortByDate();
+        }
 
         if (reversedCheckBox.isChecked()) reversedList();
     }

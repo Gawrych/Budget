@@ -17,7 +17,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    public static final String DATE_FORMAT = "dd-MM-yyyy";
+    public static final String DATE_FORMAT = "dd.MM.yyyy";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

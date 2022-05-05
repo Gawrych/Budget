@@ -10,9 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BudgetManagement">
         <activity
-            android:name=".ui.History.AddNewHistory"
-            android:exported="false" />
-        <activity
             android:name=".ui.Category.AddNewCategory"
             android:exported="false" />
         <activity

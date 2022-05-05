@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -84,8 +85,7 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         ImageButton addButton = root.findViewById(R.id.addButton);
         addButton.setOnClickListener(view -> {
-            Intent intent = new Intent(getActivity(), AddNewHistory.class);
-            startActivityForResult.launch(intent);
+            Navigation.findNavController(view).navigate(R.id.action_navigation_history_to_addNew);
         });
 
         ImageButton categoryFilter = root.findViewById(R.id.categoryFilterButton);
@@ -102,11 +102,7 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         return root;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -119,11 +115,12 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showBottomSheetToFilterByCategory() {
         if (Objects.isNull(historyBottomSheetCategoryFilter)) {
-            historyBottomSheetCategoryFilter = new HistoryBottomSheetCategoryFilter(getContext(), historyViewModel, getViewLifecycleOwner());
+            historyBottomSheetCategoryFilter = new HistoryBottomSheetCategoryFilter(historyViewModel);
+            historyBottomSheetCategoryFilter.build(getContext(), getViewLifecycleOwner());
         }
         historyBottomSheetCategoryFilter.show();
         historyBottomSheetCategoryFilter.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {
-            int categoryId = historyBottomSheetCategoryFilter.getSelectedCategoryId();
+            int categoryId = historyBottomSheetCategoryFilter.getSelectedId();
             if (categoryId > 0) {
                 currentLiveDataHistoryAndTransaction = historyViewModel.getAllHistoryAndTransactionByCategory(categoryId);
                 historyAndTransactionListToViewHolder = currentLiveDataHistoryAndTransaction;

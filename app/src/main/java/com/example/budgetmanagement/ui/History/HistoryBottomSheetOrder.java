@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.Adapters.HistoryBottomSheetAdapter;
 import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 

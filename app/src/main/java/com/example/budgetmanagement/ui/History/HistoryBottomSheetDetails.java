@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +42,9 @@ public class HistoryBottomSheetDetails extends Fragment {
 
         historyBottomSheetEntity = historyViewModel.getHistoryBottomSheetEntityList();
 
-        bottomSheetDialog.findViewById(R.id.delete).setOnClickListener(v -> {
+        Button delete = bottomSheetDialog.findViewById(R.id.delete);
+        assert delete != null;
+        delete.setOnClickListener(v -> {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setMessage(R.string.AreYouSureToDelete)
@@ -52,7 +55,9 @@ public class HistoryBottomSheetDetails extends Fragment {
                     .setNegativeButton(R.string.cancel, (dialog, id) -> {}).show();
                 });
 
-        bottomSheetDialog.findViewById(R.id.edit).setOnClickListener(v ->
+        Button edit = bottomSheetDialog.findViewById(R.id.edit);
+        assert edit != null;
+        edit.setOnClickListener(v ->
                 Toast.makeText(context, "Edit", Toast.LENGTH_SHORT).show());
 
 

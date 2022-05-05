@@ -34,6 +34,10 @@ public class HistoryViewModel extends AndroidViewModel {
         historyRepository.delete(historyId);
     }
 
+    public void insert(History history) {
+        historyRepository.insert(history);
+    }
+
     public List<HistoryBottomSheetEntity> getHistoryBottomSheetEntityList() {
         return historyBottomSheetEntityList;
     }

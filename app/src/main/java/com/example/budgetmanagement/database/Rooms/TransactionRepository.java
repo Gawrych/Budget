@@ -12,11 +12,8 @@ public class TransactionRepository {
         transactionDao = database.transactionDao();
     }
 
-    public void insert(Transaction transaction) {
-
-        database.databaseWriteExecutor.execute(() -> {
-            transactionDao.insert(transaction);
-        });
+    public long insert(Transaction transaction) {
+       return transactionDao.insert(transaction);
     }
 
     public void update(Transaction transaction) {

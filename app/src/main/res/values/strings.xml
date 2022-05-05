@@ -18,6 +18,7 @@
     <string name="transaction_title">Nazwa</string>
     <string name="amount">Kwota</string>
     <string name="date">Data</string>
-    <string name="default_category">Inne</string>
+    <string name="default_category">Różne</string>
     <string name="Icon">Icon</string>
+    <string name="add">Dodaj</string>
 </resources>

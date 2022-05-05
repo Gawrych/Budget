@@ -1,10 +1,7 @@
 package com.example.budgetmanagement.ui.History;
 
 import android.content.Context;
-import android.os.Build;
-import android.util.Log;
 
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
@@ -14,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.HistoryBottomSheetAdapter;
 import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
+import com.example.budgetmanagement.database.ViewModels.AddNewHistoryViewModel;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -24,16 +22,22 @@ public class HistoryBottomSheetCategoryFilter extends Fragment implements Catego
 
     private BottomSheetDialog bottomSheetDialog;
     private LiveData<List<HistoryBottomSheetEntity>> historyBottomSheetEntity;
-    private int selectedId;
+    int position;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public HistoryBottomSheetCategoryFilter(Context context, HistoryViewModel historyViewModel, LifecycleOwner lifeCycleOwner) {
+    public HistoryBottomSheetCategoryFilter(HistoryViewModel historyViewModel) {
+        historyBottomSheetEntity = historyViewModel.getHistoryBottomSheetEntity();
+    }
+
+    public HistoryBottomSheetCategoryFilter(AddNewHistoryViewModel addNewHistoryViewModel) {
+        historyBottomSheetEntity = addNewHistoryViewModel.getHistoryBottomSheetEntity();
+    }
+
+    public void build(Context context, LifecycleOwner lifeCycleOwner) {
         bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(R.layout.history_bottom_sheet_dialog);
 
         final HistoryBottomSheetAdapter historyBottomSheetAdapter = new HistoryBottomSheetAdapter(new HistoryBottomSheetAdapter.HistoryBottomSheetEntityDiff(), this::onNoteClick);
 
-        historyBottomSheetEntity = historyViewModel.getHistoryBottomSheetEntity();
         historyBottomSheetEntity.observe(lifeCycleOwner, historyBottomSheetAdapter::submitList);
 
         RecyclerView bottomSheetRecyclerView = bottomSheetDialog.findViewById(R.id.recyclerView);
@@ -51,11 +55,15 @@ public class HistoryBottomSheetCategoryFilter extends Fragment implements Catego
 
     @Override
     public void onNoteClick(int position) {
-        selectedId = Objects.requireNonNull(historyBottomSheetEntity.getValue()).get(position).getId();
+        this.position = position;
         bottomSheetDialog.cancel();
     }
 
-    public int getSelectedCategoryId() {
-        return selectedId;
+    public int getSelectedId() {
+        return Objects.requireNonNull(historyBottomSheetEntity.getValue()).get(position).getId();
+    }
+
+    public String getSelectedName() {
+        return Objects.requireNonNull(historyBottomSheetEntity.getValue()).get(position).getName();
     }
 }
