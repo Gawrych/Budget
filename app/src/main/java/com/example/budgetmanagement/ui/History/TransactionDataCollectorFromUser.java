@@ -22,8 +22,6 @@ public class TransactionDataCollectorFromUser {
     private long date;
     private boolean isProfit;
     private int categoryId;
-    private EditText titleField;
-    private EditText amountField;
     private boolean isEmpty;
 
     public TransactionDataCollectorFromUser(View root) {
@@ -32,7 +30,7 @@ public class TransactionDataCollectorFromUser {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean collectData(EditText calendar, int categoryId) {
-        initializeFields(categoryId);
+        setCategoryId(categoryId);
 
         setTitle();
         if (isEmpty) {
@@ -50,69 +48,48 @@ public class TransactionDataCollectorFromUser {
         return true;
     }
 
-    private void initializeFields(int categoryId) {
-        setCategoryId(categoryId);
-        getTitleField();
-        getAmountField();
-    }
-
     private void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
-    private void getTitleField() {
-         titleField = root.findViewById(R.id.title);
-    }
-
-    private void getAmountField() {
-        amountField = root.findViewById(R.id.amount);
-    }
-
     private void setTitle() {
-        getTextFromTitle();
-        checkLength(title);
+        TitleEditTextField titleField = new TitleEditTextField(root);
+        initializeTitle(titleField);
+        checkFillingByLength(titleField);
         if (isEmpty) {
-            setEmptyFieldErrorMessage(titleField);
+            titleField.setEmptyFieldErrorMessage();
         }
     }
 
-    private void getTextFromTitle() {
-        title = titleField.getText().toString();
+    private void initializeTitle(TitleEditTextField titleField) {
+        title = titleField.getContent();
     }
 
-    private void checkLength(String value) {
-        isEmpty = value.length() == 0;
-    }
-
-    private void setEmptyFieldErrorMessage(EditText field) {
-        field.setError(root.getContext().getString(R.string.field_cant_be_empty));
+    private void checkFillingByLength(EditTextField editTextField) {
+        isEmpty = editTextField.checkIfFieldIsEmpty();
     }
 
     public void setAmount() {
-        String amountInString = getTextFromAmount();
-        checkLength(amountInString);
+        AmountEditTextField amountField = new AmountEditTextField(root);
+        checkFillingByLength(amountField);
         if (isEmpty) {
-            setEmptyFieldErrorMessage(amountField);
+            amountField.setEmptyFieldErrorMessage();
         } else {
-            initializeAmountVariable(amountInString);
+            initializeAmount(amountField);
         }
     }
 
-    public String getTextFromAmount() {
-        return amountField.getText().toString();
-    }
-
-    public void initializeAmountVariable(String amountInString) {
-        amount = Float.parseFloat(amountInString);
+    private void initializeAmount(AmountEditTextField amountField) {
+        amount = amountField.getParsedContent();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setDateInPattern(EditText calendar) {
-        date = getLocalDateInPattern(calendar).toEpochDay();
+        date = getSelectedDateInPattern(calendar).toEpochDay();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public LocalDate getLocalDateInPattern(EditText calendar) {
+    public LocalDate getSelectedDateInPattern(EditText calendar) {
         return LocalDate.parse(calendar.getText(), getPattern());
     }
 
@@ -134,7 +111,11 @@ public class TransactionDataCollectorFromUser {
     }
 
     private RadioGroup getRadioGroup() {
-        return root.findViewById(R.id.radioGroup);
+        return root.findViewById(getRadioGroupId());
+    }
+
+    private int getRadioGroupId() {
+        return R.id.radioGroup;
     }
 
     public float getAmount() {
