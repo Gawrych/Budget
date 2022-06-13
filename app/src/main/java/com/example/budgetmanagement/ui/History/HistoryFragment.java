@@ -46,19 +46,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
     private HistoryBottomSheetDetails historyBottomSheetDetails;
     private HistoryAdapter adapter;
 
-    ActivityResultLauncher<Intent> startActivityForResult =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            Intent data = result.getData();
-                            if (data != null) {
-
-                            } else {
-                                Log.println(Log.ERROR, "NULL", "Null as request from 'AddNewTransactionElement' class");
-                            }
-                        }
-                    });
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -82,20 +69,13 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         historyBottomSheetDetails = new HistoryBottomSheetDetails(getContext(), getActivity(), historyViewModel);
 
         ImageButton addButton = root.findViewById(R.id.addButton);
-        addButton.setOnClickListener(view -> {
-            Navigation.findNavController(view).navigate(R.id.action_navigation_history_to_addNewHistory);
-        });
+        addButton.setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_navigation_history_to_addNewHistory));
 
         ImageButton categoryFilter = root.findViewById(R.id.categoryFilterButton);
-        categoryFilter.setOnClickListener(view -> {
-            showBottomSheetToFilterByCategory();
-
-        });
+        categoryFilter.setOnClickListener(view -> showBottomSheetToFilterByCategory());
 
         ImageButton orderFilter = root.findViewById(R.id.orderFilterButton);
-        orderFilter.setOnClickListener(view -> {
-            showBottomSheetToSortList();
-        });
+        orderFilter.setOnClickListener(view -> showBottomSheetToSortList());
 
         return root;
     }
