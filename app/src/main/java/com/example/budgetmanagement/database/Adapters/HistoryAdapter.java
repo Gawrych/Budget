@@ -31,7 +31,6 @@ public class HistoryAdapter extends ListAdapter<HistoryAndTransaction, HistoryVi
     }
 
     @NonNull
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return create(parent);
@@ -46,7 +45,6 @@ public class HistoryAdapter extends ListAdapter<HistoryAndTransaction, HistoryVi
                 historyAndTransaction.history.getAddDate());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public HistoryViewHolder create(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.history_recycler_view, parent, false);
