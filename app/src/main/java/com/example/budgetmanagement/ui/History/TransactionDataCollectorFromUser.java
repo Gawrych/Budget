@@ -22,7 +22,7 @@ public class TransactionDataCollectorFromUser {
     private long date;
     private boolean isProfit;
     private int categoryId;
-    private boolean isEmpty;
+    private boolean ifIsEmpty;
 
     public TransactionDataCollectorFromUser(View root) {
         this.root = root;
@@ -33,12 +33,12 @@ public class TransactionDataCollectorFromUser {
         setCategoryId(categoryId);
 
         setTitle();
-        if (isEmpty) {
+        if (ifIsEmpty) {
             return false;
         }
 
         setAmount();
-        if (isEmpty) {
+        if (ifIsEmpty) {
              return false;
         }
 
@@ -56,7 +56,7 @@ public class TransactionDataCollectorFromUser {
         TitleEditTextField titleField = new TitleEditTextField(root);
         initializeTitle(titleField);
         checkFillingByLength(titleField);
-        if (isEmpty) {
+        if (ifIsEmpty) {
             titleField.setEmptyFieldErrorMessage();
         }
     }
@@ -66,13 +66,13 @@ public class TransactionDataCollectorFromUser {
     }
 
     private void checkFillingByLength(EditTextField editTextField) {
-        isEmpty = editTextField.checkIfFieldIsEmpty();
+        ifIsEmpty = editTextField.checkIfFieldIsEmpty();
     }
 
     public void setAmount() {
         AmountEditTextField amountField = new AmountEditTextField(root);
         checkFillingByLength(amountField);
-        if (isEmpty) {
+        if (ifIsEmpty) {
             amountField.setEmptyFieldErrorMessage();
         } else {
             initializeAmount(amountField);
