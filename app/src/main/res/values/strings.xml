@@ -21,4 +21,6 @@
     <string name="default_category">Różne</string>
     <string name="Icon">Icon</string>
     <string name="add">Dodaj</string>
+    <string name="select_date">Wybierz datę</string>
+    <string name="field_cant_be_empty">Pole nie może być puste!</string>
 </resources>
