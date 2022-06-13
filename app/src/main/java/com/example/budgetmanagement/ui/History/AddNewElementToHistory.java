@@ -37,8 +37,9 @@ public class AddNewElementToHistory extends Fragment {
 
         Button acceptButton = root.findViewById(R.id.acceptButton);
         acceptButton.setOnClickListener(view -> {
-            TransactionDataCollectorFromUser transactionDataFromUserCollector = new TransactionDataCollectorFromUser();
-            if (transactionDataFromUserCollector.collectData(root, calendar, categoryId)) {
+            TransactionDataCollectorFromUser transactionDataFromUserCollector = new TransactionDataCollectorFromUser(root);
+            boolean correctlyCollectedData = transactionDataFromUserCollector.collectData(calendar, categoryId);
+            if (correctlyCollectedData) {
                 int transactionId = SubmitQuery.submitTransactionInsertQuery(this, transactionDataFromUserCollector);
                 SubmitQuery.submitHistoryInsertQuery(historyViewModel, transactionId);
                 requireActivity().onBackPressed();
