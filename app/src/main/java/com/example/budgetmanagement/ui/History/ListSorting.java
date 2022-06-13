@@ -26,26 +26,22 @@ public class ListSorting {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void sort(CheckBox profitCheckBox, CheckBox filterByProfitCheckBox, CheckBox reversedCheckBox, int sortMethod) {
-        setProfitFilter(profitCheckBox.isChecked(), filterByProfitCheckBox.isChecked());
+    public void sort(int profit, boolean reversedSorting, int sortMethod) {
+        setProfitFilter(profit);
 
         if (sortMethod == NAME_SORT_METHOD) sortByName();
         else if (sortMethod == AMOUNT_SORT_METHOD) sortByAmount();
-        else {
-            assert sortMethod == DATE_SORT_METHOD;
-            sortByDate();
-        }
+        else if (sortMethod == DATE_SORT_METHOD) sortByDate();
 
-        if (reversedCheckBox.isChecked()) reversedList();
+        if (reversedSorting) reversedList();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void setProfitFilter(boolean profit, boolean filterProfit) {
-
-        if (profit && filterProfit) {
+    private void setProfitFilter(int profit) {
+        if (profit == 1) {
             historyAndTransactionList = Transformations.map(historyAndTransactionList,
                     input -> input.stream().filter(o1 -> o1.transaction.getProfit()).collect(Collectors.toList()));
-        } else if (!profit && filterProfit) {
+        } else if (profit == -1) {
             historyAndTransactionList = Transformations.map(historyAndTransactionList,
                     input -> input.stream().filter(o1 -> !o1.transaction.getProfit()).collect(Collectors.toList()));
         }

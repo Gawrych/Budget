@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.HistoryBottomSheetAdapter;
 import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
-import com.example.budgetmanagement.database.ViewModels.AddNewHistoryViewModel;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -24,15 +23,8 @@ public class HistoryBottomSheetCategoryFilter extends Fragment implements Catego
     private LiveData<List<HistoryBottomSheetEntity>> historyBottomSheetEntity;
     int position;
 
-    public HistoryBottomSheetCategoryFilter(HistoryViewModel historyViewModel) {
+    public HistoryBottomSheetCategoryFilter(Context context, LifecycleOwner lifeCycleOwner, HistoryViewModel historyViewModel) {
         historyBottomSheetEntity = historyViewModel.getHistoryBottomSheetEntity();
-    }
-
-    public HistoryBottomSheetCategoryFilter(AddNewHistoryViewModel addNewHistoryViewModel) {
-        historyBottomSheetEntity = addNewHistoryViewModel.getHistoryBottomSheetEntity();
-    }
-
-    public void build(Context context, LifecycleOwner lifeCycleOwner) {
         bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(R.layout.history_bottom_sheet_dialog);
 
@@ -49,14 +41,14 @@ public class HistoryBottomSheetCategoryFilter extends Fragment implements Catego
         bottomSheetDialog.show();
     }
 
-    public BottomSheetDialog getBottomSheetDialog() {
-        return this.bottomSheetDialog;
-    }
-
     @Override
     public void onNoteClick(int position) {
         this.position = position;
         bottomSheetDialog.cancel();
+    }
+
+    public BottomSheetDialog getBottomSheetDialog() {
+        return this.bottomSheetDialog;
     }
 
     public int getSelectedId() {

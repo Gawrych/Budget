@@ -30,7 +30,7 @@ public class AddNewElementToHistory extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View root =  inflater.inflate(R.layout.add_new_history_fragment, container, false);
+        View root =  inflater.inflate(R.layout.add_new_history_element_fragment, container, false);
 
         EditText calendar = root.findViewById(R.id.date);
         HistoryViewModel historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);

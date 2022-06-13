@@ -1,13 +1,9 @@
 package com.example.budgetmanagement.ui.History;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -17,12 +13,10 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.HistoryAdapter;
@@ -40,9 +34,9 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
     private HistoryFragmentBinding binding;
     private LiveData<List<HistoryAndTransaction>> currentLiveDataHistoryAndTransaction;
     private LiveData<List<HistoryAndTransaction>> historyAndTransactionListToViewHolder;
-    private List<HistoryBottomSheetEntity> historyBottomSheetEntity;
+
     private HistoryBottomSheetCategoryFilter historyBottomSheetCategoryFilter;
-    private HistoryBottomSheetOrder historyBottomSheetOrder;
+    private HistoryBottomSheetSorting historyBottomSheetSorting;
     private HistoryBottomSheetDetails historyBottomSheetDetails;
     private HistoryAdapter adapter;
 
@@ -64,7 +58,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         historyAndTransactionListToViewHolder = currentLiveDataHistoryAndTransaction;
         historyAndTransactionListToViewHolder.observe(getViewLifecycleOwner(), adapter::submitList);
 
-        historyBottomSheetEntity = historyViewModel.getHistoryBottomSheetEntity().getValue();
 
         historyBottomSheetDetails = new HistoryBottomSheetDetails(getContext(), getActivity(), historyViewModel);
 
@@ -106,13 +99,13 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showBottomSheetToSortList() {
-        if (Objects.isNull(historyBottomSheetOrder)) {
-            historyBottomSheetOrder = new HistoryBottomSheetOrder(getContext());
+        if (Objects.isNull(historyBottomSheetSorting)) {
+            historyBottomSheetSorting = new HistoryBottomSheetSorting(getContext());
         }
-        historyBottomSheetOrder.setListToSort(currentLiveDataHistoryAndTransaction);
-        historyBottomSheetOrder.show();
-        historyBottomSheetOrder.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {
-            historyAndTransactionListToViewHolder = historyBottomSheetOrder.getSortedList();
+        historyBottomSheetSorting.setListToSort(currentLiveDataHistoryAndTransaction);
+        historyBottomSheetSorting.show();
+        historyBottomSheetSorting.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {
+            historyAndTransactionListToViewHolder = historyBottomSheetSorting.getSortedList();
             historyAndTransactionListToViewHolder.observe(getViewLifecycleOwner(), adapter::submitList);
         });
     }
