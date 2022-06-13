@@ -21,8 +21,8 @@
         android:label="@string/title_history"
         tools:layout="@layout/history_fragment" >
         <action
-            android:id="@+id/action_navigation_history_to_addNew"
-            app:destination="@id/addNew" />
+            android:id="@+id/action_navigation_history_to_addNewHistory"
+            app:destination="@id/addNewHistory" />
     </fragment>
     <fragment
         android:id="@+id/navigation_incoming"
@@ -30,12 +30,12 @@
         android:label="@string/title_incoming"
         tools:layout="@layout/coming_fragment" />
     <fragment
-        android:id="@+id/addNew"
-        android:name="com.example.budgetmanagement.ui.History.AddNew"
-        android:label="add_new_fragment"
-        tools:layout="@layout/add_new_fragment" >
+        android:id="@+id/addNewHistory"
+        android:name="com.example.budgetmanagement.ui.History.AddNewElementToHistory"
+        android:label="activity_add_new_history"
+        tools:layout="@layout/add_new_history_fragment" >
         <action
-            android:id="@+id/action_addNew_to_navigation_history"
+            android:id="@+id/action_addNewHistory_to_navigation_history"
             app:destination="@id/navigation_history" />
     </fragment>
 </navigation>
