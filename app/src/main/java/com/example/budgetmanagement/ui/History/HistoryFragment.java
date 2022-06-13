@@ -79,13 +79,11 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         historyBottomSheetEntity = historyViewModel.getHistoryBottomSheetEntity().getValue();
 
-        Toast.makeText(getContext(), String.valueOf(Objects.isNull(historyBottomSheetEntity)), Toast.LENGTH_SHORT).show();
-
         historyBottomSheetDetails = new HistoryBottomSheetDetails(getContext(), getActivity(), historyViewModel);
 
         ImageButton addButton = root.findViewById(R.id.addButton);
         addButton.setOnClickListener(view -> {
-            Navigation.findNavController(view).navigate(R.id.action_navigation_history_to_addNew);
+            Navigation.findNavController(view).navigate(R.id.action_navigation_history_to_addNewHistory);
         });
 
         ImageButton categoryFilter = root.findViewById(R.id.categoryFilterButton);
@@ -102,8 +100,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         return root;
     }
 
-
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onNoteClick(int position) {
@@ -115,8 +111,7 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showBottomSheetToFilterByCategory() {
         if (Objects.isNull(historyBottomSheetCategoryFilter)) {
-            historyBottomSheetCategoryFilter = new HistoryBottomSheetCategoryFilter(historyViewModel);
-            historyBottomSheetCategoryFilter.build(getContext(), getViewLifecycleOwner());
+            historyBottomSheetCategoryFilter = new HistoryBottomSheetCategoryFilter(getContext(), getViewLifecycleOwner(), historyViewModel);
         }
         historyBottomSheetCategoryFilter.show();
         historyBottomSheetCategoryFilter.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {
