@@ -5,13 +5,13 @@ import android.widget.EditText;
 
 import com.example.budgetmanagement.R;
 
-public abstract class EditTextField {
+public abstract class EditField {
 
     private EditText field;
     private View root;
     private String content;
 
-    public EditTextField(View root) {
+    public EditField(View root) {
         setRoot(root);
         initializeField();
         getText();

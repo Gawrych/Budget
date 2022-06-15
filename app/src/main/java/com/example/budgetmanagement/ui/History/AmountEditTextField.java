@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.example.budgetmanagement.R;
 
-public class AmountEditTextField extends EditTextField {
+public class AmountEditTextField extends EditField {
 
     public AmountEditTextField(View root) {
         super(root);
