@@ -65,7 +65,7 @@ public class TransactionDataCollectorFromUser {
         title = titleField.getContent();
     }
 
-    private void checkFillingByLength(EditTextField editTextField) {
+    private void checkFillingByLength(EditField editTextField) {
         ifIsEmpty = editTextField.checkIfFieldIsEmpty();
     }
 
@@ -103,7 +103,7 @@ public class TransactionDataCollectorFromUser {
     }
 
     private int getProfitIconId() {
-        return R.id.profitTrue;
+        return R.id.profit;
     }
 
     private int getSelectedProfitIconId() {

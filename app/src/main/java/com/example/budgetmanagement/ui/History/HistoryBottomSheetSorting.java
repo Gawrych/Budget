@@ -1,8 +1,8 @@
 package com.example.budgetmanagement.ui.History;
 
-import static com.example.budgetmanagement.ui.History.ListSorting.AMOUNT_SORT_METHOD;
-import static com.example.budgetmanagement.ui.History.ListSorting.DATE_SORT_METHOD;
-import static com.example.budgetmanagement.ui.History.ListSorting.NAME_SORT_METHOD;
+import static com.example.budgetmanagement.ui.History.ListSorting.SORT_BY_AMOUNT_METHOD;
+import static com.example.budgetmanagement.ui.History.ListSorting.SORT_BY_DATE_METHOD;
+import static com.example.budgetmanagement.ui.History.ListSorting.SORT_BY_NAME_METHOD;
 
 import android.content.Context;
 import android.os.Build;
@@ -25,57 +25,87 @@ public class HistoryBottomSheetSorting extends Fragment {
     private BottomSheetDialog bottomSheetDialog;
     private LiveData<List<HistoryAndTransaction>> historyAndTransactionList;
     private int profit;
-    private CheckBox reversedCheckBox;
+    private CheckBox reversedSortingCheckBox;
     private boolean profitTrue;
     private boolean profitAll;
     private boolean profitFalse;
     private boolean reversedSorting;
 
-    private ConstraintLayout amountSort;
-    private ConstraintLayout nameSort;
-    private ConstraintLayout dateSort;
+    private ConstraintLayout sortByAmount;
+    private ConstraintLayout sortByName;
+    private ConstraintLayout sortByDate;
+
+    private ListSorting listSorting;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public HistoryBottomSheetSorting(Context context) {
-        prepareBottomSheetDialog(context);
+        initializeBottomSheetDialog(context);
+        setContentViewOnBottomSheetDialog();
         initializeSortingButtons();
 
-        assert nameSort != null;
-        nameSort.setOnClickListener(v -> sortList(NAME_SORT_METHOD));
+        assert sortByName != null;
+        sortByName.setOnClickListener(v -> sortList(SORT_BY_NAME_METHOD));
 
-        assert amountSort != null;
-        amountSort.setOnClickListener(v -> sortList(AMOUNT_SORT_METHOD));
+        assert sortByAmount != null;
+        sortByAmount.setOnClickListener(v -> sortList(SORT_BY_AMOUNT_METHOD));
 
-        assert dateSort != null;
-        dateSort.setOnClickListener(v -> sortList(DATE_SORT_METHOD));
+        assert sortByDate != null;
+        sortByDate.setOnClickListener(v -> sortList(SORT_BY_DATE_METHOD));
     }
 
-    private void prepareBottomSheetDialog(Context context) {
+    private void initializeBottomSheetDialog(Context context) {
         bottomSheetDialog = new BottomSheetDialog(context);
-        bottomSheetDialog.setContentView(R.layout.history_bottom_sheet_sorting);
+    }
+
+    private void setContentViewOnBottomSheetDialog() {
+        bottomSheetDialog.setContentView(getLayoutForHistoryBottomSheetSortingDialog());
+    }
+
+    private int getLayoutForHistoryBottomSheetSortingDialog() {
+        return R.layout.history_bottom_sheet_sorting;
     }
 
     private void initializeSortingButtons() {
-        reversedCheckBox = bottomSheetDialog.findViewById(R.id.reversedCheck);
-        amountSort = bottomSheetDialog.findViewById(R.id.amountSort);
-        nameSort = bottomSheetDialog.findViewById(R.id.nameSort);
-        dateSort = bottomSheetDialog.findViewById(R.id.dateSort);
+        reversedSortingCheckBox = bottomSheetDialog.findViewById(getReversedSortingCheckboxId());
+        sortByAmount = bottomSheetDialog.findViewById(getSortByAmountButtonId());
+        sortByName = bottomSheetDialog.findViewById(getSortByTitleButtonId());
+        sortByDate = bottomSheetDialog.findViewById(getSortByDateButtonId());
+    }
+
+    private int getReversedSortingCheckboxId() {
+        return R.id.reversedCheck;
+    }
+
+    private int getSortByAmountButtonId() {
+        return R.id.amountSort;
+    }
+
+    private int getSortByTitleButtonId() {
+        return R.id.nameSort;
+    }
+
+    private int getSortByDateButtonId() {
+        return R.id.dateSort;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void sortList(int sortMethod) {
-        ListSorting listSorting = new ListSorting(historyAndTransactionList);
+    private void sortList(int selectedMethod) {
+        initializeListSorting(selectedMethod);
         setProfit();
-        setReverseSortingCheckBox();
-        listSorting.sort(profit, reversedSorting, sortMethod);
+        checkReverseSortingCheckBox();
+        listSorting.sort(profit, reversedSorting);
         historyAndTransactionList = listSorting.getSortedList();
         bottomSheetDialog.cancel();
     }
 
+    private void initializeListSorting(int selectedMethod) {
+        listSorting = new ListSorting(historyAndTransactionList, selectedMethod);
+    }
+
     private void setProfit() {
-        profitTrue = getSelectedProfitIconId() == getProfitTrueIconId();
-        profitAll = getSelectedProfitIconId() == getProfitAllIconId();
-        profitFalse = getSelectedProfitIconId() == getProfitFalseIconId();
+        profitTrue = getSelectedProfitOrLossIconId() == getProfitIconId();
+        profitAll = getSelectedProfitOrLossIconId() == getProfitAndLossIconId();
+        profitFalse = getSelectedProfitOrLossIconId() == getLossIconId();
         setProfitNumber();
     }
 
@@ -89,7 +119,7 @@ public class HistoryBottomSheetSorting extends Fragment {
         }
     }
 
-    private int getSelectedProfitIconId() {
+    private int getSelectedProfitOrLossIconId() {
         return getRadioGroup().getCheckedRadioButtonId();
     }
 
@@ -101,20 +131,20 @@ public class HistoryBottomSheetSorting extends Fragment {
         return R.id.profitFilter;
     }
 
-    private int getProfitTrueIconId() {
-        return R.id.profitTrue;
+    private int getProfitIconId() {
+        return R.id.profit;
     }
 
-    private int getProfitAllIconId() {
-        return R.id.profitAll;
+    private int getProfitAndLossIconId() {
+        return R.id.profitAndLoss;
     }
 
-    private int getProfitFalseIconId() {
-        return R.id.profitFalse;
+    private int getLossIconId() {
+        return R.id.loss;
     }
 
-    private void setReverseSortingCheckBox() {
-        reversedSorting = reversedCheckBox.isChecked();
+    private void checkReverseSortingCheckBox() {
+        reversedSorting = reversedSortingCheckBox.isChecked();
     }
 
     public void show() {
@@ -131,8 +161,8 @@ public class HistoryBottomSheetSorting extends Fragment {
     }
 
     public void resetButtonsToDefault() {
-        getRadioGroup().check(getProfitAllIconId());
-        reversedCheckBox.setChecked(false);
+        getRadioGroup().check(getProfitAndLossIconId());
+        reversedSortingCheckBox.setChecked(false);
     }
 
     public LiveData<List<HistoryAndTransaction>> getSortedList() {

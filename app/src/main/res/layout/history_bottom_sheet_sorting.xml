@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/profitFalse"
+            android:id="@+id/loss"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/profit_false_button"
@@ -24,7 +24,7 @@
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <RadioButton
-            android:id="@+id/profitAll"
+            android:id="@+id/profitAndLoss"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="30dp"
@@ -33,7 +33,7 @@
             android:button="@android:color/transparent" />
 
         <RadioButton
-            android:id="@+id/profitTrue"
+            android:id="@+id/profit"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="30dp"

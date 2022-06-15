@@ -1,7 +1,6 @@
 package com.example.budgetmanagement.ui.History;
 
 import android.os.Build;
-import android.widget.CheckBox;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
@@ -16,32 +15,42 @@ import java.util.stream.Collectors;
 
 public class ListSorting {
 
-    public static final int NAME_SORT_METHOD = 1;
-    public static final int AMOUNT_SORT_METHOD = 2;
-    public static final int DATE_SORT_METHOD = 3;
+    public static final int SORT_BY_NAME_METHOD = 1;
+    public static final int SORT_BY_AMOUNT_METHOD = 2;
+    public static final int SORT_BY_DATE_METHOD = 3;
+
+    private final int selectedMethod;
     private LiveData<List<HistoryAndTransaction>> historyAndTransactionList;
 
-    public ListSorting(LiveData<List<HistoryAndTransaction>> sortedHistoryAndTransactionList) {
+    public ListSorting(LiveData<List<HistoryAndTransaction>> sortedHistoryAndTransactionList, int selectedMethod) {
         this.historyAndTransactionList = sortedHistoryAndTransactionList;
+        this.selectedMethod = selectedMethod;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void sort(int profit, boolean reversedSorting, int sortMethod) {
+    public void sort(int profit, boolean reverseSorting) {
         setProfitFilter(profit);
 
-        if (sortMethod == NAME_SORT_METHOD) sortByName();
-        else if (sortMethod == AMOUNT_SORT_METHOD) sortByAmount();
-        else if (sortMethod == DATE_SORT_METHOD) sortByDate();
+        if (checkUserSelectedThisMethod(SORT_BY_NAME_METHOD)) sortByName();
+        if (checkUserSelectedThisMethod(SORT_BY_AMOUNT_METHOD)) sortByAmount();
+        if (checkUserSelectedThisMethod(SORT_BY_DATE_METHOD)) sortByDate();
 
-        if (reversedSorting) reversedList();
+        if (reverseSorting) reversedList();
+    }
+
+    private boolean checkUserSelectedThisMethod(int method) {
+        return selectedMethod == method;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void setProfitFilter(int profit) {
-        if (profit == 1) {
+    private void setProfitFilter(int profitOrLoss) {
+        boolean showOnlyProfitTransaction = profitOrLoss == 1;
+        boolean showOnlyLossTransaction = profitOrLoss == -1;
+
+        if (showOnlyProfitTransaction) {
             historyAndTransactionList = Transformations.map(historyAndTransactionList,
                     input -> input.stream().filter(o1 -> o1.transaction.getProfit()).collect(Collectors.toList()));
-        } else if (profit == -1) {
+        } else if (showOnlyLossTransaction) {
             historyAndTransactionList = Transformations.map(historyAndTransactionList,
                     input -> input.stream().filter(o1 -> !o1.transaction.getProfit()).collect(Collectors.toList()));
         }
