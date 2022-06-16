@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginStart="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/nameSort"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -46,17 +46,27 @@
         android:id="@+id/reversedCheck"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="70dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/sorting_order"
         android:button="@android:color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/nameSort"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/reversedCheckTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/LowToHigh"
+        app:layout_constraintEnd_toEndOf="@+id/reversedCheck"
+        app:layout_constraintStart_toStartOf="@+id/reversedCheck"
+        app:layout_constraintTop_toBottomOf="@+id/reversedCheck" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/nameSort"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="120dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
