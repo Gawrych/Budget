@@ -23,4 +23,6 @@
     <string name="add">Dodaj</string>
     <string name="select_date">Wybierz datę</string>
     <string name="field_cant_be_empty">Pole nie może być puste!</string>
+    <string name="HighToLow">Malejąco</string>
+    <string name="LowToHigh">Rosnąco</string>
 </resources>
