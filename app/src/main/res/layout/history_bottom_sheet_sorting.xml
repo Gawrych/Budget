@@ -29,7 +29,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="30dp"
             android:checked="true"
-            android:background="@drawable/profit_true_button"
+            android:background="@drawable/profit_or_loss_icon"
             android:button="@android:color/transparent" />
 
         <RadioButton
@@ -44,8 +44,8 @@
 
     <CheckBox
         android:id="@+id/reversedCheck"
-        android:layout_width="30dp"
-        android:layout_height="25dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="70dp"
         android:background="@drawable/sorting_order"
         android:button="@android:color/transparent"
@@ -69,8 +69,10 @@
             android:id="@+id/nameSortIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_baseline_event_repeat_24"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/block"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -103,8 +105,10 @@
             android:id="@+id/amountSortIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_baseline_event_repeat_24"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/dollar_coin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -140,8 +144,10 @@
             android:id="@+id/dateSortIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_baseline_event_repeat_24"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/calendar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
