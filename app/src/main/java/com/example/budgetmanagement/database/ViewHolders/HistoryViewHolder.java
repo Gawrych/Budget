@@ -31,12 +31,26 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void bind(String aTitle, float aAmount, long aDate) {
-        title.setText(aTitle);
-        amount.setText(String.valueOf(aAmount));
+    public void bind(String title, float amount, long date) {
+        this.title.setText(title);
+        this.amount.setText(String.valueOf(amount));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-        date.setText(LocalDate.ofEpochDay(aDate).format(formatter));
+        this.date.setText(getDateInPattern(date));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String getDateInPattern(long repeatDate) {
+        return getFormatterPattern().format(convertLongToLocalDate(repeatDate));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private DateTimeFormatter getFormatterPattern() {
+        return DateTimeFormatter.ofPattern(DATE_FORMAT);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private LocalDate convertLongToLocalDate(long repeatDate) {
+        return LocalDate.ofEpochDay(repeatDate);
     }
 
     @Override
