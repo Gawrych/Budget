@@ -72,9 +72,6 @@ public class HistoryBottomSheetDetails extends Fragment {
         this.historyId = historyAndTransaction.history.getHistoryId();
         int categoryId = historyAndTransaction.transaction.getCategoryId();
 
-        int selectedId = historyBottomSheetEntity.get(0).getId();
-        Toast.makeText(context, String.valueOf(selectedId), Toast.LENGTH_SHORT).show();
-
         Optional<HistoryBottomSheetEntity> result = historyBottomSheetEntity.stream().filter(v -> v.getId() == categoryId).findAny();
         result.ifPresent(bottomSheetEntity -> {
             transactionName.setText(historyAndTransaction.transaction.getTitle());
@@ -83,7 +80,7 @@ public class HistoryBottomSheetDetails extends Fragment {
             categoryIcon.setImageResource(resourceId);
         });
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-        date.setText(LocalDate.ofEpochDay(historyAndTransaction.transaction.getAddDate()).format(formatter));
+        date.setText(LocalDate.ofEpochDay(historyAndTransaction.transaction.getLastModifiedData()).format(formatter));
 //        Show recurring instead date
     }
 
