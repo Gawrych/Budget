@@ -12,15 +12,18 @@ import java.math.BigDecimal;
 public class AmountFieldModifierToViewHolder {
 
     private final TextView amountField;
+    private final TextView currency;
 
-    public AmountFieldModifierToViewHolder(TextView amountField) {
+    public AmountFieldModifierToViewHolder(TextView amountField, TextView currency) {
         this.amountField = amountField;
+        this.currency = currency;
     }
 
     public void setRedColorIfIsNegative(String amount) {
         BigDecimal amountInBigDecimal = new BigDecimal(amount);
         if (checkIsNegative(amountInBigDecimal)) {
-            changeColorForLossTransaction();
+            changeAmountFontColorForLossTransaction();
+            changeCurrencyFontColorForLossTransaction();
         }
     }
 
@@ -28,8 +31,16 @@ public class AmountFieldModifierToViewHolder {
         return bigDecimal.signum() == -1;
     }
 
-    private void changeColorForLossTransaction() {
-        this.amountField.setTextColor(ContextCompat.getColor(getContext(), getLossTransactionColor()));
+    private void changeAmountFontColorForLossTransaction() {
+        this.amountField.setTextColor(getLossColor());
+    }
+
+    private void changeCurrencyFontColorForLossTransaction() {
+        this.currency.setTextColor(getLossColor());
+    }
+
+    private int getLossColor() {
+        return ContextCompat.getColor(getContext(), getLossTransactionColor());
     }
 
     private Context getContext() {
