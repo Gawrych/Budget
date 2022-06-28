@@ -1,25 +1,18 @@
 package com.example.budgetmanagement.database.Adapters;
 
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.Rooms.Category;
-import com.example.budgetmanagement.database.Rooms.History;
 import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.example.budgetmanagement.database.ViewHolders.HistoryViewHolder;
-import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
-
-import java.util.List;
 
 public class HistoryAdapter extends ListAdapter<HistoryAndTransaction, HistoryViewHolder> {
 
@@ -42,7 +35,7 @@ public class HistoryAdapter extends ListAdapter<HistoryAndTransaction, HistoryVi
         HistoryAndTransaction historyAndTransaction = getItem(position);
         holder.bind(historyAndTransaction.transaction.getTitle(),
                 historyAndTransaction.transaction.getAmount(),
-                historyAndTransaction.history.getAddDate());
+                historyAndTransaction.transaction.getAddDate());
     }
 
     public HistoryViewHolder create(ViewGroup parent) {
