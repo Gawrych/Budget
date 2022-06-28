@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.budgetmanagement.database.Rooms.Coming;
+import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.Rooms.ComingRepository;
 
 import java.util.List;
@@ -14,19 +15,19 @@ import java.util.List;
 public class ComingViewModel extends AndroidViewModel {
 
     private ComingRepository comingRepository;
-    private LiveData<List<Coming>> allComing;
+    private LiveData<List<ComingAndTransaction>> allComingAndTransaction;
 
     public ComingViewModel(@NonNull Application app) {
         super(app);
         comingRepository = new ComingRepository(app);
-        allComing = comingRepository.getAllComing();
+        allComingAndTransaction = comingRepository.getAllComingAndTransaction();
     }
 
     public void insert(Coming coming) {
         comingRepository.insert(coming);
     }
 
-    public LiveData<List<Coming>> getAllComing() {
-        return allComing;
+    public LiveData<List<ComingAndTransaction>> getAllComingAndTransaction() {
+        return allComingAndTransaction;
     }
 }
