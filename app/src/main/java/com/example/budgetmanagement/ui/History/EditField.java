@@ -5,34 +5,22 @@ import android.widget.EditText;
 
 import com.example.budgetmanagement.R;
 
-public abstract class EditField {
+public class EditField {
 
     private EditText field;
     private View root;
-    private String content;
 
-    public EditField(View root) {
+    public EditField(View root, int resourceId) {
         setRoot(root);
-        initializeField();
-        getText();
+        initializeField(resourceId);
     }
 
     private void setRoot(View root) {
         this.root = root;
     }
 
-    private void initializeField() {
-        field = root.findViewById(getResourcesId());
-    }
-
-    protected abstract int getResourcesId();
-
-    private void getText() {
-        content = field.getText().toString();
-    }
-
-    public boolean checkIfFieldIsEmpty() {
-        return content.length() == 0;
+    private void initializeField(int resourceId) {
+        field = root.findViewById(resourceId);
     }
 
     public void setEmptyFieldErrorMessage() {
@@ -48,6 +36,10 @@ public abstract class EditField {
     }
 
     public String getContent() {
-        return content;
+        return field.getText().toString();
+    }
+
+    public boolean checkIfContentExist() {
+        return getContent().length() > 0;
     }
 }
