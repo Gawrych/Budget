@@ -8,24 +8,32 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
+import com.example.budgetmanagement.ui.utils.DateContentModifierForViewHolder;
 
 public class ComingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    private TextView text;
-    private TextView idTextView;
+    private TextView textField;
+    private TextView amountField;
+    private TextView dateField;
     private ComingViewHolder.OnNoteListener onNoteListener;
 
     public ComingViewHolder(View itemView, ComingViewHolder.OnNoteListener onNoteListener) {
         super(itemView);
-        text = itemView.findViewById(R.id.textView);
+        textField = itemView.findViewById(R.id.title);
+        amountField = itemView.findViewById(R.id.amount);
+        dateField = itemView.findViewById(R.id.date);
         this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void bind(int aComingId, long aAddDate) {
-        idTextView.setText(String.valueOf(aComingId));
-        text.setText(String.valueOf(aAddDate));
+    public void bind(String title, String amount, long repeatDate) {
+        this.textField.setText(title);
+        AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField);
+        amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
+        this.amountField.setText(amount);
+        this.dateField.setText(DateContentModifierForViewHolder.getDateInPattern(repeatDate));
     }
 
     @Override
