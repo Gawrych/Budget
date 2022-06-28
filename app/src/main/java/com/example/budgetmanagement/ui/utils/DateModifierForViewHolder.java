@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.ui.utils;
 
-import static com.example.budgetmanagement.MainActivity.DATE_FORMAT;
+import static com.example.budgetmanagement.MainActivity.DEFAULT_DATE_FORMAT;
 
 import android.os.Build;
 
@@ -13,7 +13,7 @@ public class DateModifierForViewHolder {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String getDateInDefaultPattern(long repeatDate) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
         LocalDate localDate = LocalDate.ofEpochDay(repeatDate);
         return dateTimeFormatter.format(localDate);
     }

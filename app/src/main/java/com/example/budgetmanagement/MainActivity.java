@@ -1,23 +1,21 @@
 package com.example.budgetmanagement;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.budgetmanagement.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Objects;
-
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    public static final String DATE_FORMAT = "dd.MM.yyyy";
+    public static final String DEFAULT_DATE_FORMAT = "dd.MM.yyyy";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

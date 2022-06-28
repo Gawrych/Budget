@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.ui.History;
 
-import static com.example.budgetmanagement.MainActivity.DATE_FORMAT;
+import static com.example.budgetmanagement.MainActivity.DEFAULT_DATE_FORMAT;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -79,7 +79,7 @@ public class HistoryBottomSheetDetails extends Fragment {
             int resourceId = context.getResources().getIdentifier(bottomSheetEntity.getIconName(), "drawable", context.getPackageName());
             categoryIcon.setImageResource(resourceId);
         });
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
         date.setText(LocalDate.ofEpochDay(historyAndTransaction.transaction.getLastModifiedData()).format(formatter));
 //        Show recurring instead date
     }

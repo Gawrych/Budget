@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.database.ViewHolders;
 
-import static com.example.budgetmanagement.MainActivity.DATE_FORMAT;
+import static com.example.budgetmanagement.MainActivity.DEFAULT_DATE_FORMAT;
 
 import android.os.Build;
 import android.view.View;
@@ -20,6 +20,7 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
     private TextView titleField;
     private TextView amountField;
     private TextView dateField;
+    private TextView currency;
     private HistoryViewHolder.OnNoteListener onNoteListener;
 
     public HistoryViewHolder(View itemView, HistoryViewHolder.OnNoteListener onNoteListener) {
@@ -27,6 +28,7 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
         titleField = itemView.findViewById(R.id.title);
         amountField = itemView.findViewById(R.id.amount);
         dateField = itemView.findViewById(R.id.createDate);
+        currency = itemView.findViewById(R.id.currency);
         this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
     }
@@ -34,7 +36,7 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void bind(String title, String amount, long date) {
         this.titleField.setText(title);
-        AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField);
+        AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField, this.currency);
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
         this.amountField.setText(amount);
         this.dateField.setText(getDateInPattern(date));
@@ -47,7 +49,7 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private DateTimeFormatter getFormatterPattern() {
-        return DateTimeFormatter.ofPattern(DATE_FORMAT);
+        return DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
