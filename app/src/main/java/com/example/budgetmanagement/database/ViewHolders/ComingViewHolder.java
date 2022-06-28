@@ -16,6 +16,7 @@ public class ComingViewHolder extends RecyclerView.ViewHolder implements View.On
     private TextView textField;
     private TextView amountField;
     private TextView dateField;
+    private TextView currency;
     private ComingViewHolder.OnNoteListener onNoteListener;
 
     public ComingViewHolder(View itemView, ComingViewHolder.OnNoteListener onNoteListener) {
@@ -23,6 +24,7 @@ public class ComingViewHolder extends RecyclerView.ViewHolder implements View.On
         textField = itemView.findViewById(R.id.title);
         amountField = itemView.findViewById(R.id.amount);
         dateField = itemView.findViewById(R.id.date);
+        currency = itemView.findViewById(R.id.currency);
         this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
     }
@@ -30,7 +32,7 @@ public class ComingViewHolder extends RecyclerView.ViewHolder implements View.On
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void bind(String title, String amount, long repeatDate) {
         this.textField.setText(title);
-        AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField);
+        AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField, this.currency);
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
         this.amountField.setText(amount);
         this.dateField.setText(DateModifierForViewHolder.getDateInDefaultPattern(repeatDate));
