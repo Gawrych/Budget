@@ -7,22 +7,24 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.example.budgetmanagement.R;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class TransactionDataCollectorFromUser {
 
     private final View root;
-    private float amount;
+    private BigDecimal amount;
     private String title;
     private long date;
     private boolean isProfit;
     private int categoryId;
-    private boolean ifIsEmpty;
+    private boolean contentExist;
 
     public TransactionDataCollectorFromUser(View root) {
         this.root = root;
@@ -33,17 +35,17 @@ public class TransactionDataCollectorFromUser {
         setCategoryId(categoryId);
 
         setTitle();
-        if (ifIsEmpty) {
+        if (!contentExist) {
             return false;
         }
 
         setAmount();
-        if (ifIsEmpty) {
+        if (!contentExist) {
              return false;
         }
 
         setDateInPattern(calendar);
-        setProfit();
+        prepareProfit();
 
         return true;
     }
@@ -53,34 +55,36 @@ public class TransactionDataCollectorFromUser {
     }
 
     private void setTitle() {
-        TitleEditTextField titleField = new TitleEditTextField(root);
+        EditField titleField = new EditField(root, R.id.title);
         initializeTitle(titleField);
         checkFillingByLength(titleField);
-        if (ifIsEmpty) {
+        if (!contentExist) {
             titleField.setEmptyFieldErrorMessage();
         }
     }
 
-    private void initializeTitle(TitleEditTextField titleField) {
+    private void initializeTitle(@NonNull EditField titleField) {
         title = titleField.getContent();
     }
 
-    private void checkFillingByLength(EditField editTextField) {
-        ifIsEmpty = editTextField.checkIfFieldIsEmpty();
+
+    private void checkFillingByLength(@NonNull EditField editTextField) {
+        contentExist = editTextField.checkIfContentExist();
     }
 
     public void setAmount() {
-        AmountEditTextField amountField = new AmountEditTextField(root);
+        EditField amountField = new EditField(root, R.id.amount);
+        DecimalPrecision amountContent = new DecimalPrecision(amountField.getContent());
         checkFillingByLength(amountField);
-        if (ifIsEmpty) {
+        if (!contentExist) {
             amountField.setEmptyFieldErrorMessage();
         } else {
-            initializeAmount(amountField);
+            initializeAmount(amountContent);
         }
     }
 
-    private void initializeAmount(AmountEditTextField amountField) {
-        amount = amountField.getParsedContent();
+    private void initializeAmount(DecimalPrecision decimalPrecision) {
+        amount = decimalPrecision.getParsedContent();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -98,7 +102,7 @@ public class TransactionDataCollectorFromUser {
         return DateTimeFormatter.ofPattern(DATE_FORMAT);
     }
 
-    private void setProfit() {
+    private void prepareProfit() {
         isProfit = getSelectedProfitIconId() == getProfitIconId();
     }
 
@@ -118,7 +122,7 @@ public class TransactionDataCollectorFromUser {
         return R.id.radioGroup;
     }
 
-    public float getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
