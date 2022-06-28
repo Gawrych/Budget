@@ -16,8 +16,8 @@
 
         <RadioButton
             android:id="@+id/loss"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@drawable/profit_false_button"
             android:button="@android:color/transparent"
             app:layout_constraintStart_toEndOf="@+id/radioButton"
@@ -25,8 +25,8 @@
 
         <RadioButton
             android:id="@+id/profitAndLoss"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="30dp"
             android:checked="true"
             android:background="@drawable/profit_or_loss_icon"
@@ -34,8 +34,8 @@
 
         <RadioButton
             android:id="@+id/profit"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="30dp"
             android:background="@drawable/profit_true_button"
             android:button="@android:color/transparent" />
@@ -44,8 +44,8 @@
 
     <CheckBox
         android:id="@+id/reversedCheck"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginEnd="50dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/sorting_order"
@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/LowToHigh"
+        android:text="@string/low_to_high"
         app:layout_constraintEnd_toEndOf="@+id/reversedCheck"
         app:layout_constraintStart_toStartOf="@+id/reversedCheck"
         app:layout_constraintTop_toBottomOf="@+id/reversedCheck" />
