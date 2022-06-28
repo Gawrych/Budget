@@ -5,7 +5,8 @@
     <string name="title_incoming">Incoming</string>
     <string name="title_category">Category</string>
     <string name="default_item_title_value">This is title</string>
-    <string name="default_amount_value">10</string>
+    <string name="default_amount_value">10.00</string>
+    <string name="polish_currency">zł</string>
     <string name="default_date_in_item">26.02.2020</string>
     <string name="icon">Icon</string>
     <string name="sort_by_amount">Po cenie</string>
@@ -23,6 +24,6 @@
     <string name="add">Dodaj</string>
     <string name="select_date">Wybierz datę</string>
     <string name="field_cant_be_empty">Pole nie może być puste!</string>
-    <string name="HighToLow">Malejąco</string>
-    <string name="LowToHigh">Rosnąco</string>
+    <string name="high_to_low">Malejąco</string>
+    <string name="low_to_high">Rosnąco</string>
 </resources>
