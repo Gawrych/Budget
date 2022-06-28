@@ -193,7 +193,7 @@ public class HistoryBottomSheetSorting extends Fragment {
     }
 
     private int getHighToLowStringId() {
-        return R.string.HighToLow;
+        return R.string.high_to_low;
     }
 
     private void changeTextOnLowToHigh() {
@@ -201,7 +201,7 @@ public class HistoryBottomSheetSorting extends Fragment {
     }
 
     private int getLowToHighStringId() {
-        return R.string.LowToHigh;
+        return R.string.low_to_high;
     }
 
 }
