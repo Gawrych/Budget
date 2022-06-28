@@ -15,14 +15,14 @@ public class Coming {
     @ColumnInfo(name = "transactionId")
     private int transactionId;
 
-    @ColumnInfo(name = "amountRepeat")
-    private int amountRepeat;
+    @ColumnInfo(name = "howMuchRepeat")
+    private int howMuchRepeat;
 
-    @ColumnInfo(name = "periodOfTime")
-    private long periodOfTime;
+    @ColumnInfo(name = "periodOfTimeBetweenRepeat")
+    private long periodOfTimeBetweenRepeat;
 
-    @ColumnInfo(name = "deadline")
-    private long deadline;
+    @ColumnInfo(name = "repeatDate")
+    private long repeatDate;
 
     @ColumnInfo(name = "modifiedDate")
     private long modifiedDate;
@@ -30,12 +30,12 @@ public class Coming {
     @ColumnInfo(name = "addDate")
     private long addDate;
 
-    public Coming(int comingId, int transactionId, int amountRepeat, long periodOfTime, long deadline, long modifiedDate, long addDate) {
+    public Coming(int comingId, int transactionId, int howMuchRepeat, long periodOfTimeBetweenRepeat, long repeatDate, long modifiedDate, long addDate) {
         this.comingId = comingId;
         this.transactionId = transactionId;
-        this.amountRepeat = amountRepeat;
-        this.periodOfTime = periodOfTime;
-        this.deadline = deadline;
+        this.howMuchRepeat = howMuchRepeat;
+        this.periodOfTimeBetweenRepeat = periodOfTimeBetweenRepeat;
+        this.repeatDate = repeatDate;
         this.modifiedDate = modifiedDate;
         this.addDate = addDate;
     }
@@ -48,16 +48,16 @@ public class Coming {
         return transactionId;
     }
 
-    public int getAmountRepeat() {
-        return amountRepeat;
+    public int getHowMuchRepeat() {
+        return howMuchRepeat;
     }
 
-    public long getPeriodOfTime() {
-        return periodOfTime;
+    public long getPeriodOfTimeBetweenRepeat() {
+        return periodOfTimeBetweenRepeat;
     }
 
-    public long getDeadline() {
-        return deadline;
+    public long getRepeatDate() {
+        return repeatDate;
     }
 
     public long getModifiedDate() {
