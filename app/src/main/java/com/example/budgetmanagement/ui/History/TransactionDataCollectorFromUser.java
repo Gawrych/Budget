@@ -22,7 +22,7 @@ public class TransactionDataCollectorFromUser {
     private BigDecimal amount;
     private String title;
     private long date;
-    private boolean isProfit;
+    private boolean profit;
     private int categoryId;
     private boolean contentExist;
 
@@ -88,7 +88,7 @@ public class TransactionDataCollectorFromUser {
     }
 
     private BigDecimal addMinusToNegativeAmount(BigDecimal number) {
-        if (!isProfit) {
+        if (!profit) {
             return number.negate();
         }
         return number;
@@ -110,7 +110,7 @@ public class TransactionDataCollectorFromUser {
     }
 
     private void prepareProfit() {
-        isProfit = getSelectedProfitIconId() == getProfitIconId();
+        profit = getSelectedProfitIconId() == getProfitIconId();
     }
 
     private int getProfitIconId() {
@@ -142,7 +142,7 @@ public class TransactionDataCollectorFromUser {
     }
 
     public boolean isProfit() {
-        return isProfit;
+        return profit;
     }
 
     public int getCategoryId() {
