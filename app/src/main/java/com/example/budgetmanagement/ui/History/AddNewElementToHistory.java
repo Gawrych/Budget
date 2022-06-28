@@ -1,23 +1,23 @@
 package com.example.budgetmanagement.ui.History;
 
-import androidx.annotation.RequiresApi;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
+import com.example.budgetmanagement.ui.utils.DecimalDigitsInputFilter;
 
 import java.util.Objects;
 
@@ -25,15 +25,19 @@ public class AddNewElementToHistory extends Fragment {
 
     private HistoryBottomSheetCategoryFilter historyBottomSheetCategoryFilter;
     private int categoryId = 1;
+    private View root;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View root =  inflater.inflate(R.layout.add_new_history_element_fragment, container, false);
+        this.root =  inflater.inflate(R.layout.add_new_history_element_fragment, container, false);
 
         EditText calendar = root.findViewById(R.id.date);
         HistoryViewModel historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
+
+        EditText amount = root.findViewById(R.id.amount);
+        amount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 2)});
 
         Button acceptButton = root.findViewById(R.id.acceptButton);
         acceptButton.setOnClickListener(view -> {
