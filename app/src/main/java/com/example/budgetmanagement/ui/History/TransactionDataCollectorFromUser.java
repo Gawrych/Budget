@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.ui.History;
 
-import static com.example.budgetmanagement.MainActivity.DATE_FORMAT;
+import static com.example.budgetmanagement.MainActivity.DEFAULT_DATE_FORMAT;
 
 import android.os.Build;
 import android.view.View;
@@ -39,13 +39,13 @@ public class TransactionDataCollectorFromUser {
             return false;
         }
 
+        prepareProfit();
         setAmount();
         if (!contentExist) {
              return false;
         }
 
         setDateInPattern(calendar);
-        prepareProfit();
 
         return true;
     }
@@ -84,7 +84,14 @@ public class TransactionDataCollectorFromUser {
     }
 
     private void initializeAmount(DecimalPrecision decimalPrecision) {
-        amount = decimalPrecision.getParsedContent();
+        amount = addMinusToNegativeAmount(decimalPrecision.getParsedContent());
+    }
+
+    private BigDecimal addMinusToNegativeAmount(BigDecimal number) {
+        if (!isProfit) {
+            return number.negate();
+        }
+        return number;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -99,7 +106,7 @@ public class TransactionDataCollectorFromUser {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public DateTimeFormatter getPattern() {
-        return DateTimeFormatter.ofPattern(DATE_FORMAT);
+        return DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
     }
 
     private void prepareProfit() {
