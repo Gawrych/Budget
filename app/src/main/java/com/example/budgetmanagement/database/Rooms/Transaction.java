@@ -20,7 +20,7 @@ public class Transaction {
     private String title;
 
     @ColumnInfo(name="amount")
-    private float amount;
+    private String amount;
 
     @ColumnInfo(name="addDate")
     private long addDate;
@@ -31,7 +31,7 @@ public class Transaction {
     @ColumnInfo(name="profit")
     private boolean profit;
 
-    public Transaction(int transactionId, int categoryId, @NonNull String title, float amount, long addDate, long lastModifiedData, boolean profit) {
+    public Transaction(int transactionId, int categoryId, @NonNull String title, String amount, long addDate, long lastModifiedData, boolean profit) {
         this.transactionId = transactionId;
         this.categoryId = categoryId;
         this.title = title;
@@ -54,7 +54,7 @@ public class Transaction {
         return title;
     }
 
-    public float getAmount() {
+    public String getAmount() {
         return amount;
     }
 
