@@ -11,34 +11,28 @@ public class ComingRepository {
     private BudgetRoomDatabase database;
     private ComingDao comingDao;
 
-    private LiveData<List<Coming>> allComing;
+    private LiveData<List<ComingAndTransaction>> allComingAndTransaction;
 
     public ComingRepository(Application app) {
         database = BudgetRoomDatabase.getDatabase(app);
         comingDao = database.comingDao();
-        comingDao.getAllComing();
+        allComingAndTransaction = comingDao.getAllComingAndTransaction();
     }
 
-    public LiveData<List<Coming>> getAllComing() {
-        return allComing;
+    public LiveData<List<ComingAndTransaction>> getAllComingAndTransaction() {
+        return allComingAndTransaction;
     }
 
     public void insert(Coming coming) {
 
-        database.databaseWriteExecutor.execute(() -> {
-            comingDao.insert(coming);
-        });
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.insert(coming));
     }
 
     public void update(Coming coming) {
-        database.databaseWriteExecutor.execute(() -> {
-            comingDao.update(coming);
-        });
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.update(coming));
     }
 
     public void delete(Coming coming) {
-        database.databaseWriteExecutor.execute(() -> {
-            comingDao.delete(coming);
-        });
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.delete(coming));
     }
 }

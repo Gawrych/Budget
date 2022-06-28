@@ -1,19 +1,15 @@
 package com.example.budgetmanagement.ui.Coming;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.ComingAdapter;
@@ -39,10 +35,8 @@ public class ComingFragment extends Fragment implements ComingViewHolder.OnNoteL
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
-//        comingViewModel.getAllComing().observe(getViewLifecycleOwner(), adapter::submitList);
+        comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), adapter::submitList);
 
-        GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(),2);
-        recyclerView.setLayoutManager(mLayoutManager);
         return root;
     }
 

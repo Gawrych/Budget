@@ -11,22 +11,19 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.Rooms.Coming;
-import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
-import com.example.budgetmanagement.database.Rooms.Category;
+import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewHolders.ComingViewHolder;
 
-public class ComingAdapter extends ListAdapter<Coming, ComingViewHolder> {
+public class ComingAdapter extends ListAdapter<ComingAndTransaction, ComingViewHolder> {
 
     private ComingViewHolder.OnNoteListener mOnNoteListener;
 
-    public ComingAdapter(@NonNull DiffUtil.ItemCallback<Coming> diffCallback, ComingViewHolder.OnNoteListener onNoteListener) {
+    public ComingAdapter(@NonNull DiffUtil.ItemCallback<ComingAndTransaction> diffCallback, ComingViewHolder.OnNoteListener onNoteListener) {
         super(diffCallback);
         this.mOnNoteListener = onNoteListener;
     }
 
     @NonNull
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public ComingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return create(parent);
@@ -35,28 +32,27 @@ public class ComingAdapter extends ListAdapter<Coming, ComingViewHolder> {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(ComingViewHolder holder, int position) {
-        Coming current = getItem(position);
-        holder.bind(current.getComingId(), current.getAddDate());
+        ComingAndTransaction current = getItem(position);
+        holder.bind(current.transaction.getTitle(), current.transaction.getAmount(), current.coming.getRepeatDate());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public ComingViewHolder create(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.category_recycler_view, parent, false);
+                .inflate(R.layout.coming_recycler_view, parent, false);
 
         return new ComingViewHolder(view, mOnNoteListener);
     }
 
-    public static class ComingDiff extends DiffUtil.ItemCallback<Coming> {
+    public static class ComingDiff extends DiffUtil.ItemCallback<ComingAndTransaction> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull Coming oldItem, @NonNull Coming newItem) {
+        public boolean areItemsTheSame(@NonNull ComingAndTransaction oldItem, @NonNull ComingAndTransaction newItem) {
             return oldItem == newItem;
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Coming oldItem, @NonNull Coming newItem) {
-            return oldItem.getComingId() == newItem.getComingId();
+        public boolean areContentsTheSame(@NonNull ComingAndTransaction oldItem, @NonNull ComingAndTransaction newItem) {
+            return oldItem.coming.getComingId() == newItem.coming.getComingId();
         }
     }
 }
