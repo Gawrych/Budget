@@ -8,6 +8,7 @@ import androidx.lifecycle.Transformations;
 
 import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -74,14 +75,15 @@ public class ListSorting {
     private void sortByAmount() {
         historyAndTransactionList = Transformations.map(historyAndTransactionList,
                 input -> input.stream().sorted(Comparator.comparingDouble(o ->
-                        o.transaction.getAmount())).collect(Collectors.toList()));
+                        new BigDecimal(o.transaction.getAmount()).doubleValue()))
+                        .collect(Collectors.toList()));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void sortByDate() {
         historyAndTransactionList = Transformations.map(historyAndTransactionList,
                 input -> input.stream().sorted(Comparator.comparingLong(o ->
-                        o.history.getAddDate())).collect(Collectors.toList()));
+                        o.transaction.getAddDate())).collect(Collectors.toList()));
     }
 
     public LiveData<List<HistoryAndTransaction>> getSortedList() {
