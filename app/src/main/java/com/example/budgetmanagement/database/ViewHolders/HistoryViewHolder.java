@@ -10,32 +10,34 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    private TextView title;
-    private TextView amount;
-    private TextView date;
+    private TextView titleField;
+    private TextView amountField;
+    private TextView dateField;
     private HistoryViewHolder.OnNoteListener onNoteListener;
 
     public HistoryViewHolder(View itemView, HistoryViewHolder.OnNoteListener onNoteListener) {
         super(itemView);
-        title = itemView.findViewById(R.id.title);
-        amount = itemView.findViewById(R.id.amount);
-        date = itemView.findViewById(R.id.createDate);
+        titleField = itemView.findViewById(R.id.title);
+        amountField = itemView.findViewById(R.id.amount);
+        dateField = itemView.findViewById(R.id.createDate);
         this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void bind(String title, float amount, long date) {
-        this.title.setText(title);
-        this.amount.setText(String.valueOf(amount));
-
-        this.date.setText(getDateInPattern(date));
+    public void bind(String title, String amount, long date) {
+        this.titleField.setText(title);
+        AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField);
+        amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
+        this.amountField.setText(amount);
+        this.dateField.setText(getDateInPattern(date));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
