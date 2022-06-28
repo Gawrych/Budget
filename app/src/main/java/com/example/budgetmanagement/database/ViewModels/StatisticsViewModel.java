@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.ui.Statistics;
+package com.example.budgetmanagement.database.ViewModels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
