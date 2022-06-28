@@ -20,7 +20,7 @@ public class SubmitQuery {
 
         return (int) transactionViewModel.insert(new Transaction(0,
                 dataFromUserCollector.getCategoryId(), dataFromUserCollector.getTitle(),
-                dataFromUserCollector.getAmount(), dataFromUserCollector.getDate(),
+                dataFromUserCollector.getAmount().toString(), dataFromUserCollector.getDate(),
                 LocalDate.now().toEpochDay(), dataFromUserCollector.isProfit()));
 
     }
