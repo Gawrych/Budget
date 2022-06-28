@@ -1,20 +1,16 @@
 package com.example.budgetmanagement.ui.Statistics;
 
-import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.budgetmanagement.database.ViewModels.StatisticsViewModel;
 import com.example.budgetmanagement.databinding.StatisticsFragmentBinding;
 
 public class StatisticsFragment extends Fragment {
