@@ -51,6 +51,7 @@ public class AddNewElementToHistory extends Fragment {
         });
 
         CalendarDialogBoxDatePicker calendarDialogDatePicker = new CalendarDialogBoxDatePicker();
+        calendar.setText(calendarDialogDatePicker.getTodayDateInFormat());
         calendar.setOnClickListener(view -> calendarDialogDatePicker.show(getParentFragmentManager(), calendar));
 
         EditText selectedCategory = root.findViewById(R.id.categoryList);
