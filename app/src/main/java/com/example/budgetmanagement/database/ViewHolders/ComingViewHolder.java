@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
-import com.example.budgetmanagement.ui.utils.DateContentModifierForViewHolder;
+import com.example.budgetmanagement.ui.utils.DateModifierForViewHolder;
 
 public class ComingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -33,7 +33,7 @@ public class ComingViewHolder extends RecyclerView.ViewHolder implements View.On
         AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField);
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
         this.amountField.setText(amount);
-        this.dateField.setText(DateContentModifierForViewHolder.getDateInPattern(repeatDate));
+        this.dateField.setText(DateModifierForViewHolder.getDateInDefaultPattern(repeatDate));
     }
 
     @Override
