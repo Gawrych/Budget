@@ -8,8 +8,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.budgetmanagement.ui.History.HistoryBottomSheetEntity;
-
 import java.util.List;
 
 @Dao
@@ -31,7 +29,7 @@ public interface HistoryDao {
     LiveData<List<History>> getAllHistory();
 
     @androidx.room.Transaction
-    @Query("SELECT * FROM history ORDER BY addDate ASC")
+    @Query("SELECT * FROM history LEFT JOIN transactions ON history.transactionId = transactions.transactionId ORDER BY transactions.addDate DESC")
     LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionInDateOrder();
 
     @androidx.room.Transaction
