@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
+import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.example.budgetmanagement.ui.utils.DecimalDigitsInputFilter;
 
 import java.util.Objects;
@@ -51,7 +52,7 @@ public class AddNewElementToHistory extends Fragment {
         });
 
         CalendarDialogBoxDatePicker calendarDialogDatePicker = new CalendarDialogBoxDatePicker();
-        calendar.setText(calendarDialogDatePicker.getTodayDateInFormat());
+        calendar.setText(DateProcessor.getTodayDate());
         calendar.setOnClickListener(view -> calendarDialogDatePicker.show(getParentFragmentManager(), calendar));
 
         EditText selectedCategory = root.findViewById(R.id.categoryList);

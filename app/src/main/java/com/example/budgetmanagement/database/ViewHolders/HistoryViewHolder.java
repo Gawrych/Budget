@@ -1,7 +1,5 @@
 package com.example.budgetmanagement.database.ViewHolders;
 
-import static com.example.budgetmanagement.MainActivity.DEFAULT_DATE_FORMAT;
-
 import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
@@ -11,9 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -39,22 +35,7 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
         AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField, this.currency);
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
         this.amountField.setText(amount);
-        this.dateField.setText(getDateInPattern(date));
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private String getDateInPattern(long repeatDate) {
-        return getFormatterPattern().format(convertLongToLocalDate(repeatDate));
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private DateTimeFormatter getFormatterPattern() {
-        return DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private LocalDate convertLongToLocalDate(long repeatDate) {
-        return LocalDate.ofEpochDay(repeatDate);
+        this.dateField.setText(DateProcessor.getDate((date)));
     }
 
     @Override

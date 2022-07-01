@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.ui.History;
 
-import static com.example.budgetmanagement.MainActivity.DEFAULT_DATE_FORMAT;
+import static com.example.budgetmanagement.ui.utils.DateProcessor.DEFAULT_DATE_FORMAT;
 
 import android.os.Build;
 import android.view.View;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.ui.utils.EditField;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
