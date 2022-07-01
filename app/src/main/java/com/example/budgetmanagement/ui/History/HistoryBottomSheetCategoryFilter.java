@@ -58,4 +58,8 @@ public class HistoryBottomSheetCategoryFilter extends Fragment implements Catego
     public String getSelectedName() {
         return Objects.requireNonNull(historyBottomSheetEntity.getValue()).get(position).getName();
     }
+
+    public String getSelectedIconName() {
+        return Objects.requireNonNull(historyBottomSheetEntity.getValue()).get(position).getIconName();
+    }
 }

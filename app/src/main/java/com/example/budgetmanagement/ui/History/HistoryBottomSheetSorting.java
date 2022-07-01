@@ -37,6 +37,9 @@ public class HistoryBottomSheetSorting extends Fragment {
     private ConstraintLayout sortByAmount;
     private ConstraintLayout sortByDate;
 
+    private int iconResourceId;
+    private int profitIconResourceId;
+
     private ListSorting listSorting;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -47,11 +50,20 @@ public class HistoryBottomSheetSorting extends Fragment {
 
         reversedSortingCheckBox.setOnClickListener(v -> changeReversedCheckboxTitle());
 
-        sortByName.setOnClickListener(v -> sortList(SORT_BY_NAME_METHOD));
+        sortByName.setOnClickListener(v -> {
+            sortList(SORT_BY_NAME_METHOD);
+            iconResourceId = R.drawable.block;
+        });
 
-        sortByAmount.setOnClickListener(v -> sortList(SORT_BY_AMOUNT_METHOD));
+        sortByAmount.setOnClickListener(v -> {
+            sortList(SORT_BY_AMOUNT_METHOD);
+            iconResourceId = R.drawable.dollar_coin;
+        });
 
-        sortByDate.setOnClickListener(v -> sortList(SORT_BY_DATE_METHOD));
+        sortByDate.setOnClickListener(v -> {
+            sortList(SORT_BY_DATE_METHOD);
+            iconResourceId = R.drawable.calendar;
+        });
     }
 
     private void initializeBottomSheetDialog(Context context) {
@@ -118,10 +130,13 @@ public class HistoryBottomSheetSorting extends Fragment {
     private void setProfitNumber() {
         if (isProfit) {
             profit = 1;
+            profitIconResourceId = R.drawable.profit_icon;
         } else if (isBothProfitAndLoss) {
             profit = 0;
+            profitIconResourceId = R.drawable.profit_and_loss_icon;
         } else if (isLoss) {
             profit = -1;
+            profitIconResourceId = R.drawable.loss_icon;
         }
     }
 
@@ -150,11 +165,11 @@ public class HistoryBottomSheetSorting extends Fragment {
     }
 
     private void initializeIfReversedSorting() {
-        sortingByReverse = checkIfCheckboxIsChecked(reversedSortingCheckBox);
+        sortingByReverse = checkIfCheckboxIsChecked();
     }
 
-    private boolean checkIfCheckboxIsChecked(CheckBox checkBox) {
-        return checkBox.isChecked();
+    public boolean checkIfCheckboxIsChecked() {
+        return reversedSortingCheckBox.isChecked();
     }
 
     public void show() {
@@ -181,7 +196,7 @@ public class HistoryBottomSheetSorting extends Fragment {
     }
 
     private void changeReversedCheckboxTitle() {
-        if (checkIfCheckboxIsChecked(reversedSortingCheckBox)) {
+        if (checkIfCheckboxIsChecked()) {
             changeTextOnHighToLow();
         } else {
             changeTextOnLowToHigh();
@@ -204,4 +219,11 @@ public class HistoryBottomSheetSorting extends Fragment {
         return R.string.low_to_high;
     }
 
+    public int getIconResourceId() {
+        return iconResourceId;
+    }
+
+    public int getProfitIconResourceId() {
+        return profitIconResourceId;
+    }
 }

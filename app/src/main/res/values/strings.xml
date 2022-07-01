@@ -28,4 +28,7 @@
     <string name="category_example_various">Różne</string>
     <string name="category_example_foodstuff">Spożywcze</string>
     <string name="category_example_salary">Pensje</string>
+    <string name="income_statement_content_desc">Income statement sorting flag</string>
+    <string name="shadow_reverse_content_desc">Shadow reverse sorting flag</string>
+    <string name="add_button_content_desc">Button to add new done transaction</string>
 </resources>
