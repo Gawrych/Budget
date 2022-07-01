@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.budgetmanagement.R;
 
-public class ShadowIconHelper {
+public class SortingMarkIconManager {
 
     private ImageView categoryFilterIcon;
     private ImageView profitIcon;
@@ -20,16 +20,16 @@ public class ShadowIconHelper {
         this.view = view;
     }
 
-    public ShadowIconHelper() {
+    public SortingMarkIconManager() {
     }
 
     public void prepareSortingIcons() {
         try {
-            constraintLayout = view.findViewById(R.id.shadowIconsConstraintLayout);
-            categoryFilterIcon = view.findViewById(R.id.shadowCategoryFilterIcon);
-            sortFilterIcon = view.findViewById(R.id.shadowOrderIcon);
-            profitIcon = view.findViewById(R.id.shadowIncomeStatementIcon);
-            reverseSortingIcon = view.findViewById(R.id.shadowReverseSortingIcon);
+            constraintLayout = view.findViewById(R.id.sortingMarksConstraintLayout);
+            categoryFilterIcon = view.findViewById(R.id.categoryFilterMarkIcon);
+            sortFilterIcon = view.findViewById(R.id.orderSortingMarkIcon);
+            profitIcon = view.findViewById(R.id.incomeStatementMarkIcon);
+            reverseSortingIcon = view.findViewById(R.id.reverseSortingMarkIcon);
         } catch (NullPointerException e) {
 //            TODO: Catch this
         }

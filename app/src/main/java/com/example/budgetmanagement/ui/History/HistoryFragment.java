@@ -22,7 +22,7 @@ import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.example.budgetmanagement.database.ViewHolders.HistoryViewHolder;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.databinding.HistoryFragmentBinding;
-import com.example.budgetmanagement.ui.utils.ShadowIconHelper;
+import com.example.budgetmanagement.ui.utils.SortingMarkIconManager;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +39,7 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
     private HistoryBottomSheetDetails historyBottomSheetDetails;
     private HistoryAdapter adapter;
     private View root;
-    private ShadowIconHelper shadowIconHelper;
+    private SortingMarkIconManager sortingMarkIconManager;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -69,9 +69,9 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         ImageButton orderFilter = root.findViewById(R.id.orderFilterButton);
         orderFilter.setOnClickListener(view -> showBottomSheetToSortList());
 
-        shadowIconHelper = new ShadowIconHelper();
-        shadowIconHelper.setView(root);
-        shadowIconHelper.prepareSortingIcons();
+        sortingMarkIconManager = new SortingMarkIconManager();
+        sortingMarkIconManager.setView(root);
+        sortingMarkIconManager.prepareSortingIcons();
 
         return root;
     }
@@ -98,7 +98,7 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
                 currentLiveDataHistoryAndTransaction = historyViewModel.getAllHistoryAndTransactionByCategory(categoryId);
                 historyAndTransactionListToViewHolder = currentLiveDataHistoryAndTransaction;
                 historyAndTransactionListToViewHolder.observe(getViewLifecycleOwner(), adapter::submitList);
-                shadowIconHelper.showCategoryIcon(historyBottomSheetCategoryFilter.getSelectedIconName());
+                sortingMarkIconManager.showCategoryIcon(historyBottomSheetCategoryFilter.getSelectedIconName());
             }
         });
     }
@@ -113,9 +113,9 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         historyBottomSheetSorting.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {
             historyAndTransactionListToViewHolder = historyBottomSheetSorting.getSortedList();
             historyAndTransactionListToViewHolder.observe(getViewLifecycleOwner(), adapter::submitList);
-            shadowIconHelper.showSortIcon(historyBottomSheetSorting.getIconResourceId());
-            shadowIconHelper.showProfitIcon(historyBottomSheetSorting.getProfitIconResourceId());
-            shadowIconHelper.showReverseIcon(historyBottomSheetSorting.checkIfCheckboxIsChecked());
+            sortingMarkIconManager.showSortIcon(historyBottomSheetSorting.getIconResourceId());
+            sortingMarkIconManager.showProfitIcon(historyBottomSheetSorting.getProfitIconResourceId());
+            sortingMarkIconManager.showReverseIcon(historyBottomSheetSorting.checkIfCheckboxIsChecked());
         });
     }
 }

@@ -8,7 +8,7 @@
     tools:context=".ui.History.HistoryFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/shadowIconsConstraintLayout"
+        android:id="@+id/sortingMarksConstraintLayout"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/shadowCategoryFilterIcon"
+            android:id="@+id/categoryFilterMarkIcon"
             android:layout_width="22dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="17dp"
@@ -26,13 +26,13 @@
             android:tag="ic_baseline_category_24"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/shadowOrderIcon"
+            app:layout_constraintEnd_toStartOf="@+id/orderSortingMarkIcon"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_category_24"
             app:tint="@color/light_grey" />
 
         <ImageView
-            android:id="@+id/shadowOrderIcon"
+            android:id="@+id/orderSortingMarkIcon"
             android:layout_width="22dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="17dp"
@@ -41,29 +41,29 @@
             android:tag="block"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/shadowIncomeStatementIcon"
+            app:layout_constraintEnd_toStartOf="@+id/incomeStatementMarkIcon"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/block"
             app:tint="@color/light_grey" />
 
         <ImageView
-            android:id="@+id/shadowIncomeStatementIcon"
+            android:id="@+id/incomeStatementMarkIcon"
             android:layout_width="22dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="17dp"
             android:adjustViewBounds="true"
             android:background="@drawable/press_feedback_background"
-            android:tag="profit_and_loss_icon"
+            android:tag="profit_and_loss_"
             android:visibility="gone"
             android:contentDescription="@string/income_statement_content_desc"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/shadowReverseSortingIcon"
+            app:layout_constraintEnd_toStartOf="@+id/reverseSortingMarkIcon"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/profit_and_loss_icon"
             app:tint="@color/light_grey" />
 
         <ImageView
-            android:id="@+id/shadowReverseSortingIcon"
+            android:id="@+id/reverseSortingMarkIcon"
             android:layout_width="22dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
