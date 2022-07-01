@@ -27,8 +27,11 @@ public class HistoryBottomSheetViewHolder extends RecyclerView.ViewHolder implem
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void bind(String iconName, String name) {
         entityName.setText(name);
-        int resourceId = itemView.getContext().getResources().getIdentifier(iconName, "drawable", itemView.getContext().getPackageName());
-        entityIcon.setImageResource(resourceId);
+        entityIcon.setImageResource(getResourceIconIdByName(iconName));
+    }
+
+    private int getResourceIconIdByName(String iconName) {
+        return itemView.getContext().getResources().getIdentifier(iconName, "drawable", itemView.getContext().getPackageName());
     }
 
     @Override
@@ -36,7 +39,7 @@ public class HistoryBottomSheetViewHolder extends RecyclerView.ViewHolder implem
         onNoteListener.onNoteClick(getAbsoluteAdapterPosition());
     }
 
-    public interface OnNoteListener { // Delete this?
+    public interface OnNoteListener {
         void onNoteClick(int position);
     }
 }
