@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.ui.History;
 
-import static com.example.budgetmanagement.MainActivity.DEFAULT_DATE_FORMAT;
+import static com.example.budgetmanagement.ui.utils.DateProcessor.DEFAULT_DATE_FORMAT;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,7 +9,6 @@ import android.os.Build;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -47,7 +46,7 @@ public class HistoryBottomSheetDetails extends Fragment {
         delete.setOnClickListener(v -> {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setMessage(R.string.AreYouSureToDelete)
+            builder.setMessage(R.string.are_you_sure_to_delete)
                     .setPositiveButton(R.string.delete, (dialog, id) -> {
                         historyViewModel.delete(historyId);
                         bottomSheetDialog.cancel();
@@ -57,8 +56,7 @@ public class HistoryBottomSheetDetails extends Fragment {
 
         Button edit = bottomSheetDialog.findViewById(R.id.edit);
         assert edit != null;
-        edit.setOnClickListener(v ->
-                Toast.makeText(context, "Edit", Toast.LENGTH_SHORT).show());
+        edit.setOnClickListener(v ->{});
 
 
         transactionName = bottomSheetDialog.findViewById(R.id.transactionName);

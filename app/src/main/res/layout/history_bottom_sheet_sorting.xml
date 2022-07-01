@@ -18,7 +18,7 @@
             android:id="@+id/loss"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/profit_false_button"
+            android:background="@drawable/loss_icon"
             android:button="@android:color/transparent"
             app:layout_constraintStart_toEndOf="@+id/radioButton"
             app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -29,7 +29,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="30dp"
             android:checked="true"
-            android:background="@drawable/profit_or_loss_icon"
+            android:background="@drawable/profit_and_loss_icon"
             android:button="@android:color/transparent" />
 
         <RadioButton
@@ -37,7 +37,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="30dp"
-            android:background="@drawable/profit_true_button"
+            android:background="@drawable/profit_icon"
             android:button="@android:color/transparent" />
 
     </RadioGroup>
@@ -94,7 +94,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="50dp"
             android:padding="8dp"
-            android:text="@string/sort_by_name"
+            android:text="@string/sort_alphabetical"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/nameSortIcon"
