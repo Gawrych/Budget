@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.ui.History;
+package com.example.budgetmanagement.ui.utils;
 
 import android.view.View;
 import android.widget.EditText;
