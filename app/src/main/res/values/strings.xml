@@ -8,11 +8,10 @@
     <string name="default_amount_value">10.00</string>
     <string name="polish_currency">zł</string>
     <string name="default_date_in_item">26.02.2020</string>
-    <string name="icon">Icon</string>
     <string name="sort_by_amount">Po cenie</string>
-    <string name="sort_by_name">Alfabetycznie</string>
+    <string name="sort_alphabetical">Alfabetycznie</string>
     <string name="sort_by_date">Po danie</string>
-    <string name="AreYouSureToDelete">Czy na pewno chcesz usunąć?</string>
+    <string name="are_you_sure_to_delete">Czy na pewno chcesz usunąć?</string>
     <string name="delete">Usuń</string>
     <string name="cancel">Anuluj</string>
     <string name="no_data">Brak danych</string>
@@ -20,10 +19,13 @@
     <string name="amount">Kwota</string>
     <string name="date">Data</string>
     <string name="default_category">Różne</string>
-    <string name="Icon">Icon</string>
+    <string name="icon">Icon</string>
     <string name="add">Dodaj</string>
     <string name="select_date">Wybierz datę</string>
     <string name="field_cant_be_empty">Pole nie może być puste!</string>
     <string name="high_to_low">Malejąco</string>
     <string name="low_to_high">Rosnąco</string>
+    <string name="category_example_various">Różne</string>
+    <string name="category_example_foodstuff">Spożywcze</string>
+    <string name="category_example_salary">Pensje</string>
 </resources>
