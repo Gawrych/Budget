@@ -1,13 +1,16 @@
 package com.example.budgetmanagement.ui.History;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
@@ -20,6 +23,7 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.HistoryAdapter;
 import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.example.budgetmanagement.database.ViewHolders.HistoryViewHolder;
+import com.example.budgetmanagement.database.ViewModels.FilterViewModel;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.databinding.HistoryFragmentBinding;
 import com.example.budgetmanagement.ui.utils.SortingMarkIconManager;
@@ -31,20 +35,34 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
     private HistoryViewModel historyViewModel;
     private HistoryFragmentBinding binding;
-    private LiveData<List<HistoryAndTransaction>> currentLiveDataHistoryAndTransaction;
-    private LiveData<List<HistoryAndTransaction>> historyAndTransactionListToViewHolder;
+    private LiveData<List<HistoryAndTransaction>> historyAndTransactionList;
 
-    private HistoryBottomSheetCategoryFilter historyBottomSheetCategoryFilter;
-    private HistoryBottomSheetSorting historyBottomSheetSorting;
     private HistoryBottomSheetDetails historyBottomSheetDetails;
     private HistoryAdapter adapter;
     private View root;
+    private int value = 0;
     private SortingMarkIconManager sortingMarkIconManager;
+    private FilterViewModel filterViewModel;
+    private List<HistoryAndTransaction> currentList;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d("ErrorCheck", "OnCreate");
+        historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
+        filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
+        historyAndTransactionList = historyViewModel.getAllHistoryAndTransactionInDateOrder();
+        currentList = historyViewModel.getAllHistoryAndTransactionInDateOrderList();
+        filterViewModel.setFilteredList(currentList);
+        filterViewModel.setOriginalList(currentList);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         RecyclerView recyclerView;
+
+        Log.d("ErrorCheck", "OnCreateView");
 
         root =  inflater.inflate(R.layout.history_fragment, container, false);
         recyclerView = root.findViewById(R.id.recyclerView);
@@ -52,70 +70,46 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
+        filterViewModel.getFilteredList().observe(getViewLifecycleOwner(), adapter::submitList);
 
-        currentLiveDataHistoryAndTransaction = historyViewModel.getAllHistoryAndTransactionInDateOrder();
-        historyAndTransactionListToViewHolder = currentLiveDataHistoryAndTransaction;
-        historyAndTransactionListToViewHolder.observe(getViewLifecycleOwner(), adapter::submitList);
-
-        historyBottomSheetDetails = new HistoryBottomSheetDetails(getContext(), getActivity(), historyViewModel);
+        historyBottomSheetDetails =
+                new HistoryBottomSheetDetails(getContext(), getActivity(), historyViewModel);
 
         ImageButton addButton = root.findViewById(R.id.addButton);
-        addButton.setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_navigation_history_to_addNewHistory));
+        addButton.setOnClickListener(view -> Navigation.
+                findNavController(view).navigate(R.id.action_navigation_history_to_addNewHistory));
 
         ImageButton categoryFilter = root.findViewById(R.id.categoryFilterButton);
-        categoryFilter.setOnClickListener(view -> showBottomSheetToFilterByCategory());
+        categoryFilter.setOnClickListener(view -> {});
 
         ImageButton orderFilter = root.findViewById(R.id.orderFilterButton);
-        orderFilter.setOnClickListener(view -> showBottomSheetToSortList());
+        orderFilter.setOnClickListener(view -> {
+            filterViewModel.setOriginalList(currentList);
+            Navigation.findNavController(view)
+                    .navigate(R.id.action_navigation_history_to_filterFragment);
+        });
 
         sortingMarkIconManager = new SortingMarkIconManager();
         sortingMarkIconManager.setView(root);
         sortingMarkIconManager.prepareSortingIcons();
 
+        getParentFragmentManager().setFragmentResultListener();
+
         return root;
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onNoteClick(int position) {
-        HistoryAndTransaction historyAndTransaction = Objects.requireNonNull(historyAndTransactionListToViewHolder.getValue()).get(position);
+        HistoryAndTransaction historyAndTransaction = Objects.requireNonNull(historyAndTransactionList.getValue()).get(position);
         historyBottomSheetDetails.setData(historyAndTransaction);
         historyBottomSheetDetails.show();
     }
 
-
-//   TODO: Change filter by category to filter by sorting sheet
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void showBottomSheetToFilterByCategory() {
-        if (Objects.isNull(historyBottomSheetCategoryFilter)) {
-            historyBottomSheetCategoryFilter = new HistoryBottomSheetCategoryFilter(getContext(), getViewLifecycleOwner(), historyViewModel);
-        }
-        historyBottomSheetCategoryFilter.show();
-        historyBottomSheetCategoryFilter.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {
-            int categoryId = historyBottomSheetCategoryFilter.getSelectedId();
-            if (categoryId > 0) {
-                currentLiveDataHistoryAndTransaction = historyViewModel.getAllHistoryAndTransactionByCategory(categoryId);
-                historyAndTransactionListToViewHolder = currentLiveDataHistoryAndTransaction;
-                historyAndTransactionListToViewHolder.observe(getViewLifecycleOwner(), adapter::submitList);
-                sortingMarkIconManager.showCategoryIcon(historyBottomSheetCategoryFilter.getSelectedIconName());
-            }
-        });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void showBottomSheetToSortList() {
-        if (Objects.isNull(historyBottomSheetSorting)) {
-            historyBottomSheetSorting = new HistoryBottomSheetSorting(getContext());
-        }
-        historyBottomSheetSorting.setListToSort(currentLiveDataHistoryAndTransaction);
-        historyBottomSheetSorting.show();
-        historyBottomSheetSorting.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {
-            historyAndTransactionListToViewHolder = historyBottomSheetSorting.getSortedList();
-            historyAndTransactionListToViewHolder.observe(getViewLifecycleOwner(), adapter::submitList);
-            sortingMarkIconManager.showSortIcon(historyBottomSheetSorting.getIconResourceId());
-            sortingMarkIconManager.showProfitIcon(historyBottomSheetSorting.getProfitIconResourceId());
-            sortingMarkIconManager.showReverseIcon(historyBottomSheetSorting.checkIfCheckboxIsChecked());
-        });
+    @Nullable
+    @Override
+    public Context getContext() {
+        return super.getContext();
     }
 }

@@ -115,7 +115,7 @@ public class TransactionDataCollectorFromUser {
     }
 
     private int getProfitIconId() {
-        return R.id.profit;
+        return R.id.profitIcon;
     }
 
     private int getSelectedProfitIconId() {

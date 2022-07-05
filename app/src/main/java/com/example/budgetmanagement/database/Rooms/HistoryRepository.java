@@ -15,11 +15,13 @@ public class HistoryRepository {
     private LiveData<List<History>> allHistory;
     private LiveData<List<HistoryBottomSheetEntity>> historyBottomSheetEntity;
     private List<HistoryBottomSheetEntity> historyBottomSheetEntityList;
+    private List<HistoryAndTransaction> historyAndTransactionInDateOrderList;
 
     public HistoryRepository(Application app) {
         database = BudgetRoomDatabase.getDatabase(app);
         historyDao = database.historyDao();
         allHistory = historyDao.getAllHistory();
+        historyAndTransactionInDateOrderList = historyDao.getAllHistoryAndTransactionInDateOrderList();
         CategoryDao categoryDao = database.categoryDao();
         historyBottomSheetEntity = categoryDao.getHistoryBottomSheetEntity();
         historyBottomSheetEntityList = categoryDao.getHistoryBottomSheetEntityList();
@@ -31,6 +33,10 @@ public class HistoryRepository {
 
     public List<HistoryBottomSheetEntity> getHistoryBottomSheetEntityList() {
         return historyBottomSheetEntityList;
+    }
+
+    public List<HistoryAndTransaction> getAllHistoryAndTransactionInDateOrderList() {
+        return historyAndTransactionInDateOrderList;
     }
 
     public LiveData<List<HistoryAndTransaction>> getAllHistoryAndTransactionInDateOrder() {

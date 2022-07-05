@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.History.FilterFragment">
 
     <RadioGroup
         android:id="@+id/profitFilter"
@@ -42,46 +45,66 @@
 
     </RadioGroup>
 
-    <CheckBox
-        android:id="@+id/reversedCheck"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/sorting_order"
-        android:button="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/reversedCheckTitle"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/reversedCheckLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/low_to_high"
-        app:layout_constraintEnd_toEndOf="@+id/reversedCheck"
-        app:layout_constraintStart_toStartOf="@+id/reversedCheck"
-        app:layout_constraintTop_toBottomOf="@+id/reversedCheck" />
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <CheckBox
+            android:id="@+id/reversedCheck"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/sorting_order"
+            android:button="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/reversedCheckTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/low_to_high"
+            app:layout_constraintEnd_toEndOf="@+id/reversedCheck"
+            app:layout_constraintStart_toStartOf="@+id/reversedCheck"
+            app:layout_constraintTop_toBottomOf="@+id/reversedCheck" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/showCategoryBottomSheetSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Select category"
+        app:layout_constraintEnd_toEndOf="@+id/reversedCheckLayout"
+        app:layout_constraintStart_toStartOf="@+id/profitFilter"
+        app:layout_constraintTop_toBottomOf="@+id/profitFilter" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sortByNameLayout"
-        android:layout_marginTop="120dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
         android:padding="8dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/showCategoryBottomSheetSelector">
 
         <ImageView
-            android:id="@+id/sortByNameIcon2"
+            android:id="@+id/sortByNameIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="20dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:src="@drawable/block"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +120,7 @@
             android:text="@string/sort_alphabetical"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sortByNameIcon2"
+            app:layout_constraintStart_toEndOf="@+id/sortByNameIcon"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -174,6 +197,35 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/sortByDateIcon"
             app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sortByDateLayout">
+
+        <Button
+            android:id="@+id/resetFilters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/filterList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sortuj"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

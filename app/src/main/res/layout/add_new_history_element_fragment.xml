@@ -59,7 +59,7 @@
         app:layout_constraintTop_toTopOf="@+id/amount">
 
         <RadioButton
-            android:id="@+id/loss"
+            android:id="@+id/lossIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/loss_icon"
@@ -69,7 +69,7 @@
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <RadioButton
-            android:id="@+id/profit"
+            android:id="@+id/profitIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="30dp"

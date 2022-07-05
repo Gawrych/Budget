@@ -12,7 +12,6 @@ import com.example.budgetmanagement.database.Rooms.HistoryRepository;
 import com.example.budgetmanagement.ui.History.HistoryBottomSheetEntity;
 
 import java.util.List;
-import java.util.Objects;
 
 
 public class HistoryViewModel extends AndroidViewModel {
@@ -21,6 +20,7 @@ public class HistoryViewModel extends AndroidViewModel {
     private LiveData<List<HistoryAndTransaction>> allHistoryAndTransaction;
     private LiveData<List<HistoryBottomSheetEntity>> historyBottomSheetEntity;
     private List<HistoryBottomSheetEntity> historyBottomSheetEntityList;
+    private List<HistoryAndTransaction> historyAndTransactionInDateOrderList;
 
     public HistoryViewModel(@NonNull Application app) {
         super(app);
@@ -28,6 +28,7 @@ public class HistoryViewModel extends AndroidViewModel {
         allHistoryAndTransaction = historyRepository.getAllHistoryAndTransactionInDateOrder();
         historyBottomSheetEntity = historyRepository.getHistoryBottomSheetEntity();
         historyBottomSheetEntityList = historyRepository.getHistoryBottomSheetEntityList();
+        historyAndTransactionInDateOrderList = historyRepository.getAllHistoryAndTransactionInDateOrderList();
     }
 
     public void delete(int historyId) {
@@ -40,6 +41,10 @@ public class HistoryViewModel extends AndroidViewModel {
 
     public List<HistoryBottomSheetEntity> getHistoryBottomSheetEntityList() {
         return historyBottomSheetEntityList;
+    }
+
+    public List<HistoryAndTransaction> getAllHistoryAndTransactionInDateOrderList() {
+        return historyAndTransactionInDateOrderList;
     }
 
     public LiveData<List<HistoryBottomSheetEntity>> getHistoryBottomSheetEntity() {

@@ -15,4 +15,5 @@
     <color name="profitTransaction">#2a9d8f</color>
     <color name="light_grey">#C0C0C0</color>
     <color name="main_blue">#2374f7</color>
+    <color name="very_light_gray">#e5e5e5</color>
 </resources>
