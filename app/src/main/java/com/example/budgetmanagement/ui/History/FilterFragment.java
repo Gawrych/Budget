@@ -28,6 +28,7 @@ import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.FilterViewModel;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.ui.utils.Filter;
+import com.example.budgetmanagement.ui.utils.SortListByFilters;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.HashSet;
@@ -61,14 +62,13 @@ public class FilterFragment extends Fragment {
     private Button filterButton;
     private MutableLiveData<List<HistoryAndTransaction>> listMutableLiveData;
     private List<HistoryAndTransaction> list;
-
+    public List<HistoryAndTransaction> sortedList;
     private RadioGroup radioGroup;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        filterViewModel = new ViewModelProvider(requireParentFragment()).get(FilterViewModel.class);
-        historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -77,17 +77,8 @@ public class FilterFragment extends Fragment {
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_filter, container, false);
 
-//        listMutableLiveData = filterViewModel.getOriginalList();
-
-        listMutableLiveData = filterViewModel.getOriginalList();
-        List<HistoryAndTransaction> historyAndTransactions = listMutableLiveData.getValue();
-        if (historyAndTransactions == null) {
-            Log.d("NullChecker", "Null");
-        }
-//        String title = list.get(0).transaction.getTitle();
-//        Log.d("ErrorCheck", title);
-//        MutableLiveData<List<HistoryAndTransaction>> list = filterViewModel.getOriginalList();
-//        Log.d("ErrorCheck", Objects.requireNonNull(list.getValue()).get(0).transaction.getTitle());
+        filterViewModel = new ViewModelProvider(requireParentFragment()).get(FilterViewModel.class);
+        historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
 
         sortByNameLayout = root.findViewById(R.id.sortByNameLayout);
         sortByAmountLayout = root.findViewById(R.id.sortByAmountLayout);
@@ -148,6 +139,12 @@ public class FilterFragment extends Fragment {
             requireActivity().onBackPressed();
         });
 
+        list = historyViewModel.getAllHistoryAndTransactionInDateOrderList();
+//        if (list.get(0) != null) {
+//            Log.d("ErrorCheck", "Is not NULL");
+//            Log.d("ErrorCheck", list.get(0).transaction.getTitle());
+//        }
+
         return root;
     }
 
@@ -196,11 +193,16 @@ public class FilterFragment extends Fragment {
     
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void filterList() {
-//        SortListByFilters sortListByFilters =
-//                new SortListByFilters(listMutableLiveData, filterViewModel.getFilters());
-//        List<HistoryAndTransaction> sortedList = sortListByFilters.sort();
-//        filterViewModel.setFilteredList(sortedList);
+        SortListByFilters sortListByFilters =
+                new SortListByFilters(list, filterViewModel.getFilters());
+        sortedList = sortListByFilters.sort();
+        if (sortedList.get(0) != null) {
 
+            Log.d("ErrorCheck", sortedList.get(0).transaction.getTitle());
+            Log.d("ErrorCheck", sortedList.get(1).transaction.getTitle());
+            Log.d("ErrorCheck", sortedList.get(2).transaction.getTitle());
+        }
+        filterViewModel.setOriginalList(sortedList);
     }
 
     private void resetFilters() {

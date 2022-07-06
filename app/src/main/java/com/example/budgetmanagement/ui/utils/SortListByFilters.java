@@ -39,7 +39,14 @@ public class SortListByFilters {
         for (Filter filter : filters) {
             sortBy(filter);
         }
-        return liveDataListSortingMethod.getSortedList();
+         List<HistoryAndTransaction> list = liveDataListSortingMethod.getSortedList();
+//        if (list.get(0) != null) {
+//
+//            Log.d("ErrorCheck", list.get(0).transaction.getTitle());
+//            Log.d("ErrorCheck", list.get(1).transaction.getTitle());
+//            Log.d("ErrorCheck", list.get(2).transaction.getTitle());
+//        }
+        return list;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

@@ -54,7 +54,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         historyAndTransactionList = historyViewModel.getAllHistoryAndTransactionInDateOrder();
         currentList = historyViewModel.getAllHistoryAndTransactionInDateOrderList();
         filterViewModel.setFilteredList(currentList);
-        filterViewModel.setOriginalList(currentList);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -84,7 +83,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         ImageButton orderFilter = root.findViewById(R.id.orderFilterButton);
         orderFilter.setOnClickListener(view -> {
-            filterViewModel.setOriginalList(currentList);
             Navigation.findNavController(view)
                     .navigate(R.id.action_navigation_history_to_filterFragment);
         });
@@ -92,8 +90,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         sortingMarkIconManager = new SortingMarkIconManager();
         sortingMarkIconManager.setView(root);
         sortingMarkIconManager.prepareSortingIcons();
-
-        getParentFragmentManager().setFragmentResultListener();
 
         return root;
     }
@@ -106,6 +102,15 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         historyBottomSheetDetails.setData(historyAndTransaction);
         historyBottomSheetDetails.show();
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        if (filterViewModel.getOriginalList() != null) {
+//            Log.d("ErrorCheck", "NULL in onResume");
+//            filterViewModel.getOriginalList().observe(getViewLifecycleOwner(), adapter::submitList);
+//        }
+//    }
 
     @Nullable
     @Override

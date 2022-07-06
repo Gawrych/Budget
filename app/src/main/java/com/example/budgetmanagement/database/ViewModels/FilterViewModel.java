@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.database.ViewModels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -25,6 +27,11 @@ public class FilterViewModel extends ViewModel {
     }
 
     public void setFilteredList(List<HistoryAndTransaction> filteredList) {
+        if (filteredList.get(0) != null) {
+            Log.d("ErrorCheck", filteredList.get(0).transaction.getTitle());
+            Log.d("ErrorCheck", filteredList.get(1).transaction.getTitle());
+            Log.d("ErrorCheck", filteredList.get(2).transaction.getTitle());
+        }
         this.filteredList.setValue(filteredList);
     }
 
