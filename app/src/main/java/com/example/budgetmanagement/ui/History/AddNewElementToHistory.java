@@ -68,7 +68,7 @@ public class AddNewElementToHistory extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void selectCategory(HistoryViewModel historyViewModel, EditText categoryEditText) {
         if (Objects.isNull(historyBottomSheetCategoryFilter)) {
-            historyBottomSheetCategoryFilter = new HistoryBottomSheetCategoryFilter(getContext(), getViewLifecycleOwner(), historyViewModel);
+            historyBottomSheetCategoryFilter = new HistoryBottomSheetCategoryFilter(getContext(), this);
         }
         historyBottomSheetCategoryFilter.show();
         historyBottomSheetCategoryFilter.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {

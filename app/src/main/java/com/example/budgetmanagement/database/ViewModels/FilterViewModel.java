@@ -1,61 +1,53 @@
 package com.example.budgetmanagement.database.ViewModels;
 
-import android.util.Log;
+import static com.example.budgetmanagement.ui.History.FilterFragment.CATEGORY_FILTER_ID;
+import static com.example.budgetmanagement.ui.History.FilterFragment.ORDER_FILTER_ID;
+import static com.example.budgetmanagement.ui.History.FilterFragment.PROFIT_FILTER_ID;
+import static com.example.budgetmanagement.ui.History.FilterFragment.REVERSE_FILTER_ID;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
-import com.example.budgetmanagement.ui.utils.Filter;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 
 public class FilterViewModel extends ViewModel {
 
-    private HashSet<Filter> filters =  new HashSet<>();
-    private MutableLiveData<List<HistoryAndTransaction>> originalList = new MutableLiveData<List<HistoryAndTransaction>>(){};
+    private HashMap<Integer, Integer> filters =  new HashMap<>();
+    private List<HistoryAndTransaction> originalList;
     private MutableLiveData<List<HistoryAndTransaction>> filteredList = new MutableLiveData<List<HistoryAndTransaction>>(){};
 
-    public void setOriginalList(List<HistoryAndTransaction> originalList) {
-        this.originalList.setValue(originalList);
+    public FilterViewModel() {
+        this.filters.put(PROFIT_FILTER_ID, 0);
+        this.filters.put(ORDER_FILTER_ID, 0);
+        this.filters.put(CATEGORY_FILTER_ID, 0);
+        this.filters.put(REVERSE_FILTER_ID, 0);
     }
 
-    public MutableLiveData<List<HistoryAndTransaction>> getOriginalList() {
-        return originalList;
+    public void setOriginalList(List<HistoryAndTransaction> originalList) {
+        this.originalList = originalList;
     }
 
     public void setFilteredList(List<HistoryAndTransaction> filteredList) {
-        if (filteredList.get(0) != null) {
-            Log.d("ErrorCheck", filteredList.get(0).transaction.getTitle());
-            Log.d("ErrorCheck", filteredList.get(1).transaction.getTitle());
-            Log.d("ErrorCheck", filteredList.get(2).transaction.getTitle());
-        }
         this.filteredList.setValue(filteredList);
+    }
+
+    public void setFilters(HashMap<Integer, Integer> filters) {
+        this.filters = filters;
+    }
+
+    public List<HistoryAndTransaction> getOriginalList() {
+        return originalList;
     }
 
     public LiveData<List<HistoryAndTransaction>> getFilteredList() {
         return filteredList;
     }
 
-    public HashSet<Filter> getFilters() {
+    public HashMap<Integer, Integer> getFilters() {
         return filters;
-    }
-
-    public void setFilters(HashSet<Filter> filters) {
-        this.filters = filters;
-    }
-
-    public void addFilter(Filter filter) {
-        if (filter != null) {
-            filters.add(filter);
-        }
-    }
-
-    public void removeFilter(Filter filter){
-        if (filter != null){
-            filters.remove(filter);
-        }
     }
 }

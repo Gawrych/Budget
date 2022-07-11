@@ -50,10 +50,11 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         super.onCreate(savedInstanceState);
         Log.d("ErrorCheck", "OnCreate");
         historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
-        filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
         historyAndTransactionList = historyViewModel.getAllHistoryAndTransactionInDateOrder();
         currentList = historyViewModel.getAllHistoryAndTransactionInDateOrderList();
         filterViewModel.setFilteredList(currentList);
+        filterViewModel.setOriginalList(currentList);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -82,10 +83,8 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         categoryFilter.setOnClickListener(view -> {});
 
         ImageButton orderFilter = root.findViewById(R.id.orderFilterButton);
-        orderFilter.setOnClickListener(view -> {
-            Navigation.findNavController(view)
-                    .navigate(R.id.action_navigation_history_to_filterFragment);
-        });
+        orderFilter.setOnClickListener(view -> Navigation.findNavController(view)
+                .navigate(R.id.action_navigation_history_to_filterFragment));
 
         sortingMarkIconManager = new SortingMarkIconManager();
         sortingMarkIconManager.setView(root);
@@ -102,15 +101,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         historyBottomSheetDetails.setData(historyAndTransaction);
         historyBottomSheetDetails.show();
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        if (filterViewModel.getOriginalList() != null) {
-//            Log.d("ErrorCheck", "NULL in onResume");
-//            filterViewModel.getOriginalList().observe(getViewLifecycleOwner(), adapter::submitList);
-//        }
-//    }
 
     @Nullable
     @Override

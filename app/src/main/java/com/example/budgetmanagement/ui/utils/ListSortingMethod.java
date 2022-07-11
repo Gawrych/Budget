@@ -12,11 +12,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LiveDataListSortingMethod {
+public class ListSortingMethod {
 
     private List<HistoryAndTransaction> historyAndTransactionList;
 
-    public LiveDataListSortingMethod(List<HistoryAndTransaction> historyAndTransactionList) {
+    public ListSortingMethod(List<HistoryAndTransaction> historyAndTransactionList) {
         this.historyAndTransactionList = historyAndTransactionList;
     }
 

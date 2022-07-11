@@ -3,8 +3,8 @@ package com.example.budgetmanagement.ui.History;
 import android.content.Context;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,16 +21,21 @@ public class HistoryBottomSheetCategoryFilter extends Fragment implements Catego
 
     private BottomSheetDialog bottomSheetDialog;
     private LiveData<List<HistoryBottomSheetEntity>> historyBottomSheetEntity;
-    int position;
+    private List<HistoryBottomSheetEntity> historyBottomSheetEntityList;
+    private int selectedId;
+    private String selectedName;
 
-    public HistoryBottomSheetCategoryFilter(Context context, LifecycleOwner lifeCycleOwner, HistoryViewModel historyViewModel) {
+    public HistoryBottomSheetCategoryFilter(Context context, Fragment parentFragment) {
+        HistoryViewModel historyViewModel = new ViewModelProvider(parentFragment).get(HistoryViewModel.class);
         historyBottomSheetEntity = historyViewModel.getHistoryBottomSheetEntity();
+
         bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(R.layout.history_bottom_sheet_dialog);
 
         final HistoryBottomSheetAdapter historyBottomSheetAdapter = new HistoryBottomSheetAdapter(new HistoryBottomSheetAdapter.HistoryBottomSheetEntityDiff(), this::onNoteClick);
 
-        historyBottomSheetEntity.observe(lifeCycleOwner, historyBottomSheetAdapter::submitList);
+        historyBottomSheetEntityList = historyBottomSheetEntity.getValue();
+        historyBottomSheetEntity.observe(parentFragment.getViewLifecycleOwner(), historyBottomSheetAdapter::submitList);
 
         RecyclerView bottomSheetRecyclerView = bottomSheetDialog.findViewById(R.id.recyclerView);
         Objects.requireNonNull(bottomSheetRecyclerView).setAdapter(historyBottomSheetAdapter);
@@ -39,11 +44,17 @@ public class HistoryBottomSheetCategoryFilter extends Fragment implements Catego
 
     public void show() {
         bottomSheetDialog.show();
+        resetSelectedId();
+        resetSelectedName();
     }
 
     @Override
     public void onNoteClick(int position) {
-        this.position = position;
+        List<HistoryBottomSheetEntity> listOfEntity = historyBottomSheetEntity.getValue();
+        if (listOfEntity != null) {
+            this.selectedId = listOfEntity.get(position).getId();
+            this.selectedName = listOfEntity.get(position).getName();
+        }
         bottomSheetDialog.cancel();
     }
 
@@ -52,14 +63,30 @@ public class HistoryBottomSheetCategoryFilter extends Fragment implements Catego
     }
 
     public int getSelectedId() {
-        return Objects.requireNonNull(historyBottomSheetEntity.getValue()).get(position).getId();
+        return selectedId;
     }
 
     public String getSelectedName() {
-        return Objects.requireNonNull(historyBottomSheetEntity.getValue()).get(position).getName();
+        return selectedName;
     }
 
-    public String getSelectedIconName() {
-        return Objects.requireNonNull(historyBottomSheetEntity.getValue()).get(position).getIconName();
+    public String getCategoryNameById(Integer id) {
+        if (historyBottomSheetEntityList != null && id != null) {
+            for (HistoryBottomSheetEntity element : historyBottomSheetEntityList) {
+                if (element.getId() == id) {
+                    return element.getName();
+                }
+            }
+        }
+        return null;
     }
+
+    public void resetSelectedName() {
+        this.selectedName = null;
+    }
+
+    public void resetSelectedId() {
+        this.selectedId = 0;
+    }
+
 }
