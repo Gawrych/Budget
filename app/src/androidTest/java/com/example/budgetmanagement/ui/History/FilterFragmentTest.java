@@ -7,6 +7,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withChild;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.example.budgetmanagement.ui.DrawableMatchers.withBackground;
 import static com.example.budgetmanagement.ui.DrawableMatchers.withBackgroundColor;
 import static com.example.budgetmanagement.ui.DrawableMatchers.withImageDrawable;
 import static org.hamcrest.CoreMatchers.not;
@@ -15,6 +16,7 @@ import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.ui.utils.filteringList.FilterFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +26,7 @@ public class FilterFragmentTest {
     public FragmentScenario<FilterFragment> filterFragmentScenario;
 
     @Before
-    public void setUp() {
+    public void beforeClass() {
         filterFragmentScenario = FragmentScenario.launchInContainer(FilterFragment.class);
         filterFragmentScenario.moveToState(Lifecycle.State.RESUMED);
     }
@@ -115,10 +117,62 @@ public class FilterFragmentTest {
     }
 
     @Test
-    public void When_clickToShowBottomSheetToSelectCategory_Expect_showBottomSheetWithCategories() {
-        onView(withId(R.id.showCategoryBottomSheetSelector)).perform(click());
-        onView(withChild(withText(R.string.category_example_various)))
-                .check(matches(isDisplayed()));
+    public void When_clickToShowBottomSheet_Expect_showBottomSheetWithCategories() {
+        onView(withId(R.id.categorySelector)).perform(click());
+        onView(withChild(withText(R.string.category_example_various))).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void When_selectCategory_Expect_ChangeSelectorTextToSelectedCategoryName() {
+        onView(withId(R.id.categorySelector)).perform(click());
+        onView(withChild(withText(R.string.category_example_various))).perform(click());
+        onView(withId(R.id.categorySelector)).check(matches(withText(R.string.category_example_various)));
+
+        onView(withId(R.id.categorySelector)).perform(click());
+        onView(withChild(withText(R.string.category_example_foodstuff))).perform(click());
+        onView(withId(R.id.categorySelector)).check(matches(withText(R.string.category_example_foodstuff)));
+
+        onView(withId(R.id.categorySelector)).perform(click());
+        onView(withChild(withText(R.string.category_example_salary))).perform(click());
+        onView(withId(R.id.categorySelector)).check(matches(withText(R.string.category_example_salary)));
+    }
+
+    @Test
+    public void When_clickToReverseButton_Expect_ChangeButtonBackground() {
+        onView(withId(R.id.reversedCheck)).check(matches(withBackground(R.drawable.swap)));
+
+        onView(withId(R.id.reversedCheck)).perform(click());
+        onView(withId(R.id.reversedCheck)).check(matches(withBackground(R.drawable.swap_in_color)));
+
+        onView(withId(R.id.reversedCheck)).perform(click());
+        onView(withId(R.id.reversedCheck)).check(matches(withBackground(R.drawable.swap)));
+    }
+
+    @Test
+    public void When_clickToReverseButton_Expect_ChangeTextUnderButton() {
+        onView(withId(R.id.reversedCheckTitle)).check(matches(withText(R.string.low_to_high)));
+
+        onView(withId(R.id.reversedCheck)).perform(click());
+        onView(withId(R.id.reversedCheckTitle)).check(matches(withText(R.string.high_to_low)));
+
+        onView(withId(R.id.reversedCheck)).perform(click());
+        onView(withId(R.id.reversedCheckTitle)).check(matches(withText(R.string.low_to_high)));
+    }
+
+    @Test
+    public void When_clickClearFilters_Expect_resetFiltersToDefaultSet() {
+        onView(withId(R.id.profitIcon)).perform(click());
+        onView(withId(R.id.reversedCheck)).perform(click());
+        onView(withId(R.id.sortByNameLayout)).perform(click());
+        onView(withId(R.id.categorySelector)).perform(click());
+        onView(withChild(withText(R.string.category_example_various))).perform(click());
+
+        onView(withId(R.id.resetFilters)).perform(click());
+
+        onView(withId(R.id.profitAndLossIcon)).check(matches(withBackground(R.drawable.loss_and_profit_color)));
+        onView(withId(R.id.reversedCheck)).check(matches(withBackground(R.drawable.swap)));
+        onView(withId(R.id.reversedCheckTitle)).check(matches(withText(R.string.low_to_high)));
+        onView(withId(R.id.sortByNameIcon)).check(matches(withImageDrawable(R.drawable.block)));
+        onView(withId(R.id.categorySelector)).check(matches(withText(R.string.select_category)));
+    }
 }
