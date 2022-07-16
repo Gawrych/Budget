@@ -23,7 +23,7 @@ public class ComingViewHolder extends RecyclerView.ViewHolder implements View.On
         super(itemView);
         textField = itemView.findViewById(R.id.title);
         amountField = itemView.findViewById(R.id.amount);
-        dateField = itemView.findViewById(R.id.date);
+        dateField = itemView.findViewById(R.id.createDate);
         currency = itemView.findViewById(R.id.currency);
         this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
