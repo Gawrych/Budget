@@ -5,12 +5,12 @@ import android.widget.EditText;
 
 import com.example.budgetmanagement.R;
 
-public class EditField {
+public class EditFieldManager {
 
     private EditText field;
     private View root;
 
-    public EditField(View root, int resourceId) {
+    public EditFieldManager(View root, int resourceId) {
         setRoot(root);
         initializeField(resourceId);
     }

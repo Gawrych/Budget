@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
 
-public class HistoryBottomSheetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class CategoryBottomSheetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private final TextView entityName;
     private final ImageView entityIcon;
     private final OnNoteListener onNoteListener;
 
-    public HistoryBottomSheetViewHolder(View itemView, OnNoteListener onNoteListener) {
+    public CategoryBottomSheetViewHolder(View itemView, OnNoteListener onNoteListener) {
         super(itemView);
         entityName = itemView.findViewById(R.id.textView);
         entityIcon = itemView.findViewById(R.id.categoryIcon);

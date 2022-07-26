@@ -58,6 +58,7 @@ dependencies {
 
     // optional - ReactiveStreams support for LiveData
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:2.5.0"
+    implementation 'androidx.navigation:navigation-testing:2.5.0'
 
     // optional - Test helpers for LiveData
     testImplementation "androidx.arch.core:core-testing:2.1.0"

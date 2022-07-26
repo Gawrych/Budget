@@ -26,6 +26,7 @@
         <entry key="app/src/main/res/drawable/loss_icon.xml" value="0.2035" />
         <entry key="app/src/main/res/drawable/press_feedback_background.xml" value="0.3005" />
         <entry key="app/src/main/res/drawable/profit_false_button.xml" value="0.268" />
+        <entry key="app/src/main/res/drawable/profit_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/profit_or_loss_icon.xml" value="0.2925" />
         <entry key="app/src/main/res/drawable/profit_true_button.xml" value="0.3" />
         <entry key="app/src/main/res/drawable/reverse_sorting_order.xml" value="0.2925" />

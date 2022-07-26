@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.example.budgetmanagement.ui.History.FilterFragment"
+        android:name="com.example.budgetmanagement.ui.utils.filteringList.FilterFragment"
         android:label="fragment_filter"
         tools:layout="@layout/fragment_filter" >
         <action

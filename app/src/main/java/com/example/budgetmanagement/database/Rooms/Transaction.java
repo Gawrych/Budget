@@ -28,6 +28,7 @@ public class Transaction {
     @ColumnInfo(name="lastModifiedData")
     private long lastModifiedData;
 
+    // Better efficiency with profit value than process amount to check if value is negative?
     @ColumnInfo(name="profit")
     private boolean profit;
 

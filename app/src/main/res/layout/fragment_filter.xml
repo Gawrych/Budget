@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.History.FilterFragment">
+    tools:context=".ui.utils.filteringList.FilterFragment">
 
-<!--     change id-->
     <RadioGroup
-        android:id="@+id/profitFilter"
+        android:id="@+id/profitOrLossContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -85,8 +84,8 @@
         android:layout_marginTop="50dp"
         android:text="@string/select_category"
         app:layout_constraintEnd_toEndOf="@+id/reversedCheckLayout"
-        app:layout_constraintStart_toStartOf="@+id/profitFilter"
-        app:layout_constraintTop_toBottomOf="@+id/profitFilter" />
+        app:layout_constraintStart_toStartOf="@+id/profitOrLossContainer"
+        app:layout_constraintTop_toBottomOf="@+id/profitOrLossContainer" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.ui.History;
+package com.example.budgetmanagement.ui.utils.filteringList;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -16,7 +16,6 @@ import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.ui.utils.filteringList.FilterFragment;
 
 import org.junit.Before;
 import org.junit.Test;

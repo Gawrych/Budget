@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <RadioGroup
-        android:id="@+id/profitFilter"
+        android:id="@+id/profitOrLossContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -76,13 +76,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/sortByNameIcon2"
+            android:id="@+id/sortByNameIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/block"
+            android:contentDescription="@string/sortByNameIcon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -97,7 +98,7 @@
             android:text="@string/sort_alphabetical"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sortByNameIcon2"
+            app:layout_constraintStart_toEndOf="@+id/sortByNameIcon"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -119,6 +120,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/dollar_coin"
+            android:contentDescription="@string/sortByAmountIcon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -158,6 +160,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/calendar"
+            android:contentDescription="@string/sortByDateIcon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

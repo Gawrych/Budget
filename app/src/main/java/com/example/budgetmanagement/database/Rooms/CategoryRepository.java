@@ -10,40 +10,37 @@ import java.util.List;
 
 public class CategoryRepository {
 
-    private BudgetRoomDatabase database;
-//    Rest tables...
-    private List<CategoryAndTransaction> allTransactions;
-
-    private CategoryDao categoryDao;
-    private LiveData<List<Category>> allCategories;
-    private Category firstCategory;
-    private LiveData<List<CategoryName>> categoryNames;
+    private final CategoryDao categoryDao;
+    private final LiveData<List<Category>> allCategories;
+    private final List<Category> categoryList;
+    private final LiveData<List<Category>> categoryLiveData;
 
     public CategoryRepository(Application app) {
-        database = BudgetRoomDatabase.getDatabase(app);
-//        allTransactions = categoryDao.getAllTransactions();
+        BudgetRoomDatabase database = BudgetRoomDatabase.getDatabase(app);
         categoryDao = database.categoryDao();
         allCategories = categoryDao.getAllCategories();
+        categoryList = categoryDao.getCategoryList();
+        categoryLiveData = categoryDao.getAllCategory();
     }
-
-//    public List<CategoryAndTransaction> getAllTransactions() {
-//        return allTransactions;
-//    }
 
     public List<CategoryAndTransaction> getCategoryAndTransaction() {
         return categoryDao.getCategoryAndTransaction();
+    }
+
+    public LiveData<List<Category>> getAllCategory() {
+        return categoryLiveData;
     }
 
     public Category getCategoryById(int id) {
         return categoryDao.getCategoryById(id);
     }
 
-    public LiveData<List<Category>> getAllCategories() {
-        return allCategories;
+    public List<Category> getCategoryList() {
+        return categoryList;
     }
 
-    public Category getCategoryIdByName(String name) {
-        return categoryDao.getCategoryIdByName(name);
+    public LiveData<List<Category>> getAllCategories() {
+        return allCategories;
     }
 
     public LiveData<List<CategoryName>> getCategoryNames() {
@@ -51,20 +48,14 @@ public class CategoryRepository {
     }
 
     public void insert(Category category) {
-        database.databaseWriteExecutor.execute(() -> {
-            categoryDao.insert(category);
-        });
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> categoryDao.insert(category));
     }
 
     public void update(Category category) {
-        database.databaseWriteExecutor.execute(() -> {
-            categoryDao.update(category);
-        });
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> categoryDao.update(category));
     }
 
     public void delete(Category category) {
-        database.databaseWriteExecutor.execute(() -> {
-            categoryDao.delete(category);
-        });
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> categoryDao.delete(category));
     }
 }

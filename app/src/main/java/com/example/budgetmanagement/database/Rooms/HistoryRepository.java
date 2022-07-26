@@ -4,35 +4,34 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.budgetmanagement.ui.History.HistoryBottomSheetEntity;
+import com.example.budgetmanagement.ui.utils.CategoryBottomSheetEntity;
 
 import java.util.List;
 
 public class HistoryRepository {
 
-    private BudgetRoomDatabase database;
-    private HistoryDao historyDao;
-    private LiveData<List<History>> allHistory;
-    private LiveData<List<HistoryBottomSheetEntity>> historyBottomSheetEntity;
-    private List<HistoryBottomSheetEntity> historyBottomSheetEntityList;
-    private List<HistoryAndTransaction> historyAndTransactionInDateOrderList;
+    private final HistoryDao historyDao;
+    private final LiveData<List<History>> allHistory;
+    private final LiveData<List<CategoryBottomSheetEntity>> historyBottomSheetEntity;
+    private final List<CategoryBottomSheetEntity> categoryBottomSheetEntityList;
+    private final List<HistoryAndTransaction> historyAndTransactionInDateOrderList;
 
     public HistoryRepository(Application app) {
-        database = BudgetRoomDatabase.getDatabase(app);
+        BudgetRoomDatabase database = BudgetRoomDatabase.getDatabase(app);
         historyDao = database.historyDao();
         allHistory = historyDao.getAllHistory();
         historyAndTransactionInDateOrderList = historyDao.getAllHistoryAndTransactionInDateOrderList();
         CategoryDao categoryDao = database.categoryDao();
         historyBottomSheetEntity = categoryDao.getHistoryBottomSheetEntity();
-        historyBottomSheetEntityList = categoryDao.getHistoryBottomSheetEntityList();
+        categoryBottomSheetEntityList = categoryDao.getHistoryBottomSheetEntityList();
     }
 
-    public LiveData<List<HistoryBottomSheetEntity>> getHistoryBottomSheetEntity() {
+    public LiveData<List<CategoryBottomSheetEntity>> getHistoryBottomSheetEntity() {
         return historyBottomSheetEntity;
     }
 
-    public List<HistoryBottomSheetEntity> getHistoryBottomSheetEntityList() {
-        return historyBottomSheetEntityList;
+    public List<CategoryBottomSheetEntity> getHistoryBottomSheetEntityList() {
+        return categoryBottomSheetEntityList;
     }
 
     public List<HistoryAndTransaction> getAllHistoryAndTransactionInDateOrderList() {
@@ -52,26 +51,18 @@ public class HistoryRepository {
     }
 
     public void insert(History history) {
-        database.databaseWriteExecutor.execute(() -> {
-            historyDao.insert(history);
-        });
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> historyDao.insert(history));
     }
 
     public void update(History history) {
-        database.databaseWriteExecutor.execute(() -> {
-            historyDao.update(history);
-        });
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> historyDao.update(history));
     }
 
     public void delete(History history) {
-        database.databaseWriteExecutor.execute(() -> {
-            historyDao.delete(history);
-        });
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> historyDao.delete(history));
     }
 
     public void delete(int historyId) {
-        database.databaseWriteExecutor.execute(() -> {
-            historyDao.delete(historyId);
-        });
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> historyDao.delete(historyId));
     }
 }

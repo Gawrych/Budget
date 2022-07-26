@@ -11,8 +11,8 @@ import java.util.HashMap;
 
 public class FiltersCollector {
 
-    private HashMap<Integer, Integer> filters = new HashMap<>();
-    private FilterFragmentUiManager filterFragmentUiManager;
+    private final HashMap<Integer, Integer> filters = new HashMap<>();
+    private final FilterFragmentUiManager filterFragmentUiManager;
 
     public FiltersCollector(FilterFragmentUiManager filterFragmentUiManager) {
         this.filterFragmentUiManager = filterFragmentUiManager;

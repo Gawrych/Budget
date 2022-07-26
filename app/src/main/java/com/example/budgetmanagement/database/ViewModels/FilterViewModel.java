@@ -1,9 +1,9 @@
 package com.example.budgetmanagement.database.ViewModels;
 
-import static com.example.budgetmanagement.ui.History.FilterFragment.CATEGORY_FILTER_ID;
-import static com.example.budgetmanagement.ui.History.FilterFragment.ORDER_FILTER_ID;
-import static com.example.budgetmanagement.ui.History.FilterFragment.PROFIT_FILTER_ID;
-import static com.example.budgetmanagement.ui.History.FilterFragment.REVERSE_FILTER_ID;
+import static com.example.budgetmanagement.ui.utils.filteringList.FilterFragment.CATEGORY_FILTER_ID;
+import static com.example.budgetmanagement.ui.utils.filteringList.FilterFragment.ORDER_FILTER_ID;
+import static com.example.budgetmanagement.ui.utils.filteringList.FilterFragment.PROFIT_FILTER_ID;
+import static com.example.budgetmanagement.ui.utils.filteringList.FilterFragment.REVERSE_FILTER_ID;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

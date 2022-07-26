@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.example.budgetmanagement.database.Rooms.History;
 import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.example.budgetmanagement.database.Rooms.HistoryRepository;
-import com.example.budgetmanagement.ui.History.HistoryBottomSheetEntity;
+import com.example.budgetmanagement.ui.utils.CategoryBottomSheetEntity;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ public class HistoryViewModel extends AndroidViewModel {
 
     private HistoryRepository historyRepository;
     private LiveData<List<HistoryAndTransaction>> allHistoryAndTransaction;
-    private LiveData<List<HistoryBottomSheetEntity>> historyBottomSheetEntity;
-    private List<HistoryBottomSheetEntity> historyBottomSheetEntityList;
+    private LiveData<List<CategoryBottomSheetEntity>> historyBottomSheetEntity;
+    private List<CategoryBottomSheetEntity> categoryBottomSheetEntityList;
     private List<HistoryAndTransaction> historyAndTransactionInDateOrderList;
 
     public HistoryViewModel(@NonNull Application app) {
@@ -27,7 +27,7 @@ public class HistoryViewModel extends AndroidViewModel {
         historyRepository = new HistoryRepository(app);
         allHistoryAndTransaction = historyRepository.getAllHistoryAndTransactionInDateOrder();
         historyBottomSheetEntity = historyRepository.getHistoryBottomSheetEntity();
-        historyBottomSheetEntityList = historyRepository.getHistoryBottomSheetEntityList();
+        categoryBottomSheetEntityList = historyRepository.getHistoryBottomSheetEntityList();
         historyAndTransactionInDateOrderList = historyRepository.getAllHistoryAndTransactionInDateOrderList();
     }
 
@@ -39,15 +39,15 @@ public class HistoryViewModel extends AndroidViewModel {
         historyRepository.insert(history);
     }
 
-    public List<HistoryBottomSheetEntity> getHistoryBottomSheetEntityList() {
-        return historyBottomSheetEntityList;
+    public List<CategoryBottomSheetEntity> getHistoryBottomSheetEntityList() {
+        return categoryBottomSheetEntityList;
     }
 
     public List<HistoryAndTransaction> getAllHistoryAndTransactionInDateOrderList() {
         return historyAndTransactionInDateOrderList;
     }
 
-    public LiveData<List<HistoryBottomSheetEntity>> getHistoryBottomSheetEntity() {
+    public LiveData<List<CategoryBottomSheetEntity>> getHistoryBottomSheetEntity() {
         return historyBottomSheetEntity;
     }
 

@@ -2,10 +2,11 @@ package com.example.budgetmanagement.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.VectorDrawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -85,16 +86,36 @@ public class DrawableMatchers {
         if (drawable == null || otherDrawable == null) {
             return false;
         }
-        if (drawable instanceof StateListDrawable && otherDrawable instanceof StateListDrawable) {
-            drawable = drawable.getCurrent();
-            otherDrawable = otherDrawable.getCurrent();
-        }
+
+        drawable = drawable.getCurrent();
+        otherDrawable = otherDrawable.getCurrent();
+
         if (drawable instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
             Bitmap otherBitmap = ((BitmapDrawable) otherDrawable).getBitmap();
             return bitmap.sameAs(otherBitmap);
+        } else if (drawable instanceof VectorDrawable) {
+            Bitmap bitmap = getBitmapFromVector(drawable);
+            Bitmap otherBitmap = getBitmapFromVector(otherDrawable);
+            if (bitmap != null && otherBitmap != null) {
+                return bitmap.sameAs(otherBitmap);
+            }
         }
         return false;
+    }
+
+    private static Bitmap getBitmapFromVector(Drawable drawable) {
+        try {
+            Bitmap bitmap;
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+            return bitmap;
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private static boolean sameColor(Context context, Drawable drawable, int resourceId) {

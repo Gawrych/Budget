@@ -11,13 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.ui.utils.EditField;
+import com.example.budgetmanagement.ui.utils.EditFieldManager;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class TransactionDataCollectorFromUser {
+public class NewTransactionDataCollector {
 
     private final View root;
     private BigDecimal amount;
@@ -27,7 +27,7 @@ public class TransactionDataCollectorFromUser {
     private int categoryId;
     private boolean contentExist;
 
-    public TransactionDataCollectorFromUser(View root) {
+    public NewTransactionDataCollector(View root) {
         this.root = root;
     }
 
@@ -56,7 +56,7 @@ public class TransactionDataCollectorFromUser {
     }
 
     private void setTitle() {
-        EditField titleField = new EditField(root, R.id.title);
+        EditFieldManager titleField = new EditFieldManager(root, R.id.title);
         initializeTitle(titleField);
         checkFillingByLength(titleField);
         if (!contentExist) {
@@ -64,17 +64,17 @@ public class TransactionDataCollectorFromUser {
         }
     }
 
-    private void initializeTitle(@NonNull EditField titleField) {
+    private void initializeTitle(@NonNull EditFieldManager titleField) {
         title = titleField.getContent();
     }
 
 
-    private void checkFillingByLength(@NonNull EditField editTextField) {
+    private void checkFillingByLength(@NonNull EditFieldManager editTextField) {
         contentExist = editTextField.checkIfContentExist();
     }
 
     public void setAmount() {
-        EditField amountField = new EditField(root, R.id.amount);
+        EditFieldManager amountField = new EditFieldManager(root, R.id.amount);
         DecimalPrecision amountContent = new DecimalPrecision(amountField.getContent());
         checkFillingByLength(amountField);
         if (!contentExist) {

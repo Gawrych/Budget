@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
+import com.example.budgetmanagement.ui.utils.CategoryBottomSheetEntity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ import java.util.Optional;
 
 public class HistoryBottomSheetDetails extends Fragment {
 
-    private List<HistoryBottomSheetEntity> historyBottomSheetEntity;
+    private List<CategoryBottomSheetEntity> categoryBottomSheetEntity;
     private BottomSheetDialog bottomSheetDialog;
     private int historyId;
     private TextView transactionName;
@@ -39,7 +40,7 @@ public class HistoryBottomSheetDetails extends Fragment {
         bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(R.layout.history_bottom_sheet_details);
 
-        historyBottomSheetEntity = historyViewModel.getHistoryBottomSheetEntityList();
+        categoryBottomSheetEntity = historyViewModel.getHistoryBottomSheetEntityList();
 
         Button delete = bottomSheetDialog.findViewById(R.id.delete);
         assert delete != null;
@@ -70,7 +71,7 @@ public class HistoryBottomSheetDetails extends Fragment {
         this.historyId = historyAndTransaction.history.getHistoryId();
         int categoryId = historyAndTransaction.transaction.getCategoryId();
 
-        Optional<HistoryBottomSheetEntity> result = historyBottomSheetEntity.stream().filter(v -> v.getId() == categoryId).findAny();
+        Optional<CategoryBottomSheetEntity> result = categoryBottomSheetEntity.stream().filter(v -> v.getId() == categoryId).findAny();
         result.ifPresent(bottomSheetEntity -> {
             transactionName.setText(historyAndTransaction.transaction.getTitle());
             categoryName.setText(bottomSheetEntity.getName());

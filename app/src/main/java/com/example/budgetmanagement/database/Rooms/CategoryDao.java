@@ -9,7 +9,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.budgetmanagement.database.utils.CategoryName;
-import com.example.budgetmanagement.ui.History.HistoryBottomSheetEntity;
+import com.example.budgetmanagement.ui.utils.CategoryBottomSheetEntity;
 
 import java.util.List;
 
@@ -34,6 +34,8 @@ public interface CategoryDao {
     @Query("SELECT * FROM categories WHERE categoryId = :id")
     Category getCategoryById(int id);
 
+    @Query("SELECT * FROM categories ORDER BY addDate DESC")
+    LiveData<List<Category>> getAllCategory();
 
     @Query("SELECT name, budget FROM categories ORDER BY categoryId ASC")
     LiveData<List<CategoryName>> getAllCategoryNames();
@@ -43,10 +45,13 @@ public interface CategoryDao {
     List<CategoryAndTransaction> getCategoryAndTransaction();
 
     @Query("SELECT categoryId, iconName, name FROM categories")
-    LiveData<List<HistoryBottomSheetEntity>> getHistoryBottomSheetEntity();
+    LiveData<List<CategoryBottomSheetEntity>> getHistoryBottomSheetEntity();
 
     @Query("SELECT categoryId, iconName, name FROM categories")
-    List<HistoryBottomSheetEntity> getHistoryBottomSheetEntityList();
+    List<CategoryBottomSheetEntity> getHistoryBottomSheetEntityList();
+
+    @Query("SELECT * FROM categories")
+    List<Category> getCategoryList();
 
 //    @androidx.room.Transaction
 //    @Query("SELECT * FROM coming")

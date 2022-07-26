@@ -22,6 +22,8 @@ public class CategoryViewModel extends AndroidViewModel {
     private LiveData<List<Category>> allCategory;
     private LiveData<List<CategoryName>> allCategoryNames;
     private List<CategoryAndTransaction> allCategoryAndTransaction;
+    private List<Category> categoryList;
+    private LiveData<List<Category>> categoryLiveData;
 
     public CategoryViewModel(@NonNull Application app) {
         super(app);
@@ -30,10 +32,16 @@ public class CategoryViewModel extends AndroidViewModel {
         allCategoryNames = categoryRepository.getCategoryNames();
 //        transactionAndCategory = budgetRepository.getAllTransactions();
         allCategoryAndTransaction = categoryRepository.getCategoryAndTransaction();
+        categoryList = categoryRepository.getCategoryList();
+        categoryLiveData = categoryRepository.getAllCategory();
     }
 
     public void insert(Category category) {
         categoryRepository.insert(category);
+    }
+
+    public List<Category> getCategoryList() {
+        return categoryList;
     }
 
     public List<CategoryAndTransaction> getCategoryAndTransaction() {
@@ -48,9 +56,9 @@ public class CategoryViewModel extends AndroidViewModel {
         return allCategory;
     }
 
-//    public List<CategoryAndTransaction> getTransactionAndCategory() {
-//        return transactionAndCategory;
-//    }
+    public LiveData<List<Category>> getAllCategory() {
+        return categoryLiveData;
+    }
 
     public LiveData<List<CategoryName>> getAllCategoryNames() {
         return allCategoryNames;

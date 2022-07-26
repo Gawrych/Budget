@@ -32,7 +32,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 
 public class FilterFragmentUiManagerTest {
 
@@ -191,11 +190,12 @@ public class FilterFragmentUiManagerTest {
         onView(withId(R.id.reversedCheckTitle)).check(matches(withText(R.string.low_to_high)));
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void When_CallMarkUiFilterWithOutOfRangeCategoryValue_Expect_ThrowNoSuchElementException() throws Throwable {
+    @Test
+    public void When_CallMarkUiFilterWithOutOfRangeCategoryValue_Expect_SetDefaultValue() throws Throwable {
         HashMap<Integer, Integer> filters = new HashMap<>();
         filters.put(CATEGORY_FILTER_ID, -1);
         markUiFilter(filters);
+        onView(withId(R.id.categorySelector)).check(matches(withText(R.string.select_category)));
     }
 
 }

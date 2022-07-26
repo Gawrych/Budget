@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class SubmitQuery {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static int submitTransactionInsertQuery(ViewModelStoreOwner viewModelStoreOwner, TransactionDataCollectorFromUser dataFromUserCollector) {
+    public static int submitTransactionInsertQuery(ViewModelStoreOwner viewModelStoreOwner, NewTransactionDataCollector dataFromUserCollector) {
         TransactionViewModel transactionViewModel = new ViewModelProvider(viewModelStoreOwner).get(TransactionViewModel.class);
 
         return (int) transactionViewModel.insert(new Transaction(0,

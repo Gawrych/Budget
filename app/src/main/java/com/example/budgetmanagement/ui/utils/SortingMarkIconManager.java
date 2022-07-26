@@ -1,79 +1,82 @@
 package com.example.budgetmanagement.ui.utils;
 
+import static com.example.budgetmanagement.ui.utils.filteringList.FilterFragment.CATEGORY_FILTER_ID;
+import static com.example.budgetmanagement.ui.utils.filteringList.FilterFragment.ORDER_FILTER_ID;
+import static com.example.budgetmanagement.ui.utils.filteringList.FilterFragment.PROFIT_FILTER_ID;
+import static com.example.budgetmanagement.ui.utils.filteringList.FilterFragment.REVERSE_FILTER_ID;
+
+import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.annotation.RequiresApi;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.Rooms.Category;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 public class SortingMarkIconManager {
 
-    private ImageView categoryFilterIcon;
-    private ImageView profitIcon;
-    private ImageView sortFilterIcon;
-    private ImageView reverseSortingIcon;
-    private ConstraintLayout constraintLayout;
-    private View view;
+    private final ImageView categoryFilterIcon;
+    private final ImageView profitIcon;
+    private final ImageView orderFilterIcon;
+    private final ImageView reverseSortingIcon;
+    private final View view;
+    private final List<Category> categoryList;
 
-    public void setView(View view) {
+    public SortingMarkIconManager(View view, List<Category> categoryList) {
         this.view = view;
+        this.categoryList = categoryList;
+
+        categoryFilterIcon = view.findViewById(R.id.categoryFilterMarkIcon);
+        orderFilterIcon = view.findViewById(R.id.orderSortingMarkIcon);
+        profitIcon = view.findViewById(R.id.incomeStatementMarkIcon);
+        reverseSortingIcon = view.findViewById(R.id.reverseSortingMarkIcon);
     }
 
-    public SortingMarkIconManager() {
-    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void setMarkIcons(HashMap<Integer, Integer> filters) {
+        Integer value;
 
-    public void prepareSortingIcons() {
-        try {
-            constraintLayout = view.findViewById(R.id.sortingMarksConstraintLayout);
-            categoryFilterIcon = view.findViewById(R.id.categoryFilterMarkIcon);
-            sortFilterIcon = view.findViewById(R.id.orderSortingMarkIcon);
-            profitIcon = view.findViewById(R.id.incomeStatementMarkIcon);
-            reverseSortingIcon = view.findViewById(R.id.reverseSortingMarkIcon);
-        } catch (NullPointerException e) {
-//            TODO: Catch this
+        value = filters.get(REVERSE_FILTER_ID);
+        if (valueIsPositive(value)) {
+            showReverseIcon(value);
+        } else {
+            goneShadowIcon(reverseSortingIcon);
         }
-    }
 
-    public void showSortIcon(int resourceIconId) {
-        showLayout();
-        sortFilterIcon.setImageResource(resourceIconId);
-        setImageViewTagToResourceId(sortFilterIcon, resourceIconId);
-        showShadowIcon(sortFilterIcon);
-    }
+        value = filters.get(CATEGORY_FILTER_ID);
+        if (valueIsPositive(value)) {
+            showCategoryIcon(value);
+        } else {
+            goneShadowIcon(categoryFilterIcon);
+        }
 
-    private void showLayout() {
-        constraintLayout.setVisibility(View.VISIBLE);
-    }
-
-    public void showCategoryIcon(String iconName) {
-        showLayout();
-        changeCategoryFilterIcon(iconName);
-        setImageViewTagToResourceId(categoryFilterIcon, getResourceIdFromName(iconName));
-        showShadowIcon(categoryFilterIcon);
-    }
-
-    public void showProfitIcon(int resourceId) {
-        showLayout();
-        if (resourceId != R.drawable.profit_and_loss_icon) {
-            profitIcon.setImageResource(resourceId);
-            setImageViewTagToResourceId(profitIcon, resourceId);
-            showShadowIcon(profitIcon);
+        value = filters.get(PROFIT_FILTER_ID);
+        if (valueIsPositive(value)) {
+            showProfitIcon(value);
         } else {
             goneShadowIcon(profitIcon);
         }
-    }
 
-    private int getResourceIdFromName(String resName) {
-        return view.getContext().getResources().getIdentifier(resName, "drawable", view.getContext().getPackageName());
-    }
-
-    public void showReverseIcon(boolean isChecked) {
-        showLayout();
-        if (isChecked) {
-            showShadowIcon(reverseSortingIcon);
+        value = filters.get(ORDER_FILTER_ID);
+        if (valueIsPositive(value)) {
+            showOrderIcon(value);
         } else {
-            goneShadowIcon(reverseSortingIcon);
+            goneShadowIcon(orderFilterIcon);
+        }
+    }
+
+    private boolean valueIsPositive(Integer value) {
+        return value != null && value > 0;
+    }
+
+    public void showReverseIcon(int value) {
+        if (value == 1) {
+            showShadowIcon(reverseSortingIcon);
         }
     }
 
@@ -82,14 +85,51 @@ public class SortingMarkIconManager {
     }
 
     private void goneShadowIcon(ImageView icon) {
-        icon.setVisibility(View.GONE);
+        icon.setVisibility(View.INVISIBLE);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void showCategoryIcon(int categoryId) {
+        Category category;
+        Optional<Category> optional =
+                categoryList.stream().filter(a ->
+                        a.getCategoryId() == categoryId).findFirst();
+        if (optional.isPresent()) {
+            category = optional.get();
+            changeCategoryFilterIcon(category.getIconName());
+            showShadowIcon(categoryFilterIcon);
+        }
     }
 
     private void changeCategoryFilterIcon(String iconName) {
         categoryFilterIcon.setImageResource(getResourceIdFromName(iconName));
     }
 
-    private void setImageViewTagToResourceId(ImageView icon, int resId) {
-        icon.setTag(resId);
+    private int getResourceIdFromName(String resName) {
+        return view
+                .getContext()
+                .getResources()
+                .getIdentifier(resName, "drawable", view.getContext().getPackageName());
+    }
+
+    public void showProfitIcon(int profitOrLoss) {
+        if (profitOrLoss == 1) {
+            profitIcon.setImageResource(R.drawable.profits);
+            showShadowIcon(profitIcon);
+        } else if (profitOrLoss == 2) {
+            profitIcon.setImageResource(R.drawable.loss_profit);
+            showShadowIcon(profitIcon);
+        }
+    }
+
+    public void showOrderIcon(int value) {
+        if (value == 1) {
+            orderFilterIcon.setImageResource(R.drawable.block);
+        } else if (value == 2) {
+            orderFilterIcon.setImageResource(R.drawable.dollar_coin);
+        } else if (value == 3) {
+            orderFilterIcon.setImageResource(R.drawable.calendar);
+        }
+        showShadowIcon(orderFilterIcon);
     }
 }

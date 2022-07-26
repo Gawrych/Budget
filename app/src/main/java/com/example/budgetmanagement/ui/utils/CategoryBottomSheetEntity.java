@@ -1,8 +1,8 @@
-package com.example.budgetmanagement.ui.History;
+package com.example.budgetmanagement.ui.utils;
 
 import androidx.room.ColumnInfo;
 
-public class HistoryBottomSheetEntity {
+public class CategoryBottomSheetEntity {
 
     @ColumnInfo(name = "categoryId")
     private int id;

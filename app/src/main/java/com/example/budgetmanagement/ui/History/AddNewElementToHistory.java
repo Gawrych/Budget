@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
+import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.example.budgetmanagement.ui.utils.DecimalDigitsInputFilter;
 
@@ -24,7 +25,7 @@ import java.util.Objects;
 
 public class AddNewElementToHistory extends Fragment {
 
-    private HistoryBottomSheetCategoryFilter historyBottomSheetCategoryFilter;
+    private CategoryBottomSheetSelector categoryBottomSheetSelector;
     private int categoryId = 1;
     private View root;
 
@@ -42,10 +43,10 @@ public class AddNewElementToHistory extends Fragment {
 
         Button acceptButton = root.findViewById(R.id.acceptButton);
         acceptButton.setOnClickListener(view -> {
-            TransactionDataCollectorFromUser transactionDataFromUserCollector = new TransactionDataCollectorFromUser(root);
-            boolean correctlyCollectedData = transactionDataFromUserCollector.collectData(calendar, categoryId);
+            NewTransactionDataCollector newTransactionDataCollector = new NewTransactionDataCollector(root);
+            boolean correctlyCollectedData = newTransactionDataCollector.collectData(calendar, categoryId);
             if (correctlyCollectedData) {
-                int transactionId = SubmitQuery.submitTransactionInsertQuery(this, transactionDataFromUserCollector);
+                int transactionId = SubmitQuery.submitTransactionInsertQuery(this, newTransactionDataCollector);
                 SubmitQuery.submitHistoryInsertQuery(historyViewModel, transactionId);
                 requireActivity().onBackPressed();
             }
@@ -67,13 +68,13 @@ public class AddNewElementToHistory extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void selectCategory(HistoryViewModel historyViewModel, EditText categoryEditText) {
-        if (Objects.isNull(historyBottomSheetCategoryFilter)) {
-            historyBottomSheetCategoryFilter = new HistoryBottomSheetCategoryFilter(getContext(), this);
+        if (Objects.isNull(categoryBottomSheetSelector)) {
+            categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
         }
-        historyBottomSheetCategoryFilter.show();
-        historyBottomSheetCategoryFilter.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {
-            categoryId = historyBottomSheetCategoryFilter.getSelectedId();
-            categoryEditText.setText(historyBottomSheetCategoryFilter.getSelectedName());
+        categoryBottomSheetSelector.show();
+        categoryBottomSheetSelector.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {
+            categoryId = categoryBottomSheetSelector.getSelectedId();
+            categoryEditText.setText(categoryBottomSheetSelector.getSelectedName());
         });
     }
 }
