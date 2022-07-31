@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     useLibrary 'android.test.mock'
 
@@ -31,6 +31,7 @@ android {
         viewBinding true
     }
     namespace 'com.example.budgetmanagement'
+    buildToolsVersion '32.0.0'
 }
 
 dependencies {
@@ -38,27 +39,27 @@ dependencies {
     implementation 'androidx.test.espresso:espresso-contrib:3.4.0'
 
     // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
     // Lifecycles only (without ViewModel or LiveData)
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
 
     // Saved state module for ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1"
 
     // alternately - if using Java8, use the following instead of lifecycle-compiler
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
 
     // optional - helpers for implementing LifecycleOwner in a Service
-    implementation "androidx.lifecycle:lifecycle-service:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-service:2.5.1"
 
     // optional - ProcessLifecycleOwner provides a lifecycle for the whole application process
-    implementation "androidx.lifecycle:lifecycle-process:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-process:2.5.1"
 
     // optional - ReactiveStreams support for LiveData
-    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:2.5.0"
-    implementation 'androidx.navigation:navigation-testing:2.5.0'
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:2.5.1"
+    implementation 'androidx.navigation:navigation-testing:2.5.1'
 
     // optional - Test helpers for LiveData
     testImplementation "androidx.arch.core:core-testing:2.1.0"
@@ -69,10 +70,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.navigation:navigation-fragment:2.5.0'
-    implementation 'androidx.navigation:navigation-ui:2.5.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
+    implementation 'androidx.navigation:navigation-fragment:2.5.1'
+    implementation 'androidx.navigation:navigation-ui:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
@@ -83,14 +84,14 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.4.2"
 
     // Room components
-    implementation "androidx.room:room-runtime:2.4.2"
-    annotationProcessor "androidx.room:room-compiler:2.4.2"
-    androidTestImplementation "androidx.room:room-testing:2.4.2"
+    implementation "androidx.room:room-runtime:2.4.3"
+    annotationProcessor "androidx.room:room-compiler:2.4.3"
+    androidTestImplementation "androidx.room:room-testing:2.4.3"
 
     // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.0"
-    implementation "androidx.lifecycle:lifecycle-livedata:2.5.0"
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
 
     // UI
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
@@ -104,7 +105,7 @@ dependencies {
     })
 
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-    implementation "androidx.fragment:fragment:1.5.0"
+    implementation "androidx.fragment:fragment:1.5.1"
 
     // Required -- JUnit 4 framework
     testImplementation "junit:junit:4.13.2"
@@ -113,12 +114,14 @@ dependencies {
     // Optional -- Mockito framework
     testImplementation 'org.mockito:mockito-core:4.6.1'
     // Optional -- Mockk framework
-    testImplementation 'io.mockk:mockk:1.12.4'
+    testImplementation 'io.mockk:mockk:1.12.5'
 
-    debugImplementation "androidx.fragment:fragment-testing:1.5.0"
+    debugImplementation "androidx.fragment:fragment-testing:1.5.1"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
 
+    implementation "androidx.annotation:annotation:1.4.0"
+    implementation "androidx.annotation:annotation-experimental:1.2.0"
 
 }
