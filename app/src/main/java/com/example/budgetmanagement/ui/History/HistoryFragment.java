@@ -71,11 +71,7 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         mediator.addSource(originalList, mediator::setValue);
         mediator.addSource(filteredList, mediator::setValue);
-
-        historyViewModel.getAllHistoryAndTransactionInDateOrder().observe(getViewLifecycleOwner(), s -> {
-            setListToCheck(s);
-        });
-
+        listToCheck = historyViewModel.getAllHistoryAndTransactionInDateOrderList();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -96,7 +92,12 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
+        for (HistoryAndTransaction element : historyViewModel.getAllHistoryAndTransactionInDateOrderList()) {
+            Log.d("ErrorCheck", element.transaction.getTitle());
+        }
         filterViewModel.setOriginalList(historyViewModel.getAllHistoryAndTransactionInDateOrderList());
+
+        historyViewModel.getAllHistoryAndTransactionInDateOrder().observe(getViewLifecycleOwner(), this::setListToCheck);
 
         historyViewModel.getAllHistoryAndTransactionInDateOrder().observe(getViewLifecycleOwner(), s -> {
             if (listToCheck != s) {
@@ -105,6 +106,7 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
                 filterViewModel.setFilters(new HashMap<>());
                 Log.d("ErrorCheck", "resetFiltersInObserver");
             }
+            Log.d("ErrorCheck", "listToCheck != s");
         });
 
         if (isFiltersSet()) {
