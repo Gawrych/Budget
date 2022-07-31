@@ -53,22 +53,24 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
     private MediatorLiveData<List<HistoryAndTransaction>> mediator = new MediatorLiveData<>();
 
+    private boolean showOriginalList = true;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("ErrorCheck", "OnCreate");
         historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
-        historyAndTransactionList = historyViewModel.getAllHistoryAndTransactionInDateOrder();
-        currentList = historyViewModel.getAllHistoryAndTransactionInDateOrderList();
-
-        filterViewModel.setFilters(new HashMap<>());
-
-        originalList = historyViewModel.getAllHistoryAndTransactionInDateOrder();
-        filteredList = filterViewModel.getFilteredList();
-
-        mediator.addSource(originalList, mediator::setValue);
-        mediator.addSource(filteredList, mediator::setValue);
+//        historyAndTransactionList = historyViewModel.getAllHistoryAndTransactionInDateOrder();
+//        currentList = historyViewModel.getAllHistoryAndTransactionInDateOrderList();
+//
+//        filterViewModel.setFilters(new HashMap<>());
+//
+//        originalList = historyViewModel.getAllHistoryAndTransactionInDateOrder();
+//        filteredList = filterViewModel.getFilteredList();
+//
+//        mediator.addSource(originalList, mediator::setValue);
+//        mediator.addSource(filteredList, mediator::setValue);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -89,9 +91,18 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        filterViewModel.setOriginalList(historyViewModel.getAllHistoryAndTransactionInDateOrderList());
+        historyViewModel.getAllHistoryAndTransactionInDateOrder().observe(getViewLifecycleOwner(), filterViewModel::setOriginalList);
 
-        mediator.observe(getViewLifecycleOwner(), adapter::submitList);
+        if (showOriginalList) {
+            historyViewModel.getAllHistoryAndTransactionInDateOrder().observe(getViewLifecycleOwner(), adapter::submitList);
+        } else {
+            filterViewModel.getFilteredList().observe(getViewLifecycleOwner(), adapter::submitList);
+        }
+
+
+//        filterViewModel.setOriginalList(historyViewModel.getAllHistoryAndTransactionInDateOrderList());
+//
+//        mediator.observe(getViewLifecycleOwner(), adapter::submitList);
 
         historyBottomSheetDetails =
                 new HistoryBottomSheetDetails(getContext(), getActivity(), historyViewModel);
@@ -100,18 +111,16 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         addButton.setOnClickListener(root -> {
             filterViewModel.setFilters(new HashMap<>());
             setSortingMarkIcons(filterViewModel.getFilters());
+            showOriginalList = true;
 
             Navigation
                     .findNavController(root)
                     .navigate(R.id.action_navigation_history_to_addNewHistory);
         });
 
-        ImageButton categoryFilter = view.findViewById(R.id.categoryFilterButton);
-//        categoryFilter.setOnClickListener(root -> fragmentTransaction.commit());
-
         ImageButton orderFilter = view.findViewById(R.id.orderFilterButton);
         orderFilter.setOnClickListener(root -> {
-            filterViewModel.setOriginalList(historyViewModel.getAllHistoryAndTransactionInDateOrderList());
+            showOriginalList = false;
             Navigation
                     .findNavController(root)
                     .navigate(R.id.action_navigation_history_to_filterFragment);
