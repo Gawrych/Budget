@@ -33,7 +33,6 @@ import com.example.budgetmanagement.ui.utils.SortingMarkIconManager;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNoteListener {
@@ -50,7 +49,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
     private FilterViewModel filterViewModel;
     private List<HistoryAndTransaction> currentList;
     private LiveData<List<HistoryAndTransaction>> originalList;
-    private List<HistoryAndTransaction> listToCheck;
     private LiveData<List<HistoryAndTransaction>> filteredList;
 
     private MediatorLiveData<List<HistoryAndTransaction>> mediator = new MediatorLiveData<>();
@@ -71,11 +69,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         mediator.addSource(originalList, mediator::setValue);
         mediator.addSource(filteredList, mediator::setValue);
-
-        historyViewModel.getAllHistoryAndTransactionInDateOrder().observe(getViewLifecycleOwner(), s -> {
-            setListToCheck(s);
-        });
-
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -98,59 +91,37 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
         filterViewModel.setOriginalList(historyViewModel.getAllHistoryAndTransactionInDateOrderList());
 
-        historyViewModel.getAllHistoryAndTransactionInDateOrder().observe(getViewLifecycleOwner(), s -> {
-            if (listToCheck != s) {
-                setListToCheck(s);
-                adapter.submitList(s);
-                filterViewModel.setFilters(new HashMap<>());
-                Log.d("ErrorCheck", "resetFiltersInObserver");
-            }
-        });
-
-        if (isFiltersSet()) {
-            filteredList.observe(getViewLifecycleOwner(), adapter::submitList);
-            Log.d("ErrorCheck", "isFiltersSet");
-        } else {
-            originalList.observe(getViewLifecycleOwner(), adapter::submitList);
-            Log.d("ErrorCheck", "isntFiltersSet");
-        }
-
-//        mediator.observe(getViewLifecycleOwner(), adapter::submitList);
-
+        mediator.observe(getViewLifecycleOwner(), adapter::submitList);
 
         historyBottomSheetDetails =
                 new HistoryBottomSheetDetails(getContext(), getActivity(), historyViewModel);
 
         ImageButton addButton = view.findViewById(R.id.addButton);
-        addButton.setOnClickListener(root -> Navigation.
-                findNavController(root).navigate(R.id.action_navigation_history_to_addNewHistory));
+        addButton.setOnClickListener(root -> {
+            filterViewModel.setFilters(new HashMap<>());
+            setSortingMarkIcons(filterViewModel.getFilters());
+
+            Navigation
+                    .findNavController(root)
+                    .navigate(R.id.action_navigation_history_to_addNewHistory);
+        });
 
         ImageButton categoryFilter = view.findViewById(R.id.categoryFilterButton);
 //        categoryFilter.setOnClickListener(root -> fragmentTransaction.commit());
 
         ImageButton orderFilter = view.findViewById(R.id.orderFilterButton);
-        orderFilter.setOnClickListener(root -> Navigation.findNavController(root)
-                .navigate(R.id.action_navigation_history_to_filterFragment));
+        orderFilter.setOnClickListener(root -> {
+            filterViewModel.setOriginalList(historyViewModel.getAllHistoryAndTransactionInDateOrderList());
+            Navigation
+                    .findNavController(root)
+                    .navigate(R.id.action_navigation_history_to_filterFragment);
+        });
 
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         List<Category> categoryList = categoryViewModel.getCategoryList();
 
         sortingMarkIconManager = new SortingMarkIconManager(view, categoryList);
         setSortingMarkIcons(filterViewModel.getFilters());
-    }
-
-    private void setListToCheck(List<HistoryAndTransaction> list) {
-        listToCheck = list;
-    }
-
-    private boolean isFiltersSet() {
-        HashMap<Integer, Integer> map = filterViewModel.getFilters();
-        for (Map.Entry<Integer, Integer> filter : map.entrySet()) {
-            if (filter.getValue() != 0) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
