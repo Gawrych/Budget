@@ -25,7 +25,9 @@ public class CalendarDialogBoxDatePicker {
     public void show(FragmentManager parentFragmentManager, EditText calendar) {
         if (!datePicker.isAdded()) {
             datePicker.show(parentFragmentManager, "DATE_PICKER");
-            datePicker.addOnPositiveButtonClickListener(selection -> calendar.setText(DateProcessor.getDate((selection))));
+            datePicker.addOnPositiveButtonClickListener(selection -> {
+                calendar.setText(DateProcessor.getDate((selection)));
+            });
         }
     }
 }

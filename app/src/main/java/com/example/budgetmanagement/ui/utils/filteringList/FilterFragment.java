@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -39,18 +40,22 @@ public class FilterFragment extends Fragment {
     private FilterFragmentUiManager filterFragmentUiManager;
     private FiltersCollector filtersCollector;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_filter, container, false);
+        return inflater.inflate(R.layout.fragment_filter, container, false);
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
         CategoryBottomSheetSelector categoryBottomSheetSelector =
                 new CategoryBottomSheetSelector(this);
 
-        filterFragmentUiManager = new FilterFragmentUiManager(root, categoryBottomSheetSelector);
+        filterFragmentUiManager = new FilterFragmentUiManager(view, categoryBottomSheetSelector);
 
         filtersCollector = new FiltersCollector(filterFragmentUiManager);
 
@@ -81,17 +86,16 @@ public class FilterFragment extends Fragment {
         categorySelector.setOnClickListener(v ->
                 filterFragmentUiManager.showBottomSheetToSelectCategory());
 
-        resetButton.setOnClickListener(view ->
+        resetButton.setOnClickListener(root ->
                 filterFragmentUiManager.setDefaultValues());
 
-        filterButton.setOnClickListener(view -> {
+        filterButton.setOnClickListener(root -> {
             filters = getFiltersFromCollector();
             List<HistoryAndTransaction> sortedList = filterList(filters);
             updateFilterViewModel(sortedList);
             backToPreviousFragment();
         });
 
-        return root;
     }
 
     public HashMap<Integer, Integer> getFiltersFromCollector() {

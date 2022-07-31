@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +33,7 @@ import com.example.budgetmanagement.ui.utils.SortingMarkIconManager;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNoteListener {
@@ -43,11 +45,15 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
 
     private HistoryBottomSheetDetails historyBottomSheetDetails;
     private HistoryAdapter adapter;
-    private View root;
     private int value = 0;
     private SortingMarkIconManager sortingMarkIconManager;
     private FilterViewModel filterViewModel;
     private List<HistoryAndTransaction> currentList;
+    private LiveData<List<HistoryAndTransaction>> originalList;
+    private List<HistoryAndTransaction> listToCheck;
+    private LiveData<List<HistoryAndTransaction>> filteredList;
+
+    private MediatorLiveData<List<HistoryAndTransaction>> mediator = new MediatorLiveData<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,49 +63,99 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
         historyAndTransactionList = historyViewModel.getAllHistoryAndTransactionInDateOrder();
         currentList = historyViewModel.getAllHistoryAndTransactionInDateOrderList();
-        filterViewModel.setFilteredList(currentList);
-        filterViewModel.setOriginalList(currentList);
+
         filterViewModel.setFilters(new HashMap<>());
+
+        originalList = historyViewModel.getAllHistoryAndTransactionInDateOrder();
+        filteredList = filterViewModel.getFilteredList();
+
+        mediator.addSource(originalList, mediator::setValue);
+        mediator.addSource(filteredList, mediator::setValue);
+
+        historyViewModel.getAllHistoryAndTransactionInDateOrder().observe(getViewLifecycleOwner(), s -> {
+            setListToCheck(s);
+        });
+
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        Log.d("ErrorCheck", "onCreateView");
+        return inflater.inflate(R.layout.history_fragment, container, false);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.d("ErrorCheck", "onViewCreated");
         RecyclerView recyclerView;
 
-        root =  inflater.inflate(R.layout.history_fragment, container, false);
-        recyclerView = root.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         adapter = new HistoryAdapter(new HistoryAdapter.HistoryAndTransactionDiff(), this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        filterViewModel.getFilteredList().observe(getViewLifecycleOwner(), adapter::submitList);
+        filterViewModel.setOriginalList(historyViewModel.getAllHistoryAndTransactionInDateOrderList());
+
+        historyViewModel.getAllHistoryAndTransactionInDateOrder().observe(getViewLifecycleOwner(), s -> {
+            if (listToCheck != s) {
+                setListToCheck(s);
+                adapter.submitList(s);
+                filterViewModel.setFilters(new HashMap<>());
+                Log.d("ErrorCheck", "resetFiltersInObserver");
+            }
+        });
+
+        if (isFiltersSet()) {
+            filteredList.observe(getViewLifecycleOwner(), adapter::submitList);
+            Log.d("ErrorCheck", "isFiltersSet");
+        } else {
+            originalList.observe(getViewLifecycleOwner(), adapter::submitList);
+            Log.d("ErrorCheck", "isntFiltersSet");
+        }
+
+//        mediator.observe(getViewLifecycleOwner(), adapter::submitList);
+
 
         historyBottomSheetDetails =
                 new HistoryBottomSheetDetails(getContext(), getActivity(), historyViewModel);
 
+        ImageButton addButton = view.findViewById(R.id.addButton);
+        addButton.setOnClickListener(root -> Navigation.
+                findNavController(root).navigate(R.id.action_navigation_history_to_addNewHistory));
+
+        ImageButton categoryFilter = view.findViewById(R.id.categoryFilterButton);
+//        categoryFilter.setOnClickListener(root -> fragmentTransaction.commit());
+
+        ImageButton orderFilter = view.findViewById(R.id.orderFilterButton);
+        orderFilter.setOnClickListener(root -> Navigation.findNavController(root)
+                .navigate(R.id.action_navigation_history_to_filterFragment));
+
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         List<Category> categoryList = categoryViewModel.getCategoryList();
 
-        ImageButton addButton = root.findViewById(R.id.addButton);
-        addButton.setOnClickListener(view -> Navigation.
-                findNavController(view).navigate(R.id.action_navigation_history_to_addNewHistory));
-
-        ImageButton categoryFilter = root.findViewById(R.id.categoryFilterButton);
-//        categoryFilter.setOnClickListener(view -> fragmentTransaction.commit());
-
-        ImageButton orderFilter = root.findViewById(R.id.orderFilterButton);
-        orderFilter.setOnClickListener(view -> Navigation.findNavController(view)
-                .navigate(R.id.action_navigation_history_to_filterFragment));
-
-        sortingMarkIconManager = new SortingMarkIconManager(root, categoryList);
+        sortingMarkIconManager = new SortingMarkIconManager(view, categoryList);
         setSortingMarkIcons(filterViewModel.getFilters());
-        return root;
+    }
+
+    private void setListToCheck(List<HistoryAndTransaction> list) {
+        listToCheck = list;
+    }
+
+    private boolean isFiltersSet() {
+        HashMap<Integer, Integer> map = filterViewModel.getFilters();
+        for (Map.Entry<Integer, Integer> filter : map.entrySet()) {
+            if (filter.getValue() != 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

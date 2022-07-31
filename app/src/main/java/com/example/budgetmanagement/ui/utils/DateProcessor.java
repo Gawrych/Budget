@@ -4,7 +4,9 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class DateProcessor {
@@ -14,7 +16,7 @@ public class DateProcessor {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String getDate(long dateInMillis) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
-        LocalDate date = LocalDate.ofEpochDay(dateInMillis);
+        LocalDate date = Instant.ofEpochMilli(dateInMillis).atZone(ZoneId.systemDefault()).toLocalDate();
         return dateTimeFormatter.format(date);
     }
 
