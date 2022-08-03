@@ -15,6 +15,7 @@ import com.example.budgetmanagement.ui.utils.EditFieldManager;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 public class NewTransactionDataCollector {
@@ -97,7 +98,8 @@ public class NewTransactionDataCollector {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setDateInPattern(EditText calendar) {
-        date = getSelectedDateInPattern(calendar).toEpochDay();
+        LocalDate localDate = getSelectedDateInPattern(calendar);
+        date = localDate.atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

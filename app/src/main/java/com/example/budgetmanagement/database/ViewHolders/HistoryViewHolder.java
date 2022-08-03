@@ -13,11 +13,11 @@ import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    private TextView titleField;
-    private TextView amountField;
-    private TextView dateField;
-    private TextView currency;
-    private HistoryViewHolder.OnNoteListener onNoteListener;
+    private final TextView titleField;
+    private final TextView amountField;
+    private final TextView dateField;
+    private final TextView currency;
+    private final HistoryViewHolder.OnNoteListener onNoteListener;
 
     public HistoryViewHolder(View itemView, HistoryViewHolder.OnNoteListener onNoteListener) {
         super(itemView);
