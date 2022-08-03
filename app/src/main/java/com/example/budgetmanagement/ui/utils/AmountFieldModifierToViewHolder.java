@@ -24,6 +24,9 @@ public class AmountFieldModifierToViewHolder {
         if (checkIsNegative(amountInBigDecimal)) {
             changeAmountFontColorForLossTransaction();
             changeCurrencyFontColorForLossTransaction();
+        } else {
+            changeAmountFontColorForProfitTransaction();
+            changeCurrencyFontColorForProfitTransaction();
         }
     }
 
@@ -39,8 +42,20 @@ public class AmountFieldModifierToViewHolder {
         this.currency.setTextColor(getLossColor());
     }
 
+    private void changeAmountFontColorForProfitTransaction() {
+        this.amountField.setTextColor(getProfitColor());
+    }
+
+    private void changeCurrencyFontColorForProfitTransaction() {
+        this.currency.setTextColor(getProfitColor());
+    }
+
     private int getLossColor() {
         return ContextCompat.getColor(getContext(), getLossTransactionColor());
+    }
+
+    private int getProfitColor() {
+        return ContextCompat.getColor(getContext(), getProfitTransactionColor());
     }
 
     private Context getContext() {
@@ -49,5 +64,9 @@ public class AmountFieldModifierToViewHolder {
 
     private int getLossTransactionColor() {
         return R.color.nonProfitTransaction;
+    }
+
+    private int getProfitTransactionColor() {
+        return android.R.color.tab_indicator_text;
     }
 }

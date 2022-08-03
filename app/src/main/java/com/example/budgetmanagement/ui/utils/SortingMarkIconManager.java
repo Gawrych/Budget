@@ -132,4 +132,14 @@ public class SortingMarkIconManager {
         }
         showShadowIcon(orderFilterIcon);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void removeAllMarkIcons() {
+        setMarkIcons(getEmptyFiltersMap());
+    }
+
+    private HashMap<Integer, Integer> getEmptyFiltersMap() {
+        return new HashMap<>();
+    }
+
 }
