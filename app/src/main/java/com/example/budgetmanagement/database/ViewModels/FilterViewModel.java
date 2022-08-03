@@ -50,4 +50,11 @@ public class FilterViewModel extends ViewModel {
     public HashMap<Integer, Integer> getFilters() {
         return filters;
     }
+
+    public void resetFilters() {
+        this.filters.put(PROFIT_FILTER_ID, 0);
+        this.filters.put(ORDER_FILTER_ID, 0);
+        this.filters.put(CATEGORY_FILTER_ID, 0);
+        this.filters.put(REVERSE_FILTER_ID, 0);
+    }
 }
