@@ -67,6 +67,6 @@ public class AmountFieldModifierToViewHolder {
     }
 
     private int getProfitTransactionColor() {
-        return android.R.color.tab_indicator_text;
+        return R.color.main_green;
     }
 }
