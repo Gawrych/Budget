@@ -13,11 +13,11 @@ import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 public class ComingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    private TextView textField;
-    private TextView amountField;
-    private TextView dateField;
-    private TextView currency;
-    private ComingViewHolder.OnNoteListener onNoteListener;
+    private final TextView textField;
+    private final TextView amountField;
+    private final TextView dateField;
+    private final TextView currency;
+    private final ComingViewHolder.OnNoteListener onNoteListener;
 
     public ComingViewHolder(View itemView, ComingViewHolder.OnNoteListener onNoteListener) {
         super(itemView);

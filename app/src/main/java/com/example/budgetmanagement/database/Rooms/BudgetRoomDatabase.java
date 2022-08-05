@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 64, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 72, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -72,6 +72,31 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 transactionDao.insert(transaction2);
                 transactionDao.insert(transaction3);
 
+                Transaction transaction4 = new Transaction(4, 2,
+                        "Herbatka4", "99.00", LocalDate.now().toEpochDay(),
+                        LocalDate.now().toEpochDay(), false);
+                transactionDao.insert(transaction4);
+
+                Transaction transaction5 = new Transaction(5, 2,
+                        "Herbatka5", "99.00", LocalDate.now().toEpochDay(),
+                        LocalDate.now().toEpochDay(), false);
+                transactionDao.insert(transaction5);
+
+                Transaction transaction6 = new Transaction(6, 2,
+                        "Herbatka5", "99.00", LocalDate.now().toEpochDay(),
+                        LocalDate.now().toEpochDay(), false);
+                transactionDao.insert(transaction6);
+
+                Transaction transaction7 = new Transaction(7, 2,
+                        "Herbatka5", "99.00", LocalDate.now().toEpochDay(),
+                        LocalDate.now().toEpochDay(), false);
+                transactionDao.insert(transaction7);
+
+                Transaction transaction8 = new Transaction(8, 2,
+                        "Herbatka5", "99.00", LocalDate.now().toEpochDay(),
+                        LocalDate.now().toEpochDay(), false);
+                transactionDao.insert(transaction8);
+
                 ComingDao comingDao = INSTANCE.comingDao();
                 Coming coming = new Coming(1, 1, 2, 5,
                         5454, 3232, LocalDate.now().toEpochDay());
@@ -79,6 +104,31 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                         5454, 3232, LocalDate.now().toEpochDay());
                 comingDao.insert(coming2);
                 comingDao.insert(coming);
+
+                Coming coming3 = new Coming(3, 3, 2, 5,
+                        1644075600000L, 3232, LocalDate.now().toEpochDay());
+                comingDao.insert(coming3);
+
+                Coming coming4 = new Coming(4, 4, 2, 5,
+                        1646494800000L, 3232, LocalDate.now().toEpochDay());
+                comingDao.insert(coming4);
+
+                Coming coming5 = new Coming(5, 5, 2, 5,
+                        1649169600000L, 3232, LocalDate.now().toEpochDay());
+                comingDao.insert(coming5);
+
+                Coming coming6 = new Coming(6, 6, 2, 5,
+                        1649169600000L, 3232, LocalDate.now().toEpochDay());
+                comingDao.insert(coming6);
+
+                Coming coming7 = new Coming(7, 7, 2, 5,
+                        1649169600000L, 3232, LocalDate.now().toEpochDay());
+                comingDao.insert(coming7);
+
+                Coming coming8 = new Coming(8, 8, 2, 5,
+                        1649169600000L, 3232, LocalDate.now().toEpochDay());
+                comingDao.insert(coming8);
+
 
                 HistoryDao historyDao = INSTANCE.historyDao();
                 History history = new History(1, 2, LocalDate.now().toEpochDay());

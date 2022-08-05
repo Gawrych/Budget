@@ -26,6 +26,6 @@ public interface ComingDao {
     LiveData<List<Coming>> getAllComing();
 
     @androidx.room.Transaction
-    @Query("SELECT * FROM coming ORDER BY addDate ASC")
+    @Query("SELECT * FROM coming ORDER BY repeatDate ASC")
     LiveData<List<ComingAndTransaction>> getAllComingAndTransaction();
 }

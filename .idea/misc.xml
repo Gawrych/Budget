@@ -41,7 +41,7 @@
         <entry key="app/src/main/res/layout/add_new_history_fragment.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/category_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/category_recycler_view.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/coming_fragment.xml" value="0.37864583333333335" />
+        <entry key="app/src/main/res/layout/coming_fragment.xml" value="0.22" />
         <entry key="app/src/main/res/layout/coming_recycler_view.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_filter.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_statistics.xml" value="0.33" />

@@ -37,4 +37,8 @@
     <string name="sortByDateIcon">sortByDateIcon</string>
     <string name="sortByAmountIcon">sortByAmountIcon</string>
     <string name="sortByNameIcon">sortByNameIcon</string>
+    <string name="january">Styczeń</string>
+    <string name="february">Luty</string>
+    <string name="march">Marzec</string>
+    <string name="april">Kwiecień</string>
 </resources>
