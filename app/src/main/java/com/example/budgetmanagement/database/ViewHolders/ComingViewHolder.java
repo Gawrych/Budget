@@ -1,49 +1,42 @@
 package com.example.budgetmanagement.database.ViewHolders;
 
+import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
-import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.example.budgetmanagement.database.Adapters.ComingChildAdapter;
+import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 
-public class ComingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+import java.util.List;
 
-    private final TextView textField;
-    private final TextView amountField;
-    private final TextView dateField;
-    private final TextView currency;
-    private final ComingViewHolder.OnNoteListener onNoteListener;
+public class ComingViewHolder extends RecyclerView.ViewHolder {
 
-    public ComingViewHolder(View itemView, ComingViewHolder.OnNoteListener onNoteListener) {
+    private final TextView sectionName;
+    private final RecyclerView childRecyclerView;
+
+    public ComingViewHolder(View itemView) {
         super(itemView);
-        textField = itemView.findViewById(R.id.title);
-        amountField = itemView.findViewById(R.id.amount);
-        dateField = itemView.findViewById(R.id.createDate);
-        currency = itemView.findViewById(R.id.currency);
-        this.onNoteListener = onNoteListener;
-        itemView.setOnClickListener(this);
+        sectionName = itemView.findViewById(R.id.sectionName);
+        childRecyclerView = itemView.findViewById(R.id.childRecyclerView);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void bind(String title, String amount, long repeatDate) {
-        this.textField.setText(title);
-        AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField, this.currency);
-        amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
-        this.amountField.setText(amount);
-        this.dateField.setText(DateProcessor.getDate(repeatDate));
+    public void bind(ComingChildViewHolder.OnNoteListener onNoteListener, Context context, int resId, List<ComingAndTransaction> sectionItems) {
+        this.sectionName.setText(getStringFromResId(resId, context));
+        Log.d("ErrorCheck", "January:  " + sectionItems.get(0).transaction.getTitle());
+        ComingChildAdapter adapter = new ComingChildAdapter(sectionItems, onNoteListener);
+        childRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        childRecyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onClick(View v) {
-        onNoteListener.onNoteClick(getAbsoluteAdapterPosition());
-    }
-
-    public interface OnNoteListener {
-        void onNoteClick(int position);
+    private String getStringFromResId(int resId, Context context) {
+        return context.getString(resId);
     }
 }
