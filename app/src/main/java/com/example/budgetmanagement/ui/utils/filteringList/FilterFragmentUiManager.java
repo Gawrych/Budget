@@ -20,6 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
@@ -52,9 +53,10 @@ public class FilterFragmentUiManager {
     private final Button filterButton;
     private HashMap<Integer, Integer> filters;
 
-    public FilterFragmentUiManager(View root, CategoryBottomSheetSelector categoryBottomSheetSelector) {
+    public FilterFragmentUiManager(View root, Fragment rootFragment) {
         this.resources = root.getResources();
-        this.categoryBottomSheetSelector = categoryBottomSheetSelector;
+        this.categoryBottomSheetSelector =
+                new CategoryBottomSheetSelector(rootFragment);
 
         resetButton = root.findViewById(R.id.resetFilters);
         filterButton = root.findViewById(R.id.filterList);

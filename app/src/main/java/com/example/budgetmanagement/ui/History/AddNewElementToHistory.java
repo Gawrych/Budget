@@ -21,8 +21,6 @@ import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.example.budgetmanagement.ui.utils.DecimalDigitsInputFilter;
 
-import java.util.Objects;
-
 public class AddNewElementToHistory extends Fragment {
 
     private CategoryBottomSheetSelector categoryBottomSheetSelector;
@@ -34,6 +32,8 @@ public class AddNewElementToHistory extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         this.root =  inflater.inflate(R.layout.add_new_history_element_fragment, container, false);
+
+        categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
 
         EditText calendar = root.findViewById(R.id.date);
         HistoryViewModel historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
@@ -57,7 +57,7 @@ public class AddNewElementToHistory extends Fragment {
         calendar.setOnClickListener(view -> calendarDialogDatePicker.show(getParentFragmentManager(), calendar));
 
         EditText selectedCategory = root.findViewById(R.id.categoryList);
-        selectedCategory.setOnClickListener(view -> selectCategory(historyViewModel, selectedCategory));
+        selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
 
         Button cancelButton = root.findViewById(R.id.cancelButton);
         cancelButton.setOnClickListener(view -> requireActivity().onBackPressed());
@@ -65,14 +65,10 @@ public class AddNewElementToHistory extends Fragment {
         return root;
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void selectCategory(HistoryViewModel historyViewModel, EditText categoryEditText) {
-        if (Objects.isNull(categoryBottomSheetSelector)) {
-            categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
-        }
+    private void selectCategory(EditText categoryEditText) {
         categoryBottomSheetSelector.show();
-        categoryBottomSheetSelector.getBottomSheetDialog().setOnDismissListener(dialogInterface -> {
+        categoryBottomSheetSelector.getBottomSheetDialog().setOnDismissListener(v -> {
             categoryId = categoryBottomSheetSelector.getSelectedId();
             categoryEditText.setText(categoryBottomSheetSelector.getSelectedName());
         });

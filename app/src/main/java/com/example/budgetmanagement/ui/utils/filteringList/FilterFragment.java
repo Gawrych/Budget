@@ -23,7 +23,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.FilterViewModel;
-import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,10 +51,7 @@ public class FilterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
 
-        CategoryBottomSheetSelector categoryBottomSheetSelector =
-                new CategoryBottomSheetSelector(this);
-
-        filterFragmentUiManager = new FilterFragmentUiManager(view, categoryBottomSheetSelector);
+        filterFragmentUiManager = new FilterFragmentUiManager(view, this);
 
         filtersCollector = new FiltersCollector(filterFragmentUiManager);
 

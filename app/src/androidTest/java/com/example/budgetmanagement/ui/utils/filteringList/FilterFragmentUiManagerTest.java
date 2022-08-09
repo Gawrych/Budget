@@ -22,11 +22,11 @@ import static org.junit.Assert.assertTrue;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,17 +44,16 @@ public class FilterFragmentUiManagerTest {
         filterFragmentScenario.moveToState(Lifecycle.State.RESUMED);
         filterFragmentScenario.onFragment(action -> {
             View view = action.getView();
-            CategoryBottomSheetSelector selector = new CategoryBottomSheetSelector(action);
             if (view != null) {
-                setupUiManager(view, selector);
+                setupUiManager(view, action);
             } else {
                 throw new NullPointerException();
             }
         });
     }
 
-    private void setupUiManager(@NonNull View view, @NonNull CategoryBottomSheetSelector selector) {
-        filterFragmentUiManager = new FilterFragmentUiManager(view, selector);
+    private void setupUiManager(@NonNull View view, @NonNull Fragment fragment) {
+        filterFragmentUiManager = new FilterFragmentUiManager(view, fragment);
     }
 
     private void selectOrderSorting(int sortMethod) throws Throwable {
