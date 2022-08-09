@@ -2,10 +2,10 @@ package com.example.budgetmanagement.ui.Coming;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +25,11 @@ import com.example.budgetmanagement.databinding.ComingFragmentBinding;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -33,14 +37,29 @@ public class ComingFragment extends Fragment implements ComingChildViewHolder.On
 
     private ComingViewModel comingViewModel;
     private ComingFragmentBinding binding;
+    private View view;
     private LiveData<List<ComingAndTransaction>> coming;
     private ComingAdapter adapter;
     private List<ComingAndTransaction> globalList;
     private List<Section> sectionList = new ArrayList<>();
 
-    public final int JANUARY = 0;
-    public final int FEBRUARY = 1;
-    public final int MARCH = 2;
+    public static final Map<String, Integer> months;
+    static {
+        Map<String, Integer> items = new LinkedHashMap<>();
+        items.put("january", 0);
+        items.put("february", 1);
+        items.put("march", 2);
+        items.put("april", 3);
+        items.put("may", 4);
+        items.put("june", 5);
+        items.put("july", 6);
+        items.put("august", 7);
+        items.put("september", 8);
+        items.put("october", 9);
+        items.put("november", 10);
+        items.put("december", 11);
+        months = Collections.unmodifiableMap(items);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +70,7 @@ public class ComingFragment extends Fragment implements ComingChildViewHolder.On
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.view = view;
 
         adapter = new ComingAdapter(new ComingAdapter.ComingDiff(), this, getContext());
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
@@ -68,23 +88,11 @@ public class ComingFragment extends Fragment implements ComingChildViewHolder.On
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setSections(List<ComingAndTransaction> list) {
         globalList = list;
+        months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), getTransactionByMonth(id))));
+    }
 
-        Section january = new Section(R.string.january, getTransactionByMonth(0));
-        Section february = new Section(R.string.february, getTransactionByMonth(1));
-
-        Log.d("ErrorCheck", "January list: " + january.getComingAndTransactionList().get(0).transaction.getTitle());
-
-        sectionList.add(january);
-        sectionList.add(february);
-
-//        LiveData<List<ComingAndTransaction>> januaryItems = getTransactionByMonth(JANUARY);
-//        januaryItems.observe(getViewLifecycleOwner(), januaryAdapter::submitList);
-//
-//        LiveData<List<ComingAndTransaction>> februaryItems = getTransactionByMonth(FEBRUARY);
-//        februaryItems.observe(getViewLifecycleOwner(), februaryAdapter::submitList);
-//
-//        LiveData<List<ComingAndTransaction>> marchItems = getTransactionByMonth(MARCH);
-//        marchItems.observe(getViewLifecycleOwner(), marchAdapter::submitList);
+    private int getStringResId(String stringName) {
+        return getResources().getIdentifier(stringName, "string", view.getContext().getPackageName());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -99,16 +107,16 @@ public class ComingFragment extends Fragment implements ComingChildViewHolder.On
                 }).collect(Collectors.toList());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void onNoteClick(int position) {
-//        ((MainActivity) requireActivity()).turnOnProgressBar();
-//        Intent intent = new Intent(getActivity(), AddNewCategoryElement.class);
-//        startActivityForResult.launch(intent);
+    public void onNoteClick(int comingId) {
+        Optional<ComingAndTransaction> optional = globalList.stream().filter(item -> item.coming.getComingId() == comingId).findFirst();
+        if (optional.isPresent()) {
+            ComingAndTransaction comingAndTransaction = optional.get();
+            Toast.makeText(requireContext(), comingAndTransaction.transaction.getTitle(), Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public ComingChildViewHolder.OnNoteListener getOnNoteListener() {
-        return this;
-    }
 
     @Override
     public void onDestroyView() {

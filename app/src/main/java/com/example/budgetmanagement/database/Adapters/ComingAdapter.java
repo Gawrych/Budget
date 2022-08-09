@@ -2,7 +2,6 @@ package com.example.budgetmanagement.database.Adapters;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,9 +36,7 @@ public class ComingAdapter extends ListAdapter<Section, ComingViewHolder> {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(ComingViewHolder holder, int position) {
-        Log.d("ErrorCheck", String.valueOf(position));
         Section current = getItem(position);
-        Log.d("ErrorCheck", "January: " + current.getComingAndTransactionList().get(0).transaction.getTitle());
         holder.bind(mOnNoteListener, context, current.getLabelId(), current.getComingAndTransactionList());
     }
 

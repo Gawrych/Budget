@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class ComingChildViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -18,21 +19,25 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
     private final TextView amountField;
     private final TextView dateField;
     private final TextView currency;
+    private int comingId;
+    private BottomSheetDialog bottomSheetDialog;
     private final ComingChildViewHolder.OnNoteListener onNoteListener;
 
-    public ComingChildViewHolder(View itemView, ComingChildViewHolder.OnNoteListener onNoteListener) {
+    public ComingChildViewHolder(View itemView, ComingChildViewHolder.OnNoteListener onNoteListener, BottomSheetDialog bottomSheetDialog) {
         super(itemView);
+        this.bottomSheetDialog = bottomSheetDialog;
         textField = itemView.findViewById(R.id.title);
         amountField = itemView.findViewById(R.id.amount);
         dateField = itemView.findViewById(R.id.createDate);
         currency = itemView.findViewById(R.id.currency);
         this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
+        Log.d("ErrorCheck", "ComingChildViewHolder");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void bind(String title, String amount, long repeatDate) {
-        Log.d("ErrorCheck", "January bind: " + title);
+    public void bind(int comingId, String title, String amount, long repeatDate) {
+        this.comingId = comingId;
         this.textField.setText(title);
         AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField, this.currency);
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
@@ -42,7 +47,7 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
 
     @Override
     public void onClick(View v) {
-        onNoteListener.onNoteClick(getAbsoluteAdapterPosition());
+        onNoteListener.onNoteClick(comingId);
     }
 
     public interface OnNoteListener {

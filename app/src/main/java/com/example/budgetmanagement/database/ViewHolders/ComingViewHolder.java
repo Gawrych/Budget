@@ -2,7 +2,6 @@ package com.example.budgetmanagement.database.ViewHolders;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,7 +29,6 @@ public class ComingViewHolder extends RecyclerView.ViewHolder {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void bind(ComingChildViewHolder.OnNoteListener onNoteListener, Context context, int resId, List<ComingAndTransaction> sectionItems) {
         this.sectionName.setText(getStringFromResId(resId, context));
-        Log.d("ErrorCheck", "January:  " + sectionItems.get(0).transaction.getTitle());
         ComingChildAdapter adapter = new ComingChildAdapter(sectionItems, onNoteListener);
         childRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         childRecyclerView.setAdapter(adapter);
