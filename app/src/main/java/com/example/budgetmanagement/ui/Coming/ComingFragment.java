@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -104,20 +105,10 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
                 }).collect(Collectors.toList());
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    @Override
-//    public void onNoteClick(int comingId) {
-//        Optional<ComingAndTransaction> optional = globalList.stream().filter(item -> item.coming.getComingId() == comingId).findFirst();
-//        if (optional.isPresent()) {
-//            ComingAndTransaction comingAndTransaction = optional.get();
-//            Toast.makeText(requireContext(), comingAndTransaction.transaction.getTitle(), Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
     @Override
     public void onItemClick(int parentPosition, int childPosition) {
         ComingAndTransaction coming = adapter.getCurrentList().get(parentPosition).getComingAndTransactionList().get(childPosition);
-
+        Toast.makeText(requireContext(), "Title: " + coming.transaction.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

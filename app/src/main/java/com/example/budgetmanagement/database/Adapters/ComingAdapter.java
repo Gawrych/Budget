@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.ViewHolders.ComingViewHolder;
@@ -18,8 +19,9 @@ import com.example.budgetmanagement.ui.Coming.Section;
 
 public class ComingAdapter extends ListAdapter<Section, ComingViewHolder> {
 
-    private ParentOnNoteListener parentOnNoteListener;
-    private Context context;
+    private final ParentOnNoteListener parentOnNoteListener;
+    private final Context context;
+    private final RecyclerView.RecycledViewPool pool = new RecyclerView.RecycledViewPool();
 
     public ComingAdapter(@NonNull DiffUtil.ItemCallback<Section> diffCallback, ParentOnNoteListener parentOnNoteListener, Context context) {
         super(diffCallback);
@@ -37,7 +39,7 @@ public class ComingAdapter extends ListAdapter<Section, ComingViewHolder> {
     @Override
     public void onBindViewHolder(ComingViewHolder holder, int position) {
         Section current = getItem(position);
-        holder.bind(context, current.getLabelId(), current.getComingAndTransactionList());
+        holder.bind(pool, context, current.getLabelId(), current.getComingAndTransactionList());
     }
 
     public ComingViewHolder create(ViewGroup parent) {

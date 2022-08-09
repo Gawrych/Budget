@@ -31,10 +31,11 @@ public class ComingViewHolder extends RecyclerView.ViewHolder implements OnNoteL
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void bind(Context context, int resId, List<ComingAndTransaction> sectionItems) {
+    public void bind(RecyclerView.RecycledViewPool pool, Context context, int resId, List<ComingAndTransaction> sectionItems) {
         this.sectionName.setText(getStringFromResId(resId, context));
         ComingChildAdapter adapter = new ComingChildAdapter(sectionItems, this);
         childRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        childRecyclerView.setRecycledViewPool(pool);
         childRecyclerView.setAdapter(adapter);
     }
 
