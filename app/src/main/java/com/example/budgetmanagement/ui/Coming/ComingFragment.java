@@ -2,6 +2,7 @@ package com.example.budgetmanagement.ui.Coming;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +26,10 @@ import com.example.budgetmanagement.databinding.ComingFragmentBinding;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 public class ComingFragment extends Fragment implements ParentOnNoteListener {
@@ -36,10 +37,10 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     private ComingViewModel comingViewModel;
     private ComingFragmentBinding binding;
     private View view;
-    private LiveData<List<ComingAndTransaction>> coming;
     private ComingAdapter adapter;
     private List<ComingAndTransaction> globalList;
-    private List<Section> sectionList = new ArrayList<>();
+    private final List<Section> sectionList = new ArrayList<>();
+    private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionCollectByMonthsId = new HashMap<>();
 
     public static final Map<String, Integer> months;
     static {
@@ -76,7 +77,7 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
-        coming = comingViewModel.getAllComingAndTransaction();
+        LiveData<List<ComingAndTransaction>> coming = comingViewModel.getAllComingAndTransaction();
         coming.observe(getViewLifecycleOwner(), list -> {
             setSections(list);
             adapter.submitList(sectionList);
@@ -86,7 +87,9 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setSections(List<ComingAndTransaction> list) {
         globalList = list;
-        months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), getTransactionByMonth(id))));
+//        Remove all transaction from globalList in updatedList, to left only new transaction
+        collectTransactionByMonthId();
+        months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), transactionCollectByMonthsId.get(id))));
     }
 
     private int getStringResId(String stringName) {
@@ -94,15 +97,25 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private List<ComingAndTransaction> getTransactionByMonth(int monthToFilterBy) {
+    private void collectTransactionByMonthId() {
         Calendar calendar = Calendar.getInstance();
-//      You can add variable to check until month change first time and then stop. For higher performance
-        return globalList.stream()
-                .filter(comingAndTransaction -> {
-                    calendar.setTimeInMillis(comingAndTransaction.coming.getRepeatDate());
-                    int month = calendar.get(Calendar.MONTH);
-                    return monthToFilterBy == month;
-                }).collect(Collectors.toList());
+
+        for (int i = 0; i < 12; i++) {
+            transactionCollectByMonthsId.put(i, new ArrayList<>());
+        }
+
+        globalList.forEach(comingAndTransactionItem -> {
+            calendar.setTimeInMillis(comingAndTransactionItem.coming.getRepeatDate());
+            int month = calendar.get(Calendar.MONTH);
+
+            ArrayList<ComingAndTransaction> actualList = transactionCollectByMonthsId.get(month);
+            if (actualList == null) {
+                Log.e("ErrorHandle", "com/example/budgetmanagement/ui/Coming/ComingFragment.java NullPointerException:'actualList' is null when 'month'=" + month);
+                return;
+            }
+            actualList.add(comingAndTransactionItem);
+            transactionCollectByMonthsId.put(month, actualList);
+        });
     }
 
     @Override
