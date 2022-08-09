@@ -12,18 +12,18 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.ViewHolders.ComingChildViewHolder;
 import com.example.budgetmanagement.database.ViewHolders.ComingViewHolder;
+import com.example.budgetmanagement.ui.Coming.ParentOnNoteListener;
 import com.example.budgetmanagement.ui.Coming.Section;
 
 public class ComingAdapter extends ListAdapter<Section, ComingViewHolder> {
 
-    private ComingChildViewHolder.OnNoteListener mOnNoteListener;
+    private ParentOnNoteListener parentOnNoteListener;
     private Context context;
 
-    public ComingAdapter(@NonNull DiffUtil.ItemCallback<Section> diffCallback, ComingChildViewHolder.OnNoteListener onNoteListener, Context context) {
+    public ComingAdapter(@NonNull DiffUtil.ItemCallback<Section> diffCallback, ParentOnNoteListener parentOnNoteListener, Context context) {
         super(diffCallback);
-        this.mOnNoteListener = onNoteListener;
+        this.parentOnNoteListener = parentOnNoteListener;
         this.context = context;
     }
 
@@ -37,14 +37,14 @@ public class ComingAdapter extends ListAdapter<Section, ComingViewHolder> {
     @Override
     public void onBindViewHolder(ComingViewHolder holder, int position) {
         Section current = getItem(position);
-        holder.bind(mOnNoteListener, context, current.getLabelId(), current.getComingAndTransactionList());
+        holder.bind(context, current.getLabelId(), current.getComingAndTransactionList());
     }
 
     public ComingViewHolder create(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.coming_recycler_view, parent, false);
 
-        return new ComingViewHolder(view);
+        return new ComingViewHolder(view, parentOnNoteListener);
     }
 
     public static class ComingDiff extends DiffUtil.ItemCallback<Section> {

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.ComingAdapter;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
-import com.example.budgetmanagement.database.ViewHolders.ComingChildViewHolder;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.databinding.ComingFragmentBinding;
 
@@ -29,11 +27,10 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
-public class ComingFragment extends Fragment implements ComingChildViewHolder.OnNoteListener {
+public class ComingFragment extends Fragment implements ParentOnNoteListener {
 
     private ComingViewModel comingViewModel;
     private ComingFragmentBinding binding;
@@ -107,16 +104,21 @@ public class ComingFragment extends Fragment implements ComingChildViewHolder.On
                 }).collect(Collectors.toList());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    public void onNoteClick(int comingId) {
-        Optional<ComingAndTransaction> optional = globalList.stream().filter(item -> item.coming.getComingId() == comingId).findFirst();
-        if (optional.isPresent()) {
-            ComingAndTransaction comingAndTransaction = optional.get();
-            Toast.makeText(requireContext(), comingAndTransaction.transaction.getTitle(), Toast.LENGTH_SHORT).show();
-        }
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    @Override
+//    public void onNoteClick(int comingId) {
+//        Optional<ComingAndTransaction> optional = globalList.stream().filter(item -> item.coming.getComingId() == comingId).findFirst();
+//        if (optional.isPresent()) {
+//            ComingAndTransaction comingAndTransaction = optional.get();
+//            Toast.makeText(requireContext(), comingAndTransaction.transaction.getTitle(), Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
+    @Override
+    public void onChildItemClick(int parentPosition, int childPosition) {
+        ComingAndTransaction coming = adapter.getCurrentList().get(parentPosition).getComingAndTransactionList().get(childPosition);
+
+    }
 
     @Override
     public void onDestroyView() {

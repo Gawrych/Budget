@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.ui.Coming;
 
-public interface RecyclerViewItemClickListener {
+public interface ParentOnNoteListener {
 
     void onChildItemClick(int parentPosition, int childPosition);
 }

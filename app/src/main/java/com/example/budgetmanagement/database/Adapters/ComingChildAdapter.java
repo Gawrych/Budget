@@ -12,17 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewHolders.ComingChildViewHolder;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.example.budgetmanagement.ui.Coming.OnNoteListener;
 
 import java.util.List;
 
 public class ComingChildAdapter extends RecyclerView.Adapter<ComingChildViewHolder> {
 
     private List<ComingAndTransaction> items;
-    private ComingChildViewHolder.OnNoteListener mOnNoteListener;
-    private BottomSheetDialog bottomSheetDialog;
+    private OnNoteListener mOnNoteListener;
 
-    public ComingChildAdapter(List<ComingAndTransaction> list, ComingChildViewHolder.OnNoteListener onNoteListener) {
+    public ComingChildAdapter(List<ComingAndTransaction> list, OnNoteListener onNoteListener) {
         this.items = list;
         this.mOnNoteListener = onNoteListener;
     }
@@ -37,7 +36,7 @@ public class ComingChildAdapter extends RecyclerView.Adapter<ComingChildViewHold
     @Override
     public void onBindViewHolder(ComingChildViewHolder holder, int position) {
         ComingAndTransaction current = items.get(position);
-        holder.bind(current.coming.getComingId(), current.transaction.getTitle(), current.transaction.getAmount(), current.coming.getRepeatDate());
+        holder.bind(current.transaction.getTitle(), current.transaction.getAmount(), current.coming.getRepeatDate());
     }
 
     @Override
@@ -49,7 +48,7 @@ public class ComingChildAdapter extends RecyclerView.Adapter<ComingChildViewHold
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.coming_child_recycler_view, parent, false);
 
-        return new ComingChildViewHolder(view, mOnNoteListener, bottomSheetDialog);
+        return new ComingChildViewHolder(view, mOnNoteListener);
     }
 
 }
