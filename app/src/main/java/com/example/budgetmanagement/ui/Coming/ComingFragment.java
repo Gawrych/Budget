@@ -115,7 +115,7 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
 //    }
 
     @Override
-    public void onChildItemClick(int parentPosition, int childPosition) {
+    public void onItemClick(int parentPosition, int childPosition) {
         ComingAndTransaction coming = adapter.getCurrentList().get(parentPosition).getComingAndTransactionList().get(childPosition);
 
     }

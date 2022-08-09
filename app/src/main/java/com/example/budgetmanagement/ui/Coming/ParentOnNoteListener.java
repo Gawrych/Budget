@@ -2,5 +2,5 @@ package com.example.budgetmanagement.ui.Coming;
 
 public interface ParentOnNoteListener {
 
-    void onChildItemClick(int parentPosition, int childPosition);
+    void onItemClick(int parentPosition, int childPosition);
 }

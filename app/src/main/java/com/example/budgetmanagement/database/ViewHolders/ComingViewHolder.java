@@ -44,6 +44,6 @@ public class ComingViewHolder extends RecyclerView.ViewHolder implements OnNoteL
 
     @Override
     public void onNoteClick(int childPosition) {
-        parentOnNoteListener.onChildItemClick(getAbsoluteAdapterPosition(), childPosition);
+        parentOnNoteListener.onItemClick(getAbsoluteAdapterPosition(), childPosition);
     }
 }
