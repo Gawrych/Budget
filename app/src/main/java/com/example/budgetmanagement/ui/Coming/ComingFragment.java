@@ -34,13 +34,14 @@ import java.util.Map;
 
 public class ComingFragment extends Fragment implements ParentOnNoteListener {
 
-    private ComingViewModel comingViewModel;
     private ComingFragmentBinding binding;
+    private ComingViewModel comingViewModel;
     private View view;
     private ComingAdapter adapter;
     private List<ComingAndTransaction> globalList;
     private final List<Section> sectionList = new ArrayList<>();
-    private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionCollectByMonthsId = new HashMap<>();
+    private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollection = new HashMap<>();
+    private final Calendar calendar = Calendar.getInstance();
 
     public static final Map<String, Integer> months;
     static {
@@ -58,6 +59,11 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
         items.put("november", 10);
         items.put("december", 11);
         months = Collections.unmodifiableMap(items);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -87,9 +93,10 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setSections(List<ComingAndTransaction> list) {
         globalList = list;
-//        Remove all transaction from globalList in updatedList, to left only new transaction
+        sectionList.clear();
+//     TODO:Remove all transaction from globalList in updatedList, to left only new transaction
         collectTransactionByMonthId();
-        months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), transactionCollectByMonthsId.get(id))));
+        months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), transactionsCollection.get(id))));
     }
 
     private int getStringResId(String stringName) {
@@ -98,24 +105,29 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void collectTransactionByMonthId() {
-        Calendar calendar = Calendar.getInstance();
+        initializeEmptyTransactionsCollection();
 
-        for (int i = 0; i < 12; i++) {
-            transactionCollectByMonthsId.put(i, new ArrayList<>());
-        }
+        globalList.forEach(item -> {
+            int monthNumber = getMonthNumberFromDate(item.coming.getRepeatDate());
 
-        globalList.forEach(comingAndTransactionItem -> {
-            calendar.setTimeInMillis(comingAndTransactionItem.coming.getRepeatDate());
-            int month = calendar.get(Calendar.MONTH);
-
-            ArrayList<ComingAndTransaction> actualList = transactionCollectByMonthsId.get(month);
+            ArrayList<ComingAndTransaction> actualList = transactionsCollection.get(monthNumber);
             if (actualList == null) {
-                Log.e("ErrorHandle", "com/example/budgetmanagement/ui/Coming/ComingFragment.java NullPointerException:'actualList' is null when 'month'=" + month);
+                Log.e("ErrorHandle", "com/example/budgetmanagement/ui/Coming/ComingFragment.java NullPointerException:'actualList' is null when 'month'=" + monthNumber);
                 return;
             }
-            actualList.add(comingAndTransactionItem);
-            transactionCollectByMonthsId.put(month, actualList);
+            actualList.add(item);
+            transactionsCollection.put(monthNumber, actualList);
         });
+    }
+
+    private int getMonthNumberFromDate(long dateInMillis) {
+        this.calendar.setTimeInMillis(dateInMillis);
+        return this.calendar.get(Calendar.MONTH);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void initializeEmptyTransactionsCollection() {
+        months.forEach((name, id) -> transactionsCollection.put(id, new ArrayList<>()));
     }
 
     @Override
