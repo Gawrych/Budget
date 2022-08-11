@@ -39,7 +39,7 @@ public class ComingAdapter extends ListAdapter<Section, ComingViewHolder> {
     @Override
     public void onBindViewHolder(ComingViewHolder holder, int position) {
         Section current = getItem(position);
-        holder.bind(pool, context, current.getLabelId(), current.getComingAndTransactionList());
+        holder.bind(pool, context, current.getLabelId(), current.getComingAndTransactionList(), current.getBalance());
     }
 
     public ComingViewHolder create(ViewGroup parent) {

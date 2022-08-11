@@ -5,7 +5,7 @@
     <string name="title_incoming">Incoming</string>
     <string name="title_category">Category</string>
     <string name="default_item_title_value">This is title</string>
-    <string name="default_amount_value">10.00</string>
+    <string name="default_amount_value">0.00</string>
     <string name="polish_currency">zł</string>
     <string name="default_date_in_item">26.02.2020</string>
     <string name="sort_by_amount">Po cenie</string>
@@ -49,4 +49,5 @@
     <string name="october">Październik</string>
     <string name="november">Listopad</string>
     <string name="december">Grudzień</string>
+    <string name="amount_balance">Saldo</string>
 </resources>

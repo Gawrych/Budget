@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 72, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 73, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -44,7 +44,7 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
     }
 
     //  Populate database at first run
-    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
+    private static final RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
@@ -57,10 +57,10 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 categoryDao.insert(category);
                 categoryDao.insert(category2);
                 categoryDao.insert(category3);
-
+//      TODO: Change to can create more than one coming from one transaction
                 TransactionDao transactionDao = INSTANCE.transactionDao();
                 Transaction transaction = new Transaction(1, 1,
-                        "RandomName", "200.50", 1,
+                        "RandomName", "-200.50", 1,
                          LocalDate.now().toEpochDay(), true);
                 Transaction transaction2 = new Transaction(2, 2,
                         "Kawa", "22.00", 1,
