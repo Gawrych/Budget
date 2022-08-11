@@ -49,5 +49,5 @@
     <string name="october">Październik</string>
     <string name="november">Listopad</string>
     <string name="december">Grudzień</string>
-    <string name="amount_balance">Saldo</string>
+    <string name="amount_balance">Saldo:</string>
 </resources>
