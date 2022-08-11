@@ -41,6 +41,6 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
 
     @Override
     public void onClick(View v) {
-        onNoteListener.onNoteClick(getAbsoluteAdapterPosition());
+        onNoteListener.onNoteClick(getBindingAdapterPosition());
     }
 }
