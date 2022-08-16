@@ -6,13 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +42,7 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     private final List<Section> sectionList = new ArrayList<>();
     private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollection = new HashMap<>();
     private final Calendar calendar = Calendar.getInstance();
+    private MutableLiveData<List<Section>> sectionLiveData;
 
     public static final Map<String, Integer> months;
     static {
@@ -81,13 +82,14 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        sectionLiveData = new MutableLiveData<>();
+        sectionLiveData.setValue(sectionList);
+        
+        sectionLiveData.observe(getViewLifecycleOwner(), adapter::submitList);
 
         comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
         LiveData<List<ComingAndTransaction>> coming = comingViewModel.getAllComingAndTransaction();
-        coming.observe(getViewLifecycleOwner(), list -> {
-            setSections(list);
-            adapter.submitList(sectionList);
-        });
+        coming.observe(getViewLifecycleOwner(), this::setSections);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -97,6 +99,7 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
 //     TODO:Remove all transaction from globalList in updatedList, to left only new transaction
         collectTransactionByMonthId();
         months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), transactionsCollection.get(id))));
+        sectionLiveData.setValue(sectionList);
     }
 
     private int getStringResId(String stringName) {
@@ -133,7 +136,6 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     @Override
     public void onItemClick(int parentPosition, int childPosition) {
         ComingAndTransaction coming = adapter.getCurrentList().get(parentPosition).getComingAndTransactionList().get(childPosition);
-        Toast.makeText(requireContext(), "Title: " + coming.transaction.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

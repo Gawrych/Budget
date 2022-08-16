@@ -8,7 +8,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.ui.Coming.OnNoteListener;
+import com.example.budgetmanagement.ui.Coming.onNoteListener;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
@@ -18,20 +18,20 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
     private final TextView amountField;
     private final TextView dateField;
     private final TextView currency;
-    private final OnNoteListener onNoteListener;
+    private onNoteListener noteListener;
 
-    public ComingChildViewHolder(View itemView, OnNoteListener onNoteListener) {
+    public ComingChildViewHolder(View itemView) {
         super(itemView);
         textField = itemView.findViewById(R.id.title);
         amountField = itemView.findViewById(R.id.amount);
         dateField = itemView.findViewById(R.id.createDate);
         currency = itemView.findViewById(R.id.currency);
-        this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void bind(String title, String amount, long repeatDate) {
+    public void bind(String title, String amount, long repeatDate, onNoteListener noteListener) {
+        this.noteListener = noteListener;
         this.textField.setText(title);
         AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField, this.currency);
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
@@ -41,6 +41,6 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
 
     @Override
     public void onClick(View v) {
-        onNoteListener.onNoteClick(getBindingAdapterPosition());
+        noteListener.onNoteClick(getBindingAdapterPosition());
     }
 }

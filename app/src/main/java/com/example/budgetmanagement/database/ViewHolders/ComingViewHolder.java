@@ -6,19 +6,18 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.ComingChildAdapter;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
-import com.example.budgetmanagement.ui.Coming.OnNoteListener;
+import com.example.budgetmanagement.ui.Coming.onNoteListener;
 import com.example.budgetmanagement.ui.Coming.ParentOnNoteListener;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 
 import java.util.List;
 
-public class ComingViewHolder extends RecyclerView.ViewHolder implements OnNoteListener {
+public class ComingViewHolder extends RecyclerView.ViewHolder implements onNoteListener {
 
     private final TextView sectionName;
     private final RecyclerView childRecyclerView;
@@ -43,7 +42,6 @@ public class ComingViewHolder extends RecyclerView.ViewHolder implements OnNoteL
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(balance);
 
         ComingChildAdapter adapter = new ComingChildAdapter(sectionItems, this);
-        childRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         childRecyclerView.setRecycledViewPool(pool);
         childRecyclerView.setAdapter(adapter);
     }
