@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.budgetmanagement.database.Rooms.Coming;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
@@ -21,7 +20,7 @@ public class ComingViewModel extends AndroidViewModel {
     private ComingRepository comingRepository;
     private LiveData<List<ComingAndTransaction>> allComingAndTransaction;
     private HashMap<Integer, ArrayList<ComingAndTransaction>> transactionCollectByMonthsId = new HashMap<>();
-    private MutableLiveData<List<Section>> sectionList = new MutableLiveData<List<Section>>(){};
+    private ArrayList<Section> sectionList = new ArrayList<>();
 
     public ComingViewModel(@NonNull Application app) {
         super(app);
@@ -45,11 +44,11 @@ public class ComingViewModel extends AndroidViewModel {
         this.transactionCollectByMonthsId = transactionCollectByMonthsId;
     }
 
-    public LiveData<List<Section>> getSectionList() {
+    public ArrayList<Section> getSectionList() {
         return sectionList;
     }
 
-    public void setSectionList(MutableLiveData<List<Section>> sectionList) {
+    public void setSectionList(ArrayList<Section> sectionList) {
         this.sectionList = sectionList;
     }
 }

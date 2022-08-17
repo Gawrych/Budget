@@ -49,6 +49,16 @@ public class ComingAdapter extends ListAdapter<Section, ComingViewHolder> {
         return new ComingViewHolder(view, parentOnNoteListener);
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     public static class ComingDiff extends DiffUtil.ItemCallback<Section> {
 
         @Override

@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.ui.Coming;
 
-public interface onNoteListener {
+public interface OnNoteListener {
 
     void onNoteClick(int childPosition);
 }
