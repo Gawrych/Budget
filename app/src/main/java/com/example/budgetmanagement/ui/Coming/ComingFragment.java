@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,14 +34,15 @@ import java.util.Map;
 public class ComingFragment extends Fragment implements ParentOnNoteListener {
 
     private ComingFragmentBinding binding;
-    private ComingViewModel comingViewModel;
     private View view;
     private ComingAdapter adapter;
     private List<ComingAndTransaction> globalList;
-    private final List<Section> sectionList = new ArrayList<>();
+    private final ArrayList<Section> sectionList = new ArrayList<>();
     private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollection = new HashMap<>();
     private final Calendar calendar = Calendar.getInstance();
-    private MutableLiveData<List<Section>> sectionLiveData;
+    private LiveData<List<ComingAndTransaction>> allComingTransaction;
+    private ComingBottomSheetDetails details;
+    private ComingViewModel comingViewModel;
 
     public static final Map<String, Integer> months;
     static {
@@ -62,9 +62,12 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
         months = Collections.unmodifiableMap(items);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
+        allComingTransaction = comingViewModel.getAllComingAndTransaction();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -77,19 +80,18 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-
         adapter = new ComingAdapter(new ComingAdapter.ComingDiff(), this, getContext());
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        sectionLiveData = new MutableLiveData<>();
-        sectionLiveData.setValue(sectionList);
-        
-        sectionLiveData.observe(getViewLifecycleOwner(), adapter::submitList);
+        recyclerView.setAdapter(adapter);
 
-        comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
-        LiveData<List<ComingAndTransaction>> coming = comingViewModel.getAllComingAndTransaction();
-        coming.observe(getViewLifecycleOwner(), this::setSections);
+        details = new ComingBottomSheetDetails(requireContext(), getActivity(), comingViewModel);
+
+        allComingTransaction.observe(getViewLifecycleOwner(), list -> {
+            setSections(list);
+            adapter.submitList(sectionList);
+        });
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -99,7 +101,6 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
 //     TODO:Remove all transaction from globalList in updatedList, to left only new transaction
         collectTransactionByMonthId();
         months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), transactionsCollection.get(id))));
-        sectionLiveData.setValue(sectionList);
     }
 
     private int getStringResId(String stringName) {
@@ -112,15 +113,24 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
 
         globalList.forEach(item -> {
             int monthNumber = getMonthNumberFromDate(item.coming.getRepeatDate());
+            int year = getYearFromDate(item.coming.getRepeatDate());
 
-            ArrayList<ComingAndTransaction> actualList = transactionsCollection.get(monthNumber);
-            if (actualList == null) {
-                Log.e("ErrorHandle", "com/example/budgetmanagement/ui/Coming/ComingFragment.java NullPointerException:'actualList' is null when 'month'=" + monthNumber);
-                return;
-            }
-            actualList.add(item);
-            transactionsCollection.put(monthNumber, actualList);
+//            if (year != getYearFromDate(getTodayDateInMillis())) {
+////                TODO: Implement selecting year
+//            } else {
+                ArrayList<ComingAndTransaction> actualList = transactionsCollection.get(monthNumber);
+                if (actualList == null) {
+                    Log.e("ErrorHandle", "com/example/budgetmanagement/ui/Coming/ComingFragment.java NullPointerException:'actualList' is null when 'month'=" + monthNumber);
+                    return;
+                }
+                actualList.add(item);
+                transactionsCollection.put(monthNumber, actualList);
+//            }
         });
+    }
+
+    private long getTodayDateInMillis() {
+        return Calendar.getInstance().getTimeInMillis();
     }
 
     private int getMonthNumberFromDate(long dateInMillis) {
@@ -128,14 +138,22 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
         return this.calendar.get(Calendar.MONTH);
     }
 
+    private int getYearFromDate(long dateInMillis) {
+        this.calendar.setTimeInMillis(dateInMillis);
+        return this.calendar.get(Calendar.YEAR);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void initializeEmptyTransactionsCollection() {
         months.forEach((name, id) -> transactionsCollection.put(id, new ArrayList<>()));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onItemClick(int parentPosition, int childPosition) {
         ComingAndTransaction coming = adapter.getCurrentList().get(parentPosition).getComingAndTransactionList().get(childPosition);
+        details.setData(coming);
+        details.show();
     }
 
     @Override

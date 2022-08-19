@@ -12,12 +12,15 @@ import com.example.budgetmanagement.ui.Coming.OnNoteListener;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
+import java.util.Calendar;
+
 public class ComingChildViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private final TextView textField;
     private final TextView amountField;
     private final TextView dateField;
     private final TextView currency;
+    private final TextView outOfDateLabel;
     private OnNoteListener noteListener;
 
     public ComingChildViewHolder(View itemView, OnNoteListener noteListener) {
@@ -27,6 +30,7 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
         amountField = itemView.findViewById(R.id.amount);
         dateField = itemView.findViewById(R.id.createDate);
         currency = itemView.findViewById(R.id.currency);
+        outOfDateLabel = itemView.findViewById(R.id.outOfDateLabel);
         itemView.setOnClickListener(this);
     }
 
@@ -37,6 +41,14 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
         this.amountField.setText(amount);
         this.dateField.setText(DateProcessor.getDate(repeatDate));
+
+        Calendar todayDate = Calendar.getInstance();
+        Calendar otherDate = Calendar.getInstance();
+        otherDate.setTimeInMillis(repeatDate);
+
+        if (otherDate.before(todayDate)) {
+            outOfDateLabel.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

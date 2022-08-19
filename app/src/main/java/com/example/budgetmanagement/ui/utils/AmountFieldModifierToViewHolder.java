@@ -63,7 +63,7 @@ public class AmountFieldModifierToViewHolder {
     }
 
     private int getLossTransactionColor() {
-        return R.color.nonProfitTransaction;
+        return R.color.loss_transaction;
     }
 
     private int getProfitTransactionColor() {
