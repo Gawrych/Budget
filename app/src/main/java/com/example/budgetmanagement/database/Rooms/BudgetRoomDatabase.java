@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 76, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 77, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -93,7 +93,7 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 transactionDao.insert(transaction7);
 
                 Transaction transaction8 = new Transaction(8, 2,
-                        "Herbatka5", "99.00", LocalDate.now().toEpochDay(),
+                        "Powtórka", "101.00", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(transaction8);
 
@@ -106,28 +106,42 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 comingDao.insert(coming);
 
                 Coming coming3 = new Coming(3, 3, 2, 5,
-                        1671577200000L, 3232, LocalDate.now().toEpochDay());
+                        1671577200000L, 0, LocalDate.now().toEpochDay());
                 comingDao.insert(coming3);
 
                 Coming coming4 = new Coming(4, 4, 2, 5,
-                        1646494800000L, 3232, LocalDate.now().toEpochDay());
+                        1646494800000L, 0, LocalDate.now().toEpochDay());
                 comingDao.insert(coming4);
 
                 Coming coming5 = new Coming(5, 5, 2, 5,
-                        1649169600000L, 3232, LocalDate.now().toEpochDay());
+                        1649169600000L, 0, LocalDate.now().toEpochDay());
                 comingDao.insert(coming5);
 
                 Coming coming6 = new Coming(6, 6, 2, 5,
-                        1671577200000L, 3232, LocalDate.now().toEpochDay());
+                        1671577200000L, 0, LocalDate.now().toEpochDay());
                 comingDao.insert(coming6);
 
                 Coming coming7 = new Coming(7, 7, 2, 5,
-                        1649169600000L, 3232, LocalDate.now().toEpochDay());
+                        1649169600000L, 0, LocalDate.now().toEpochDay());
                 comingDao.insert(coming7);
 
                 Coming coming8 = new Coming(8, 8, 2, 5,
-                        1649169600000L, 3232, LocalDate.now().toEpochDay());
+                        1649169600000L, 0, LocalDate.now().toEpochDay());
                 comingDao.insert(coming8);
+
+
+                Transaction repeat = new Transaction(10, 1,
+                        "Repeat", "1.00", LocalDate.now().toEpochDay(),
+                        LocalDate.now().toEpochDay(), false);
+                transactionDao.insert(repeat);
+
+                Coming coming9 = new Coming(9, 10, 2, 5,
+                        1662933600000L, 3232, LocalDate.now().toEpochDay());
+                comingDao.insert(coming9);
+
+                Coming coming10 = new Coming(10, 10, 2, 5,
+                        1665525600000L, 0, LocalDate.now().toEpochDay());
+                comingDao.insert(coming10);
 
 
                 HistoryDao historyDao = INSTANCE.historyDao();

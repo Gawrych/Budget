@@ -27,11 +27,12 @@ public class ComingBottomSheetDetails extends Fragment {
     private List<CategoryBottomSheetEntity> categoryBottomSheetEntity;
     private BottomSheetDialog bottomSheetDialog;
     private TextView transactionName;
-    private TextView repeatDate;
+    private TextView addDate;
     private TextView remainingDays;
     private TextView remainingDaysLabel;
     private TextView outOfDateLabel;
     private TextView daysLabel;
+    private TextView lastEditDate;
     private ImageView remainingDaysIcon;
     private Context context;
 
@@ -59,22 +60,29 @@ public class ComingBottomSheetDetails extends Fragment {
 
 
         transactionName = bottomSheetDialog.findViewById(R.id.transactionName);
-        repeatDate = bottomSheetDialog.findViewById(R.id.repeatDate);
+        addDate = bottomSheetDialog.findViewById(R.id.addDate);
         remainingDaysLabel = bottomSheetDialog.findViewById(R.id.remainingDaysLabel);
         remainingDays = bottomSheetDialog.findViewById(R.id.remainingDays);
         outOfDateLabel = bottomSheetDialog.findViewById(R.id.outOfDateLabel);
         daysLabel = bottomSheetDialog.findViewById(R.id.daysLabel);
+        lastEditDate = bottomSheetDialog.findViewById(R.id.lastEditDate);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setData(ComingAndTransaction comingAndTransaction) {
         transactionName.setText(comingAndTransaction.transaction.getTitle());
-        repeatDate.setText(DateProcessor.getDate(comingAndTransaction.coming.getRepeatDate()));
+        addDate.setText(DateProcessor.getDate(comingAndTransaction.coming.getAddDate()));
+
+        long modifiedDate = comingAndTransaction.coming.getModifiedDate();
+        if (modifiedDate != 0) {
+            lastEditDate.setText(DateProcessor.getDate(modifiedDate));
+        } else {
+            lastEditDate.setText("Nigdy");
+        }
 
         Calendar todayDate = Calendar.getInstance();
         Calendar otherDate = Calendar.getInstance();
         otherDate.setTimeInMillis(comingAndTransaction.coming.getRepeatDate());
-
 
         int days = Math.abs(todayDate.get(Calendar.DAY_OF_YEAR) - otherDate.get(Calendar.DAY_OF_YEAR));
         remainingDays.setText(String.valueOf(days));
