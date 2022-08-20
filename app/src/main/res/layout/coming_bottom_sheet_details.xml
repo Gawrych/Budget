@@ -38,7 +38,7 @@
                 android:id="@+id/remainingDaysLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pozostałe dni"
+                android:text="Pozostało"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -174,7 +174,7 @@
             android:id="@+id/done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wykonane"
+            android:text="Opłacone"
             android:textColor="#EFF1F3"
             android:backgroundTint="#3E885B"
             app:layout_constraintEnd_toStartOf="@+id/edit"
