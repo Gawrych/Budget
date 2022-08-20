@@ -10,31 +10,31 @@ public class Coming {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "comingId")
-    private int comingId;
+    private final int comingId;
 
     @ColumnInfo(name = "transactionId")
-    private int transactionId;
+    private final int transactionId;
 
-    @ColumnInfo(name = "howMuchRepeat")
-    private int howMuchRepeat;
+    @ColumnInfo(name = "validity")
+    private final byte validity;
 
-    @ColumnInfo(name = "periodOfTimeBetweenRepeat")
-    private long periodOfTimeBetweenRepeat;
+    @ColumnInfo(name = "execute")
+    private final boolean execute;
 
     @ColumnInfo(name = "repeatDate")
-    private long repeatDate;
+    private final long repeatDate;
 
     @ColumnInfo(name = "modifiedDate")
-    private long modifiedDate;
+    private final long modifiedDate;
 
     @ColumnInfo(name = "addDate")
-    private long addDate;
+    private final long addDate;
 
-    public Coming(int comingId, int transactionId, int howMuchRepeat, long periodOfTimeBetweenRepeat, long repeatDate, long modifiedDate, long addDate) {
+    public Coming(int comingId, int transactionId, byte validity, boolean execute, long repeatDate, long modifiedDate, long addDate) {
         this.comingId = comingId;
         this.transactionId = transactionId;
-        this.howMuchRepeat = howMuchRepeat;
-        this.periodOfTimeBetweenRepeat = periodOfTimeBetweenRepeat;
+        this.validity = validity;
+        this.execute = execute;
         this.repeatDate = repeatDate;
         this.modifiedDate = modifiedDate;
         this.addDate = addDate;
@@ -48,12 +48,12 @@ public class Coming {
         return transactionId;
     }
 
-    public int getHowMuchRepeat() {
-        return howMuchRepeat;
+    public byte getValidity() {
+        return validity;
     }
 
-    public long getPeriodOfTimeBetweenRepeat() {
-        return periodOfTimeBetweenRepeat;
+    public boolean isExecute() {
+        return execute;
     }
 
     public long getRepeatDate() {
