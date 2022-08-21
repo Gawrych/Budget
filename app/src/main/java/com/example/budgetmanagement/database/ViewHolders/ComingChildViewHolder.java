@@ -21,7 +21,6 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
     private final TextView amountField;
     private final TextView dateField;
     private final TextView currency;
-    private final TextView outOfDateLabel;
     private final ImageView outOfDateIcon;
     private OnNoteListener noteListener;
 
@@ -32,7 +31,6 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
         amountField = itemView.findViewById(R.id.amount);
         dateField = itemView.findViewById(R.id.createDate);
         currency = itemView.findViewById(R.id.currency);
-        outOfDateLabel = itemView.findViewById(R.id.outOfDateLabel);
         outOfDateIcon = itemView.findViewById(R.id.outOfDateIcon);
         itemView.setOnClickListener(this);
     }
@@ -50,11 +48,9 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
         otherDate.setTimeInMillis(repeatDate);
 
         if (otherDate.before(todayDate) && !execute) {
-            outOfDateLabel.setVisibility(View.VISIBLE);
             outOfDateIcon.setVisibility(View.VISIBLE);
             outOfDateIcon.setImageResource(R.drawable.ic_baseline_event_busy_24);
         } else {
-            outOfDateLabel.setVisibility(View.GONE);
             outOfDateIcon.setVisibility(View.GONE);
         }
 

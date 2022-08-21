@@ -2,7 +2,6 @@ package com.example.budgetmanagement.database.Rooms;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -19,8 +18,8 @@ public interface ComingDao {
     @Update
     void update(Coming coming);
 
-    @Delete
-    void delete(Coming coming);
+    @Query("DELETE FROM coming WHERE comingId = :comingId")
+    void delete(int comingId);
 
     @Query("SELECT * FROM coming")
     LiveData<List<Coming>> getAllComing();

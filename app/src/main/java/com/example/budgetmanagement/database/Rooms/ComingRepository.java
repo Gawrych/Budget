@@ -32,7 +32,7 @@ public class ComingRepository {
         BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.update(coming));
     }
 
-    public void delete(Coming coming) {
-        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.delete(coming));
+    public void delete(int comingId) {
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.delete(comingId));
     }
 }
