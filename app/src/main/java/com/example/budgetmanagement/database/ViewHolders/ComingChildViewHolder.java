@@ -2,6 +2,7 @@ package com.example.budgetmanagement.database.ViewHolders;
 
 import android.os.Build;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -21,6 +22,7 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
     private final TextView dateField;
     private final TextView currency;
     private final TextView outOfDateLabel;
+    private final ImageView outOfDateIcon;
     private OnNoteListener noteListener;
 
     public ComingChildViewHolder(View itemView, OnNoteListener noteListener) {
@@ -31,23 +33,34 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
         dateField = itemView.findViewById(R.id.createDate);
         currency = itemView.findViewById(R.id.currency);
         outOfDateLabel = itemView.findViewById(R.id.outOfDateLabel);
+        outOfDateIcon = itemView.findViewById(R.id.outOfDateIcon);
         itemView.setOnClickListener(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void bind(String title, String amount, long repeatDate) {
+    public void bind(String title, String amount, long repeatDate, short validity, boolean execute) {
         this.textField.setText(title);
         AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField, this.currency);
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
         this.amountField.setText(amount);
-        this.dateField.setText(DateProcessor.getDate(repeatDate));
+        this.dateField.setText(DateProcessor.parseDate(repeatDate));
 
         Calendar todayDate = Calendar.getInstance();
         Calendar otherDate = Calendar.getInstance();
         otherDate.setTimeInMillis(repeatDate);
 
-        if (otherDate.before(todayDate)) {
+        if (otherDate.before(todayDate) && !execute) {
             outOfDateLabel.setVisibility(View.VISIBLE);
+            outOfDateIcon.setVisibility(View.VISIBLE);
+            outOfDateIcon.setImageResource(R.drawable.ic_baseline_event_busy_24);
+        } else {
+            outOfDateLabel.setVisibility(View.GONE);
+            outOfDateIcon.setVisibility(View.GONE);
+        }
+
+        if (execute) {
+            outOfDateIcon.setVisibility(View.VISIBLE);
+            outOfDateIcon.setImageResource(R.drawable.ic_baseline_done_all_24);
         }
     }
 

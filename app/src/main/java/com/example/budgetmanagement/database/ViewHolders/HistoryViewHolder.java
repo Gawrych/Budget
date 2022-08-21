@@ -35,7 +35,7 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
         AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField, this.currency);
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
         this.amountField.setText(amount);
-        this.dateField.setText(DateProcessor.getDate((date)));
+        this.dateField.setText(DateProcessor.parseDate((date)));
     }
 
     @Override

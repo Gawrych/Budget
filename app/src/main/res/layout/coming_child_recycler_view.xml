@@ -34,14 +34,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <ImageView-->
-<!--        android:id="@+id/outOfDateIcon"-->
-<!--        android:layout_width="28dp"-->
-<!--        android:layout_height="28dp"-->
-<!--        android:src="@drawable/ic_baseline_event_busy_24"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/createDate"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/createDate"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/createDate" />-->
+    <ImageView
+        android:id="@+id/outOfDateIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_baseline_event_busy_24"
+        app:layout_constraintBottom_toBottomOf="@+id/createDate"
+        app:layout_constraintEnd_toStartOf="@+id/createDate"
+        app:layout_constraintTop_toTopOf="@+id/createDate" />
 
 <!--    <TextView-->
 <!--        android:id="@+id/remainingDays"-->

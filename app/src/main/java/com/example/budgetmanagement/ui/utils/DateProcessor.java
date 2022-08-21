@@ -14,7 +14,7 @@ public class DateProcessor {
     public static final String DEFAULT_DATE_FORMAT = "dd.MM.yyyy";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static String getDate(long dateInMillis) {
+    public static String parseDate(long dateInMillis) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
         LocalDate date = Instant.ofEpochMilli(dateInMillis).atZone(ZoneId.systemDefault()).toLocalDate();
         return dateTimeFormatter.format(date);

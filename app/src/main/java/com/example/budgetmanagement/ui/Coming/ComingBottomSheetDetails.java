@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,9 +29,9 @@ public class ComingBottomSheetDetails extends Fragment {
     private TextView addDate;
     private TextView remainingDays;
     private TextView remainingDaysLabel;
-    private TextView outOfDateLabel;
     private TextView daysLabel;
     private TextView lastEditDate;
+    private TextView validity;
     private ImageView remainingDaysIcon;
     private Context context;
 
@@ -58,24 +57,29 @@ public class ComingBottomSheetDetails extends Fragment {
         assert edit != null;
         edit.setOnClickListener(v ->{});
 
-
         transactionName = bottomSheetDialog.findViewById(R.id.transactionName);
         addDate = bottomSheetDialog.findViewById(R.id.addDate);
         remainingDaysLabel = bottomSheetDialog.findViewById(R.id.remainingDaysLabel);
         remainingDays = bottomSheetDialog.findViewById(R.id.remainingDays);
-        outOfDateLabel = bottomSheetDialog.findViewById(R.id.outOfDateLabel);
         daysLabel = bottomSheetDialog.findViewById(R.id.daysLabel);
         lastEditDate = bottomSheetDialog.findViewById(R.id.lastEditDate);
+        validity = bottomSheetDialog.findViewById(R.id.validity);
+        remainingDaysIcon = bottomSheetDialog.findViewById(R.id.remainingDaysIcon);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setData(ComingAndTransaction comingAndTransaction) {
         transactionName.setText(comingAndTransaction.transaction.getTitle());
-        addDate.setText(DateProcessor.getDate(comingAndTransaction.coming.getAddDate()));
+        addDate.setText(DateProcessor.parseDate(comingAndTransaction.coming.getAddDate()));
+
+        byte validityValue = comingAndTransaction.coming.getValidity();
+        if (validityValue == 2) {
+            validity.setText("Średnia");
+        }
 
         long modifiedDate = comingAndTransaction.coming.getModifiedDate();
         if (modifiedDate != 0) {
-            lastEditDate.setText(DateProcessor.getDate(modifiedDate));
+            lastEditDate.setText(DateProcessor.parseDate(modifiedDate));
         } else {
             lastEditDate.setText("Nigdy");
         }
@@ -84,19 +88,33 @@ public class ComingBottomSheetDetails extends Fragment {
         Calendar otherDate = Calendar.getInstance();
         otherDate.setTimeInMillis(comingAndTransaction.coming.getRepeatDate());
 
+        boolean execute = comingAndTransaction.coming.isExecute();
+
         int days = Math.abs(todayDate.get(Calendar.DAY_OF_YEAR) - otherDate.get(Calendar.DAY_OF_YEAR));
         remainingDays.setText(String.valueOf(days));
 
-        if (otherDate.after(todayDate)) {
-            outOfDateLabel.setVisibility(View.GONE);
+        if (otherDate.after(todayDate) || execute) {
+            remainingDaysLabel.setText("Pozostało");
+            remainingDaysIcon.setImageResource(R.color.white);
+            remainingDaysLabel.setTextColor(context.getResources().getColor(R.color.font_default));
             remainingDays.setTextColor(context.getResources().getColor(R.color.font_default));
             daysLabel.setTextColor(context.getResources().getColor(R.color.font_default));
             remainingDays.setTextColor(context.getResources().getColor(R.color.font_default));
         } else {
-            outOfDateLabel.setVisibility(View.VISIBLE);
+            remainingDaysLabel.setText("Po terminie");
+            remainingDaysIcon.setImageResource(R.drawable.ic_baseline_event_busy_24);
+            remainingDaysLabel.setTextColor(context.getResources().getColor(R.color.mat_red));
             remainingDays.setTextColor(context.getResources().getColor(R.color.mat_red));
             daysLabel.setTextColor(context.getResources().getColor(R.color.mat_red));
             remainingDays.setTextColor(context.getResources().getColor(R.color.mat_red));
+        }
+
+        if (execute) {
+            remainingDaysLabel.setText("Opłacone od");
+            remainingDaysIcon.setImageResource(R.drawable.ic_baseline_done_all_24);
+            Calendar executedDate = Calendar.getInstance();
+            executedDate.setTimeInMillis(comingAndTransaction.coming.getExecutedDate());
+            remainingDays.setText(String.valueOf(todayDate.get(Calendar.DAY_OF_YEAR) - executedDate.get(Calendar.DAY_OF_YEAR)));
         }
     }
 

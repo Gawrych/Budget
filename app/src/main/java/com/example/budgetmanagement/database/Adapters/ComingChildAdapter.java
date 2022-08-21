@@ -36,7 +36,7 @@ public class ComingChildAdapter extends RecyclerView.Adapter<ComingChildViewHold
     @Override
     public void onBindViewHolder(ComingChildViewHolder holder, int position) {
         ComingAndTransaction current = items.get(position);
-        holder.bind(current.transaction.getTitle(), current.transaction.getAmount(), current.coming.getRepeatDate());
+        holder.bind(current.transaction.getTitle(), current.transaction.getAmount(), current.coming.getRepeatDate(), current.coming.getValidity(), current.coming.isExecute());
     }
 
     @Override

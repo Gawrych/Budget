@@ -27,10 +27,13 @@ public class Coming {
     @ColumnInfo(name = "modifiedDate")
     private final long modifiedDate;
 
+    @ColumnInfo(name = "executeDate")
+    private final long executedDate;
+
     @ColumnInfo(name = "addDate")
     private final long addDate;
 
-    public Coming(int comingId, int transactionId, byte validity, boolean execute, long repeatDate, long modifiedDate, long addDate) {
+    public Coming(int comingId, int transactionId, byte validity, boolean execute, long repeatDate, long modifiedDate, long addDate, long executedDate) {
         this.comingId = comingId;
         this.transactionId = transactionId;
         this.validity = validity;
@@ -38,6 +41,7 @@ public class Coming {
         this.repeatDate = repeatDate;
         this.modifiedDate = modifiedDate;
         this.addDate = addDate;
+        this.executedDate = executedDate;
     }
 
     public int getComingId() {
@@ -66,5 +70,9 @@ public class Coming {
 
     public long getAddDate() {
         return addDate;
+    }
+
+    public long getExecutedDate() {
+        return executedDate;
     }
 }
