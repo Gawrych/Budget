@@ -29,7 +29,7 @@ public class ComingChildViewHolder extends RecyclerView.ViewHolder implements Vi
         this.noteListener = noteListener;
         textField = itemView.findViewById(R.id.title);
         amountField = itemView.findViewById(R.id.amount);
-        dateField = itemView.findViewById(R.id.createDate);
+        dateField = itemView.findViewById(R.id.repeatDate);
         currency = itemView.findViewById(R.id.currency);
         outOfDateIcon = itemView.findViewById(R.id.outOfDateIcon);
         itemView.setOnClickListener(this);

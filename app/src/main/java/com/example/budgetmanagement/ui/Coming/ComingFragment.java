@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,11 +15,10 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.ComingAdapter;
+import com.example.budgetmanagement.database.Adapters.ComingExpandableListAdapter;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.databinding.ComingFragmentBinding;
@@ -43,6 +44,8 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     private LiveData<List<ComingAndTransaction>> allComingTransaction;
     private ComingBottomSheetDetails details;
     private ComingViewModel comingViewModel;
+    private ExpandableListView expandableListView;
+    private ExpandableListAdapter expandableListAdapter;
 
     public static final Map<String, Integer> months;
     static {
@@ -80,17 +83,33 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        adapter = new ComingAdapter(new ComingAdapter.ComingDiff(), this, getContext());
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter(adapter);
+
+        List<String> monthsInList = new ArrayList<>();
+        monthsInList.add("january");
+        monthsInList.add("february");
+        monthsInList.add("march");
+        monthsInList.add("april");
+        monthsInList.add("may");
+        monthsInList.add("june");
+        monthsInList.add("july");
+        monthsInList.add("august");
+        monthsInList.add("september");
+        monthsInList.add("october");
+        monthsInList.add("november");
+        monthsInList.add("december");
+
+        expandableListView = view.findViewById(R.id.expandableListView);
 
         details = new ComingBottomSheetDetails(requireContext(), getActivity(), comingViewModel);
-
-        allComingTransaction.observe(getViewLifecycleOwner(), list -> {
-            setSections(list);
-            adapter.submitList(sectionList);
+        comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
+            collectTransactionByMonthId(list);
+            expandableListAdapter = new ComingExpandableListAdapter(requireContext(), monthsInList, transactionsCollection);
+            expandableListView.setAdapter(expandableListAdapter);
+            for(int i=0; i<monthsInList.size(); i++) {
+                expandableListView.expandGroup(i);
+            }
         });
+
 
     }
 
@@ -98,8 +117,7 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     private void setSections(List<ComingAndTransaction> list) {
         globalList = list;
         sectionList.clear();
-//     TODO:Remove all transaction from globalList in updatedList, to left only new transaction
-        collectTransactionByMonthId();
+        collectTransactionByMonthId(list);
         months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), transactionsCollection.get(id))));
     }
 
@@ -108,9 +126,9 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void collectTransactionByMonthId() {
+    private void collectTransactionByMonthId(List<ComingAndTransaction> list) {
         initializeEmptyTransactionsCollection();
-
+        globalList = list;
         globalList.forEach(item -> {
             int monthNumber = getMonthNumberFromDate(item.coming.getRepeatDate());
             int year = getYearFromDate(item.coming.getRepeatDate());
@@ -127,10 +145,6 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
                 transactionsCollection.put(monthNumber, actualList);
 //            }
         });
-    }
-
-    private long getTodayDateInMillis() {
-        return Calendar.getInstance().getTimeInMillis();
     }
 
     private int getMonthNumberFromDate(long dateInMillis) {

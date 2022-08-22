@@ -23,7 +23,7 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
         super(itemView);
         titleField = itemView.findViewById(R.id.title);
         amountField = itemView.findViewById(R.id.amount);
-        dateField = itemView.findViewById(R.id.createDate);
+        dateField = itemView.findViewById(R.id.repeatDate);
         currency = itemView.findViewById(R.id.currency);
         this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
