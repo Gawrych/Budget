@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.Adapters.ComingExpandableListAdapter;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetEntity;
@@ -65,7 +67,7 @@ public class ComingBottomSheetDetails extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setData(ComingAndTransaction comingAndTransaction) {
+    public void setData(ComingAndTransaction comingAndTransaction, ExpandableListView expandableListView, ComingExpandableListAdapter expandableListAdapter, int groupPosition, int childPosition) {
         transactionName.setText(comingAndTransaction.transaction.getTitle());
         addDate.setText(DateProcessor.parseDate(comingAndTransaction.coming.getAddDate()));
 
@@ -121,6 +123,9 @@ public class ComingBottomSheetDetails extends Fragment {
                     .setPositiveButton(R.string.delete, (dialog, id) -> {
                         comingViewModel.delete(comingAndTransaction.coming.getComingId());
                         Toast.makeText(context, "Element został usunięty", Toast.LENGTH_SHORT).show();
+                        expandableListAdapter.removeItem(groupPosition, comingAndTransaction);
+                        expandableListAdapter.notifyDataSetChanged();
+                        expandableListView.deferNotifyDataSetChanged();
                         bottomSheetDialog.cancel();
                     })
                     .setNegativeButton(R.string.cancel, (dialog, id) -> {}).show();

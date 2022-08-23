@@ -6,8 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
+Tryinimport android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,7 +44,7 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     private ComingBottomSheetDetails details;
     private ComingViewModel comingViewModel;
     private ExpandableListView expandableListView;
-    private ExpandableListAdapter expandableListAdapter;
+    private ComingExpandableListAdapter expandableListAdapter;
 
     public static final Map<String, Integer> months;
     static {
@@ -78,7 +77,7 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
         return inflater.inflate(R.layout.coming_fragment, container, false);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -101,15 +100,29 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
         expandableListView = view.findViewById(R.id.expandableListView);
 
         details = new ComingBottomSheetDetails(requireContext(), getActivity(), comingViewModel);
+
+        expandableListAdapter = new ComingExpandableListAdapter(requireContext(), monthsInList, transactionsCollection);
+        expandableListView.setAdapter(expandableListAdapter);
+
+
         comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
             collectTransactionByMonthId(list);
-            expandableListAdapter = new ComingExpandableListAdapter(requireContext(), monthsInList, transactionsCollection);
-            expandableListView.setAdapter(expandableListAdapter);
-            for(int i=0; i<monthsInList.size(); i++) {
-                expandableListView.expandGroup(i);
-            }
+            expandableListAdapter.updateItems(transactionsCollection);
+            expandableListAdapter.notifyDataSetChanged();
+//            for(int i=0; i<monthsInList.size(); i++) {
+//                expandableListView.expandGroup(i);
+//            }
         });
 
+        expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
+//            ComingAndTransaction comingAndTransaction = expandableListAdapter.getChild(groupPosition, childPosition);
+//            details.setData(comingAndTransaction, expandableListView, expandableListAdapter, groupPosition, childPosition);
+//            details.show();
+            transactionsCollection.get(0).remove(0);
+            expandableListAdapter.notifyDataSetChanged();
+            expandableListView.deferNotifyDataSetChanged();
+            return true;
+        });
 
     }
 
@@ -166,8 +179,6 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     @Override
     public void onItemClick(int parentPosition, int childPosition) {
         ComingAndTransaction coming = adapter.getCurrentList().get(parentPosition).getComingAndTransactionList().get(childPosition);
-        details.setData(coming);
-        details.show();
     }
 
     @Override

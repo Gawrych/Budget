@@ -5,7 +5,7 @@ import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.example.budgetmanagement.R;
@@ -15,22 +15,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ComingExpandableListAdapter implements ExpandableListAdapter {
+public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private HashMap<Integer, ArrayList<ComingAndTransaction>> items;
     private List<String> groupList;
 
     public ComingExpandableListAdapter(Context context, List<String> groupList,
-                                       HashMap<Integer, ArrayList<ComingAndTransaction>> items){
+                                       HashMap<Integer, ArrayList<ComingAndTransaction>> items) {
         this.context = context;
         this.items = items;
         this.groupList = groupList;
     }
 
+    public void updateItems(HashMap<Integer, ArrayList<ComingAndTransaction>> items) {
+        this.items = items;
+    }
+
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {
-
+        observer.onChanged();
     }
 
     @Override
@@ -139,5 +143,9 @@ public class ComingExpandableListAdapter implements ExpandableListAdapter {
     @Override
     public long getCombinedGroupId(long groupId) {
         return 0;
+    }
+
+    public void removeItem(int groupPosition, ComingAndTransaction comingAndTransaction) {
+        items.get(groupPosition).remove(comingAndTransaction);
     }
 }
