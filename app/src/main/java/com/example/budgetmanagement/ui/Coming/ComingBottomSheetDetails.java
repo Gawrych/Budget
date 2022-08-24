@@ -123,9 +123,10 @@ public class ComingBottomSheetDetails extends Fragment {
                     .setPositiveButton(R.string.delete, (dialog, id) -> {
                         comingViewModel.delete(comingAndTransaction.coming.getComingId());
                         Toast.makeText(context, "Element został usunięty", Toast.LENGTH_SHORT).show();
-                        expandableListAdapter.removeItem(groupPosition, comingAndTransaction);
+                        expandableListAdapter.removeItem(groupPosition, childPosition);
                         expandableListAdapter.notifyDataSetChanged();
-                        expandableListView.deferNotifyDataSetChanged();
+                        expandableListView.collapseGroup(groupPosition);
+                        expandableListView.expandGroup(groupPosition);
                         bottomSheetDialog.cancel();
                     })
                     .setNegativeButton(R.string.cancel, (dialog, id) -> {}).show();

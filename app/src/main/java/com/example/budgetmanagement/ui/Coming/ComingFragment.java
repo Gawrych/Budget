@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-Tryinimport android.widget.ExpandableListView;
+import android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +39,7 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     private List<ComingAndTransaction> globalList;
     private final ArrayList<Section> sectionList = new ArrayList<>();
     private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollection = new HashMap<>();
+    private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollectionUpdated = new HashMap<>();
     private final Calendar calendar = Calendar.getInstance();
     private LiveData<List<ComingAndTransaction>> allComingTransaction;
     private ComingBottomSheetDetails details;
@@ -98,29 +99,28 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
         monthsInList.add("december");
 
         expandableListView = view.findViewById(R.id.expandableListView);
-
         details = new ComingBottomSheetDetails(requireContext(), getActivity(), comingViewModel);
+
+        collectTransactionByMonthId(comingViewModel.getAllComingAndTransactionList());
 
         expandableListAdapter = new ComingExpandableListAdapter(requireContext(), monthsInList, transactionsCollection);
         expandableListView.setAdapter(expandableListAdapter);
 
+        for(int i=0; i<monthsInList.size(); i++) {
+            expandableListView.expandGroup(i);
+        }
 
         comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
             collectTransactionByMonthId(list);
             expandableListAdapter.updateItems(transactionsCollection);
-            expandableListAdapter.notifyDataSetChanged();
-//            for(int i=0; i<monthsInList.size(); i++) {
-//                expandableListView.expandGroup(i);
-//            }
+            Log.d("ErrorHandle", "ComingViewModelObserver");
         });
 
         expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-//            ComingAndTransaction comingAndTransaction = expandableListAdapter.getChild(groupPosition, childPosition);
-//            details.setData(comingAndTransaction, expandableListView, expandableListAdapter, groupPosition, childPosition);
-//            details.show();
-            transactionsCollection.get(0).remove(0);
-            expandableListAdapter.notifyDataSetChanged();
-            expandableListView.deferNotifyDataSetChanged();
+            ComingAndTransaction comingAndTransaction = expandableListAdapter.getChild(groupPosition, childPosition);
+            details.setData(comingAndTransaction, expandableListView, expandableListAdapter, groupPosition, childPosition);
+            details.show();
+            Log.d("ErrorHandle", "onCLickListener");
             return true;
         });
 

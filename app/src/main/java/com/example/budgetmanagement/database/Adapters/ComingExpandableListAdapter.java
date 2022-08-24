@@ -30,6 +30,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
     public void updateItems(HashMap<Integer, ArrayList<ComingAndTransaction>> items) {
         this.items = items;
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -145,7 +146,9 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         return 0;
     }
 
-    public void removeItem(int groupPosition, ComingAndTransaction comingAndTransaction) {
-        items.get(groupPosition).remove(comingAndTransaction);
+    public void removeItem(int groupPosition, int childPosition) {
+        HashMap<Integer, ArrayList<ComingAndTransaction>> updated = new HashMap<>(items);
+        updated.get(groupPosition).remove(childPosition);
+        this.items = updated;
     }
 }

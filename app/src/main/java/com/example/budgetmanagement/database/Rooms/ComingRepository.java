@@ -12,15 +12,21 @@ public class ComingRepository {
     private ComingDao comingDao;
 
     private LiveData<List<ComingAndTransaction>> allComingAndTransaction;
+    private List<ComingAndTransaction> allComingAndTransactionList;
 
     public ComingRepository(Application app) {
         database = BudgetRoomDatabase.getDatabase(app);
         comingDao = database.comingDao();
         allComingAndTransaction = comingDao.getAllComingAndTransaction();
+        allComingAndTransactionList = comingDao.getAllComingAndTransactionList();
     }
 
     public LiveData<List<ComingAndTransaction>> getAllComingAndTransaction() {
         return allComingAndTransaction;
+    }
+
+    public List<ComingAndTransaction> allComingAndTransactionList() {
+        return allComingAndTransactionList;
     }
 
     public void insert(Coming coming) {

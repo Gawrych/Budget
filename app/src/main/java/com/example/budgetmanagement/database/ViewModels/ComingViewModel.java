@@ -19,6 +19,7 @@ public class ComingViewModel extends AndroidViewModel {
 
     private ComingRepository comingRepository;
     private LiveData<List<ComingAndTransaction>> allComingAndTransaction;
+    private List<ComingAndTransaction> allComingAndTransactionList;
     private HashMap<Integer, ArrayList<ComingAndTransaction>> transactionCollectByMonthsId = new HashMap<>();
     private ArrayList<Section> sectionList = new ArrayList<>();
 
@@ -26,6 +27,7 @@ public class ComingViewModel extends AndroidViewModel {
         super(app);
         comingRepository = new ComingRepository(app);
         allComingAndTransaction = comingRepository.getAllComingAndTransaction();
+        allComingAndTransactionList = comingRepository.allComingAndTransactionList();
     }
 
     public void insert(Coming coming) {
@@ -38,6 +40,11 @@ public class ComingViewModel extends AndroidViewModel {
 
     public LiveData<List<ComingAndTransaction>> getAllComingAndTransaction() {
         return allComingAndTransaction;
+    }
+
+
+    public List<ComingAndTransaction> getAllComingAndTransactionList() {
+        return allComingAndTransactionList;
     }
 
     public HashMap<Integer, ArrayList<ComingAndTransaction>> getTransactionCollectByMonthsId() {
