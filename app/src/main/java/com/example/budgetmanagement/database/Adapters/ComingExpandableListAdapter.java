@@ -2,16 +2,23 @@ package com.example.budgetmanagement.database.Adapters;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
+import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
+import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -98,16 +105,59 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         return context.getString(resId);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View getChildView(final int i, final int i1, boolean b, View view, ViewGroup viewGroup) {
-        ComingAndTransaction item = getChild(i, i1);
+        final TextView titleField;
+        final TextView amountField;
+        final TextView dateField;
+        final TextView currencyField;
+        final TextView remainingDays;
+        final ImageView outOfDateIcon;
 
         if (view == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.child_view, viewGroup, false);
         }
-        TextView title = view.findViewById(R.id.title);
-        title.setText(item.transaction.getTitle());
+
+        titleField = view.findViewById(R.id.title);
+        amountField = view.findViewById(R.id.amount);
+        dateField = view.findViewById(R.id.repeatDate);
+        currencyField = view.findViewById(R.id.currency);
+        outOfDateIcon = view.findViewById(R.id.outOfDateIcon);
+        remainingDays = view.findViewById(R.id.remainingDays);
+
+        ComingAndTransaction item = getChild(i, i1);
+        String amount = item.transaction.getAmount();
+        long repeatDate = item.coming.getRepeatDate();
+        boolean execute = item.coming.isExecute();
+
+        titleField.setText(item.transaction.getTitle());
+
+        AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(amountField, currencyField);
+        amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
+        amountField.setText(amount);
+        dateField.setText(DateProcessor.parseDate(repeatDate));
+
+        Calendar todayDate = Calendar.getInstance();
+        Calendar otherDate = Calendar.getInstance();
+        otherDate.setTimeInMillis(repeatDate);
+
+        int days = otherDate.get(Calendar.DAY_OF_YEAR) - todayDate.get(Calendar.DAY_OF_YEAR);
+        remainingDays.setText(String.valueOf(days));
+
+        if (otherDate.before(todayDate) && !execute) {
+            outOfDateIcon.setVisibility(View.VISIBLE);
+            outOfDateIcon.setImageResource(R.drawable.ic_baseline_event_busy_24);
+        } else {
+            outOfDateIcon.setVisibility(View.GONE);
+        }
+
+        if (execute) {
+            outOfDateIcon.setVisibility(View.VISIBLE);
+            outOfDateIcon.setImageResource(R.drawable.ic_baseline_done_all_24);
+        }
+
         return view;
     }
 
