@@ -19,15 +19,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/remainingDaysLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:gravity="bottom"
-        android:text="Pozostało:"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+    <ImageView
+        android:id="@+id/outOfDateIcon"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:src="@drawable/ic_baseline_event_busy_24"
+        app:layout_constraintBottom_toBottomOf="@+id/remainingDays"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/remainingDays"
@@ -37,8 +35,8 @@
         android:gravity="bottom"
         android:text="22"
         android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@+id/remainingDaysLabel"
-        app:layout_constraintTop_toTopOf="@+id/remainingDaysLabel" />
+        app:layout_constraintStart_toEndOf="@+id/outOfDateIcon"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
         android:id="@+id/daysText"
@@ -86,13 +84,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/amount" />
 
-    <ImageView
-        android:id="@+id/outOfDateIcon"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="20dp"
-        android:src="@drawable/ic_baseline_event_busy_24"
-        app:layout_constraintBottom_toBottomOf="@+id/daysText"
-        app:layout_constraintStart_toEndOf="@+id/daysText" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

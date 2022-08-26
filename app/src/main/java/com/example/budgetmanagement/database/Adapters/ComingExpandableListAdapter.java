@@ -113,6 +113,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         final TextView dateField;
         final TextView currencyField;
         final TextView remainingDays;
+        final TextView daysText;
         final ImageView outOfDateIcon;
 
         if (view == null){
@@ -126,6 +127,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         currencyField = view.findViewById(R.id.currency);
         outOfDateIcon = view.findViewById(R.id.outOfDateIcon);
         remainingDays = view.findViewById(R.id.remainingDays);
+        daysText = view.findViewById(R.id.daysText);
 
         ComingAndTransaction item = getChild(i, i1);
         String amount = item.transaction.getAmount();
@@ -147,14 +149,24 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         remainingDays.setText(String.valueOf(days));
 
         if (otherDate.before(todayDate) && !execute) {
-            outOfDateIcon.setVisibility(View.VISIBLE);
-            outOfDateIcon.setImageResource(R.drawable.ic_baseline_event_busy_24);
+            remainingDays.setTextColor(view.getContext().getResources().getColor(R.color.mat_red));
+            daysText.setTextColor(view.getContext().getResources().getColor(R.color.mat_red));
+
+            outOfDateIcon.setImageResource(R.drawable.calendar);
+            outOfDateIcon.setColorFilter(view.getContext().getResources().getColor(R.color.mat_red));
         } else {
-            outOfDateIcon.setVisibility(View.GONE);
+            remainingDays.setTextColor(view.getContext().getResources().getColor(R.color.font_default));
+            daysText.setTextColor(view.getContext().getResources().getColor(R.color.font_default));
+
+            outOfDateIcon.setImageResource(R.drawable.calendar);
+            outOfDateIcon.setColorFilter(view.getContext().getResources().getColor(R.color.font_default));
         }
 
         if (execute) {
-            outOfDateIcon.setVisibility(View.VISIBLE);
+            remainingDays.setTextColor(view.getContext().getResources().getColor(R.color.main_green));
+            remainingDays.setText("0");
+            daysText.setTextColor(view.getContext().getResources().getColor(R.color.main_green));
+            outOfDateIcon.setColorFilter(view.getContext().getResources().getColor(R.color.main_green));
             outOfDateIcon.setImageResource(R.drawable.ic_baseline_done_all_24);
         }
 
