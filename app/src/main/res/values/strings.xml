@@ -51,4 +51,10 @@
     <string name="december">Grudzień</string>
     <string name="outstanding_payments">Zaległe płatności</string>
     <string name="amount_balance">Saldo:</string>
+    <string name="Never">Nigdy</string>
+    <string name="Pay">Opłać</string>
+    <string name="Remain">Pozostało</string>
+    <string name="after_the_deadline">Po terminie</string>
+    <string name="paid_from">Opłacone od</string>
+    <string name="cancel_pay">Anuluj opłacenie</string>
 </resources>

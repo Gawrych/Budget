@@ -34,14 +34,21 @@ public class ComingViewModel extends AndroidViewModel {
         comingRepository.insert(coming);
     }
 
-    public void delete(int comingId) {
-        comingRepository.delete(comingId);
+    public void delete(Coming coming) {
+        comingRepository.delete(coming);
+    }
+
+    public void update(Coming coming) {
+        comingRepository.update(coming);
+    }
+
+    public void updateExecute(int comingId, boolean executeValue) {
+        comingRepository.updateExecute(comingId, executeValue);
     }
 
     public LiveData<List<ComingAndTransaction>> getAllComingAndTransaction() {
         return allComingAndTransaction;
     }
-
 
     public List<ComingAndTransaction> getAllComingAndTransactionList() {
         return allComingAndTransactionList;

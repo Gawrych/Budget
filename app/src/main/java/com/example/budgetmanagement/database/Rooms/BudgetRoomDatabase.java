@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 73, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 80, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -59,7 +59,7 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
 
                 TransactionDao transactionDao = INSTANCE.transactionDao();
                 Transaction transaction = new Transaction(1, 1,
-                        "RandomName", "-200.50", 1,
+                        "Kebab", "-200.50", 1,
                          LocalDate.now().toEpochDay(), true);
                 Transaction transaction2 = new Transaction(2, 2,
                         "Kawa", "22.00", 1,
@@ -72,28 +72,28 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 transactionDao.insert(transaction3);
 
                 Transaction transaction4 = new Transaction(4, 2,
-                        "Herbatka4", "99.00", LocalDate.now().toEpochDay(),
+                        "Abonament na telefon", "99.00", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(transaction4);
 
                 Transaction transaction5 = new Transaction(5, 2,
-                        "Herbatka5", "99.00", LocalDate.now().toEpochDay(),
+                        "Czynsz za mieszkanie", "99.00", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(transaction5);
 
                 Transaction transaction6 = new Transaction(6, 2,
-                        "Herbatka5", "99.00", LocalDate.now().toEpochDay(),
+                        "Spożywcze", "99.00", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(transaction6);
 
                 Transaction transaction7 = new Transaction(7, 2,
-                        "Herbatka5", "99.00", LocalDate.now().toEpochDay(),
+                        "Oddać rodzicom", "99.00", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(transaction7);
 
                 Transaction transaction8 = new Transaction(8, 2,
-                        "Powtórka", "101.00", LocalDate.now().toEpochDay(),
-                        LocalDate.now().toEpochDay(), false);
+                        "Pensja", "3012.55", LocalDate.now().toEpochDay(),
+                        LocalDate.now().toEpochDay(), true);
                 transactionDao.insert(transaction8);
 
                 byte validity = 2;
@@ -134,7 +134,7 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
 
 
                 Transaction repeat = new Transaction(10, 1,
-                        "Repeat", "1.00", LocalDate.now().toEpochDay(),
+                        "Prezenty", "1.00", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(repeat);
 

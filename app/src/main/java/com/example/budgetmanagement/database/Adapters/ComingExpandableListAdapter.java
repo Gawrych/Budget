@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,9 +25,11 @@ import java.util.List;
 
 public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private Context context;
+    private final Context context;
     private HashMap<Integer, ArrayList<ComingAndTransaction>> items;
-    private List<String> groupList;
+    private final List<String> groupList;
+
+//    TODO: Change to sectionList?
 
     public ComingExpandableListAdapter(Context context, List<String> groupList,
                                        HashMap<Integer, ArrayList<ComingAndTransaction>> items) {
@@ -37,17 +40,14 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
     public void updateItems(HashMap<Integer, ArrayList<ComingAndTransaction>> items) {
         this.items = items;
+    }
+
+    public void notifyAdapter(ExpandableListView expandableListView) {
         this.notifyDataSetChanged();
-    }
-
-    @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
-        observer.onChanged();
-    }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-
+        for (int i=0; i < groupList.size(); i++) {
+            expandableListView.collapseGroup(i);
+            expandableListView.expandGroup(i);
+        }
     }
 
     @Override
@@ -68,21 +68,6 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public ComingAndTransaction getChild(int i, int i1) {
         return items.get(i).get(i1);
-    }
-
-    @Override
-    public long getGroupId(int i) {
-        return i;
-    }
-
-    @Override
-    public long getChildId(int i, int i1) {
-        return i1;
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return true;
     }
 
     @Override
@@ -174,6 +159,21 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
+    public long getGroupId(int i) {
+        return i;
+    }
+
+    @Override
+    public long getChildId(int i, int i1) {
+        return i1;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return true;
+    }
+
+    @Override
     public boolean isChildSelectable(int i, int i1) {
         return true;
     }
@@ -189,14 +189,10 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public void onGroupExpanded(int groupPosition) {
-
-    }
+    public void onGroupExpanded(int groupPosition) {}
 
     @Override
-    public void onGroupCollapsed(int groupPosition) {
-
-    }
+    public void onGroupCollapsed(int groupPosition) {}
 
     @Override
     public long getCombinedChildId(long groupId, long childId) {
@@ -208,9 +204,9 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         return 0;
     }
 
-    public void removeItem(int groupPosition, int childPosition) {
-        HashMap<Integer, ArrayList<ComingAndTransaction>> updated = new HashMap<>(items);
-        updated.get(groupPosition).remove(childPosition);
-        this.items = updated;
-    }
+    @Override
+    public void registerDataSetObserver(DataSetObserver observer) {}
+
+    @Override
+    public void unregisterDataSetObserver(DataSetObserver observer) {}
 }

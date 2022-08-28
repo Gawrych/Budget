@@ -10,28 +10,28 @@ public class Coming {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "comingId")
-    private final int comingId;
+    private int comingId;
 
     @ColumnInfo(name = "transactionId")
-    private final int transactionId;
+    private int transactionId;
 
     @ColumnInfo(name = "validity")
-    private final byte validity;
+    private byte validity;
 
     @ColumnInfo(name = "execute")
-    private final boolean execute;
+    private boolean execute;
 
-    @ColumnInfo(name = "repeatDate")
-    private final long repeatDate;
+    @ColumnInfo(name = "repeatDate") // expireDate is better name, change this
+    private long repeatDate;
 
     @ColumnInfo(name = "modifiedDate")
-    private final long modifiedDate;
+    private long modifiedDate;
 
     @ColumnInfo(name = "executeDate")
-    private final long executedDate;
+    private long executedDate;
 
     @ColumnInfo(name = "addDate")
-    private final long addDate;
+    private long addDate;
 
     public Coming(int comingId, int transactionId, byte validity, boolean execute, long repeatDate, long modifiedDate, long addDate, long executedDate) {
         this.comingId = comingId;
@@ -74,5 +74,37 @@ public class Coming {
 
     public long getExecutedDate() {
         return executedDate;
+    }
+
+    public void setComingId(int comingId) {
+        this.comingId = comingId;
+    }
+
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public void setValidity(byte validity) {
+        this.validity = validity;
+    }
+
+    public void setExecute(boolean execute) {
+        this.execute = execute;
+    }
+
+    public void setRepeatDate(long repeatDate) {
+        this.repeatDate = repeatDate;
+    }
+
+    public void setModifiedDate(long modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public void setExecutedDate(long executedDate) {
+        this.executedDate = executedDate;
+    }
+
+    public void setAddDate(long addDate) {
+        this.addDate = addDate;
     }
 }

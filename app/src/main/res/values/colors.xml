@@ -21,4 +21,5 @@
     <color name="dark_grey">#AAAAAA</color>
     <color name="light_red">#EF3E36</color>
     <color name="mat_red">#E84855</color>
+    <color name="mat_green">#3E885B</color>
 </resources>

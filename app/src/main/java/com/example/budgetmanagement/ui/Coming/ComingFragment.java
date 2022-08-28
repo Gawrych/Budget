@@ -12,11 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.Adapters.ComingAdapter;
 import com.example.budgetmanagement.database.Adapters.ComingExpandableListAdapter;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
@@ -31,17 +29,14 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ComingFragment extends Fragment implements ParentOnNoteListener {
+public class ComingFragment extends Fragment {
 
     private ComingFragmentBinding binding;
     private View view;
-    private ComingAdapter adapter;
     private List<ComingAndTransaction> globalList;
     private final ArrayList<Section> sectionList = new ArrayList<>();
     private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollection = new HashMap<>();
-    private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollectionUpdated = new HashMap<>();
     private final Calendar calendar = Calendar.getInstance();
-    private LiveData<List<ComingAndTransaction>> allComingTransaction;
     private ComingBottomSheetDetails details;
     private ComingViewModel comingViewModel;
     private ExpandableListView expandableListView;
@@ -65,12 +60,12 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
         months = Collections.unmodifiableMap(items);
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
-        allComingTransaction = comingViewModel.getAllComingAndTransaction();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -99,28 +94,27 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
         monthsInList.add("december");
 
         expandableListView = view.findViewById(R.id.expandableListView);
-        details = new ComingBottomSheetDetails(requireContext(), getActivity(), comingViewModel);
+        details = new ComingBottomSheetDetails(requireContext(), getActivity(), comingViewModel, getParentFragmentManager());
 
         collectTransactionByMonthId(comingViewModel.getAllComingAndTransactionList());
 
         expandableListAdapter = new ComingExpandableListAdapter(requireContext(), monthsInList, transactionsCollection);
         expandableListView.setAdapter(expandableListAdapter);
 
-        for(int i=0; i<monthsInList.size(); i++) {
+        for(int i = 0; i< monthsInList.size(); i++) {
             expandableListView.expandGroup(i);
         }
 
         comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
             collectTransactionByMonthId(list);
             expandableListAdapter.updateItems(transactionsCollection);
-            Log.d("ErrorHandle", "ComingViewModelObserver");
+            expandableListAdapter.notifyAdapter(expandableListView);
         });
 
         expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
             ComingAndTransaction comingAndTransaction = expandableListAdapter.getChild(groupPosition, childPosition);
-            details.setData(comingAndTransaction, expandableListView, expandableListAdapter, groupPosition, childPosition);
+            details.setData(comingAndTransaction);
             details.show();
-            Log.d("ErrorHandle", "onCLickListener");
             return true;
         });
 
@@ -173,12 +167,6 @@ public class ComingFragment extends Fragment implements ParentOnNoteListener {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void initializeEmptyTransactionsCollection() {
         months.forEach((name, id) -> transactionsCollection.put(id, new ArrayList<>()));
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void onItemClick(int parentPosition, int childPosition) {
-        ComingAndTransaction coming = adapter.getCurrentList().get(parentPosition).getComingAndTransactionList().get(childPosition);
     }
 
     @Override
