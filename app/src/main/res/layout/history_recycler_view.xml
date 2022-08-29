@@ -44,7 +44,7 @@
         android:layout_height="35dp"
         android:gravity="center"
         android:text="@string/default_date_in_item"
-        android:textColor="@color/grey"
+        android:textColor="@color/font_default"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

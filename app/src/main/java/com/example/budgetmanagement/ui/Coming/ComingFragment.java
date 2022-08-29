@@ -18,6 +18,7 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.ComingExpandableListAdapter;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
+import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.databinding.ComingFragmentBinding;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class ComingFragment extends Fragment {
     private ComingViewModel comingViewModel;
     private ExpandableListView expandableListView;
     private ComingExpandableListAdapter expandableListAdapter;
+    private HistoryViewModel historyViewModel;
 
     public static final Map<String, Integer> months;
     static {
@@ -60,12 +62,12 @@ public class ComingFragment extends Fragment {
         months = Collections.unmodifiableMap(items);
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
+        historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -94,7 +96,7 @@ public class ComingFragment extends Fragment {
         monthsInList.add("december");
 
         expandableListView = view.findViewById(R.id.expandableListView);
-        details = new ComingBottomSheetDetails(requireContext(), getActivity(), comingViewModel, getParentFragmentManager());
+        details = new ComingBottomSheetDetails(requireContext(), getActivity(), comingViewModel, historyViewModel);
 
         collectTransactionByMonthId(comingViewModel.getAllComingAndTransactionList());
 

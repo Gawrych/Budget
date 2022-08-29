@@ -12,11 +12,12 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.Rooms.History;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
+import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -27,79 +28,68 @@ public class ComingBottomSheetDetails extends Fragment {
     private final Activity activity;
     private final Context context;
     private final BottomSheetDialog bottomSheetDialog;
+    private final HistoryViewModel historyViewModel;
     private final ComingViewModel comingViewModel;
-    private final TextView transactionName;
-    private final TextView addDate;
-    private final TextView remainingDays;
-    private final TextView remainingDaysLabel;
-    private final TextView daysLabel;
-    private final TextView lastEditDate;
-    private final TextView validity;
-    private final TextView remainingDate;
-    private final ImageView remainingDaysIcon;
-    private final Button delete;
-    private final Button edit;
-    private final Button execute;
-    private final Button move;
+    private final TextView transactionNameField;
+    private final TextView addDateField;
+    private final TextView remainingDaysField;
+    private final TextView remainingDaysLabelField;
+    private final TextView daysLabelField;
+    private final TextView lastEditDateField;
+    private final TextView validityField;
+    private final TextView deadlineDateField;
+    private final ImageView remainingDaysIconField;
+    private final Button deleteButton;
+    private final Button editButton;
+    private final Button executeButton;
+    private final Button moveButton;
     private ComingAndTransaction comingAndTransaction;
 
-    public ComingBottomSheetDetails(Context context, Activity activity, ComingViewModel comingViewModel, FragmentManager fragmentManager) {
+    public ComingBottomSheetDetails(Context context, Activity activity, ComingViewModel comingViewModel, HistoryViewModel historyViewModel) {
         this.context = context;
         this.activity = activity;
         this.comingViewModel = comingViewModel;
 
+        this.historyViewModel = historyViewModel;
         bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(R.layout.coming_bottom_sheet_details);
 
-        delete = bottomSheetDialog.findViewById(R.id.delete);
-        edit = bottomSheetDialog.findViewById(R.id.edit);
-        execute = bottomSheetDialog.findViewById(R.id.execute);
-        move = bottomSheetDialog.findViewById(R.id.move);
+        deleteButton = bottomSheetDialog.findViewById(R.id.delete);
+        editButton = bottomSheetDialog.findViewById(R.id.edit);
+        executeButton = bottomSheetDialog.findViewById(R.id.execute);
+        moveButton = bottomSheetDialog.findViewById(R.id.move);
 
-        transactionName = bottomSheetDialog.findViewById(R.id.transactionName);
-        addDate = bottomSheetDialog.findViewById(R.id.addDate);
-        remainingDaysLabel = bottomSheetDialog.findViewById(R.id.remainingDaysLabel);
-        remainingDays = bottomSheetDialog.findViewById(R.id.remainingDays);
-        daysLabel = bottomSheetDialog.findViewById(R.id.daysLabel);
-        lastEditDate = bottomSheetDialog.findViewById(R.id.lastEditDate);
-        validity = bottomSheetDialog.findViewById(R.id.validity);
-        remainingDaysIcon = bottomSheetDialog.findViewById(R.id.remainingDaysIcon);
-        remainingDate = bottomSheetDialog.findViewById(R.id.remainingDate);
+        transactionNameField = bottomSheetDialog.findViewById(R.id.transactionName);
+        addDateField = bottomSheetDialog.findViewById(R.id.addDate);
+        remainingDaysLabelField = bottomSheetDialog.findViewById(R.id.remainingDaysLabel);
+        remainingDaysField = bottomSheetDialog.findViewById(R.id.remainingDays);
+        daysLabelField = bottomSheetDialog.findViewById(R.id.daysLabel);
+        lastEditDateField = bottomSheetDialog.findViewById(R.id.lastEditDate);
+        validityField = bottomSheetDialog.findViewById(R.id.validity);
+        remainingDaysIconField = bottomSheetDialog.findViewById(R.id.remainingDaysIcon);
+        deadlineDateField = bottomSheetDialog.findViewById(R.id.remainingDate);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setData(ComingAndTransaction comingAndTransaction) {
         this.comingAndTransaction = comingAndTransaction;
-        transactionName.setText(comingAndTransaction.transaction.getTitle());
-
-        byte validityValue = comingAndTransaction.coming.getValidity();
-        if (validityValue == 2) {
-            validity.setText("Średnia");
-        }
-
-        addDate.setText(DateProcessor.parseDate(comingAndTransaction.coming.getAddDate()));
-
-        long modifiedDate = comingAndTransaction.coming.getModifiedDate();
-        if (modifiedDate != 0) {
-            lastEditDate.setText(DateProcessor.parseDate(modifiedDate));
-        } else {
-            lastEditDate.setText(R.string.Never);
-        }
-
-        Calendar todayDate = Calendar.getInstance();
-        Calendar deadlineDate = Calendar.getInstance();
-        deadlineDate.setTimeInMillis(comingAndTransaction.coming.getRepeatDate());
-
-        int days = Math.abs(todayDate.get(Calendar.DAY_OF_YEAR) - deadlineDate.get(Calendar.DAY_OF_YEAR));
-        remainingDate.setText(DateProcessor.parseDate(comingAndTransaction.coming.getRepeatDate()));
-        remainingDays.setText(String.valueOf(days));
-
+        setTransactionName();
+        setValidityValue();
+        setAddDate();
+        setLastModifiedDate();
         setExecuteButton(R.string.Pay, R.color.mat_green);
 
-        boolean isExecute = comingAndTransaction.coming.isExecute();
-        boolean beforeDeadline = deadlineDate.after(todayDate);
+        Calendar todayDate = getTodayDate();
+        Calendar deadlineDate = getCalendarWithValue(getRepeatDate());
 
-        if (beforeDeadline || isExecute) {
+        int remainingDays = Math.abs(getRemainingDays(todayDate, deadlineDate));
+        setRemainingDaysField(remainingDays);
+        setDeadlineDateField(getRepeatDate());
+
+        boolean isExecute = comingAndTransaction.coming.isExecute();
+        boolean isBeforeDeadline = deadlineDate.after(todayDate);
+
+        if (isBeforeDeadline || isExecute) {
             setRemainingElements(R.string.Remain, R.color.font_default);
         } else {
             setRemainingElements(R.string.after_the_deadline, R.color.mat_red);
@@ -107,30 +97,91 @@ public class ComingBottomSheetDetails extends Fragment {
 
         if (isExecute) {
             long executedDateInMillis = comingAndTransaction.coming.getExecutedDate();
-            Calendar executedDate = Calendar.getInstance();
-            executedDate.setTimeInMillis(executedDateInMillis);
 
-            remainingDate.setText(DateProcessor.parseDate(executedDateInMillis));
-            remainingDays.setText(String.valueOf(todayDate.get(Calendar.DAY_OF_YEAR) - executedDate.get(Calendar.DAY_OF_YEAR)));
+            setDeadlineDateField(executedDateInMillis);
+            setRemainingDaysField(getRemainingDays(todayDate, getCalendarWithValue(executedDateInMillis)));
 
             setExecuteButton(R.string.cancel_pay, R.color.dark_grey);
             setRemainingElements(R.string.paid_from, R.color.main_green);
         }
 
-        delete.setOnClickListener(v -> deleteItem());
+        deleteButton.setOnClickListener(v -> deleteItem());
 
-        edit.setOnClickListener(v -> {});
+        editButton.setOnClickListener(v -> {});
 
-        move.setOnClickListener(v -> changeItemRepeatDate());
+        moveButton.setOnClickListener(v -> changeItemRepeatDate());
 
-        execute.setOnClickListener(v -> executePay());
+        executeButton.setOnClickListener(v -> executePay());
+    }
+
+    private Calendar getCalendarWithValue(long value) {
+        Calendar calendarInstance = Calendar.getInstance();
+        calendarInstance.setTimeInMillis(value);
+        return calendarInstance;
+    }
+
+    private void setTransactionName() {
+        transactionNameField.setText(comingAndTransaction.transaction.getTitle());
+    }
+
+    private void setValidityValue() {
+        byte validityValue = comingAndTransaction.coming.getValidity();
+        if (validityValue == 2) {
+            validityField.setText("Średnia");
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setAddDate() {
+        addDateField.setText(DateProcessor.parseDate(comingAndTransaction.coming.getAddDate()));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setLastModifiedDate() {
+        long modifiedDate = comingAndTransaction.coming.getModifiedDate();
+        if (modifiedDate != 0) {
+            lastEditDateField.setText(DateProcessor.parseDate(modifiedDate));
+        } else {
+            lastEditDateField.setText(R.string.Never);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setDeadlineDateField(long date) {
+        deadlineDateField.setText(DateProcessor.parseDate(date));
+    }
+
+    private int getRemainingDays(Calendar today, Calendar deadLine) {
+       return today.get(Calendar.DAY_OF_YEAR) - deadLine.get(Calendar.DAY_OF_YEAR);
+    }
+
+    private long getRepeatDate() {
+        return comingAndTransaction.coming.getRepeatDate();
     }
 
     private void executePay() {
+        boolean executed = !comingAndTransaction.coming.isExecute();
+
         comingAndTransaction.coming.setExecute(!comingAndTransaction.coming.isExecute());
         comingAndTransaction.coming.setExecutedDate(Calendar.getInstance().getTimeInMillis());
         updateInDatabase(comingAndTransaction);
+
+        History newHistoryElement = new History(0, comingAndTransaction.transaction.getTransactionId(), getTodayDate().getTimeInMillis());
+        if (executed) {
+            historyViewModel.insert(newHistoryElement);
+        } else {
+//            TODO: Remove element from historyViewModel when user canceled paid
+        }
+
         bottomSheetDialog.cancel();
+    }
+
+    private Calendar getTodayDate() {
+        return Calendar.getInstance();
+    }
+
+    private void setRemainingDaysField(int remainingDays) {
+        remainingDaysField.setText(String.valueOf(remainingDays));
     }
 
     private void changeItemRepeatDate() {
@@ -169,23 +220,23 @@ public class ComingBottomSheetDetails extends Fragment {
     private void setRemainingElements(int text, int color) {
         setColor(color);
         setRemainingDaysIconToCalendar();
-        setRemainingDaysLabel(text);
+        setRemainingDaysLabelField(text);
     }
 
     private void setColor(int color) {
-        remainingDaysIcon.setColorFilter(context.getResources().getColor(color));
-        remainingDate.setTextColor(context.getResources().getColor(color));
-        remainingDaysLabel.setTextColor(context.getResources().getColor(color));
-        remainingDays.setTextColor(context.getResources().getColor(color));
-        daysLabel.setTextColor(context.getResources().getColor(color));
+        remainingDaysIconField.setColorFilter(context.getResources().getColor(color));
+        deadlineDateField.setTextColor(context.getResources().getColor(color));
+        remainingDaysLabelField.setTextColor(context.getResources().getColor(color));
+        remainingDaysField.setTextColor(context.getResources().getColor(color));
+        daysLabelField.setTextColor(context.getResources().getColor(color));
     }
 
     private void setRemainingDaysIconToCalendar() {
-        remainingDaysIcon.setImageResource(R.drawable.ic_baseline_event_busy_24);
+        remainingDaysIconField.setImageResource(R.drawable.ic_baseline_event_busy_24);
     }
 
-    private void setRemainingDaysLabel(int text) {
-        remainingDaysLabel.setText(text);
+    private void setRemainingDaysLabelField(int text) {
+        remainingDaysLabelField.setText(text);
     }
 
     private void setExecuteButton(int text, int color) {
@@ -194,11 +245,11 @@ public class ComingBottomSheetDetails extends Fragment {
     }
     
     private void setExecuteButtonText(int text) {
-        execute.setText(text);
+        executeButton.setText(text);
     }
 
     private void setExecuteButtonColor(int color) {
-        execute.setBackgroundColor(context.getResources().getColor(color));
+        executeButton.setBackgroundColor(context.getResources().getColor(color));
     }
 
     private void removeFromDatabase(ComingAndTransaction comingAndTransaction) {

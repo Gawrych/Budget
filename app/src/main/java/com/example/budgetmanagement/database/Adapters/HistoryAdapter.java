@@ -35,7 +35,7 @@ public class HistoryAdapter extends ListAdapter<HistoryAndTransaction, HistoryVi
         HistoryAndTransaction historyAndTransaction = getItem(position);
         holder.bind(historyAndTransaction.transaction.getTitle(),
                 historyAndTransaction.transaction.getAmount(),
-                historyAndTransaction.transaction.getAddDate());
+                historyAndTransaction.history.getAddDate());
     }
 
     public HistoryViewHolder create(ViewGroup parent) {
