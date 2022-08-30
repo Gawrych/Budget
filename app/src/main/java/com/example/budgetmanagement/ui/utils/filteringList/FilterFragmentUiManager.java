@@ -246,9 +246,9 @@ public class FilterFragmentUiManager {
         });
     }
 
-    private void initializeSelectedCategoryId(Integer value) {
-        if (value != null) {
-            selectedCategoryId = value;
+    private void initializeSelectedCategoryId(Integer id) {
+        if (id != null) {
+            selectedCategoryId = id;
         }
     }
 

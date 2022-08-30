@@ -21,7 +21,7 @@ public class DateProcessor {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static String getTodayDate() {
+    public static String getTodayDateInPattern() {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
         return dateTimeFormatter.format(LocalDate.now());
     }

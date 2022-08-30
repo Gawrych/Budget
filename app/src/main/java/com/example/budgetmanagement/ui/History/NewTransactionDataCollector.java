@@ -11,12 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.Rooms.Transaction;
 import com.example.budgetmanagement.ui.utils.EditFieldManager;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 public class NewTransactionDataCollector {
 
@@ -74,7 +76,7 @@ public class NewTransactionDataCollector {
         contentExist = editTextField.checkIfContentExist();
     }
 
-    public void setAmount() {
+    private void setAmount() {
         EditFieldManager amountField = new EditFieldManager(root, R.id.amount);
         DecimalPrecision amountContent = new DecimalPrecision(amountField.getContent());
         checkFillingByLength(amountField);
@@ -97,18 +99,18 @@ public class NewTransactionDataCollector {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setDateInPattern(EditText calendar) {
+    private void setDateInPattern(EditText calendar) {
         LocalDate localDate = getSelectedDateInPattern(calendar);
         date = localDate.atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public LocalDate getSelectedDateInPattern(EditText calendar) {
+    private LocalDate getSelectedDateInPattern(EditText calendar) {
         return LocalDate.parse(calendar.getText(), getPattern());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public DateTimeFormatter getPattern() {
+    private DateTimeFormatter getPattern() {
         return DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
     }
 
@@ -132,23 +134,9 @@ public class NewTransactionDataCollector {
         return R.id.radioGroup;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public long getDate() {
-        return date;
-    }
-
-    public boolean isProfit() {
-        return profit;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
+    public Transaction getTransaction() {
+        Calendar today = Calendar.getInstance();
+        return new Transaction(0, this.categoryId, 0, this.title,
+                this.amount.toString(), date, today.getTimeInMillis(), this.profit);
     }
 }

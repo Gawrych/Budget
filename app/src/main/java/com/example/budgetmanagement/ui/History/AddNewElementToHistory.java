@@ -16,53 +16,65 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.Rooms.History;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
+import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.example.budgetmanagement.ui.utils.DecimalDigitsInputFilter;
+
+import java.time.LocalDate;
 
 public class AddNewElementToHistory extends Fragment {
 
     private CategoryBottomSheetSelector categoryBottomSheetSelector;
     private int categoryId = 1;
-    private View root;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        this.root =  inflater.inflate(R.layout.add_new_history_element_fragment, container, false);
+        return inflater.inflate(R.layout.add_new_history_element_fragment, container, false);
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(rootView, savedInstanceState);
         categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
 
-        EditText calendar = root.findViewById(R.id.date);
-        HistoryViewModel historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
+        EditText calendar = rootView.findViewById(R.id.date);
 
-        EditText amount = root.findViewById(R.id.amount);
+        EditText amount = rootView.findViewById(R.id.amount);
         amount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 2)});
 
-        Button acceptButton = root.findViewById(R.id.acceptButton);
+        Button acceptButton = rootView.findViewById(R.id.acceptButton);
         acceptButton.setOnClickListener(view -> {
-            NewTransactionDataCollector newTransactionDataCollector = new NewTransactionDataCollector(root);
-            boolean correctlyCollectedData = newTransactionDataCollector.collectData(calendar, categoryId);
-            if (correctlyCollectedData) {
-                int transactionId = SubmitQuery.submitTransactionInsertQuery(this, newTransactionDataCollector);
-                SubmitQuery.submitHistoryInsertQuery(historyViewModel, transactionId);
+            NewTransactionDataCollector newTransactionDataCollector = new NewTransactionDataCollector(rootView);
+            boolean successfullyCollectedData = newTransactionDataCollector.collectData(calendar, categoryId);
+            if (successfullyCollectedData) {
+                submitNewHistoryItemToDatabase(newTransactionDataCollector);
                 requireActivity().onBackPressed();
             }
         });
 
         CalendarDialogBoxDatePicker calendarDialogDatePicker = new CalendarDialogBoxDatePicker();
-        calendar.setText(DateProcessor.getTodayDate());
+        calendar.setText(DateProcessor.getTodayDateInPattern());
         calendar.setOnClickListener(view -> calendarDialogDatePicker.show(getParentFragmentManager(), calendar));
 
-        EditText selectedCategory = root.findViewById(R.id.categoryList);
+        EditText selectedCategory = rootView.findViewById(R.id.categoryList);
         selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
 
-        Button cancelButton = root.findViewById(R.id.cancelButton);
+        Button cancelButton = rootView.findViewById(R.id.cancelButton);
         cancelButton.setOnClickListener(view -> requireActivity().onBackPressed());
+    }
 
-        return root;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void submitNewHistoryItemToDatabase(NewTransactionDataCollector newItem) {
+        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        HistoryViewModel historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
+
+        long transactionId = transactionViewModel.insert(newItem.getTransaction());
+        historyViewModel.insert(new History(0, (int) transactionId, LocalDate.now().toEpochDay()));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
