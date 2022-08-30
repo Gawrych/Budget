@@ -20,4 +20,8 @@ public class TransactionViewModel extends AndroidViewModel {
     public long insert(Transaction transaction) {
        return transactionRepository.insert(transaction);
     }
+
+    public void update(Transaction transaction) {
+        transactionRepository.update(transaction);
+    }
 }

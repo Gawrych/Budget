@@ -25,6 +25,9 @@ public interface HistoryDao {
     @Query("DELETE FROM history WHERE historyId = :historyId")
     void delete(int historyId);
 
+    @Query("DELETE FROM history WHERE comingId = :comingId")
+    void deleteByComingId(int comingId);
+
     @Query("SELECT * FROM history")
     LiveData<List<History>> getAllHistory();
 

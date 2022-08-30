@@ -65,4 +65,8 @@ public class HistoryRepository {
     public void delete(int historyId) {
         BudgetRoomDatabase.databaseWriteExecutor.execute(() -> historyDao.delete(historyId));
     }
+
+    public void deleteByComingId(int comingId) {
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> historyDao.deleteByComingId(comingId));
+    }
 }

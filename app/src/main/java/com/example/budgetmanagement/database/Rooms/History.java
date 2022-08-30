@@ -11,14 +11,18 @@ public class History {
     @ColumnInfo(name = "historyId")
     private int historyId;
 
+    @ColumnInfo(name = "comingId")
+    private int comingId;
+
     @ColumnInfo(name = "transactionId")
     private int transactionId;
 
     @ColumnInfo(name = "addDate")
     private long addDate;
 
-    public History(int historyId, int transactionId, long addDate) {
+    public History(int historyId, int comingId, int transactionId, long addDate) {
         this.historyId = historyId;
+        this.comingId = comingId;
         this.transactionId = transactionId;
         this.addDate = addDate;
     }
@@ -33,5 +37,9 @@ public class History {
 
     public long getAddDate() {
         return addDate;
+    }
+
+    public int getComingId() {
+        return comingId;
     }
 }

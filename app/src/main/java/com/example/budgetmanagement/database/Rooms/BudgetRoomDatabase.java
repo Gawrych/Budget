@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 81, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 85, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -59,40 +59,40 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
 
                 TransactionDao transactionDao = INSTANCE.transactionDao();
                 Transaction transaction = new Transaction(1, 1,
-                        0, "Kebab", "-200.50", 1,
+                        "Kebab", "-200.50", 1,
                          LocalDate.now().toEpochDay(), true);
                 Transaction transaction2 = new Transaction(2, 2,
-                        0, "Kawa", "22.00", 1,
+                        "Kawa", "22.00", 1,
                         LocalDate.now().toEpochDay(), false);
                 Transaction transaction3 = new Transaction(3, 2,
-                        0, "Herbatka", "99.00", LocalDate.now().toEpochDay(),
+                        "Herbatka", "99.00", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(transaction);
                 transactionDao.insert(transaction2);
                 transactionDao.insert(transaction3);
 
                 Transaction transaction4 = new Transaction(4, 2,
-                        0, "Abonament na telefon", "99.00", LocalDate.now().toEpochDay(),
+                        "Abonament na telefon", "99.00", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(transaction4);
 
                 Transaction transaction5 = new Transaction(5, 2,
-                        0, "Czynsz za mieszkanie", "99.00", LocalDate.now().toEpochDay(),
+                        "Czynsz za mieszkanie", "99.00", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(transaction5);
 
                 Transaction transaction6 = new Transaction(6, 2,
-                        0, "Spożywcze", "99.00", LocalDate.now().toEpochDay(),
+                        "Spożywcze", "99.00", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(transaction6);
 
                 Transaction transaction7 = new Transaction(7, 2,
-                        0, "Oddać rodzicom", "99.00", LocalDate.now().toEpochDay(),
+                        "Oddać rodzicom", "99.00", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(transaction7);
 
                 Transaction transaction8 = new Transaction(8, 2,
-                        0, "Pensja", "3012.55", LocalDate.now().toEpochDay(),
+                        "Pensja", "3012.55", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), true);
                 transactionDao.insert(transaction8);
 
@@ -134,7 +134,7 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
 
 
                 Transaction repeat = new Transaction(10, 1,
-                        0, "Prezenty", "1.00", LocalDate.now().toEpochDay(),
+                        "Prezenty", "1.00", LocalDate.now().toEpochDay(),
                         LocalDate.now().toEpochDay(), false);
                 transactionDao.insert(repeat);
 
@@ -148,9 +148,9 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
 
 
                 HistoryDao historyDao = INSTANCE.historyDao();
-                History history = new History(1, 2, LocalDate.now().toEpochDay());
-                History history2 = new History(2, 1, LocalDate.now().toEpochDay());
-                History history3 = new History(3, 3, LocalDate.parse("2022-04-03").toEpochDay());
+                History history = new History(1, 0, 2, LocalDate.now().toEpochDay());
+                History history2 = new History(2, 0, 1, LocalDate.now().toEpochDay());
+                History history3 = new History(3, 0, 3, LocalDate.parse("2022-04-03").toEpochDay());
                 historyDao.insert(history);
                 historyDao.insert(history2);
                 historyDao.insert(history3);

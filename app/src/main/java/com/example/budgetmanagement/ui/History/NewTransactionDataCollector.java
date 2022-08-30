@@ -136,7 +136,7 @@ public class NewTransactionDataCollector {
 
     public Transaction getTransaction() {
         Calendar today = Calendar.getInstance();
-        return new Transaction(0, this.categoryId, 0, this.title,
+        return new Transaction(0, this.categoryId, this.title,
                 this.amount.toString(), date, today.getTimeInMillis(), this.profit);
     }
 }

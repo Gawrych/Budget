@@ -15,9 +15,6 @@ public class Transaction {
     @ColumnInfo(name = "categoryId")
     private int categoryId;
 
-    @ColumnInfo(name = "comingId")
-    private int comingId;
-    
     @NonNull
     @ColumnInfo(name = "title")
     private String title;
@@ -35,10 +32,9 @@ public class Transaction {
     @ColumnInfo(name="profit")
     private boolean profit;
 
-    public Transaction(int transactionId, int categoryId, int comingId, @NonNull String title, String amount, long addDate, long lastModifiedData, boolean profit) {
+    public Transaction(int transactionId, int categoryId, @NonNull String title, String amount, long addDate, long lastModifiedData, boolean profit) {
         this.transactionId = transactionId;
         this.categoryId = categoryId;
-        this.comingId = comingId;
         this.title = title;
         this.amount = amount;
         this.addDate = addDate;
@@ -73,9 +69,5 @@ public class Transaction {
 
     public boolean getProfit() {
         return profit;
-    }
-
-    public int getComingId() {
-        return comingId;
     }
 }

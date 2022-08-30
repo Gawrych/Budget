@@ -96,7 +96,7 @@ public class ComingFragment extends Fragment {
         monthsInList.add("december");
 
         expandableListView = view.findViewById(R.id.expandableListView);
-        details = new ComingBottomSheetDetails(requireContext(), getActivity(), comingViewModel, historyViewModel);
+        details = new ComingBottomSheetDetails(requireContext(), getActivity(), this);
 
         collectTransactionByMonthId(comingViewModel.getAllComingAndTransactionList());
 

@@ -39,6 +39,10 @@ public class HistoryViewModel extends AndroidViewModel {
         historyRepository.delete(history);
     }
 
+    public void deleteByComingId(int comingId) {
+        historyRepository.deleteByComingId(comingId);
+    }
+
     public void insert(History history) {
         historyRepository.insert(history);
     }

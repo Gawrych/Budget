@@ -12,12 +12,15 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.Rooms.History;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
+import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -44,13 +47,17 @@ public class ComingBottomSheetDetails extends Fragment {
     private final Button executeButton;
     private final Button moveButton;
     private ComingAndTransaction comingAndTransaction;
+    private TransactionViewModel transactionViewModel;
 
-    public ComingBottomSheetDetails(Context context, Activity activity, ComingViewModel comingViewModel, HistoryViewModel historyViewModel) {
+    public ComingBottomSheetDetails(Context context, Activity activity, ViewModelStoreOwner owner) {
         this.context = context;
         this.activity = activity;
-        this.comingViewModel = comingViewModel;
 
-        this.historyViewModel = historyViewModel;
+        this.comingViewModel = new ViewModelProvider(owner).get(ComingViewModel.class);
+        this.historyViewModel = new ViewModelProvider(owner).get(HistoryViewModel.class);
+        this.transactionViewModel = new ViewModelProvider(owner).get(TransactionViewModel.class);
+
+
         bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(R.layout.coming_bottom_sheet_details);
 
@@ -160,17 +167,21 @@ public class ComingBottomSheetDetails extends Fragment {
     }
 
     private void executePay() {
-        boolean executed = !comingAndTransaction.coming.isExecute();
+        boolean execute = !comingAndTransaction.coming.isExecute();
 
         comingAndTransaction.coming.setExecute(!comingAndTransaction.coming.isExecute());
-        comingAndTransaction.coming.setExecutedDate(Calendar.getInstance().getTimeInMillis());
-        updateInDatabase(comingAndTransaction);
+        comingAndTransaction.coming.setExecutedDate(getTodayDate().getTimeInMillis());
+        updateComingInDatabase(comingAndTransaction);
 
-        History newHistoryElement = new History(0, comingAndTransaction.transaction.getTransactionId(), getTodayDate().getTimeInMillis());
-        if (executed) {
+        int comingId = comingAndTransaction.coming.getComingId();
+        History newHistoryElement = new History(0, comingId,
+                comingAndTransaction.transaction.getTransactionId(),
+                getTodayDate().getTimeInMillis());
+
+        if (execute) {
             historyViewModel.insert(newHistoryElement);
         } else {
-//            TODO: Remove element from historyViewModel when user canceled paid
+            historyViewModel.deleteByComingId(comingId);
         }
 
         bottomSheetDialog.cancel();
@@ -197,7 +208,7 @@ public class ComingBottomSheetDetails extends Fragment {
                     newDateCalendar.set(year, monthOfYear, dayOfMonth);
                     comingAndTransaction.coming.setRepeatDate(newDateCalendar.getTimeInMillis());
 
-                    updateInDatabase(comingAndTransaction);
+                    updateComingInDatabase(comingAndTransaction);
 
                     bottomSheetDialog.cancel();
                     Toast.makeText(context, "Przełożono", Toast.LENGTH_SHORT).show();
@@ -256,7 +267,7 @@ public class ComingBottomSheetDetails extends Fragment {
         comingViewModel.delete(comingAndTransaction.coming);
     }
 
-    private void updateInDatabase(ComingAndTransaction comingAndTransaction) {
+    private void updateComingInDatabase(ComingAndTransaction comingAndTransaction) {
         comingViewModel.update(comingAndTransaction.coming);
     }
 

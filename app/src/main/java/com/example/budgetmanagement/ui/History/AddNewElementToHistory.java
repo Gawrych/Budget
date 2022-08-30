@@ -74,7 +74,7 @@ public class AddNewElementToHistory extends Fragment {
         HistoryViewModel historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
 
         long transactionId = transactionViewModel.insert(newItem.getTransaction());
-        historyViewModel.insert(new History(0, (int) transactionId, LocalDate.now().toEpochDay()));
+        historyViewModel.insert(new History(0, 0, (int) transactionId, LocalDate.now().toEpochDay()));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
