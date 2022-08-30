@@ -26,15 +26,15 @@ public class HistoryAndTransactionListSortingMethodTest {
     @Before
     public void setUp() {
         elementA = new HistoryAndTransaction();
-        elementA.transaction = new Transaction(1, 1, "A", "1", 1, LocalDate.now().toEpochDay(), true);
+        elementA.transaction = new Transaction(1, 1, 0, "A", "1", 1, LocalDate.now().toEpochDay(), true);
         elementA.history = new History(1, 1, LocalDate.now().toEpochDay());
 
         elementB = new HistoryAndTransaction();
-        elementB.transaction = new Transaction(2, 2, "B", "-2", 2, LocalDate.now().toEpochDay(), false);
+        elementB.transaction = new Transaction(2, 2, 0, "B", "-2", 2, LocalDate.now().toEpochDay(), false);
         elementB.history = new History(2, 2, LocalDate.now().toEpochDay());
 
         elementC = new HistoryAndTransaction();
-        elementC.transaction = new Transaction(3, 2, "C", "-3", 3, LocalDate.now().toEpochDay(), false);
+        elementC.transaction = new Transaction(3, 2, 0, "C", "-3", 3, LocalDate.now().toEpochDay(), false);
         elementC.history = new History(3, 3, LocalDate.now().toEpochDay());
 
         originalList.add(elementC);
