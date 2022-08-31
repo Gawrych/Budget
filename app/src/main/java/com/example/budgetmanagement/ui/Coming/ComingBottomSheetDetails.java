@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -264,7 +265,8 @@ public class ComingBottomSheetDetails extends Fragment {
     }
 
     private void removeFromDatabase(ComingAndTransaction comingAndTransaction) {
-        comingViewModel.delete(comingAndTransaction.coming);
+        Log.d("ErrorHandle", "RemoveFromDatabase: " + comingAndTransaction.coming.getComingId());
+        comingViewModel.delete(comingAndTransaction.coming.getComingId());
     }
 
     private void updateComingInDatabase(ComingAndTransaction comingAndTransaction) {

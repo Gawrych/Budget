@@ -15,36 +15,30 @@ import androidx.annotation.RequiresApi;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
+import com.example.budgetmanagement.ui.Coming.Section;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 
 public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
     private final Context context;
-    private HashMap<Integer, ArrayList<ComingAndTransaction>> items;
-    private final List<String> groupList;
+    private ArrayList<Section> items;
 
-//    TODO: Change to sectionList?
-
-    public ComingExpandableListAdapter(Context context, List<String> groupList,
-                                       HashMap<Integer, ArrayList<ComingAndTransaction>> items) {
+    public ComingExpandableListAdapter(Context context, ArrayList<Section> items) {
         this.context = context;
         this.items = items;
-        this.groupList = groupList;
     }
 
-    public void updateItems(HashMap<Integer, ArrayList<ComingAndTransaction>> items) {
+    public void updateItems(ArrayList<Section> items) {
         this.items = items;
     }
 
     public void notifyAdapter(ExpandableListView expandableListView) {
         this.notifyDataSetChanged();
-        for (int i=0; i < groupList.size(); i++) {
+        for (int i=0; i < items.size(); i++) {
             expandableListView.collapseGroup(i);
             expandableListView.expandGroup(i);
         }
@@ -57,28 +51,28 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int i) {
-        return items.get(i).size();
+        return items.get(i).getComingAndTransactionList().size();
     }
 
     @Override
     public Object getGroup(int i) {
-        return groupList.get(i);
+        return items.get(i);
     }
 
     @Override
     public ComingAndTransaction getChild(int i, int i1) {
-        return items.get(i).get(i1);
+        return items.get(i).getComingAndTransactionList().get(i1);
     }
 
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-        String sectionTitle = getGroup(i).toString();
+        String sectionTitle = getStringFromResId(items.get(i).getLabelId());
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.parent_view, viewGroup, false);
         }
         TextView sectionName = view.findViewById(R.id.sectionName);
-        sectionName.setText(getStringFromResId(getStringResId(sectionTitle)));
+        sectionName.setText(sectionTitle);
         return view;
     }
 

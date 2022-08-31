@@ -38,6 +38,10 @@ public class ComingViewModel extends AndroidViewModel {
         comingRepository.delete(coming);
     }
 
+    public void delete(int comingId) {
+        comingRepository.delete(comingId);
+    }
+
     public void update(Coming coming) {
         comingRepository.update(coming);
     }

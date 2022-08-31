@@ -18,7 +18,6 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.ComingExpandableListAdapter;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
-import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.databinding.ComingFragmentBinding;
 
 import java.util.ArrayList;
@@ -35,14 +34,13 @@ public class ComingFragment extends Fragment {
     private ComingFragmentBinding binding;
     private View view;
     private List<ComingAndTransaction> globalList;
-    private final ArrayList<Section> sectionList = new ArrayList<>();
+    private ArrayList<Section> sectionList = new ArrayList<>();
     private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollection = new HashMap<>();
     private final Calendar calendar = Calendar.getInstance();
     private ComingBottomSheetDetails details;
     private ComingViewModel comingViewModel;
     private ExpandableListView expandableListView;
     private ComingExpandableListAdapter expandableListAdapter;
-    private HistoryViewModel historyViewModel;
 
     public static final Map<String, Integer> months;
     static {
@@ -67,7 +65,6 @@ public class ComingFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
-        historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -98,19 +95,21 @@ public class ComingFragment extends Fragment {
         expandableListView = view.findViewById(R.id.expandableListView);
         details = new ComingBottomSheetDetails(requireContext(), getActivity(), this);
 
-        collectTransactionByMonthId(comingViewModel.getAllComingAndTransactionList());
+//        collectTransactionByMonthId(comingViewModel.getAllComingAndTransactionList());
+        setSections(comingViewModel.getAllComingAndTransactionList());
 
-        expandableListAdapter = new ComingExpandableListAdapter(requireContext(), monthsInList, transactionsCollection);
+        expandableListAdapter = new ComingExpandableListAdapter(requireContext(), sectionList);
         expandableListView.setAdapter(expandableListAdapter);
 
-        for(int i = 0; i< monthsInList.size(); i++) {
-            expandableListView.expandGroup(i);
-        }
-
         comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
-            collectTransactionByMonthId(list);
-            expandableListAdapter.updateItems(transactionsCollection);
+//            collectTransactionByMonthId(list);
+            Log.d("ErrorHandle", "comingUpdate");
+            sectionList.clear();
+            Log.d("ErrorHandle", "Clear size:  " + sectionList.size());
+            setSections(comingViewModel.getAllComingAndTransactionList());
+            expandableListAdapter.updateItems(sectionList);
             expandableListAdapter.notifyAdapter(expandableListView);
+            Log.d("ErrorHandle", "Size: " + sectionList.get(0).getComingAndTransactionList().size());
         });
 
         expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
@@ -124,8 +123,12 @@ public class ComingFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void setSections(List<ComingAndTransaction> list) {
-        globalList = list;
         sectionList.clear();
+
+        for (ComingAndTransaction item : list) {
+            Log.d("ErrorHandle", "Coming Id: " + item.coming.getComingId());
+        }
+
         collectTransactionByMonthId(list);
         months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), transactionsCollection.get(id))));
     }

@@ -22,6 +22,9 @@ public interface ComingDao {
     @Delete
     void delete(Coming coming);
 
+    @Query("DELETE FROM coming WHERE comingId = :comingId")
+    void delete(int comingId);
+
     @Query("UPDATE coming SET execute = :executeValue WHERE comingId = :comingId")
     void updateExecute(int comingId, boolean executeValue);
 
