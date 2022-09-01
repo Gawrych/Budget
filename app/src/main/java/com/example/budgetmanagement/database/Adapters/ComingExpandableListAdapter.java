@@ -26,6 +26,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
     private final Context context;
     private ArrayList<Section> items;
+    private ImageView outOfDateIcon;
 
     public ComingExpandableListAdapter(Context context, ArrayList<Section> items) {
         this.context = context;
@@ -66,12 +67,25 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-        String sectionTitle = getStringFromResId(items.get(i).getLabelId());
+        Section section = items.get(i);
+        String sectionTitle = getStringFromResId(section.getLabelId());
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.parent_view, viewGroup, false);
         }
         TextView sectionName = view.findViewById(R.id.sectionName);
+        TextView balance = view.findViewById(R.id.balance);
+        TextView currency = view.findViewById(R.id.currency);
+        balance.setText(section.getBalance());
+
+        if (section.isBalanceNegative()) {
+            balance.setTextColor(context.getResources().getColor(R.color.mat_red));
+            currency.setTextColor(context.getResources().getColor(R.color.mat_red));
+        } else {
+            balance.setTextColor(context.getResources().getColor(R.color.mat_green));
+            currency.setTextColor(context.getResources().getColor(R.color.mat_green));
+        }
+
         sectionName.setText(sectionTitle);
         return view;
     }
@@ -93,7 +107,6 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         final TextView currencyField;
         final TextView remainingDays;
         final TextView daysText;
-        final ImageView outOfDateIcon;
 
         if (view == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -111,7 +124,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         ComingAndTransaction item = getChild(i, i1);
         String amount = item.transaction.getAmount();
         long repeatDate = item.coming.getRepeatDate();
-        boolean execute = item.coming.isExecute();
+        boolean isExecuted = item.coming.isExecute();
 
         titleField.setText(item.transaction.getTitle());
 
@@ -127,29 +140,44 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         int days = otherDate.get(Calendar.DAY_OF_YEAR) - todayDate.get(Calendar.DAY_OF_YEAR);
         remainingDays.setText(String.valueOf(days));
 
-        if (otherDate.before(todayDate) && !execute) {
+        if (otherDate.before(todayDate) && !isExecuted) {
             remainingDays.setTextColor(view.getContext().getResources().getColor(R.color.mat_red));
             daysText.setTextColor(view.getContext().getResources().getColor(R.color.mat_red));
 
-            outOfDateIcon.setImageResource(R.drawable.calendar);
-            outOfDateIcon.setColorFilter(view.getContext().getResources().getColor(R.color.mat_red));
+            outOfDateIconSetResource(view, R.drawable.calendar, R.color.mat_red);
         } else {
             remainingDays.setTextColor(view.getContext().getResources().getColor(R.color.font_default));
             daysText.setTextColor(view.getContext().getResources().getColor(R.color.font_default));
 
-            outOfDateIcon.setImageResource(R.drawable.calendar);
-            outOfDateIcon.setColorFilter(view.getContext().getResources().getColor(R.color.font_default));
+            outOfDateIconSetResource(view, R.drawable.calendar, R.color.font_default);
         }
 
-        if (execute) {
+        if (isExecuted) {
+            long executedDateInMillis = item.coming.getExecutedDate();
+            remainingDays.setText(String.valueOf(getRemainingDays(todayDate, getCalendarWithValue(executedDateInMillis))));
+
             remainingDays.setTextColor(view.getContext().getResources().getColor(R.color.main_green));
-            remainingDays.setText("0");
             daysText.setTextColor(view.getContext().getResources().getColor(R.color.main_green));
-            outOfDateIcon.setColorFilter(view.getContext().getResources().getColor(R.color.main_green));
-            outOfDateIcon.setImageResource(R.drawable.ic_baseline_done_all_24);
+
+            outOfDateIconSetResource(view, R.drawable.ic_baseline_done_all_24, R.color.main_green);
         }
 
         return view;
+    }
+
+    private int getRemainingDays(Calendar today, Calendar deadLine) {
+        return today.get(Calendar.DAY_OF_YEAR) - deadLine.get(Calendar.DAY_OF_YEAR);
+    }
+
+    private Calendar getCalendarWithValue(long value) {
+        Calendar calendarInstance = Calendar.getInstance();
+        calendarInstance.setTimeInMillis(value);
+        return calendarInstance;
+    }
+
+    private void outOfDateIconSetResource(View view, int drawable, int color) {
+        outOfDateIcon.setColorFilter(view.getContext().getResources().getColor(color));
+        outOfDateIcon.setImageResource(drawable);
     }
 
     @Override

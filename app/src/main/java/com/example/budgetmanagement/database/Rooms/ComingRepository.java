@@ -29,6 +29,7 @@ public class ComingRepository {
         return allComingAndTransactionList;
     }
 
+
     public void insert(Coming coming) {
 
         BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.insert(coming));

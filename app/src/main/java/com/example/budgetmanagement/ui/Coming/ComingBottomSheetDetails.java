@@ -91,8 +91,8 @@ public class ComingBottomSheetDetails extends Fragment {
         Calendar deadlineDate = getCalendarWithValue(getRepeatDate());
 
         int remainingDays = Math.abs(getRemainingDays(todayDate, deadlineDate));
-        setRemainingDaysField(remainingDays);
         setDeadlineDateField(getRepeatDate());
+        setRemainingDaysField(remainingDays);
 
         boolean isExecute = comingAndTransaction.coming.isExecute();
         boolean isBeforeDeadline = deadlineDate.after(todayDate);

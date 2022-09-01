@@ -42,4 +42,8 @@ public class Section {
     public String getBalance() {
         return balance.toString();
     }
+
+    public boolean isBalanceNegative() {
+        return balance.signum() < 0;
+    }
 }
