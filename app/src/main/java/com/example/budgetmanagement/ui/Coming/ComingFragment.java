@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 public class ComingFragment extends Fragment {
@@ -84,34 +83,17 @@ public class ComingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
 
-        List<String> monthsInList = new ArrayList<>();
-        monthsInList.add("january");
-        monthsInList.add("february");
-        monthsInList.add("march");
-        monthsInList.add("april");
-        monthsInList.add("may");
-        monthsInList.add("june");
-        monthsInList.add("july");
-        monthsInList.add("august");
-        monthsInList.add("september");
-        monthsInList.add("october");
-        monthsInList.add("november");
-        monthsInList.add("december");
-
-        Log.d("ErrorHandle", "setYearData");
-
+        setYearStartAndEnd();
 
         expandableListView = view.findViewById(R.id.expandableListView);
         details = new ComingBottomSheetDetails(requireContext(), getActivity(), this);
 
-        collectTransactionByMonthId(comingViewModel.getAllComingAndTransactionList());
-        setSections(comingViewModel.getAllComingAndTransactionList());
+        setSections(comingViewModel.getComingAndTransactionByYear(startYear, endYear));
 
         expandableListAdapter = new ComingExpandableListAdapter(requireContext(), sectionList);
         expandableListView.setAdapter(expandableListAdapter);
 
-        comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
-//            collectTransactionByMonthId(list);
+        comingViewModel.getComingAndTransactionByYearLiveData(startYear, endYear).observe(getViewLifecycleOwner(), list -> {
             sectionList.clear();
             setSections(list);
             expandableListAdapter.updateItems(sectionList);
@@ -124,19 +106,30 @@ public class ComingFragment extends Fragment {
             details.show();
             return true;
         });
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setYearStartAndEnd() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        startYear = cal.getTimeInMillis();
-        cal.set(Calendar.MONTH, Calendar.DECEMBER);
-        cal.set(Calendar.DAY_OF_MONTH, 31);
-        endYear = cal.getTimeInMillis();
+        Calendar c = Calendar.getInstance();
+        getLastMillisOfYear(c);
+        endYear = c.getTimeInMillis();
+        getFirstMillisOfYear(c);
+        startYear = c.getTimeInMillis();
+    }
+
+    private void getLastMillisOfYear(Calendar c) {
+        c.set(Calendar.YEAR, year);
+        c.add(Calendar.DAY_OF_YEAR, -1);
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MONTH, Calendar.DECEMBER);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        c.set(Calendar.MILLISECOND, 999);
+    }
+
+    private void getFirstMillisOfYear(Calendar lastMillisOfYear) {
+        lastMillisOfYear.add(Calendar.MILLISECOND, 1);
+        lastMillisOfYear.add(Calendar.YEAR, -1);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -153,15 +146,8 @@ public class ComingFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void collectTransactionByMonthId(List<ComingAndTransaction> list) {
         initializeEmptyTransactionsCollection();
-        Calendar calendar = Calendar.getInstance();
 
-        List<ComingAndTransaction> transactionOnlyWithSelectedYear = list.stream().filter(element -> {
-            calendar.setTimeInMillis(element.coming.getRepeatDate());
-            int itemYear = calendar.get(Calendar.YEAR);
-            return itemYear == this.year;
-        }).collect(Collectors.toList());
-
-        globalList = transactionOnlyWithSelectedYear;
+        globalList = list;
         globalList.forEach(item -> {
             int monthNumber = getMonthNumberFromDate(item.coming.getRepeatDate());
 

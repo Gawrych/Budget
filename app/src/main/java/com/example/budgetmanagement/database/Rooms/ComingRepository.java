@@ -29,6 +29,13 @@ public class ComingRepository {
         return allComingAndTransactionList;
     }
 
+    public List<ComingAndTransaction> getComingAndTransactionByYear(long startYear, long endYear) {
+        return comingDao.getComingAndTransactionByYear(startYear, endYear);
+    }
+
+    public LiveData<List<ComingAndTransaction>> getComingAndTransactionByYearLiveData(long startYear, long endYear) {
+        return comingDao.getComingAndTransactionByYearLiveData(startYear, endYear);
+    }
 
     public void insert(Coming coming) {
 

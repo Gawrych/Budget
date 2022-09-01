@@ -39,5 +39,11 @@ public interface ComingDao {
     @Query("SELECT * FROM coming ORDER BY repeatDate ASC")
     List<ComingAndTransaction> getAllComingAndTransactionList();
 
+    @androidx.room.Transaction
+    @Query("SELECT * FROM coming WHERE repeatDate >= :startYear AND repeatDate <= :endYear ORDER BY repeatDate ASC")
+    List<ComingAndTransaction> getComingAndTransactionByYear(long startYear, long endYear);
 
+    @androidx.room.Transaction
+    @Query("SELECT * FROM coming WHERE repeatDate >= :startYear AND repeatDate <= :endYear ORDER BY repeatDate ASC")
+    LiveData<List<ComingAndTransaction>> getComingAndTransactionByYearLiveData(long startYear, long endYear);
 }
