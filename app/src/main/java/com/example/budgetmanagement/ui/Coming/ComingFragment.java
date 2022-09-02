@@ -1,16 +1,17 @@
 package com.example.budgetmanagement.ui.Coming;
 
-import android.os.Build;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -28,7 +29,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class ComingFragment extends Fragment {
 
     private ComingFragmentBinding binding;
@@ -42,9 +42,10 @@ public class ComingFragment extends Fragment {
     private ComingViewModel comingViewModel;
     private ExpandableListView expandableListView;
     private ComingExpandableListAdapter expandableListAdapter;
-    private short year = 2022;
+    private int year = 2022;
     private long startYear = 0;
     private long endYear = 0;
+    private ImageButton yearSelector;
 
 
     public static final Map<String, Integer> months;
@@ -65,7 +66,9 @@ public class ComingFragment extends Fragment {
         months = Collections.unmodifiableMap(items);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    private DatePickerDialog datePickerDialog;
+    private TextView pickedYear;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +80,6 @@ public class ComingFragment extends Fragment {
         return inflater.inflate(R.layout.coming_fragment, container, false);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -85,6 +87,8 @@ public class ComingFragment extends Fragment {
 
         setYearStartAndEnd();
 
+        yearSelector = view.findViewById(R.id.yearSelector);
+        pickedYear = view.findViewById(R.id.pickedYear);
         expandableListView = view.findViewById(R.id.expandableListView);
         details = new ComingBottomSheetDetails(requireContext(), getActivity(), this);
 
@@ -106,9 +110,33 @@ public class ComingFragment extends Fragment {
             details.show();
             return true;
         });
+
+        yearSelector.setOnClickListener(v -> {
+            selectYear();
+        });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void selectYear() {
+        final Calendar calendarInstance = Calendar.getInstance();
+        int mMonth = calendarInstance.get(Calendar.MONTH);
+        int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
+         datePickerDialog = new DatePickerDialog(requireContext(),
+                (view, year, monthOfYear, dayOfMonth) -> {}, this.year, mMonth, mDay);
+
+        datePickerDialog.getDatePicker().getTouchables().get(0).performClick();
+        datePickerDialog.getDatePicker().getTouchables().get(1).setVisibility(View.GONE);
+        datePickerDialog.getDatePicker().setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
+            this.year = year;
+            pickedYear.setText(String.valueOf(year));
+            setYearStartAndEnd();
+            setSections(comingViewModel.getComingAndTransactionByYear(startYear, endYear));
+            expandableListAdapter.updateItems(sectionList);
+            expandableListAdapter.notifyAdapter(expandableListView);
+            datePickerDialog.cancel();
+        });
+        datePickerDialog.show();
+    }
+
     private void setYearStartAndEnd() {
         Calendar c = Calendar.getInstance();
         getLastMillisOfYear(c);
@@ -118,7 +146,7 @@ public class ComingFragment extends Fragment {
     }
 
     private void getLastMillisOfYear(Calendar c) {
-        c.set(Calendar.YEAR, year);
+        c.set(Calendar.YEAR, this.year);
         c.add(Calendar.DAY_OF_YEAR, -1);
         c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MONTH, Calendar.DECEMBER);
@@ -132,7 +160,6 @@ public class ComingFragment extends Fragment {
         lastMillisOfYear.add(Calendar.YEAR, -1);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void setSections(List<ComingAndTransaction> list) {
         sectionList.clear();
         collectTransactionByMonthId(list);
@@ -143,7 +170,6 @@ public class ComingFragment extends Fragment {
         return getResources().getIdentifier(stringName, "string", view.getContext().getPackageName());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void collectTransactionByMonthId(List<ComingAndTransaction> list) {
         initializeEmptyTransactionsCollection();
 
@@ -171,7 +197,6 @@ public class ComingFragment extends Fragment {
         return this.calendar.get(Calendar.YEAR);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initializeEmptyTransactionsCollection() {
         months.forEach((name, id) -> transactionsCollection.put(id, new ArrayList<>()));
     }

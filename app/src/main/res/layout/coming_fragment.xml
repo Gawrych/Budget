@@ -10,9 +10,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_bar_for_item_list"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="end">
+
+        <TextView
+            android:id="@+id/pickedYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Domyślny rok"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/categoryFilterButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/categoryFilterButton"
@@ -22,13 +32,13 @@
             android:background="@drawable/press_feedback_background"
             android:contentDescription="@string/icon"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/orderFilterButton"
+            app:layout_constraintEnd_toStartOf="@+id/yearSelector"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_category_24"
             app:tint="@color/main_green" />
 
         <ImageButton
-            android:id="@+id/orderFilterButton"
+            android:id="@+id/yearSelector"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="15dp"
