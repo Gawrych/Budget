@@ -3,14 +3,14 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     useLibrary 'android.test.mock'
 
     defaultConfig {
         applicationId "com.example.budgetmanagement"
-        minSdk 21
-        targetSdk 31
+        minSdk 31
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -31,7 +31,7 @@ android {
         viewBinding true
     }
     namespace 'com.example.budgetmanagement'
-    buildToolsVersion '32.0.0'
+    buildToolsVersion '33.0.0'
 }
 
 dependencies {
@@ -112,9 +112,9 @@ dependencies {
     // Optional -- Robolectric environment
     testImplementation "androidx.test:core:1.4.0"
     // Optional -- Mockito framework
-    testImplementation 'org.mockito:mockito-core:4.6.1'
+    testImplementation 'org.mockito:mockito-core:4.7.0'
     // Optional -- Mockk framework
-    testImplementation 'io.mockk:mockk:1.12.5'
+    testImplementation 'io.mockk:mockk:1.12.7'
 
     debugImplementation "androidx.fragment:fragment-testing:1.5.2"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -124,4 +124,6 @@ dependencies {
     implementation "androidx.annotation:annotation:1.4.0"
     implementation "androidx.annotation:annotation-experimental:1.2.0"
 
+    // Year picker
+    implementation 'io.github.dzmitry-lakisau:month-year-picker-dialog:1.0.0'
 }
