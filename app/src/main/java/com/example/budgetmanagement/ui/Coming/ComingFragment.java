@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
@@ -92,12 +93,19 @@ public class ComingFragment extends Fragment {
         expandableListView = view.findViewById(R.id.expandableListView);
         details = new ComingBottomSheetDetails(requireContext(), getActivity(), this);
 
-        setSections(comingViewModel.getComingAndTransactionByYear(startYear, endYear));
+//        setSections(comingViewModel.getComingAndTransactionByYear(startYear, endYear));
+
+        LiveData<List<ComingAndTransaction>> comingAndTransactionByYearLiveData = comingViewModel.getComingAndTransactionByYearLiveData();
 
         expandableListAdapter = new ComingExpandableListAdapter(requireContext(), sectionList);
         expandableListView.setAdapter(expandableListAdapter);
 
-        comingViewModel.getComingAndTransactionByYearLiveData(startYear, endYear).observe(getViewLifecycleOwner(), list -> {
+        comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
+            comingViewModel.setComingAndTransactionByYearLiveData(startYear, endYear);
+        });
+
+        comingAndTransactionByYearLiveData.observe(getViewLifecycleOwner(), list -> {
+            Log.d("ErrorHandle", "getComingAndTransaction");
             sectionList.clear();
             setSections(list);
             expandableListAdapter.updateItems(sectionList);
@@ -129,9 +137,8 @@ public class ComingFragment extends Fragment {
             this.year = year;
             pickedYear.setText(String.valueOf(year));
             setYearStartAndEnd();
-            setSections(comingViewModel.getComingAndTransactionByYear(startYear, endYear));
-            expandableListAdapter.updateItems(sectionList);
-            expandableListAdapter.notifyAdapter(expandableListView);
+            Log.d("ErrorHandle", "StartYear " + startYear + " EndYear " + endYear);
+            comingViewModel.setComingAndTransactionByYearLiveData(startYear, endYear);
             datePickerDialog.cancel();
         });
         datePickerDialog.show();
@@ -147,9 +154,9 @@ public class ComingFragment extends Fragment {
 
     private void getLastMillisOfYear(Calendar c) {
         c.set(Calendar.YEAR, this.year);
-        c.add(Calendar.DAY_OF_YEAR, -1);
-        c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MONTH, Calendar.DECEMBER);
+        c.set(Calendar.DAY_OF_MONTH, 31);
+        c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MINUTE, 59);
         c.set(Calendar.SECOND, 59);
         c.set(Calendar.MILLISECOND, 999);
