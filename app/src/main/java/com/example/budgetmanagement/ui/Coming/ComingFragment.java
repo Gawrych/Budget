@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
@@ -29,6 +28,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ComingFragment extends Fragment {
 
@@ -46,7 +46,7 @@ public class ComingFragment extends Fragment {
     private int year = 2022;
     private long startYear = 0;
     private long endYear = 0;
-    private ImageButton yearSelector;
+    private HashMap<Integer, ArrayList<Section>> savedLists = new HashMap<>();
 
 
     public static final Map<String, Integer> months;
@@ -88,28 +88,16 @@ public class ComingFragment extends Fragment {
 
         setYearStartAndEnd();
 
-        yearSelector = view.findViewById(R.id.yearSelector);
+        ImageButton yearSelector = view.findViewById(R.id.yearSelector);
         pickedYear = view.findViewById(R.id.pickedYear);
         expandableListView = view.findViewById(R.id.expandableListView);
         details = new ComingBottomSheetDetails(requireContext(), getActivity(), this);
-
-//        setSections(comingViewModel.getComingAndTransactionByYear(startYear, endYear));
-
-        LiveData<List<ComingAndTransaction>> comingAndTransactionByYearLiveData = comingViewModel.getComingAndTransactionByYearLiveData();
 
         expandableListAdapter = new ComingExpandableListAdapter(requireContext(), sectionList);
         expandableListView.setAdapter(expandableListAdapter);
 
         comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
-            comingViewModel.setComingAndTransactionByYearLiveData(startYear, endYear);
-        });
-
-        comingAndTransactionByYearLiveData.observe(getViewLifecycleOwner(), list -> {
-            Log.d("ErrorHandle", "getComingAndTransaction");
-            sectionList.clear();
-            setSections(list);
-            expandableListAdapter.updateItems(sectionList);
-            expandableListAdapter.notifyAdapter(expandableListView);
+            setSections(list, true);
         });
 
         expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
@@ -133,12 +121,12 @@ public class ComingFragment extends Fragment {
 
         datePickerDialog.getDatePicker().getTouchables().get(0).performClick();
         datePickerDialog.getDatePicker().getTouchables().get(1).setVisibility(View.GONE);
-        datePickerDialog.getDatePicker().setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
+        datePickerDialog.getDatePicker()
+                .setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
             this.year = year;
             pickedYear.setText(String.valueOf(year));
             setYearStartAndEnd();
-            Log.d("ErrorHandle", "StartYear " + startYear + " EndYear " + endYear);
-            comingViewModel.setComingAndTransactionByYearLiveData(startYear, endYear);
+            setSections(comingViewModel.getAllComingAndTransactionList(), false);
             datePickerDialog.cancel();
         });
         datePickerDialog.show();
@@ -167,10 +155,26 @@ public class ComingFragment extends Fragment {
         lastMillisOfYear.add(Calendar.YEAR, -1);
     }
 
-    private void setSections(List<ComingAndTransaction> list) {
-        sectionList.clear();
-        collectTransactionByMonthId(list);
-        months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), transactionsCollection.get(id))));
+    private void setSections(List<ComingAndTransaction> list, boolean resetSavedLists) {
+        if (resetSavedLists) {
+            savedLists.clear();
+        }
+
+        if (savedLists.containsKey(this.year)) {
+            sectionList = savedLists.get(this.year);
+        } else {
+            sectionList.clear();
+            collectTransactionByMonthId(list);
+            months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), transactionsCollection.get(id))));
+            ArrayList<Section> sectionListClone = new ArrayList<>(sectionList);
+            savedLists.put(this.year, sectionListClone);
+        }
+        notifyUpdatedList();
+    }
+
+    private void notifyUpdatedList() {
+        expandableListAdapter.updateItems(sectionList);
+        expandableListAdapter.notifyAdapter(expandableListView);
     }
 
     private int getStringResId(String stringName) {
@@ -180,7 +184,12 @@ public class ComingFragment extends Fragment {
     private void collectTransactionByMonthId(List<ComingAndTransaction> list) {
         initializeEmptyTransactionsCollection();
 
-        globalList = list;
+
+        globalList = list.stream().filter(element -> {
+            long repeatDateMillis = element.coming.getRepeatDate();
+            return repeatDateMillis >= startYear && repeatDateMillis <= endYear;
+        }).collect(Collectors.toList());
+
         globalList.forEach(item -> {
             int monthNumber = getMonthNumberFromDate(item.coming.getRepeatDate());
 
@@ -197,11 +206,6 @@ public class ComingFragment extends Fragment {
     private int getMonthNumberFromDate(long dateInMillis) {
         this.calendar.setTimeInMillis(dateInMillis);
         return this.calendar.get(Calendar.MONTH);
-    }
-
-    private int getYearFromDate(long dateInMillis) {
-        this.calendar.setTimeInMillis(dateInMillis);
-        return this.calendar.get(Calendar.YEAR);
     }
 
     private void initializeEmptyTransactionsCollection() {
