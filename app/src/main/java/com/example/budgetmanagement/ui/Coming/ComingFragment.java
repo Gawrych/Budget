@@ -2,7 +2,6 @@ package com.example.budgetmanagement.ui.Coming;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +68,7 @@ public class ComingFragment extends Fragment {
 
     private DatePickerDialog datePickerDialog;
     private TextView pickedYear;
+    private List<ComingAndTransaction> actualList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,11 +123,11 @@ public class ComingFragment extends Fragment {
         datePickerDialog.getDatePicker().getTouchables().get(1).setVisibility(View.GONE);
         datePickerDialog.getDatePicker()
                 .setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
-            this.year = year;
-            pickedYear.setText(String.valueOf(year));
-            setYearStartAndEnd();
-            setSections(comingViewModel.getAllComingAndTransactionList(), false);
-            datePickerDialog.cancel();
+                    this.year = year;
+                    pickedYear.setText(String.valueOf(year));
+                    setYearStartAndEnd();
+                    setSections(actualList, false);
+                    datePickerDialog.cancel();
         });
         datePickerDialog.show();
     }
@@ -157,6 +157,7 @@ public class ComingFragment extends Fragment {
 
     private void setSections(List<ComingAndTransaction> list, boolean resetSavedLists) {
         if (resetSavedLists) {
+            actualList = list;
             savedLists.clear();
         }
 
@@ -166,14 +167,13 @@ public class ComingFragment extends Fragment {
             sectionList.clear();
             collectTransactionByMonthId(list);
             months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), transactionsCollection.get(id))));
-            ArrayList<Section> sectionListClone = new ArrayList<>(sectionList);
-            savedLists.put(this.year, sectionListClone);
+            savedLists.put(this.year, new ArrayList<>(sectionList));
         }
         notifyUpdatedList();
     }
 
     private void notifyUpdatedList() {
-        expandableListAdapter.updateItems(sectionList);
+        expandableListAdapter.updateItems(new ArrayList<>(sectionList));
         expandableListAdapter.notifyAdapter(expandableListView);
     }
 
@@ -184,7 +184,6 @@ public class ComingFragment extends Fragment {
     private void collectTransactionByMonthId(List<ComingAndTransaction> list) {
         initializeEmptyTransactionsCollection();
 
-
         globalList = list.stream().filter(element -> {
             long repeatDateMillis = element.coming.getRepeatDate();
             return repeatDateMillis >= startYear && repeatDateMillis <= endYear;
@@ -194,10 +193,7 @@ public class ComingFragment extends Fragment {
             int monthNumber = getMonthNumberFromDate(item.coming.getRepeatDate());
 
             ArrayList<ComingAndTransaction> actualList = transactionsCollection.get(monthNumber);
-            if (actualList == null) {
-                Log.e("ErrorHandle", "com/example/budgetmanagement/ui/Coming/ComingFragment.java NullPointerException:'actualList' is null when 'month'=" + monthNumber);
-                return;
-            }
+            assert actualList != null;
             actualList.add(item);
             transactionsCollection.put(monthNumber, actualList);
         });

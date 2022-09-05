@@ -2,7 +2,6 @@ package com.example.budgetmanagement.database.Adapters;
 
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
@@ -34,6 +31,12 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public void updateItems(ArrayList<Section> items) {
+//        for (Section item : items) {
+//            List<ComingAndTransaction> list = item.getComingAndTransactionList();
+//            for (ComingAndTransaction element : list) {
+//                Log.d("ErrorHandle", element.transaction.getTitle());
+//            }
+//        }
         this.items = items;
     }
 
@@ -98,7 +101,6 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         return context.getString(resId);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View getChildView(final int i, final int i1, boolean b, View view, ViewGroup viewGroup) {
         final TextView titleField;
@@ -178,6 +180,10 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     private void outOfDateIconSetResource(View view, int drawable, int color) {
         outOfDateIcon.setColorFilter(view.getContext().getResources().getColor(color));
         outOfDateIcon.setImageResource(drawable);
+    }
+
+    public void clearItems() {
+        this.items.clear();
     }
 
     @Override

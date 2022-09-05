@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -78,7 +76,6 @@ public class ComingBottomSheetDetails extends Fragment {
         deadlineDateField = bottomSheetDialog.findViewById(R.id.remainingDate);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void setData(ComingAndTransaction comingAndTransaction) {
         this.comingAndTransaction = comingAndTransaction;
         setTransactionName();
@@ -139,12 +136,10 @@ public class ComingBottomSheetDetails extends Fragment {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setAddDate() {
         addDateField.setText(DateProcessor.parseDate(comingAndTransaction.coming.getAddDate()));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setLastModifiedDate() {
         long modifiedDate = comingAndTransaction.coming.getModifiedDate();
         if (modifiedDate != 0) {
@@ -154,7 +149,6 @@ public class ComingBottomSheetDetails extends Fragment {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setDeadlineDateField(long date) {
         deadlineDateField.setText(DateProcessor.parseDate(date));
     }
@@ -236,11 +230,11 @@ public class ComingBottomSheetDetails extends Fragment {
     }
 
     private void setColor(int color) {
-        remainingDaysIconField.setColorFilter(context.getResources().getColor(color));
-        deadlineDateField.setTextColor(context.getResources().getColor(color));
-        remainingDaysLabelField.setTextColor(context.getResources().getColor(color));
-        remainingDaysField.setTextColor(context.getResources().getColor(color));
-        daysLabelField.setTextColor(context.getResources().getColor(color));
+        remainingDaysIconField.setColorFilter(context.getColor(color));
+        deadlineDateField.setTextColor(context.getColor(color));
+        remainingDaysLabelField.setTextColor(context.getColor(color));
+        remainingDaysField.setTextColor(context.getColor(color));
+        daysLabelField.setTextColor(context.getColor(color));
     }
 
     private void setRemainingDaysIconToCalendar() {
@@ -261,12 +255,12 @@ public class ComingBottomSheetDetails extends Fragment {
     }
 
     private void setExecuteButtonColor(int color) {
-        executeButton.setBackgroundColor(context.getResources().getColor(color));
+        executeButton.setBackgroundColor(context.getColor(color));
     }
 
     private void removeFromDatabase(ComingAndTransaction comingAndTransaction) {
-        Log.d("ErrorHandle", "RemoveFromDatabase: " + comingAndTransaction.coming.getComingId());
-        comingViewModel.delete(comingAndTransaction.coming.getComingId());
+        Log.d("ErrorHandle", "RemoveFromDatabase: " + comingAndTransaction.transaction.getTitle());
+        comingViewModel.delete(comingAndTransaction.coming);
     }
 
     private void updateComingInDatabase(ComingAndTransaction comingAndTransaction) {
