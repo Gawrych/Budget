@@ -1,7 +1,6 @@
 package com.example.budgetmanagement.ui.History;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -68,7 +66,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         return inflater.inflate(R.layout.history_fragment, container, false);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -118,7 +115,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void removeFilters() {
         changeListToBeforeAddFilters();
         clearSortingMarkIcons();
@@ -129,12 +125,10 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         mediator.setValue(currentList);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void clearSortingMarkIcons() {
         sortingMarkIconManager.removeAllMarkIcons();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void setSortingMarkIcons(HashMap<Integer, Integer> filters) {
         sortingMarkIconManager.setMarkIcons(filters);
     }
@@ -143,7 +137,6 @@ public class HistoryFragment extends Fragment implements HistoryViewHolder.OnNot
         filterViewModel.resetFilters();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onNoteClick(int position) {
         HistoryAndTransaction historyAndTransaction = adapter.getCurrentList().get(position);

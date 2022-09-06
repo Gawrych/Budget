@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.ComingExpandableListAdapter;
@@ -105,6 +106,13 @@ public class ComingFragment extends Fragment {
             details.setData(comingAndTransaction);
             details.show();
             return true;
+        });
+
+        ImageButton addButton = view.findViewById(R.id.addButton);
+        addButton.setOnClickListener(root -> {
+            Navigation
+                    .findNavController(root)
+                    .navigate(R.id.action_navigation_incoming_to_addNewComingElement);
         });
 
         yearSelector.setOnClickListener(v -> {

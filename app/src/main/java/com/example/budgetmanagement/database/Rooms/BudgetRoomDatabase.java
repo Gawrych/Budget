@@ -1,10 +1,8 @@
 package com.example.budgetmanagement.database.Rooms;
 
 import android.content.Context;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -44,7 +42,6 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
     }
 
     private static final RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
-        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
