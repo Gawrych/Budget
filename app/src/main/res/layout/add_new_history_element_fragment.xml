@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/title"
+        android:id="@+id/titleLayout"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/amount"
+        android:id="@+id/amountLayout"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toStartOf="@+id/radioGroup"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -55,8 +55,8 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/amount"
-        app:layout_constraintTop_toTopOf="@+id/amount">
+        app:layout_constraintStart_toEndOf="@+id/amountLayout"
+        app:layout_constraintTop_toTopOf="@+id/amountLayout">
 
         <RadioButton
             android:id="@+id/lossIcon"
@@ -66,7 +66,7 @@
             android:button="@android:color/transparent"
             android:checked="true"
             app:layout_constraintStart_toEndOf="@+id/radioButton"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
 
         <RadioButton
             android:id="@+id/profitIcon"
@@ -83,13 +83,13 @@
         android:layout_height="20dp"
         android:layout_marginStart="5dp"
         android:contentDescription="@string/icon"
-        app:layout_constraintBottom_toBottomOf="@+id/date"
-        app:layout_constraintStart_toStartOf="@+id/date"
-        app:layout_constraintTop_toTopOf="@+id/date"
+        app:layout_constraintBottom_toBottomOf="@+id/dateLayout"
+        app:layout_constraintStart_toStartOf="@+id/dateLayout"
+        app:layout_constraintTop_toTopOf="@+id/dateLayout"
         app:srcCompat="@drawable/ic_baseline_calendar_month_24" />
 
     <EditText
-        android:id="@+id/date"
+        android:id="@+id/dateLayout"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
@@ -105,13 +105,13 @@
         android:hint="@string/default_date_in_item"
         android:text="@string/default_date_in_item"
         android:autofillHints=""
-        app:layout_constraintEnd_toStartOf="@+id/categoryList"
+        app:layout_constraintEnd_toStartOf="@+id/categoryListLayout"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/amount" />
+        app:layout_constraintTop_toBottomOf="@+id/amountLayout" />
 
     <EditText
-        android:id="@+id/categoryList"
+        android:id="@+id/categoryListLayout"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/main_blue"
@@ -126,17 +126,17 @@
         android:inputType="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/date"
-        app:layout_constraintTop_toTopOf="@+id/date" />
+        app:layout_constraintStart_toEndOf="@+id/dateLayout"
+        app:layout_constraintTop_toTopOf="@+id/dateLayout" />
 
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="5dp"
         android:contentDescription="@string/icon"
-        app:layout_constraintBottom_toBottomOf="@+id/categoryList"
-        app:layout_constraintStart_toStartOf="@+id/categoryList"
-        app:layout_constraintTop_toTopOf="@+id/categoryList"
+        app:layout_constraintBottom_toBottomOf="@+id/categoryListLayout"
+        app:layout_constraintStart_toStartOf="@+id/categoryListLayout"
+        app:layout_constraintTop_toTopOf="@+id/categoryListLayout"
         app:srcCompat="@drawable/ic_baseline_format_list_bulleted_24" />
 
     <Button

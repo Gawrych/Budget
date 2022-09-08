@@ -47,7 +47,9 @@ public class ComingFragment extends Fragment {
     private long startYear = 0;
     private long endYear = 0;
     private HashMap<Integer, ArrayList<Section>> savedLists = new HashMap<>();
-
+    private DatePickerDialog datePickerDialog;
+    private TextView pickedYear;
+    private List<ComingAndTransaction> actualList;
 
     public static final Map<String, Integer> months;
     static {
@@ -66,10 +68,6 @@ public class ComingFragment extends Fragment {
         items.put("december", 11);
         months = Collections.unmodifiableMap(items);
     }
-
-    private DatePickerDialog datePickerDialog;
-    private TextView pickedYear;
-    private List<ComingAndTransaction> actualList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,6 +97,10 @@ public class ComingFragment extends Fragment {
 
         comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
             setSections(list, true);
+            int actualPositionToScroll = getActualPositionToScroll();
+
+            // TODO put this to callAfterLoadList();
+            expandableListView.smoothScrollToPositionFromTop(actualPositionToScroll, 0);
         });
 
         expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
@@ -115,9 +117,7 @@ public class ComingFragment extends Fragment {
                     .navigate(R.id.action_navigation_incoming_to_addNewComingElement);
         });
 
-        yearSelector.setOnClickListener(v -> {
-            selectYear();
-        });
+        yearSelector.setOnClickListener(v -> selectYear());
     }
 
     private void selectYear() {
@@ -138,6 +138,15 @@ public class ComingFragment extends Fragment {
                     datePickerDialog.cancel();
         });
         datePickerDialog.show();
+    }
+
+    private int getActualPositionToScroll() {
+        int monthNumber = getMonthNumberFromDate(Calendar.getInstance().getTimeInMillis());
+        int endPosition = monthNumber;
+        for (int i=0; i<=monthNumber; i++) {
+            endPosition = endPosition + sectionList.get(i).getComingAndTransactionList().size();
+        }
+        return endPosition;
     }
 
     private void setYearStartAndEnd() {

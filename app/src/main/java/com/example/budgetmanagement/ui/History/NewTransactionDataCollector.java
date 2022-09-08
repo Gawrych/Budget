@@ -59,7 +59,7 @@ public class NewTransactionDataCollector {
     }
 
     private void setTitle() {
-        EditFieldManager titleField = new EditFieldManager(root, R.id.title);
+        EditFieldManager titleField = new EditFieldManager(root, R.id.titleLayout);
         initializeTitle(titleField);
         checkFillingByLength(titleField);
         if (!contentExist) {
@@ -77,7 +77,7 @@ public class NewTransactionDataCollector {
     }
 
     private void setAmount() {
-        EditFieldManager amountField = new EditFieldManager(root, R.id.amount);
+        EditFieldManager amountField = new EditFieldManager(root, R.id.amountLayout);
         DecimalPrecision amountContent = new DecimalPrecision(amountField.getContent());
         checkFillingByLength(amountField);
         if (!contentExist) {

@@ -31,12 +31,6 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public void updateItems(ArrayList<Section> items) {
-//        for (Section item : items) {
-//            List<ComingAndTransaction> list = item.getComingAndTransactionList();
-//            for (ComingAndTransaction element : list) {
-//                Log.d("ErrorHandle", element.transaction.getTitle());
-//            }
-//        }
         this.items = items;
     }
 
@@ -115,8 +109,8 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
             view = inflater.inflate(R.layout.child_view, viewGroup, false);
         }
 
-        titleField = view.findViewById(R.id.title);
-        amountField = view.findViewById(R.id.amount);
+        titleField = view.findViewById(R.id.titleLayout);
+        amountField = view.findViewById(R.id.amountLayout);
         dateField = view.findViewById(R.id.repeatDate);
         currencyField = view.findViewById(R.id.currency);
         outOfDateIcon = view.findViewById(R.id.outOfDateIcon);

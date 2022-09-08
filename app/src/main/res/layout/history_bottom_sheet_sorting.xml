@@ -21,7 +21,7 @@
             android:background="@drawable/loss_icon"
             android:button="@android:color/transparent"
             app:layout_constraintStart_toEndOf="@+id/radioButton"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
 
         <RadioButton
             android:id="@+id/profitAndLossIcon"

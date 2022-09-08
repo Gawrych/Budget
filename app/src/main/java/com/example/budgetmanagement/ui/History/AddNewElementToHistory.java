@@ -42,9 +42,9 @@ public class AddNewElementToHistory extends Fragment {
         super.onViewCreated(rootView, savedInstanceState);
         categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
 
-        EditText calendar = rootView.findViewById(R.id.date);
+        EditText calendar = rootView.findViewById(R.id.dateLayout);
 
-        EditText amount = rootView.findViewById(R.id.amount);
+        EditText amount = rootView.findViewById(R.id.amountLayout);
         amount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 2)});
 
         Button acceptButton = rootView.findViewById(R.id.acceptButton);
@@ -61,7 +61,7 @@ public class AddNewElementToHistory extends Fragment {
         calendar.setText(DateProcessor.getTodayDateInPattern());
         calendar.setOnClickListener(view -> calendarDialogDatePicker.show(getParentFragmentManager(), calendar));
 
-        EditText selectedCategory = rootView.findViewById(R.id.categoryList);
+        EditText selectedCategory = rootView.findViewById(R.id.categoryListLayout);
         selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
 
         Button cancelButton = rootView.findViewById(R.id.cancelButton);

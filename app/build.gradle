@@ -24,8 +24,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     buildFeatures {
         viewBinding true
@@ -60,6 +60,7 @@ dependencies {
     // optional - ReactiveStreams support for LiveData
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:2.5.1"
     implementation 'androidx.navigation:navigation-testing:2.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0-beta01'
 
     // optional - Test helpers for LiveData
     testImplementation "androidx.arch.core:core-testing:2.1.0"
@@ -81,7 +82,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'com.android.support:multidex:1.0.3'
 
-    implementation "androidx.appcompat:appcompat:1.5.0"
 
     // Room components
     implementation "androidx.room:room-runtime:2.4.3"
@@ -95,7 +95,6 @@ dependencies {
 
     // UI
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
-    implementation "com.google.android.material:material:1.6.1"
 
     // Testing
     testImplementation "junit:junit:4.13.2"

@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/titleLayout"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
@@ -62,11 +62,11 @@
         android:textColor="@color/dark_grey"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/amount"
+        app:layout_constraintEnd_toStartOf="@+id/amountLayout"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/amount"
+        android:id="@+id/amountLayout"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:gravity="center|end"
@@ -83,7 +83,7 @@
         android:gravity="center|center_horizontal"
         android:text="@string/polish_currency"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/amount"
+        app:layout_constraintBottom_toBottomOf="@+id/amountLayout"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
