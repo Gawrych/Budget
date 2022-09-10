@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: io.github.dzmitry-lakisau:month-year-picker-dialog:1.0.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/5eaa389df8ea945cef51a9de23b4eb67/transformed/jetified-month-year-picker-dialog-1.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/5eaa389df8ea945cef51a9de23b4eb67/transformed/jetified-month-year-picker-dialog-1.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/5eaa389df8ea945cef51a9de23b4eb67/transformed/jetified-month-year-picker-dialog-1.0.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.dzmitry-lakisau/month-year-picker-dialog/1.0.0/9060efeb997538350c5fe4726de422bb36f7b573/month-year-picker-dialog-1.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.dzmitry-lakisau/month-year-picker-dialog/1.0.0/17487a688b7350a03967f8beb3fc3c0ca9f437e1/month-year-picker-dialog-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
