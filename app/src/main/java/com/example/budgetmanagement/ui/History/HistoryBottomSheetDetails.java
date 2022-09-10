@@ -17,23 +17,25 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.HistoryAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetEntity;
+import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
 public class HistoryBottomSheetDetails extends Fragment {
 
-    private List<CategoryBottomSheetEntity> categoryBottomSheetEntity;
-    private BottomSheetDialog bottomSheetDialog;
+    private final List<CategoryBottomSheetEntity> categoryBottomSheetEntity;
+    private final BottomSheetDialog bottomSheetDialog;
     private int historyId;
-    private TextView transactionName;
-    private TextView categoryName;
-    private TextView date;
-    private ImageView categoryIcon;
-    private Context context;
+    private final TextView transactionName;
+    private final TextView categoryName;
+    private final TextView date;
+    private final ImageView categoryIcon;
+    private final Context context;
 
     public HistoryBottomSheetDetails(Context context, Activity activity, HistoryViewModel historyViewModel) {
         this.context = context;
@@ -66,7 +68,6 @@ public class HistoryBottomSheetDetails extends Fragment {
         categoryIcon = bottomSheetDialog.findViewById(R.id.categoryIcon);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void setData(HistoryAndTransaction historyAndTransaction) {
         this.historyId = historyAndTransaction.history.getHistoryId();
         int categoryId = historyAndTransaction.transaction.getCategoryId();
@@ -78,8 +79,7 @@ public class HistoryBottomSheetDetails extends Fragment {
             int resourceId = context.getResources().getIdentifier(bottomSheetEntity.getIconName(), "drawable", context.getPackageName());
             categoryIcon.setImageResource(resourceId);
         });
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
-        date.setText(LocalDate.ofEpochDay(historyAndTransaction.transaction.getLastModifiedData()).format(formatter));
+        date.setText(DateProcessor.parseDate(historyAndTransaction.transaction.getLastModifiedData()));
 //        Show recurring instead date
     }
 

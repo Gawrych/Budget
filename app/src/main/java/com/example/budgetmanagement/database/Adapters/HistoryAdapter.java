@@ -1,12 +1,10 @@
 package com.example.budgetmanagement.database.Adapters;
 
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
@@ -29,7 +27,6 @@ public class HistoryAdapter extends ListAdapter<HistoryAndTransaction, HistoryVi
         return create(parent);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(HistoryViewHolder holder, int position) {
         HistoryAndTransaction historyAndTransaction = getItem(position);

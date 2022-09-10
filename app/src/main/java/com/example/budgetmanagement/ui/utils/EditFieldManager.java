@@ -4,10 +4,11 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.budgetmanagement.R;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class EditFieldManager {
 
-    private EditText field;
+    private TextInputEditText field;
     private View root;
 
     public EditFieldManager(View root, int resourceId) {

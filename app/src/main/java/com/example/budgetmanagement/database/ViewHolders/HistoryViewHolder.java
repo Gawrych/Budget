@@ -29,7 +29,6 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
         itemView.setOnClickListener(this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void bind(String title, String amount, long date) {
         this.titleField.setText(title);
         AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField, this.currency);

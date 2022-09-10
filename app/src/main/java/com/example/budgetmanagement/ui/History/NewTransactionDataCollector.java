@@ -5,7 +5,6 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.DEFAULT_DATE_F
 import android.os.Build;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -13,6 +12,7 @@ import androidx.annotation.RequiresApi;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Transaction;
 import com.example.budgetmanagement.ui.utils.EditFieldManager;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -34,7 +34,6 @@ public class NewTransactionDataCollector {
         this.root = root;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean collectData(EditText calendar, int categoryId) {
         setCategoryId(categoryId);
 
@@ -59,7 +58,7 @@ public class NewTransactionDataCollector {
     }
 
     private void setTitle() {
-        EditFieldManager titleField = new EditFieldManager(root, R.id.titleLayout);
+        EditFieldManager titleField = new EditFieldManager(root, R.id.title);
         initializeTitle(titleField);
         checkFillingByLength(titleField);
         if (!contentExist) {
@@ -77,7 +76,7 @@ public class NewTransactionDataCollector {
     }
 
     private void setAmount() {
-        EditFieldManager amountField = new EditFieldManager(root, R.id.amountLayout);
+        EditFieldManager amountField = new EditFieldManager(root, R.id.amount);
         DecimalPrecision amountContent = new DecimalPrecision(amountField.getContent());
         checkFillingByLength(amountField);
         if (!contentExist) {
@@ -98,41 +97,27 @@ public class NewTransactionDataCollector {
         return number;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setDateInPattern(EditText calendar) {
         LocalDate localDate = getSelectedDateInPattern(calendar);
         date = localDate.atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private LocalDate getSelectedDateInPattern(EditText calendar) {
         return LocalDate.parse(calendar.getText(), getPattern());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private DateTimeFormatter getPattern() {
         return DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
     }
 
     private void prepareProfit() {
-        profit = getSelectedProfitIconId() == getProfitIconId();
+       profit = getProfitSwitch().isChecked();
     }
 
-    private int getProfitIconId() {
-        return R.id.profitIcon;
+    private SwitchMaterial getProfitSwitch() {
+        return root.findViewById(R.id.isProfit);
     }
 
-    private int getSelectedProfitIconId() {
-        return getRadioGroup().getCheckedRadioButtonId();
-    }
-
-    private RadioGroup getRadioGroup() {
-        return root.findViewById(getRadioGroupId());
-    }
-
-    private int getRadioGroupId() {
-        return R.id.radioGroup;
-    }
 
     public Transaction getTransaction() {
         Calendar today = Calendar.getInstance();
