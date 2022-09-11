@@ -1,8 +1,5 @@
 package com.example.budgetmanagement.ui.utils;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -41,7 +38,7 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
                 categoryBottomSheetAdapter::submitList);
 
         bottomSheetDialog = new BottomSheetDialog(rootFragment.requireContext());
-        bottomSheetDialog.setContentView(R.layout.history_bottom_sheet_dialog);
+        bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog);
 
         RecyclerView bottomSheetRecyclerView = bottomSheetDialog.findViewById(R.id.recyclerView);
         Objects.requireNonNull(bottomSheetRecyclerView).setAdapter(categoryBottomSheetAdapter);
@@ -74,7 +71,6 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
         return selectedName;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public String getCategoryNameById(Integer id) {
         if (id == null || id <= 0) {
             return "";

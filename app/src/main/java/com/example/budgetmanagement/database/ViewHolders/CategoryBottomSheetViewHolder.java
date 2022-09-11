@@ -24,7 +24,6 @@ public class CategoryBottomSheetViewHolder extends RecyclerView.ViewHolder imple
         itemView.setOnClickListener(this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void bind(String iconName, String name) {
         entityName.setText(name);
         entityIcon.setImageResource(getResourceIconIdByName(iconName));

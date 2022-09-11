@@ -1,12 +1,10 @@
 package com.example.budgetmanagement.database.Adapters;
 
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
@@ -16,7 +14,7 @@ import com.example.budgetmanagement.database.ViewHolders.CategoryBottomSheetView
 
 public class CategoryBottomSheetAdapter extends ListAdapter<Category, CategoryBottomSheetViewHolder> {
 
-    private CategoryBottomSheetViewHolder.OnNoteListener mOnNoteListener;
+    private final CategoryBottomSheetViewHolder.OnNoteListener mOnNoteListener;
 
     public CategoryBottomSheetAdapter(@NonNull DiffUtil.ItemCallback<Category> diffCallback, CategoryBottomSheetViewHolder.OnNoteListener onNoteListener) {
         super(diffCallback);
@@ -29,7 +27,6 @@ public class CategoryBottomSheetAdapter extends ListAdapter<Category, CategoryBo
         return create(parent);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(CategoryBottomSheetViewHolder holder, int position) {
         Category current = getItem(position);
@@ -39,7 +36,7 @@ public class CategoryBottomSheetAdapter extends ListAdapter<Category, CategoryBo
     public CategoryBottomSheetViewHolder create(ViewGroup parent) {
         View view;
         view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.history_bottom_sheet_category_filter_recycler_view, parent, false);
+                .inflate(R.layout.icon_title_bottom_sheet_details_child, parent, false);
 
         return new CategoryBottomSheetViewHolder(view, mOnNoteListener);
     }
