@@ -1,6 +1,7 @@
 package com.example.budgetmanagement.ui.History;
 
 import static com.example.budgetmanagement.ui.utils.DateProcessor.DEFAULT_DATE_FORMAT;
+import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
 import android.os.Build;
 import android.view.View;
@@ -107,7 +108,7 @@ public class NewTransactionDataCollector {
     }
 
     private DateTimeFormatter getPattern() {
-        return DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
+        return DateTimeFormatter.ofPattern(MONTH_NAME_YEAR_DATE_FORMAT);
     }
 
     private void prepareProfit() {
@@ -120,6 +121,7 @@ public class NewTransactionDataCollector {
 
 
     public Transaction getTransaction() {
+        // TODO Change last modified date to 0 instead today date
         Calendar today = Calendar.getInstance();
         return new Transaction(0, this.categoryId, this.title,
                 this.amount.toString(), date, today.getTimeInMillis(), this.profit);

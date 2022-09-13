@@ -1,6 +1,7 @@
 package com.example.budgetmanagement;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.budgetmanagement.database.ViewModels.FilterViewModel;
 import com.example.budgetmanagement.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,5 +35,19 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        BottomNavigationView navBar = findViewById(R.id.nav_view);
+
+        navController.addOnDestinationChangedListener((navController1, navDestination, bundle) -> {
+
+            if(navDestination.getId() == R.id.addNewComing ||
+                    navDestination.getId() == R.id.addNewHistory ||
+                    navDestination.getId() == R.id.filterFragment) {
+                navBar.setVisibility(View.INVISIBLE);
+            } else {
+                navBar.setVisibility(View.VISIBLE);
+
+            }
+        });
     }
 }

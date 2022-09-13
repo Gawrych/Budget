@@ -34,7 +34,7 @@
         tools:layout="@layout/coming_fragment" >
         <action
             android:id="@+id/action_navigation_incoming_to_addNewComingElement"
-            app:destination="@id/addNewComingElement" />
+            app:destination="@id/addNewComing" />
     </fragment>
     <fragment
         android:id="@+id/addNewHistory"
@@ -55,7 +55,7 @@
             app:destination="@id/navigation_history" />
     </fragment>
     <fragment
-        android:id="@+id/addNewComingElement"
+        android:id="@+id/addNewComing"
         android:name="com.example.budgetmanagement.ui.Coming.AddNewComingElement"
         android:label="AddNewComingElement" >
         <action

@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_calendar_month_24.xml" value="0.217" />
         <entry key="app/src/main/res/drawable/ic_baseline_category_24.xml" value="0.217" />
         <entry key="app/src/main/res/drawable/ic_baseline_crop_original_24.xml" value="0.217" />
+        <entry key="app/src/main/res/drawable/ic_baseline_date_range_24.xml" value="0.217" />
         <entry key="app/src/main/res/drawable/ic_baseline_done_all_24.xml" value="0.217" />
         <entry key="app/src/main/res/drawable/ic_baseline_event_busy_24.xml" value="0.217" />
         <entry key="app/src/main/res/drawable/ic_baseline_event_repeat_24.xml" value="0.217" />
@@ -43,12 +44,14 @@
         <entry key="app/src/main/res/layout/child_view.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/coming_bottom_sheet_details.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/coming_fragment.xml" value="0.37447916666666664" />
+        <entry key="app/src/main/res/layout/fragment_filter.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/history_bottom_sheet_category_filter_recycler_view.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/history_bottom_sheet_details.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/history_bottom_sheet_dialog.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/history_bottom_sheet_sorting.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/history_fragment.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/history_recycler_view.xml" value="0.37447916666666664" />
+        <entry key="app/src/main/res/layout/list_item.xml" value="0.19322916666666667" />
         <entry key="app/src/main/res/layout/parent_view.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/statistics_fragment.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/title_bottom_sheet_details_child.xml" value="0.37447916666666664" />

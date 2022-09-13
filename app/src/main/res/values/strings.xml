@@ -7,7 +7,7 @@
     <string name="default_item_title_value">This is title</string>
     <string name="default_amount_value">0.00</string>
     <string name="polish_currency">zł</string>
-    <string name="default_date_in_item">26.02.2020</string>
+    <string name="default_date_in_item">26 Lut 2020</string>
     <string name="sort_by_amount">Po cenie</string>
     <string name="sort_alphabetical">Alfabetycznie</string>
     <string name="sort_by_date">Po danie</string>
@@ -57,4 +57,5 @@
     <string name="after_the_deadline">Po terminie</string>
     <string name="paid_from">Opłacone od</string>
     <string name="cancel_pay">Anuluj opłacenie</string>
+    <string name="paid">opłacono</string>
 </resources>

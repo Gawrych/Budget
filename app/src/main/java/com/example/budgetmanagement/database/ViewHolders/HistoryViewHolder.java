@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.database.ViewHolders;
 
+import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
+
 import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
@@ -34,7 +36,7 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.O
         AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(this.amountField, this.currency);
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
         this.amountField.setText(amount);
-        this.dateField.setText(DateProcessor.parseDate((date)));
+        this.dateField.setText(DateProcessor.parseDate(date, MONTH_NAME_YEAR_DATE_FORMAT));
     }
 
     @Override

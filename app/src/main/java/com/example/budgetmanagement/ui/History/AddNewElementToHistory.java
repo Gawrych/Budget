@@ -66,7 +66,7 @@ public class AddNewElementToHistory extends Fragment {
         dateField.setText(DateProcessor.getTodayDateInPattern());
         dateField.setOnClickListener(view -> datePickerDialog.show());
 
-        TextInputEditText selectedCategory = rootView.findViewById(R.id.categoryList);
+        TextInputEditText selectedCategory = rootView.findViewById(R.id.categorySelector);
         selectedCategory.setFocusable(false);
         selectedCategory.setCursorVisible(false);
         selectedCategory.setText("Różne");

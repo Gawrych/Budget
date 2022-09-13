@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.History.AddNewElementToHistory">
+    tools:context=".ui.History.AddNewElementToHistory"
+    android:theme="@style/Theme.MaterialComponents.Light">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/titleLayout"
@@ -72,7 +73,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/categoryListLayout"
+        android:id="@+id/categorySelectorLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -83,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@+id/amountLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/categoryList"
+            android:id="@+id/categorySelector"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:inputType="none"

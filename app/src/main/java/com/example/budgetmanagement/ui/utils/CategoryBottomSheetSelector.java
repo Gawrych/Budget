@@ -87,11 +87,11 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
     }
 
     public void resetSelectedName() {
-        this.selectedName = "";
+        this.selectedName = "Różne";
     }
 
     public void resetSelectedId() {
-        this.selectedId = 0;
+        this.selectedId = 1;
     }
 
 }

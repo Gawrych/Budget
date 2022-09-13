@@ -38,7 +38,6 @@ public class ComingFragment extends Fragment {
     private ArrayList<Section> sectionList = new ArrayList<>();
     private final HashMap<Short, ArrayList<Section>> sectionListsByYears = new HashMap<>();
     private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollection = new HashMap<>();
-    private final Calendar calendar = Calendar.getInstance();
     private ComingBottomSheetDetails details;
     private ComingViewModel comingViewModel;
     private ExpandableListView expandableListView;
@@ -50,6 +49,7 @@ public class ComingFragment extends Fragment {
     private DatePickerDialog datePickerDialog;
     private TextView pickedYear;
     private List<ComingAndTransaction> actualList;
+    private final Calendar actualDate = Calendar.getInstance();
 
     public static final Map<String, Integer> months;
     static {
@@ -87,13 +87,16 @@ public class ComingFragment extends Fragment {
 
         setYearStartAndEnd();
 
-        ImageButton yearSelector = view.findViewById(R.id.yearSelector);
+        ImageButton yearPicker = view.findViewById(R.id.yearSelector);
         pickedYear = view.findViewById(R.id.pickedYear);
+        pickedYear.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+
         expandableListView = view.findViewById(R.id.expandableListView);
         details = new ComingBottomSheetDetails(requireContext(), getActivity(), this);
 
         expandableListAdapter = new ComingExpandableListAdapter(requireContext(), sectionList);
         expandableListView.setAdapter(expandableListAdapter);
+
 
         comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
             setSections(list, true);
@@ -117,7 +120,7 @@ public class ComingFragment extends Fragment {
                     .navigate(R.id.action_navigation_incoming_to_addNewComingElement);
         });
 
-        yearSelector.setOnClickListener(v -> selectYear());
+        yearPicker.setOnClickListener(v -> selectYear());
     }
 
     private void selectYear() {
@@ -217,8 +220,9 @@ public class ComingFragment extends Fragment {
     }
 
     private int getMonthNumberFromDate(long dateInMillis) {
-        this.calendar.setTimeInMillis(dateInMillis);
-        return this.calendar.get(Calendar.MONTH);
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(dateInMillis);
+        return date.get(Calendar.MONTH);
     }
 
     private void initializeEmptyTransactionsCollection() {

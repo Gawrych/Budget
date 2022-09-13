@@ -1,7 +1,10 @@
 package com.example.budgetmanagement.database.Adapters;
 
+import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DATE_FORMAT;
+
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,35 +90,26 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
-    private int getStringResId(String stringName) {
-        return context.getResources().getIdentifier(stringName, "string", context.getPackageName());
-    }
-
     private String getStringFromResId(int resId) {
         return context.getString(resId);
     }
 
     @Override
     public View getChildView(final int i, final int i1, boolean b, View view, ViewGroup viewGroup) {
-        final TextView titleField;
-        final TextView amountField;
-        final TextView dateField;
-        final TextView currencyField;
-        final TextView remainingDays;
-        final TextView daysText;
-
         if (view == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.child_view, viewGroup, false);
         }
 
-        titleField = view.findViewById(R.id.titleLayout);
-        amountField = view.findViewById(R.id.amountLayout);
-        dateField = view.findViewById(R.id.repeatDate);
-        currencyField = view.findViewById(R.id.currency);
+        final TextView titleField = view.findViewById(R.id.titleLayout);
+        final TextView amountField = view.findViewById(R.id.amountLayout);
+        final TextView dateField = view.findViewById(R.id.repeatDate);
+        final TextView currencyField = view.findViewById(R.id.currency);
+        final TextView remainingDays = view.findViewById(R.id.remainingDays);
+        final TextView daysText = view.findViewById(R.id.daysText);
+        final TextView dateInfo = view.findViewById(R.id.dateInfo);
         outOfDateIcon = view.findViewById(R.id.outOfDateIcon);
-        remainingDays = view.findViewById(R.id.remainingDays);
-        daysText = view.findViewById(R.id.daysText);
+
 
         ComingAndTransaction item = getChild(i, i1);
         String amount = item.transaction.getAmount();
@@ -127,7 +121,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(amountField, currencyField);
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
         amountField.setText(amount);
-        dateField.setText(DateProcessor.parseDate(repeatDate));
+        dateField.setText(DateProcessor.parseDate(repeatDate, MONTH_NAME_DATE_FORMAT));
 
         Calendar todayDate = Calendar.getInstance();
         Calendar otherDate = Calendar.getInstance();
@@ -136,14 +130,17 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         int days = otherDate.get(Calendar.DAY_OF_YEAR) - todayDate.get(Calendar.DAY_OF_YEAR);
         remainingDays.setText(String.valueOf(days));
 
-        if (otherDate.before(todayDate) && !isExecuted) {
-            remainingDays.setTextColor(view.getContext().getResources().getColor(R.color.mat_red));
-            daysText.setTextColor(view.getContext().getResources().getColor(R.color.mat_red));
+        boolean afterDeadline = otherDate.before(todayDate);
+        if (afterDeadline && !isExecuted) {
+            remainingDays.setTextColor(view.getContext().getColor(R.color.mat_red));
+            daysText.setTextColor(view.getContext().getColor(R.color.mat_red));
+            dateInfo.setTextColor(view.getContext().getColor(R.color.mat_red));
 
             outOfDateIconSetResource(view, R.drawable.calendar, R.color.mat_red);
         } else {
-            remainingDays.setTextColor(view.getContext().getResources().getColor(R.color.font_default));
-            daysText.setTextColor(view.getContext().getResources().getColor(R.color.font_default));
+            remainingDays.setTextColor(view.getContext().getColor(R.color.font_default));
+            daysText.setTextColor(view.getContext().getColor(R.color.font_default));
+            dateInfo.setTextColor(view.getContext().getColor(R.color.font_default));
 
             outOfDateIconSetResource(view, R.drawable.calendar, R.color.font_default);
         }
@@ -152,8 +149,9 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
             long executedDateInMillis = item.coming.getExecutedDate();
             remainingDays.setText(String.valueOf(getRemainingDays(todayDate, getCalendarWithValue(executedDateInMillis))));
 
-            remainingDays.setTextColor(view.getContext().getResources().getColor(R.color.main_green));
-            daysText.setTextColor(view.getContext().getResources().getColor(R.color.main_green));
+            remainingDays.setTextColor(view.getContext().getColor(R.color.main_green));
+            daysText.setTextColor(view.getContext().getColor(R.color.main_green));
+            daysText.setText(R.string.paid);
 
             outOfDateIconSetResource(view, R.drawable.ic_baseline_done_all_24, R.color.main_green);
         }

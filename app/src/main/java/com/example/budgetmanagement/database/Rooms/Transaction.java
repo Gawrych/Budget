@@ -22,6 +22,7 @@ public class Transaction {
     @ColumnInfo(name="amount")
     private String amount;
 
+    // TODO: Change addDate name to some more relevant
     @ColumnInfo(name="addDate")
     private long addDate;
 
