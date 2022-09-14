@@ -17,15 +17,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.test.espresso.Root;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
-import com.example.budgetmanagement.ui.History.NewTransactionDataCollector;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.example.budgetmanagement.ui.utils.DecimalDigitsInputFilter;
+import com.example.budgetmanagement.ui.utils.GetViewTransactionFields;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -33,7 +32,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddNewComingElement extends Fragment {
+public class AddNewComingElement extends Fragment implements GetViewComingFields {
 
     private CategoryBottomSheetSelector categoryBottomSheetSelector;
     private int categoryId = 1;
@@ -41,10 +40,18 @@ public class AddNewComingElement extends Fragment {
     private TextInputEditText dateField;
     private ArrayAdapter<String> adapter;
     private AutoCompleteTextView timeBetweenExecutePicker;
+    private SwitchMaterial profitSwitch;
     private SwitchMaterial cyclicalSwitch;
     private NewComingFragmentDataCollector newComingDataCollector;
+    private TextInputEditText title;
     private TextInputEditText endDate;
     private TextInputLayout endDateLayout;
+    private TextInputLayout timeBetweenPayLayout;
+    private AutoCompleteTextView selectedCategory;
+    private TextInputEditText amount;
+    private Button acceptButton;
+    private TextInputLayout titleLayout;
+    private TextInputLayout amountLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,14 +68,17 @@ public class AddNewComingElement extends Fragment {
     public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(rootView, savedInstanceState);
 
-        TextInputLayout timeBetweenPayLayout = rootView.findViewById(R.id.timeBetweenPayLayout);
-
+        timeBetweenPayLayout = rootView.findViewById(R.id.timeBetweenPayLayout);
         endDateLayout = rootView.findViewById(R.id.endDateLayout);
         endDate = rootView.findViewById(R.id.endDate);
-        AutoCompleteTextView selectedCategory = rootView.findViewById(R.id.categorySelector);
+        selectedCategory = rootView.findViewById(R.id.categorySelector);
         cyclicalSwitch = rootView.findViewById(R.id.isCyclical);
-        TextInputEditText amount = rootView.findViewById(R.id.amount);
-        Button acceptButton = rootView.findViewById(R.id.acceptButton);
+        title = rootView.findViewById(R.id.title);
+        titleLayout = rootView.findViewById(R.id.titleLayout);
+        amount = rootView.findViewById(R.id.amount);
+        amountLayout = rootView.findViewById(R.id.amountLayout);
+        profitSwitch = rootView.findViewById(R.id.isProfit);
+        acceptButton = rootView.findViewById(R.id.acceptButton);
         dateField = rootView.findViewById(R.id.startDate);
         dateField.setCursorVisible(false);
 
@@ -81,6 +91,12 @@ public class AddNewComingElement extends Fragment {
         selectedCategory.setCursorVisible(false);
         selectedCategory.setText("Różne");
         selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
+
+
+        title.setOnClickListener(view -> titleLayout.setError(null));
+        amount.setOnClickListener(view -> amountLayout.setError(null));
+        titleLayout.setOnClickListener(view -> titleLayout.setError(null));
+        amountLayout.setOnClickListener(view -> amountLayout.setError(null));
 
         Calendar selectedDate = Calendar.getInstance();
         dateField.setText(DateProcessor.getTodayDateInPattern(MONTH_NAME_YEAR_DATE_FORMAT));
@@ -121,8 +137,8 @@ public class AddNewComingElement extends Fragment {
         });
 
         acceptButton.setOnClickListener(view -> {
-            newComingDataCollector = new NewComingFragmentDataCollector(rootView);
-            boolean successfullyCollectedData = newComingDataCollector.collectData(categoryId);
+            newComingDataCollector = new NewComingFragmentDataCollector(this);
+            boolean successfullyCollectedData = newComingDataCollector.collectData();
 
             ArrayList<Long> dates =  newComingDataCollector.getAllDates();
 
@@ -171,5 +187,55 @@ public class AddNewComingElement extends Fragment {
             categoryId = categoryBottomSheetSelector.getSelectedId();
             categoryEditText.setText(categoryBottomSheetSelector.getSelectedName());
         });
+    }
+
+    @Override
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    @Override
+    public TextInputEditText getStartDateField() {
+        return dateField;
+    }
+
+    @Override
+    public AutoCompleteTextView getTimeBetweenExecutePicker() {
+        return timeBetweenExecutePicker;
+    }
+
+    @Override
+    public SwitchMaterial getCyclicalSwitch() {
+        return cyclicalSwitch;
+    }
+
+    @Override
+    public SwitchMaterial getProfitSwitch() {
+        return profitSwitch;
+    }
+
+    @Override
+    public TextInputEditText getEndDate() {
+        return endDate;
+    }
+
+    @Override
+    public TextInputEditText getTitleField() {
+        return title;
+    }
+
+    @Override
+    public TextInputLayout getTitleFieldLayout() {
+        return titleLayout;
+    }
+
+    @Override
+    public TextInputEditText getAmountField() {
+        return amount;
+    }
+
+    @Override
+    public TextInputLayout getAmountFieldLayout() {
+        return amountLayout;
     }
 }

@@ -1,10 +1,7 @@
 package com.example.budgetmanagement.ui.Coming;
 
-import android.app.assist.AssistStructure;
-import android.view.View;
 import android.widget.AutoCompleteTextView;
 
-import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Coming;
 import com.example.budgetmanagement.ui.History.NewTransactionDataCollector;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -15,20 +12,20 @@ import java.util.Calendar;
 
 public class NewComingFragmentDataCollector extends NewTransactionDataCollector {
 
-    private final View root;
+    private GetViewComingFields fieldsInterface;
 
-    public NewComingFragmentDataCollector(View root) {
-        super(root);
-        this.root = root;
+    public NewComingFragmentDataCollector(GetViewComingFields fieldsInterface) {
+        super(fieldsInterface);
+        this.fieldsInterface = fieldsInterface;
     }
 
     public long getStartDate() {
-        TextInputEditText startDate = this.root.findViewById(R.id.startDate);
+        TextInputEditText startDate = fieldsInterface.getStartDateField();
         return getDateInPatternFromTextField(startDate);
     }
 
     public long getEndDate() {
-        TextInputEditText endDate = this.root.findViewById(R.id.endDate);
+        TextInputEditText endDate = fieldsInterface.getEndDate();
         return getDateInPatternFromTextField(endDate);
     }
 
@@ -39,8 +36,8 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
 
     public ArrayList<Long> getAllDates() {
         ArrayList<Long> allDateToComingAdd = new ArrayList<>();
-        SwitchMaterial cyclicalSwitch = this.root.findViewById(R.id.isCyclical);
-        AutoCompleteTextView timeBetweenExecutePicker = this.root.findViewById(R.id.timeBetweenPay);
+        SwitchMaterial cyclicalSwitch = fieldsInterface.getCyclicalSwitch();
+        AutoCompleteTextView timeBetweenExecutePicker = fieldsInterface.getTimeBetweenExecutePicker();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(getStartDate());

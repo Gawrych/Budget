@@ -1,11 +1,15 @@
 package com.example.budgetmanagement.ui.History;
 
+import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
+
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -18,20 +22,32 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.History;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
+import com.example.budgetmanagement.ui.Coming.GetViewComingFields;
+import com.example.budgetmanagement.ui.Coming.NewComingFragmentDataCollector;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.example.budgetmanagement.ui.utils.DecimalDigitsInputFilter;
+import com.example.budgetmanagement.ui.utils.GetViewTransactionFields;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddNewElementToHistory extends Fragment {
+public class AddNewElementToHistory extends Fragment implements GetViewTransactionFields {
 
     private CategoryBottomSheetSelector categoryBottomSheetSelector;
     private int categoryId = 1;
     private DatePickerDialog datePickerDialog;
     private TextInputEditText dateField;
+    private TextInputEditText title;
+    private TextInputEditText amount;
+    private TextInputLayout titleLayout;
+    private TextInputLayout amountLayout;
+    private SwitchMaterial profitSwitch;
+    private AutoCompleteTextView selectedCategory;
 
 
     @Override
@@ -45,35 +61,51 @@ public class AddNewElementToHistory extends Fragment {
         super.onViewCreated(rootView, savedInstanceState);
         categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
 
+        selectedCategory = rootView.findViewById(R.id.categorySelector);
+        title = rootView.findViewById(R.id.title);
+        titleLayout = rootView.findViewById(R.id.titleLayout);
+        amount = rootView.findViewById(R.id.amount);
+        amountLayout = rootView.findViewById(R.id.amountLayout);
+        profitSwitch = rootView.findViewById(R.id.profitSwitch);
+        Button acceptButton = rootView.findViewById(R.id.acceptButton);
         dateField = rootView.findViewById(R.id.startDate);
-        dateField.setFocusable(false);
         dateField.setCursorVisible(false);
+
+        categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
+
         setDatePickerDialog();
 
-        TextInputEditText amount = rootView.findViewById(R.id.amount);
         amount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 2)});
 
-        Button acceptButton = rootView.findViewById(R.id.acceptButton);
+        selectedCategory.setCursorVisible(false);
+        selectedCategory.setText("Różne");
+        selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
+
+        // TODO Repair clearing error
+        title.setOnClickListener(view -> title.setError(null));
+        amount.setOnClickListener(view -> amountLayout.setError(null));
+        titleLayout.setOnClickListener(view -> titleLayout.setError(null));
+        amountLayout.setOnClickListener(view -> amountLayout.setError(null));
+
+        Calendar selectedDate = Calendar.getInstance();
+        dateField.setText(DateProcessor.getTodayDateInPattern(MONTH_NAME_YEAR_DATE_FORMAT));
+        dateField.setOnClickListener(view -> {
+            datePickerDialog.setOnDateSetListener((v, year, monthOfYear, dayOfMonth) -> {
+                selectedDate.set(year, monthOfYear, dayOfMonth);
+                dateField.setText(
+                        DateProcessor.parseDate((selectedDate.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
+            });
+            datePickerDialog.show();
+        });
+
         acceptButton.setOnClickListener(view -> {
-            NewTransactionDataCollector newTransactionDataCollector = new NewTransactionDataCollector(rootView);
-            boolean successfullyCollectedData = newTransactionDataCollector.collectData(categoryId);
+            NewTransactionDataCollector newTransactionDataCollector = new NewTransactionDataCollector(this);
+            boolean successfullyCollectedData = newTransactionDataCollector.collectData();
             if (successfullyCollectedData) {
                 submitNewHistoryItemToDatabase(newTransactionDataCollector);
                 requireActivity().onBackPressed();
             }
         });
-
-        dateField.setText(DateProcessor.getTodayDateInPattern());
-        dateField.setOnClickListener(view -> datePickerDialog.show());
-
-        TextInputEditText selectedCategory = rootView.findViewById(R.id.categorySelector);
-        selectedCategory.setFocusable(false);
-        selectedCategory.setCursorVisible(false);
-        selectedCategory.setText("Różne");
-        selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
-
-        Button cancelButton = rootView.findViewById(R.id.cancelButton);
-        cancelButton.setOnClickListener(view -> requireActivity().onBackPressed());
     }
 
     public void setDatePickerDialog() {
@@ -103,5 +135,40 @@ public class AddNewElementToHistory extends Fragment {
             categoryId = categoryBottomSheetSelector.getSelectedId();
             categoryEditText.setText(categoryBottomSheetSelector.getSelectedName());
         });
+    }
+
+    @Override
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    @Override
+    public TextInputEditText getStartDateField() {
+        return dateField;
+    }
+
+    @Override
+    public SwitchMaterial getProfitSwitch() {
+        return profitSwitch;
+    }
+
+    @Override
+    public TextInputEditText getTitleField() {
+        return title;
+    }
+
+    @Override
+    public TextInputLayout getTitleFieldLayout() {
+        return titleLayout;
+    }
+
+    @Override
+    public TextInputEditText getAmountField() {
+        return amount;
+    }
+
+    @Override
+    public TextInputLayout getAmountFieldLayout() {
+        return amountLayout;
     }
 }

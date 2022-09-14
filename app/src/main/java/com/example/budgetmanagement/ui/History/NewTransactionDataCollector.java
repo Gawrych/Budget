@@ -2,15 +2,11 @@ package com.example.budgetmanagement.ui.History;
 
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
-import android.view.View;
+import android.text.Editable;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
-
-import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Transaction;
-import com.example.budgetmanagement.ui.utils.EditFieldManager;
-import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.example.budgetmanagement.ui.utils.GetViewTransactionFields;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.math.BigDecimal;
@@ -20,31 +16,30 @@ import java.time.format.DateTimeFormatter;
 
 public class NewTransactionDataCollector {
 
-    private final View root;
     private BigDecimal amount;
     private String title;
     private long date;
     private boolean profit;
     private int categoryId;
-    private boolean contentExist;
+    private final GetViewTransactionFields fieldsInterface;
 
-    public NewTransactionDataCollector(View root) {
-        this.root = root;
+    public NewTransactionDataCollector(GetViewTransactionFields fieldsInterface) {
+        this.fieldsInterface = fieldsInterface;
     }
 
-    public boolean collectData(int categoryId) {
-        setCategoryId(categoryId);
+    public boolean collectData() {
+        this.categoryId = fieldsInterface.getCategoryId();
 
-//        TODO change to return boolean
-        setTitle();
-        if (!contentExist) {
+        boolean incorrectCollectedTitleContent = setTitle();
+        if (!incorrectCollectedTitleContent) {
             return false;
         }
 
-        prepareProfit();
-        setAmount();
-        if (!contentExist) {
-             return false;
+        profit = fieldsInterface.getProfitSwitch().isChecked();
+
+        boolean incorrectCollectedAmountContent = setAmount();
+        if (!incorrectCollectedAmountContent) {
+            return false;
         }
 
         setDateInPattern();
@@ -52,44 +47,41 @@ public class NewTransactionDataCollector {
         return true;
     }
 
-    private void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    private void setTitle() {
-        EditFieldManager titleField = new EditFieldManager(root, R.id.title);
-        initializeTitle(titleField);
-        checkFillingByLength(titleField);
-        if (!contentExist) {
-            titleField.setEmptyFieldErrorMessage();
+    private boolean setTitle() {
+        TextInputEditText titleField = fieldsInterface.getTitleField();
+        title = getContent(titleField);
+        if (contentNotExist(title)) {
+            fieldsInterface.getTitleFieldLayout().setError("Puste pole!");
+            return false;
         }
+        return true;
     }
 
-    private void initializeTitle(@NonNull EditFieldManager titleField) {
-        title = titleField.getContent();
-    }
-
-
-    private void checkFillingByLength(@NonNull EditFieldManager editTextField) {
-        contentExist = editTextField.checkIfContentExist();
-    }
-
-    private void setAmount() {
-        EditFieldManager amountField = new EditFieldManager(root, R.id.amount);
-        DecimalPrecision amountContent = new DecimalPrecision(amountField.getContent());
-        checkFillingByLength(amountField);
-        if (!contentExist) {
-            amountField.setEmptyFieldErrorMessage();
-        } else {
-            initializeAmount(amountContent);
+    private boolean setAmount() {
+        TextInputEditText amountField = fieldsInterface.getAmountField();
+        String amountContent = getContent(amountField);
+        if (contentNotExist(amountContent)) {
+            fieldsInterface.getAmountFieldLayout().setError("Puste pole!");
+            return false;
         }
+        DecimalPrecision amountDecimalPrecision = new DecimalPrecision(amountContent);
+        amount = addMinusIfNegativeAmount(amountDecimalPrecision.getParsedContent());
+        return true;
     }
 
-    private void initializeAmount(DecimalPrecision decimalPrecision) {
-        amount = addMinusToNegativeAmount(decimalPrecision.getParsedContent());
+    public boolean contentNotExist(String content) {
+        return content.length() < 1;
     }
 
-    private BigDecimal addMinusToNegativeAmount(BigDecimal number) {
+    private String getContent(TextInputEditText field) {
+        Editable editable = field.getText();
+        if (editable == null) {
+            return "";
+        }
+        return editable.toString();
+    }
+
+    private BigDecimal addMinusIfNegativeAmount(BigDecimal number) {
         if (!profit) {
             return number.negate();
         }
@@ -97,7 +89,7 @@ public class NewTransactionDataCollector {
     }
 
     private void setDateInPattern() {
-        TextInputEditText dateField = this.root.findViewById(R.id.startDate);
+        TextInputEditText dateField = fieldsInterface.getStartDateField();
         date = getDateInPatternFromTextField(dateField);
     }
 
@@ -113,15 +105,6 @@ public class NewTransactionDataCollector {
     private DateTimeFormatter getPattern() {
         return DateTimeFormatter.ofPattern(MONTH_NAME_YEAR_DATE_FORMAT);
     }
-
-    private void prepareProfit() {
-       profit = getProfitSwitch().isChecked();
-    }
-
-    private SwitchMaterial getProfitSwitch() {
-        return root.findViewById(R.id.isProfit);
-    }
-
 
     public Transaction getTransaction() {
         return new Transaction(0, this.categoryId, this.title,
