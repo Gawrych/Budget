@@ -92,7 +92,7 @@
             app:endIconContentDescription="calendarIcon">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/date"
+                android:id="@+id/startDate"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:focusable="false"
@@ -164,11 +164,10 @@
 
         <Button
             android:id="@+id/acceptButton"
-            style="@style/Widget.Material3.Button.ElevatedButton"
             android:layout_width="200dp"
+            android:layout_marginBottom="70dp"
             android:padding="10dp"
             app:backgroundTint="@color/main_green"
-            android:layout_marginBottom="70dp"
             android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

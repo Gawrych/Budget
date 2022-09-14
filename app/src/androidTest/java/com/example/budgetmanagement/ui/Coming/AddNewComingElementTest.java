@@ -51,7 +51,7 @@ public class AddNewComingElementTest extends TestCase {
     public void When_LoadFragment_Expect_DateFieldHasDefaultValue() {
         Calendar calendar = Calendar.getInstance();
         String parsedDate = DateProcessor.parseDate(calendar.getTimeInMillis(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
-        onView(withId(R.id.date)).check(matches(withText(parsedDate)));
+        onView(withId(R.id.startDate)).check(matches(withText(parsedDate)));
     }
 
     @Test

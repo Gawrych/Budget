@@ -45,7 +45,7 @@ public class AddNewElementToHistory extends Fragment {
         super.onViewCreated(rootView, savedInstanceState);
         categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
 
-        dateField = rootView.findViewById(R.id.date);
+        dateField = rootView.findViewById(R.id.startDate);
         dateField.setFocusable(false);
         dateField.setCursorVisible(false);
         setDatePickerDialog();
@@ -56,7 +56,7 @@ public class AddNewElementToHistory extends Fragment {
         Button acceptButton = rootView.findViewById(R.id.acceptButton);
         acceptButton.setOnClickListener(view -> {
             NewTransactionDataCollector newTransactionDataCollector = new NewTransactionDataCollector(rootView);
-            boolean successfullyCollectedData = newTransactionDataCollector.collectData(dateField, categoryId);
+            boolean successfullyCollectedData = newTransactionDataCollector.collectData(categoryId);
             if (successfullyCollectedData) {
                 submitNewHistoryItemToDatabase(newTransactionDataCollector);
                 requireActivity().onBackPressed();

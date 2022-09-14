@@ -17,9 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.test.espresso.Root;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.Rooms.Coming;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
 import com.example.budgetmanagement.ui.History.NewTransactionDataCollector;
@@ -42,12 +42,9 @@ public class AddNewComingElement extends Fragment {
     private ArrayAdapter<String> adapter;
     private AutoCompleteTextView timeBetweenExecutePicker;
     private SwitchMaterial cyclicalSwitch;
-    private ArrayList<Long> allDateToComingAdd = new ArrayList<>();
-    private NewTransactionDataCollector newTransactionDataCollector;
+    private NewComingFragmentDataCollector newComingDataCollector;
     private TextInputEditText endDate;
-    private long endDateSelected;
     private TextInputLayout endDateLayout;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,7 +69,7 @@ public class AddNewComingElement extends Fragment {
         cyclicalSwitch = rootView.findViewById(R.id.isCyclical);
         TextInputEditText amount = rootView.findViewById(R.id.amount);
         Button acceptButton = rootView.findViewById(R.id.acceptButton);
-        dateField = rootView.findViewById(R.id.date);
+        dateField = rootView.findViewById(R.id.startDate);
         dateField.setCursorVisible(false);
 
         categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
@@ -103,8 +100,6 @@ public class AddNewComingElement extends Fragment {
                 selectedDate.set(year, monthOfYear, dayOfMonth);
                 endDate.setText(
                         DateProcessor.parseDate((selectedDate.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
-
-                endDateSelected = selectedDate.getTimeInMillis();
             });
             datePickerDialog.show();
         });
@@ -126,21 +121,21 @@ public class AddNewComingElement extends Fragment {
         });
 
         acceptButton.setOnClickListener(view -> {
-            newTransactionDataCollector = new NewTransactionDataCollector(rootView);
-            boolean successfullyCollectedData = newTransactionDataCollector.collectData(dateField, categoryId);
-            long startDateSelected = newTransactionDataCollector.getTransaction().getAddDate();
-            getAllDates(startDateSelected);
+            newComingDataCollector = new NewComingFragmentDataCollector(rootView);
+            boolean successfullyCollectedData = newComingDataCollector.collectData(categoryId);
+
+            ArrayList<Long> dates =  newComingDataCollector.getAllDates();
 
             if (cyclicalSwitch.isChecked()) {
-                boolean lackDatesToCreateComing = allDateToComingAdd.size() < 2;
-                if (lackDatesToCreateComing) {
+                boolean notEnoughDatesToCreateCyclicalComing = dates.size() < 2;
+                if (notEnoughDatesToCreateCyclicalComing) {
                     successfullyCollectedData = false;
                     endDateLayout.setError("Nie wykona się ani razu, zmień datę lub okres");
                 }
             }
 
             if (successfullyCollectedData) {
-                submitNewComingItemToDatabase(newTransactionDataCollector);
+                submitNewComingItemToDatabase(newComingDataCollector, dates);
                 requireActivity().onBackPressed();
             }
         });
@@ -159,57 +154,15 @@ public class AddNewComingElement extends Fragment {
                 (view, year, monthOfYear, dayOfMonth) -> {}, mYear, mMonth, mDay);
     }
 
-    private void submitNewComingItemToDatabase(NewTransactionDataCollector newItem) {
+    private void submitNewComingItemToDatabase(NewComingFragmentDataCollector newComing, ArrayList<Long> dates) {
         TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
 
-        long transactionId = transactionViewModel.insert(newItem.getTransaction());
+        long transactionId = transactionViewModel.insert(newComing.getTransaction());
 
-        for (Long date : allDateToComingAdd) {
-            comingViewModel.insert(new Coming(0, (int) transactionId, (byte) 0, false,
-                    date, 0, Calendar.getInstance().getTimeInMillis(),
-                    0));
+        for (Long date : dates) {
+            comingViewModel.insert(newComing.getComing(transactionId, date));
         }
-    }
-
-    private void getAllDates(long startDate) {
-        allDateToComingAdd.clear();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(startDate);
-        long nextDate = calendar.getTimeInMillis();
-        if (cyclicalSwitch.isChecked()) {
-            int addAmount = 1;
-            int timeBetween = getTimeBetween();
-
-            if (timeBetweenExecutePicker.getText().toString().equals("Co kwartał")) {
-                addAmount = 3;
-                timeBetween = Calendar.MONTH;
-            }
-
-            while(nextDate <= endDateSelected) {
-                allDateToComingAdd.add(nextDate);
-                calendar.add(timeBetween, addAmount);
-                nextDate = calendar.getTimeInMillis();
-            }
-        } else {
-            allDateToComingAdd.add(nextDate);
-        }
-
-    }
-
-    private int getTimeBetween() {
-        String pickedTimeBetween = timeBetweenExecutePicker.getText().toString();
-        if ("Co dzień".equals(pickedTimeBetween)) {
-            return Calendar.DAY_OF_YEAR;
-        } else if ("Co tydzień".equals(pickedTimeBetween)) {
-            return Calendar.WEEK_OF_YEAR;
-        }else if ("Co miesiąc".equals(pickedTimeBetween)) {
-            return Calendar.MONTH;
-        } else if ("Co rok".equals(pickedTimeBetween)) {
-            return Calendar.YEAR;
-        }
-        return 0;
     }
 
     private void selectCategory(EditText categoryEditText) {

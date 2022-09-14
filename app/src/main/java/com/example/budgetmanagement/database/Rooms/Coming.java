@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "coming")
 public class Coming {
 
+    // TODO Change int to long in id fields
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "comingId")
     private int comingId;

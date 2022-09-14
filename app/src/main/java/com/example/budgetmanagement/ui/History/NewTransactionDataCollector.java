@@ -1,25 +1,22 @@
 package com.example.budgetmanagement.ui.History;
 
-import static com.example.budgetmanagement.ui.utils.DateProcessor.DEFAULT_DATE_FORMAT;
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
-import android.os.Build;
 import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Transaction;
 import com.example.budgetmanagement.ui.utils.EditFieldManager;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 
 public class NewTransactionDataCollector {
 
@@ -35,9 +32,10 @@ public class NewTransactionDataCollector {
         this.root = root;
     }
 
-    public boolean collectData(EditText calendar, int categoryId) {
+    public boolean collectData(int categoryId) {
         setCategoryId(categoryId);
 
+//        TODO change to return boolean
         setTitle();
         if (!contentExist) {
             return false;
@@ -49,7 +47,7 @@ public class NewTransactionDataCollector {
              return false;
         }
 
-        setDateInPattern(calendar);
+        setDateInPattern();
 
         return true;
     }
@@ -98,9 +96,14 @@ public class NewTransactionDataCollector {
         return number;
     }
 
-    private void setDateInPattern(EditText calendar) {
-        LocalDate localDate = getSelectedDateInPattern(calendar);
-        date = localDate.atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli();
+    private void setDateInPattern() {
+        TextInputEditText dateField = this.root.findViewById(R.id.startDate);
+        date = getDateInPatternFromTextField(dateField);
+    }
+
+    public long getDateInPatternFromTextField(TextInputEditText dateField) {
+        LocalDate localDate = getSelectedDateInPattern(dateField);
+        return localDate.atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli();
     }
 
     private LocalDate getSelectedDateInPattern(EditText calendar) {
@@ -121,9 +124,7 @@ public class NewTransactionDataCollector {
 
 
     public Transaction getTransaction() {
-        // TODO Change last modified date to 0 instead today date
-        Calendar today = Calendar.getInstance();
         return new Transaction(0, this.categoryId, this.title,
-                this.amount.toString(), date, today.getTimeInMillis(), this.profit);
+                this.amount.toString(), date, 0, this.profit);
     }
 }
