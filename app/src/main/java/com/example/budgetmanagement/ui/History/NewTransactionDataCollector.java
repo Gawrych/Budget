@@ -1,13 +1,21 @@
 package com.example.budgetmanagement.ui.History;
 
+import static androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread;
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
+import android.content.res.Resources;
 import android.text.Editable;
+import android.util.Log;
 import android.widget.EditText;
 
+import androidx.annotation.MainThread;
+
+import com.example.budgetmanagement.MainActivity;
+import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Transaction;
 import com.example.budgetmanagement.ui.utils.GetViewTransactionFields;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -30,15 +38,15 @@ public class NewTransactionDataCollector {
     public boolean collectData() {
         this.categoryId = fieldsInterface.getCategoryId();
 
-        boolean incorrectCollectedTitleContent = setTitle();
-        if (!incorrectCollectedTitleContent) {
+        boolean correctlySetTitleContent = setTitle();
+        if (!correctlySetTitleContent) {
             return false;
         }
 
         profit = fieldsInterface.getProfitSwitch().isChecked();
 
-        boolean incorrectCollectedAmountContent = setAmount();
-        if (!incorrectCollectedAmountContent) {
+        boolean correctlySetAmountContent = setAmount();
+        if (!correctlySetAmountContent) {
             return false;
         }
 
@@ -51,7 +59,14 @@ public class NewTransactionDataCollector {
         TextInputEditText titleField = fieldsInterface.getTitleField();
         title = getContent(titleField);
         if (contentNotExist(title)) {
-            fieldsInterface.getTitleFieldLayout().setError("Puste pole!");
+
+            try {
+                runOnUiThread(() -> fieldsInterface.getTitleFieldLayout()
+                        .setError(MainActivity.resources.getString(R.string.empty_field)));
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+
             return false;
         }
         return true;
@@ -61,7 +76,14 @@ public class NewTransactionDataCollector {
         TextInputEditText amountField = fieldsInterface.getAmountField();
         String amountContent = getContent(amountField);
         if (contentNotExist(amountContent)) {
-            fieldsInterface.getAmountFieldLayout().setError("Puste pole!");
+            
+            try {
+                runOnUiThread(() -> fieldsInterface.getAmountFieldLayout()
+                        .setError(MainActivity.resources.getString(R.string.empty_field)));
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+
             return false;
         }
         DecimalPrecision amountDecimalPrecision = new DecimalPrecision(amountContent);
