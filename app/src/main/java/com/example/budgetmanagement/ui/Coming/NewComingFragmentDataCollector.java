@@ -34,7 +34,7 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
                 date, 0, Calendar.getInstance().getTimeInMillis(), 0);
     }
 
-    public ArrayList<Long> getAllDates() {
+    public ArrayList<Long> getNextDates() {
         ArrayList<Long> allDateToComingAdd = new ArrayList<>();
         SwitchMaterial cyclicalSwitch = fieldsInterface.getCyclicalSwitch();
         AutoCompleteTextView timeBetweenExecutePicker = fieldsInterface.getTimeBetweenExecutePicker();

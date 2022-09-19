@@ -3,19 +3,14 @@ package com.example.budgetmanagement.ui.History;
 import static androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread;
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
-import android.content.res.Resources;
 import android.text.Editable;
-import android.util.Log;
 import android.widget.EditText;
-
-import androidx.annotation.MainThread;
 
 import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Transaction;
 import com.example.budgetmanagement.ui.utils.GetViewTransactionFields;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -61,7 +56,7 @@ public class NewTransactionDataCollector {
         if (contentNotExist(title)) {
 
             try {
-                runOnUiThread(() -> fieldsInterface.getTitleFieldLayout()
+                runOnUiThread(() -> fieldsInterface.getTitleLayoutField()
                         .setError(MainActivity.resources.getString(R.string.empty_field)));
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -78,7 +73,7 @@ public class NewTransactionDataCollector {
         if (contentNotExist(amountContent)) {
             
             try {
-                runOnUiThread(() -> fieldsInterface.getAmountFieldLayout()
+                runOnUiThread(() -> fieldsInterface.getAmountLayoutField()
                         .setError(MainActivity.resources.getString(R.string.empty_field)));
             } catch (Throwable e) {
                 e.printStackTrace();

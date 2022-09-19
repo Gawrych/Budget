@@ -36,7 +36,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddNewElementToHistory extends Fragment implements GetViewTransactionFields {
+public class AddNewHistoryElement extends Fragment implements GetViewTransactionFields {
 
     private CategoryBottomSheetSelector categoryBottomSheetSelector;
     private int categoryId = 1;
@@ -158,7 +158,7 @@ public class AddNewElementToHistory extends Fragment implements GetViewTransacti
     }
 
     @Override
-    public TextInputLayout getTitleFieldLayout() {
+    public TextInputLayout getTitleLayoutField() {
         return titleLayout;
     }
 
@@ -168,7 +168,7 @@ public class AddNewElementToHistory extends Fragment implements GetViewTransacti
     }
 
     @Override
-    public TextInputLayout getAmountFieldLayout() {
+    public TextInputLayout getAmountLayoutField() {
         return amountLayout;
     }
 }

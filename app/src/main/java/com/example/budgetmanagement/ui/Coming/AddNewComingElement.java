@@ -4,7 +4,10 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEA
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +27,6 @@ import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.example.budgetmanagement.ui.utils.DecimalDigitsInputFilter;
-import com.example.budgetmanagement.ui.utils.GetViewTransactionFields;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -52,6 +54,7 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     private Button acceptButton;
     private TextInputLayout titleLayout;
     private TextInputLayout amountLayout;
+    private TextWatcher myTextWatcher;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,12 +75,18 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         endDateLayout = rootView.findViewById(R.id.endDateLayout);
         endDate = rootView.findViewById(R.id.endDate);
         selectedCategory = rootView.findViewById(R.id.categorySelector);
-        cyclicalSwitch = rootView.findViewById(R.id.isCyclical);
+        cyclicalSwitch = rootView.findViewById(R.id.cyclicalSwitch);
         title = rootView.findViewById(R.id.title);
         titleLayout = rootView.findViewById(R.id.titleLayout);
+
+        Log.d("ErrorHandle", "layoutInitialization");
+        if (titleLayout == null) {
+            Log.d("ErrorHandle", "Null TitleLayout");
+        }
+
         amount = rootView.findViewById(R.id.amount);
         amountLayout = rootView.findViewById(R.id.amountLayout);
-        profitSwitch = rootView.findViewById(R.id.isProfit);
+        profitSwitch = rootView.findViewById(R.id.profitSwitch);
         acceptButton = rootView.findViewById(R.id.acceptButton);
         dateField = rootView.findViewById(R.id.startDate);
         dateField.setCursorVisible(false);
@@ -92,11 +101,8 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         selectedCategory.setText("Różne");
         selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
 
-
-        title.setOnClickListener(view -> titleLayout.setError(null));
-        amount.setOnClickListener(view -> amountLayout.setError(null));
-        titleLayout.setOnClickListener(view -> titleLayout.setError(null));
-        amountLayout.setOnClickListener(view -> amountLayout.setError(null));
+        clearErrorWhenTextChanged(title, titleLayout);
+        clearErrorWhenTextChanged(amount, amountLayout);
 
         Calendar selectedDate = Calendar.getInstance();
         dateField.setText(DateProcessor.getTodayDateInPattern(MONTH_NAME_YEAR_DATE_FORMAT));
@@ -117,6 +123,7 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
                 endDate.setText(
                         DateProcessor.parseDate((selectedDate.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
             });
+            // TODO Add alert if user add too much dates "Are you sure?"
             datePickerDialog.show();
         });
 
@@ -140,7 +147,7 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
             newComingDataCollector = new NewComingFragmentDataCollector(this);
             boolean successfullyCollectedData = newComingDataCollector.collectData();
 
-            ArrayList<Long> dates =  newComingDataCollector.getAllDates();
+            ArrayList<Long> dates =  newComingDataCollector.getNextDates();
 
             if (cyclicalSwitch.isChecked()) {
                 boolean notEnoughDatesToCreateCyclicalComing = dates.size() < 2;
@@ -189,6 +196,25 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         });
     }
 
+    private void clearErrorWhenTextChanged(TextInputEditText fieldToListenTextChange, TextInputLayout fieldToBeCleared) {
+        fieldToListenTextChange.addTextChangedListener(getTextWatcher(fieldToBeCleared));
+    }
+
+    private TextWatcher getTextWatcher(TextInputLayout fieldToBeCleared) {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                fieldToBeCleared.setError(null);
+            }
+        };
+    }
+
     @Override
     public int getCategoryId() {
         return categoryId;
@@ -225,7 +251,7 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     }
 
     @Override
-    public TextInputLayout getTitleFieldLayout() {
+    public TextInputLayout getTitleLayoutField() {
         return titleLayout;
     }
 
@@ -235,7 +261,7 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     }
 
     @Override
-    public TextInputLayout getAmountFieldLayout() {
+    public TextInputLayout getAmountLayoutField() {
         return amountLayout;
     }
 }

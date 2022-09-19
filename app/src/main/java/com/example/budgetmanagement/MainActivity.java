@@ -1,5 +1,6 @@
 package com.example.budgetmanagement;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 
@@ -19,12 +20,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private FilterViewModel filterViewModel;
+    public static Resources resources;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        resources = getResources();
 
         filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
 

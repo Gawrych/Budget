@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/addNewHistory"
-        android:name="com.example.budgetmanagement.ui.History.AddNewElementToHistory"
+        android:name="com.example.budgetmanagement.ui.History.AddNewHistoryElement"
         android:label="activity_add_new_history"
         tools:layout="@layout/add_new_history_element_fragment" >
         <action

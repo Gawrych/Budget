@@ -65,13 +65,11 @@ public class AddNewComingElementTest extends TestCase {
     }
 
     @Test
-    public void When_ClickToShowCyclicalFields_Expect_ShowCyclicalFields() {
-        onView(withId(R.id.isCyclical)).perform(click());
-
+    public void When_ClickToShowCyclicalFields_Expect_CyclicalFieldsAreVisible() {
+        onView(withId(R.id.cyclicalSwitch)).perform(click());
         onView(withId(R.id.timeBetweenPayLayout)).check(matches(isCompletelyDisplayed()));
         onView(withId(R.id.endDateLayout)).check(matches(isCompletelyDisplayed()));
         onView(withId(R.id.timeBetweenPay)).check(matches(isCompletelyDisplayed()));
         onView(withId(R.id.endDate)).check(matches(isCompletelyDisplayed()));
     }
-
 }

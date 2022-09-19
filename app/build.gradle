@@ -59,8 +59,8 @@ dependencies {
 
     // optional - ReactiveStreams support for LiveData
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:2.5.1"
-    implementation 'androidx.navigation:navigation-testing:2.5.1'
-    implementation 'androidx.appcompat:appcompat:1.6.0-beta01'
+    implementation 'androidx.navigation:navigation-testing:2.5.2'
+    implementation 'androidx.appcompat:appcompat:1.6.0-rc01'
 
     // optional - Test helpers for LiveData
     testImplementation "androidx.arch.core:core-testing:2.1.0"
@@ -71,8 +71,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.navigation:navigation-fragment:2.5.1'
-    implementation 'androidx.navigation:navigation-ui:2.5.1'
+    implementation 'androidx.navigation:navigation-fragment:2.5.2'
+    implementation 'androidx.navigation:navigation-ui:2.5.2'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -111,9 +111,9 @@ dependencies {
     // Optional -- Robolectric environment
     testImplementation "androidx.test:core:1.4.0"
     // Optional -- Mockito framework
-    testImplementation 'org.mockito:mockito-core:4.7.0'
+    testImplementation 'org.mockito:mockito-core:4.8.0'
     // Optional -- Mockk framework
-    testImplementation 'io.mockk:mockk:1.12.7'
+    testImplementation 'io.mockk:mockk:1.12.8'
 
     debugImplementation "androidx.fragment:fragment-testing:1.5.2"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -121,8 +121,17 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.4.0'
 
     implementation "androidx.annotation:annotation:1.4.0"
-    implementation "androidx.annotation:annotation-experimental:1.2.0"
+    implementation 'androidx.annotation:annotation-experimental:1.3.0'
 
     // Year picker
     implementation 'io.github.dzmitry-lakisau:month-year-picker-dialog:1.0.0'
+
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2') {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude module: 'support-annotations'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'appcompat-v7'
+    }
 }

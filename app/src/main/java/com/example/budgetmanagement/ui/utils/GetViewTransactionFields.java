@@ -14,9 +14,9 @@ public interface GetViewTransactionFields {
 
     SwitchMaterial getProfitSwitch();
 
-    TextInputLayout getTitleFieldLayout();
+    TextInputLayout getTitleLayoutField();
 
-    TextInputLayout getAmountFieldLayout();
+    TextInputLayout getAmountLayoutField();
 
     TextInputEditText getAmountField();
 }

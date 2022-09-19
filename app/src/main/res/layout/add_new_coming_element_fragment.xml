@@ -83,7 +83,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/dateLayout"
+            android:id="@+id/startDateLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/isProfit"
+            android:id="@+id/profitSwitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Przychód"
@@ -159,7 +159,7 @@
             android:layout_marginEnd="40dp" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/isCyclical"
+            android:id="@+id/cyclicalSwitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

@@ -86,6 +86,22 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
         return searchElement.map(Category::getName).orElse("");
     }
 
+    public static String getCategoryName(Integer id, Fragment rootFragment) {
+        if (id == null || id <= 0) {
+            return "";
+        }
+
+        List<Category> listOfEntity = new ViewModelProvider(rootFragment).get(CategoryViewModel.class).getCategoryList();
+        Optional<Category> searchElement;
+
+        searchElement = listOfEntity
+                .stream()
+                .filter(e -> e.getCategoryId() == id)
+                .findFirst();
+
+        return searchElement.map(Category::getName).orElse("");
+    }
+
     public void resetSelectedName() {
         this.selectedName = "Różne";
     }
