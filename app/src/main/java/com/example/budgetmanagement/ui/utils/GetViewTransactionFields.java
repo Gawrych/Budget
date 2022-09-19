@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.ui.utils;
 
+import android.content.Context;
+
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -19,4 +21,6 @@ public interface GetViewTransactionFields {
     TextInputLayout getAmountLayoutField();
 
     TextInputEditText getAmountField();
+
+    Context getFragmentContext();
 }

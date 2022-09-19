@@ -3,6 +3,7 @@ package com.example.budgetmanagement.ui.History;
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
@@ -78,7 +79,7 @@ public class AddNewHistoryElement extends Fragment implements GetViewTransaction
         amount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 2)});
 
         selectedCategory.setCursorVisible(false);
-        selectedCategory.setText("Różne");
+        selectedCategory.setText(rootView.getResources().getString(R.string.category_example_various));
         selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
 
         // TODO Repair clearing error
@@ -135,6 +136,11 @@ public class AddNewHistoryElement extends Fragment implements GetViewTransaction
             categoryId = categoryBottomSheetSelector.getSelectedId();
             categoryEditText.setText(categoryBottomSheetSelector.getSelectedName());
         });
+    }
+
+    @Override
+    public Context getFragmentContext() {
+        return requireContext();
     }
 
     @Override

@@ -11,13 +11,19 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static com.example.budgetmanagement.ui.utils.DateProcessor.DEFAULT_DATE_FORMAT;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.when;
+
+import android.content.Context;
+import android.content.res.Resources;
 
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
+import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
@@ -26,6 +32,9 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.configuration.MockAnnotationProcessor;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
@@ -39,15 +48,24 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
 
     private NewComingFragmentDataCollector comingFragmentDataCollector;
 
+    private Resources resources;
+
     @Before
     public void beforeClass() {
         FragmentScenario<AddNewComingElement> addNewComingElementFragmentScenario = FragmentScenario.launchInContainer(AddNewComingElement.class);
         addNewComingElementFragmentScenario.moveToState(Lifecycle.State.RESUMED);
-        addNewComingElementFragmentScenario.onFragment(this::setDataCollector);
+        addNewComingElementFragmentScenario.onFragment(getViewComingFields -> {
+            setDataCollector(getViewComingFields);
+            setResources(getViewComingFields);
+        });
     }
 
     private void setDataCollector(GetViewComingFields getViewComingFields) {
         comingFragmentDataCollector = new NewComingFragmentDataCollector(getViewComingFields);
+    }
+
+    private void setResources(GetViewComingFields getViewComingFields) {
+        resources = getViewComingFields.getFragmentContext().getResources();
     }
 
     private NewComingFragmentDataCollector collectDataWithFilledTitleAndAmount() {
@@ -87,7 +105,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
     public void When_SelectedTimeBetween_Expect_ChangeValueToSelected() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
         onView(withId(R.id.timeBetweenPay)).perform(click());
-        onData(equalTo("Co rok")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+        onData(equalTo(resources.getString(R.string.each_year))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
         onView(withId(R.id.timeBetweenPay)).check(matches(withText("Co rok")));
     }
 
@@ -95,7 +113,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
     public void When_SetDayCyclical_Expect_CorrectlyCollectedNextDates() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
         onView(withId(R.id.timeBetweenPay)).perform(click());
-        onData(equalTo("Co dzień")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+        onData(equalTo(resources.getString(R.string.each_day))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
         long startDateInMillis = getStartDate().getTimeInMillis();
         String startDateInPattern = DateProcessor.parseDate(startDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
@@ -122,7 +140,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
     public void When_SetMonthCyclical_Expect_CorrectlyCollectedNextDates() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
         onView(withId(R.id.timeBetweenPay)).perform(click());
-        onData(equalTo("Co miesiąc")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+        onData(equalTo(resources.getString(R.string.each_month))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
         long startDateInMillis = getStartDate().getTimeInMillis();
         String startDateInPattern = DateProcessor.parseDate(startDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
@@ -147,7 +165,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
     public void When_SetWeekCyclical_Expect_CorrectlyCollectedNextDates() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
         onView(withId(R.id.timeBetweenPay)).perform(click());
-        onData(equalTo("Co tydzień")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+        onData(equalTo(resources.getString(R.string.each_week))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
         long startDateInMillis = getStartDate().getTimeInMillis();
         String startDateInPattern = DateProcessor.parseDate(startDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
@@ -176,7 +194,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
     public void When_SetQuarterCyclical_Expect_CorrectlyCollectedNextDates() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
         onView(withId(R.id.timeBetweenPay)).perform(click());
-        onData(equalTo("Co kwartał")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+        onData(equalTo(resources.getString(R.string.each_quarter))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
         long startDateInMillis = getStartDate().getTimeInMillis();
         String startDateInPattern = DateProcessor.parseDate(startDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
@@ -201,7 +219,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
     public void When_SetYearCyclical_Expect_CorrectlyCollectedNextDates() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
         onView(withId(R.id.timeBetweenPay)).perform(click());
-        onData(equalTo("Co rok")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+        onData(equalTo(resources.getString(R.string.each_year))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
         long startDateInMillis = getStartDate().getTimeInMillis();
         String startDateInPattern = DateProcessor.parseDate(startDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);

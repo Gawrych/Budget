@@ -1,7 +1,10 @@
 package com.example.budgetmanagement.ui.Coming;
 
+import android.content.res.Resources;
+import android.util.ArrayMap;
 import android.widget.AutoCompleteTextView;
 
+import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Coming;
 import com.example.budgetmanagement.ui.History.NewTransactionDataCollector;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -12,11 +15,22 @@ import java.util.Calendar;
 
 public class NewComingFragmentDataCollector extends NewTransactionDataCollector {
 
-    private GetViewComingFields fieldsInterface;
+    private final GetViewComingFields fieldsInterface;
+    private final ArrayMap<String, Integer> timeBetweenValues;
+
+    private final int QUARTER_OF_YEAR = 0;
 
     public NewComingFragmentDataCollector(GetViewComingFields fieldsInterface) {
         super(fieldsInterface);
         this.fieldsInterface = fieldsInterface;
+        Resources resources = fieldsInterface.getFragmentContext().getResources();
+
+        timeBetweenValues = new ArrayMap<>();
+        timeBetweenValues.put(resources.getString(R.string.each_day), Calendar.DAY_OF_YEAR);
+        timeBetweenValues.put(resources.getString(R.string.each_week), Calendar.WEEK_OF_YEAR);
+        timeBetweenValues.put(resources.getString(R.string.each_month), Calendar.MONTH);
+        timeBetweenValues.put(resources.getString(R.string.each_quarter), QUARTER_OF_YEAR);
+        timeBetweenValues.put(resources.getString(R.string.each_year), Calendar.YEAR);
     }
 
     public long getStartDate() {
@@ -35,7 +49,7 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
     }
 
     public ArrayList<Long> getNextDates() {
-        ArrayList<Long> allDateToComingAdd = new ArrayList<>();
+        ArrayList<Long> allDatesToCreateNewComing = new ArrayList<>();
         SwitchMaterial cyclicalSwitch = fieldsInterface.getCyclicalSwitch();
         AutoCompleteTextView timeBetweenExecutePicker = fieldsInterface.getTimeBetweenExecutePicker();
 
@@ -44,36 +58,28 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
         long nextDate = calendar.getTimeInMillis();
 
         if (cyclicalSwitch.isChecked()) {
-            int addAmount = 1;
-            int timeBetween = getNumberFromTimeBetweenField(timeBetweenExecutePicker.getText().toString());
+            int howMuchAddToCreateNextDate = 1;
 
-            if (timeBetweenExecutePicker.getText().toString().equals("Co kwartał")) {
-                addAmount = 3;
+            Integer valueFromTimeBetweenMap = timeBetweenValues.get(timeBetweenExecutePicker.getText().toString());
+            assert valueFromTimeBetweenMap != null;
+            int timeBetween = valueFromTimeBetweenMap;
+
+            if (timeBetween == QUARTER_OF_YEAR) {
+                howMuchAddToCreateNextDate = 3;
                 timeBetween = Calendar.MONTH;
             }
 
-            while(nextDate <= getEndDate()) {
-                allDateToComingAdd.add(nextDate);
-                calendar.add(timeBetween, addAmount);
+            long endDate = getEndDate();
+
+            while(nextDate <= endDate) {
+                allDatesToCreateNewComing.add(nextDate);
+                calendar.add(timeBetween, howMuchAddToCreateNextDate);
                 nextDate = calendar.getTimeInMillis();
             }
         } else {
-            allDateToComingAdd.add(nextDate);
+            allDatesToCreateNewComing.add(nextDate);
         }
 
-        return allDateToComingAdd;
-    }
-
-    private int getNumberFromTimeBetweenField(String pickedTimeBetween) {
-        if ("Co dzień".equals(pickedTimeBetween)) {
-            return Calendar.DAY_OF_YEAR;
-        } else if ("Co tydzień".equals(pickedTimeBetween)) {
-            return Calendar.WEEK_OF_YEAR;
-        }else if ("Co miesiąc".equals(pickedTimeBetween)) {
-            return Calendar.MONTH;
-        } else if ("Co rok".equals(pickedTimeBetween)) {
-            return Calendar.YEAR;
-        }
-        return 0;
+        return allDatesToCreateNewComing;
     }
 }

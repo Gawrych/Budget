@@ -3,11 +3,11 @@ package com.example.budgetmanagement.ui.Coming;
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,11 +79,6 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         title = rootView.findViewById(R.id.title);
         titleLayout = rootView.findViewById(R.id.titleLayout);
 
-        Log.d("ErrorHandle", "layoutInitialization");
-        if (titleLayout == null) {
-            Log.d("ErrorHandle", "Null TitleLayout");
-        }
-
         amount = rootView.findViewById(R.id.amount);
         amountLayout = rootView.findViewById(R.id.amountLayout);
         profitSwitch = rootView.findViewById(R.id.profitSwitch);
@@ -98,7 +93,7 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         amount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 2)});
 
         selectedCategory.setCursorVisible(false);
-        selectedCategory.setText("Różne");
+        selectedCategory.setText(R.string.category_example_various);
         selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
 
         clearErrorWhenTextChanged(title, titleLayout);
@@ -130,8 +125,16 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         cyclicalSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (cyclicalSwitch.isChecked()) {
                 if (adapter == null) {
+                    final String[] TIME_BETWEEN = new String[] {
+                            getString(R.string.each_day),
+                            getString(R.string.each_week),
+                            getString(R.string.each_month),
+                            getString(R.string.each_quarter),
+                            getString(R.string.each_year)
+                    };
+
                     adapter = new ArrayAdapter<>(getActivity(),
-                            android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+                            android.R.layout.simple_dropdown_item_1line, TIME_BETWEEN);
                     timeBetweenExecutePicker = rootView.findViewById(R.id.timeBetweenPay);
                     timeBetweenExecutePicker.setAdapter(adapter);
                 }
@@ -163,10 +166,6 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
             }
         });
     }
-
-    private static final String[] COUNTRIES = new String[] {
-            "Co dzień", "Co tydzień", "Co miesiąc", "Co kwartał", "Co rok"
-    };
 
     private void setDatePickerDialog() {
         final Calendar calendarInstance = Calendar.getInstance();
@@ -215,6 +214,7 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         };
     }
 
+
     @Override
     public int getCategoryId() {
         return categoryId;
@@ -258,6 +258,11 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     @Override
     public TextInputEditText getAmountField() {
         return amount;
+    }
+
+    @Override
+    public Context getFragmentContext() {
+        return requireContext();
     }
 
     @Override

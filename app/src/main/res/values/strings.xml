@@ -59,4 +59,9 @@
     <string name="cancel_pay">Anuluj opłacenie</string>
     <string name="paid">opłacono</string>
     <string name="empty_field">Puste pole!</string>
+    <string name="each_day">Co dzień</string>
+    <string name="each_week">Co tydzień</string>
+    <string name="each_month">Co miesiąc</string>
+    <string name="each_quarter">Co kwartał</string>
+    <string name="each_year">Co rok</string>
 </resources>
