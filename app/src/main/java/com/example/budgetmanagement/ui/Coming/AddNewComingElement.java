@@ -2,6 +2,7 @@ package com.example.budgetmanagement.ui.Coming;
 
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -51,10 +52,10 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     private TextInputLayout timeBetweenPayLayout;
     private AutoCompleteTextView selectedCategory;
     private TextInputEditText amount;
-    private Button acceptButton;
     private TextInputLayout titleLayout;
     private TextInputLayout amountLayout;
-    private TextWatcher myTextWatcher;
+    private boolean successfullyCollectedData;
+    private final int MINIMAL_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING = 2;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         amount = rootView.findViewById(R.id.amount);
         amountLayout = rootView.findViewById(R.id.amountLayout);
         profitSwitch = rootView.findViewById(R.id.profitSwitch);
-        acceptButton = rootView.findViewById(R.id.acceptButton);
+        Button acceptButton = rootView.findViewById(R.id.acceptButton);
         dateField = rootView.findViewById(R.id.startDate);
         dateField.setCursorVisible(false);
 
@@ -118,7 +119,6 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
                 endDate.setText(
                         DateProcessor.parseDate((selectedDate.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
             });
-            // TODO Add alert if user add too much dates "Are you sure?"
             datePickerDialog.show();
         });
 
@@ -148,21 +148,29 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
 
         acceptButton.setOnClickListener(view -> {
             newComingDataCollector = new NewComingFragmentDataCollector(this);
-            boolean successfullyCollectedData = newComingDataCollector.collectData();
+            successfullyCollectedData = newComingDataCollector.collectData();
 
             ArrayList<Long> dates =  newComingDataCollector.getNextDates();
+            int amountOfNewDates = dates.size();
 
+//            TODO Rewrite this to better look
             if (cyclicalSwitch.isChecked()) {
-                boolean notEnoughDatesToCreateCyclicalComing = dates.size() < 2;
-                if (notEnoughDatesToCreateCyclicalComing) {
-                    successfullyCollectedData = false;
+                if (amountOfNewDates > 25) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                    builder.setMessage("Czy na pewno chcesz dodać wszystkie daty? Jest ich "+ amountOfNewDates)
+                            .setNegativeButton(R.string.cancel, (dialog, id) -> {})
+                            .setPositiveButton("Dodaj", (dialog, id) -> {
+                                submitNewComingItemToDatabase(newComingDataCollector, dates);
+                            }).show();
+                }
+
+                if (amountOfNewDates < MINIMAL_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
                     endDateLayout.setError("Nie wykona się ani razu, zmień datę lub okres");
                 }
-            }
-
-            if (successfullyCollectedData) {
-                submitNewComingItemToDatabase(newComingDataCollector, dates);
-                requireActivity().onBackPressed();
+            } else {
+                if (successfullyCollectedData) {
+                    submitNewComingItemToDatabase(newComingDataCollector, dates);
+                }
             }
         });
     }
@@ -185,6 +193,7 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         for (Long date : dates) {
             comingViewModel.insert(newComing.getComing(transactionId, date));
         }
+        requireActivity().onBackPressed();
     }
 
     private void selectCategory(EditText categoryEditText) {

@@ -5,7 +5,9 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEA
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,15 +80,12 @@ public class AddNewHistoryElement extends Fragment implements GetViewTransaction
 
         amount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 2)});
 
+        clearErrorWhenTextChanged(title, titleLayout);
+        clearErrorWhenTextChanged(amount, amountLayout);
+
         selectedCategory.setCursorVisible(false);
         selectedCategory.setText(rootView.getResources().getString(R.string.category_example_various));
         selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
-
-        // TODO Repair clearing error
-        title.setOnClickListener(view -> title.setError(null));
-        amount.setOnClickListener(view -> amountLayout.setError(null));
-        titleLayout.setOnClickListener(view -> titleLayout.setError(null));
-        amountLayout.setOnClickListener(view -> amountLayout.setError(null));
 
         Calendar selectedDate = Calendar.getInstance();
         dateField.setText(DateProcessor.getTodayDateInPattern(MONTH_NAME_YEAR_DATE_FORMAT));
@@ -107,6 +106,25 @@ public class AddNewHistoryElement extends Fragment implements GetViewTransaction
                 requireActivity().onBackPressed();
             }
         });
+    }
+
+    private void clearErrorWhenTextChanged(TextInputEditText fieldToListenTextChange, TextInputLayout fieldToBeCleared) {
+        fieldToListenTextChange.addTextChangedListener(getTextWatcher(fieldToBeCleared));
+    }
+
+    private TextWatcher getTextWatcher(TextInputLayout fieldToBeCleared) {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                fieldToBeCleared.setError(null);
+            }
+        };
     }
 
     public void setDatePickerDialog() {
