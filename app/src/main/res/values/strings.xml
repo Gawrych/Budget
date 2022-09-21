@@ -64,4 +64,5 @@
     <string name="each_month">Co miesiąc</string>
     <string name="each_quarter">Co kwartał</string>
     <string name="each_year">Co rok</string>
+    <string name="not_enough_to_generate_cyclical_change_endDate_or_timeBetwen">Nie wykona się ani razu, zmień datę lub okres</string>
 </resources>

@@ -72,14 +72,14 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(rootView, savedInstanceState);
 
-        timeBetweenPayLayout = rootView.findViewById(R.id.timeBetweenPayLayout);
         endDateLayout = rootView.findViewById(R.id.endDateLayout);
         endDate = rootView.findViewById(R.id.endDate);
         selectedCategory = rootView.findViewById(R.id.categorySelector);
         cyclicalSwitch = rootView.findViewById(R.id.cyclicalSwitch);
         title = rootView.findViewById(R.id.title);
+        timeBetweenPayLayout = rootView.findViewById(R.id.timeBetweenPayLayout);
+        timeBetweenExecutePicker = rootView.findViewById(R.id.timeBetweenPay);
         titleLayout = rootView.findViewById(R.id.titleLayout);
-
         amount = rootView.findViewById(R.id.amount);
         amountLayout = rootView.findViewById(R.id.amountLayout);
         profitSwitch = rootView.findViewById(R.id.profitSwitch);
@@ -99,6 +99,8 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
 
         clearErrorWhenTextChanged(title, titleLayout);
         clearErrorWhenTextChanged(amount, amountLayout);
+        clearErrorWhenTextChanged(endDate, endDateLayout);
+        clearErrorWhenTextChanged(timeBetweenExecutePicker, endDateLayout);
 
         Calendar selectedDate = Calendar.getInstance();
         dateField.setText(DateProcessor.getTodayDateInPattern(MONTH_NAME_YEAR_DATE_FORMAT));
@@ -135,7 +137,6 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
 
                     adapter = new ArrayAdapter<>(getActivity(),
                             android.R.layout.simple_dropdown_item_1line, TIME_BETWEEN);
-                    timeBetweenExecutePicker = rootView.findViewById(R.id.timeBetweenPay);
                     timeBetweenExecutePicker.setAdapter(adapter);
                 }
                 timeBetweenPayLayout.setVisibility(View.VISIBLE);
@@ -156,18 +157,18 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
 
 //            TODO Rewrite this to better look
                 if (cyclicalSwitch.isChecked()) {
-                    if (amountOfNewDates > 25) {
+                    if (amountOfNewDates < MINIMAL_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
+                        endDateLayout.setError(getString(R.string.not_enough_to_generate_cyclical_change_endDate_or_timeBetwen));
+                    } else if (amountOfNewDates > 25) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
                         builder.setMessage("Czy na pewno chcesz dodać wszystkie daty? Jest ich " + amountOfNewDates)
-                                .setNegativeButton(R.string.cancel, (dialog, id) -> {
-                                })
+                                .setNegativeButton(R.string.cancel, (dialog, id) -> {})
                                 .setPositiveButton("Dodaj", (dialog, id) -> {
                                     submitNewComingItemToDatabase(newComingDataCollector, dates);
                                 }).show();
-                    }
 
-                    if (amountOfNewDates < MINIMAL_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
-                        endDateLayout.setError("Nie wykona się ani razu, zmień datę lub okres");
+                    } else {
+                        submitNewComingItemToDatabase(newComingDataCollector, dates);
                     }
                 } else {
                     submitNewComingItemToDatabase(newComingDataCollector, dates);
@@ -205,7 +206,7 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         });
     }
 
-    private void clearErrorWhenTextChanged(TextInputEditText fieldToListenTextChange, TextInputLayout fieldToBeCleared) {
+    private void clearErrorWhenTextChanged(EditText fieldToListenTextChange, TextInputLayout fieldToBeCleared) {
         fieldToListenTextChange.addTextChangedListener(getTextWatcher(fieldToBeCleared));
     }
 

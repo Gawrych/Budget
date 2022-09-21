@@ -91,15 +91,7 @@ public class NewTransactionDataCollector {
         return content.length() < 1;
     }
 
-    public String getContent(TextInputEditText field) {
-        Editable editable = field.getText();
-        if (editable == null) {
-            return "";
-        }
-        return editable.toString();
-    }
-
-    public String getContent(AutoCompleteTextView field) {
+    public String getContent(EditText field) {
         Editable editable = field.getText();
         if (editable == null) {
             return "";
