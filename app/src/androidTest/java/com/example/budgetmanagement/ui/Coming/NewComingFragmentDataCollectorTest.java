@@ -11,19 +11,15 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static com.example.budgetmanagement.ui.utils.DateProcessor.DEFAULT_DATE_FORMAT;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.when;
 
-import android.content.Context;
 import android.content.res.Resources;
 
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
-import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
@@ -32,9 +28,6 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.configuration.MockAnnotationProcessor;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
@@ -68,11 +61,12 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         resources = getViewComingFields.getFragmentContext().getResources();
     }
 
-    private NewComingFragmentDataCollector collectDataWithFilledTitleAndAmount() {
+    private NewComingFragmentDataCollector collectDataWithFilledRequireFields() {
         String titleValue = "Hello World!";
         onView(withId(R.id.title)).perform(typeText(titleValue));
         String amountValue = "1.00";
         onView(withId(R.id.amount)).perform(typeText(amountValue));
+
         boolean correctlyCollected = comingFragmentDataCollector.collectData();
         if (!correctlyCollected) {
             fail();
@@ -93,10 +87,13 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
     @Test
     public void When_SelectDateInEndDatePicker_Expect_EndDatePickerHasSelectedDate() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
+        onView(withId(R.id.timeBetweenPay)).perform(click());
+        onData(equalTo(resources.getString(R.string.each_day))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
         long newDateInMillis = getTomorrow().getTimeInMillis();
         String newDateInPattern = DateProcessor.parseDate(newDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
         onView(withId(R.id.endDate)).perform(replaceText(newDateInPattern));
-        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledTitleAndAmount();
+        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledRequireFields();
         long collectDate = collectedComingFields.getEndDate();
         assertEquals(newDateInMillis, collectDate);
     }
@@ -123,7 +120,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         String endDateInPattern = DateProcessor.parseDate(endDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
         onView(withId(R.id.endDate)).perform(replaceText(endDateInPattern));
 
-        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledTitleAndAmount();
+        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledRequireFields();
         ArrayList<Long> nextDates = collectedComingFields.getNextDates();
 
         ArrayList<Long> exampleDates = new ArrayList<>();
@@ -150,7 +147,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         String endDateInPattern = DateProcessor.parseDate(endDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
         onView(withId(R.id.endDate)).perform(replaceText(endDateInPattern));
 
-        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledTitleAndAmount();
+        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledRequireFields();
         ArrayList<Long> nextDates = collectedComingFields.getNextDates();
 
         ArrayList<Long> exampleDates = new ArrayList<>();
@@ -175,7 +172,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         String endDateInPattern = DateProcessor.parseDate(endDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
         onView(withId(R.id.endDate)).perform(replaceText(endDateInPattern));
 
-        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledTitleAndAmount();
+        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledRequireFields();
         ArrayList<Long> nextDates = collectedComingFields.getNextDates();
 
         ArrayList<Long> exampleDates = new ArrayList<>();
@@ -204,7 +201,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         String endDateInPattern = DateProcessor.parseDate(endDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
         onView(withId(R.id.endDate)).perform(replaceText(endDateInPattern));
 
-        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledTitleAndAmount();
+        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledRequireFields();
         ArrayList<Long> nextDates = collectedComingFields.getNextDates();
 
         ArrayList<Long> exampleDates = new ArrayList<>();
@@ -229,7 +226,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         String endDateInPattern = DateProcessor.parseDate(endDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
         onView(withId(R.id.endDate)).perform(replaceText(endDateInPattern));
 
-        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledTitleAndAmount();
+        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledRequireFields();
         ArrayList<Long> nextDates = collectedComingFields.getNextDates();
 
         ArrayList<Long> exampleDates = new ArrayList<>();
@@ -239,6 +236,37 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         exampleDates.add(getMillisFromPattern("01.01.2025"));
 
         assertEquals(exampleDates, nextDates);
+    }
+
+    @Test
+    public void When_CollectDataWithEmptyEndDate_Expect_CollectedDataFailed() {
+        onView(withId(R.id.cyclicalSwitch)).perform(click());
+        onView(withId(R.id.timeBetweenPay)).perform(click());
+        onData(equalTo(resources.getString(R.string.each_year))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+        String titleValue = "Hello World!";
+        onView(withId(R.id.title)).perform(typeText(titleValue));
+        String amountValue = "1.00";
+        onView(withId(R.id.amount)).perform(typeText(amountValue));
+        boolean correctlyCollected = comingFragmentDataCollector.collectData();
+        if (correctlyCollected) {
+            fail();
+        }
+    }
+
+    @Test
+    public void When_CollectDataWithEmptyTimeBetween_Expect_CollectedDataFailed() {
+        onView(withId(R.id.cyclicalSwitch)).perform(click());
+        onView(withId(R.id.endDate)).perform(replaceText("13 march 2022"));
+
+        String titleValue = "Hello World!";
+        onView(withId(R.id.title)).perform(typeText(titleValue));
+        String amountValue = "1.00";
+        onView(withId(R.id.amount)).perform(typeText(amountValue));
+        boolean correctlyCollected = comingFragmentDataCollector.collectData();
+        if (correctlyCollected) {
+            fail();
+        }
     }
 
     private Calendar getStartDate() {

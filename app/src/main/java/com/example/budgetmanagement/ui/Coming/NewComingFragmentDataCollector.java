@@ -1,9 +1,12 @@
 package com.example.budgetmanagement.ui.Coming;
 
+import static androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread;
+
 import android.content.res.Resources;
 import android.util.ArrayMap;
 import android.widget.AutoCompleteTextView;
 
+import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Coming;
 import com.example.budgetmanagement.ui.History.NewTransactionDataCollector;
@@ -17,6 +20,8 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
 
     private final GetViewComingFields fieldsInterface;
     private final ArrayMap<String, Integer> timeBetweenValues;
+    private TextInputEditText endDate;
+    private AutoCompleteTextView timeBetweenExecutePicker;
 
     private final int QUARTER_OF_YEAR = 0;
 
@@ -33,13 +38,56 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
         timeBetweenValues.put(resources.getString(R.string.each_year), Calendar.YEAR);
     }
 
+    @Override
+    public boolean collectData() {
+        super.collectData();
+
+        boolean correctlySetEndDateContent = setEndDate();
+        if (!correctlySetEndDateContent) {
+            return false;
+        }
+
+        boolean correctlySetTimeBetweenContent = setTimeBetween();
+        if (!correctlySetTimeBetweenContent) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    private boolean setTimeBetween() {
+        timeBetweenExecutePicker = fieldsInterface.getTimeBetweenExecutePicker();
+        if (contentNotExist(getContent(timeBetweenExecutePicker))) {
+            try {
+                runOnUiThread(() -> timeBetweenExecutePicker.setError(MainActivity.resources.getString(R.string.empty_field)));
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private boolean setEndDate() {
+        endDate = fieldsInterface.getEndDate();
+        if (contentNotExist(getContent(endDate))) {
+            try {
+                runOnUiThread(() -> endDate.setError(MainActivity.resources.getString(R.string.empty_field)));
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+        return true;
+    }
+
     public long getStartDate() {
         TextInputEditText startDate = fieldsInterface.getStartDateField();
         return getDateInPatternFromTextField(startDate);
     }
 
     public long getEndDate() {
-        TextInputEditText endDate = fieldsInterface.getEndDate();
+
         return getDateInPatternFromTextField(endDate);
     }
 
@@ -51,7 +99,6 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
     public ArrayList<Long> getNextDates() {
         ArrayList<Long> allDatesToCreateNewComing = new ArrayList<>();
         SwitchMaterial cyclicalSwitch = fieldsInterface.getCyclicalSwitch();
-        AutoCompleteTextView timeBetweenExecutePicker = fieldsInterface.getTimeBetweenExecutePicker();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(getStartDate());

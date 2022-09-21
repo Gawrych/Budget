@@ -150,25 +150,26 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
             newComingDataCollector = new NewComingFragmentDataCollector(this);
             successfullyCollectedData = newComingDataCollector.collectData();
 
-            ArrayList<Long> dates =  newComingDataCollector.getNextDates();
-            int amountOfNewDates = dates.size();
+            if (successfullyCollectedData) {
+                ArrayList<Long> dates = newComingDataCollector.getNextDates();
+                int amountOfNewDates = dates.size();
 
 //            TODO Rewrite this to better look
-            if (cyclicalSwitch.isChecked()) {
-                if (amountOfNewDates > 25) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-                    builder.setMessage("Czy na pewno chcesz dodać wszystkie daty? Jest ich "+ amountOfNewDates)
-                            .setNegativeButton(R.string.cancel, (dialog, id) -> {})
-                            .setPositiveButton("Dodaj", (dialog, id) -> {
-                                submitNewComingItemToDatabase(newComingDataCollector, dates);
-                            }).show();
-                }
+                if (cyclicalSwitch.isChecked()) {
+                    if (amountOfNewDates > 25) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                        builder.setMessage("Czy na pewno chcesz dodać wszystkie daty? Jest ich " + amountOfNewDates)
+                                .setNegativeButton(R.string.cancel, (dialog, id) -> {
+                                })
+                                .setPositiveButton("Dodaj", (dialog, id) -> {
+                                    submitNewComingItemToDatabase(newComingDataCollector, dates);
+                                }).show();
+                    }
 
-                if (amountOfNewDates < MINIMAL_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
-                    endDateLayout.setError("Nie wykona się ani razu, zmień datę lub okres");
-                }
-            } else {
-                if (successfullyCollectedData) {
+                    if (amountOfNewDates < MINIMAL_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
+                        endDateLayout.setError("Nie wykona się ani razu, zmień datę lub okres");
+                    }
+                } else {
                     submitNewComingItemToDatabase(newComingDataCollector, dates);
                 }
             }

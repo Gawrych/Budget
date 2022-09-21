@@ -4,6 +4,7 @@ import static androidx.test.internal.runner.junit4.statement.UiThreadStatement.r
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
 import android.text.Editable;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 import com.example.budgetmanagement.MainActivity;
@@ -90,7 +91,15 @@ public class NewTransactionDataCollector {
         return content.length() < 1;
     }
 
-    private String getContent(TextInputEditText field) {
+    public String getContent(TextInputEditText field) {
+        Editable editable = field.getText();
+        if (editable == null) {
+            return "";
+        }
+        return editable.toString();
+    }
+
+    public String getContent(AutoCompleteTextView field) {
         Editable editable = field.getText();
         if (editable == null) {
             return "";
