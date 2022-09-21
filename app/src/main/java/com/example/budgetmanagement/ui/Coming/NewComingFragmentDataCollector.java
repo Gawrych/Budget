@@ -59,7 +59,8 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
         timeBetweenExecutePicker = fieldsInterface.getTimeBetweenExecutePicker();
         if (contentNotExist(getContent(timeBetweenExecutePicker))) {
             try {
-                runOnUiThread(() -> timeBetweenExecutePicker.setError(MainActivity.resources.getString(R.string.empty_field)));
+                runOnUiThread(() -> fieldsInterface.getTimeBetweenExecutePickerLayout()
+                        .setError(MainActivity.resources.getString(R.string.empty_field)));
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -72,7 +73,8 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
         endDate = fieldsInterface.getEndDate();
         if (contentNotExist(getContent(endDate))) {
             try {
-                runOnUiThread(() -> endDate.setError(MainActivity.resources.getString(R.string.empty_field)));
+                runOnUiThread(() -> fieldsInterface.getEndDateLayout()
+                        .setError(MainActivity.resources.getString(R.string.empty_field)));
             } catch (Throwable e) {
                 e.printStackTrace();
             }

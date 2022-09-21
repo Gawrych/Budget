@@ -100,6 +100,7 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         clearErrorWhenTextChanged(title, titleLayout);
         clearErrorWhenTextChanged(amount, amountLayout);
         clearErrorWhenTextChanged(endDate, endDateLayout);
+        clearErrorWhenTextChanged(timeBetweenExecutePicker, timeBetweenPayLayout);
         clearErrorWhenTextChanged(timeBetweenExecutePicker, endDateLayout);
 
         Calendar selectedDate = Calendar.getInstance();
@@ -254,6 +255,16 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     @Override
     public TextInputEditText getEndDate() {
         return endDate;
+    }
+
+    @Override
+    public TextInputLayout getTimeBetweenExecutePickerLayout() {
+        return timeBetweenPayLayout;
+    }
+
+    @Override
+    public TextInputLayout getEndDateLayout() {
+        return endDateLayout;
     }
 
     @Override
