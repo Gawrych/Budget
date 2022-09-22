@@ -115,8 +115,7 @@ public class ComingFragment extends Fragment {
 
         ImageButton addButton = view.findViewById(R.id.addButton);
         addButton.setOnClickListener(root -> {
-            Navigation
-                    .findNavController(root)
+            Navigation.findNavController(root)
                     .navigate(R.id.action_navigation_incoming_to_addNewComingElement);
         });
 

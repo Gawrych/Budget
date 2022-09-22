@@ -112,11 +112,15 @@ public class ComingBottomSheetDetails extends Fragment {
 
         deleteButton.setOnClickListener(v -> deleteItem());
 
-        editButton.setOnClickListener(v -> {});
+        editButton.setOnClickListener(v -> editSelectedElement());
 
         moveButton.setOnClickListener(v -> changeItemRepeatDate());
 
         executeButton.setOnClickListener(v -> executePay());
+    }
+
+    private void editSelectedElement() {
+
     }
 
     private Calendar getCalendarWithValue(long value) {

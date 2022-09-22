@@ -11,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,8 +24,6 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.History;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
-import com.example.budgetmanagement.ui.Coming.GetViewComingFields;
-import com.example.budgetmanagement.ui.Coming.NewComingFragmentDataCollector;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.example.budgetmanagement.ui.utils.DecimalDigitsInputFilter;
@@ -36,7 +33,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddNewHistoryElement extends Fragment implements GetViewTransactionFields {
@@ -56,7 +52,7 @@ public class AddNewHistoryElement extends Fragment implements GetViewTransaction
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.add_new_history_element_fragment, container, false);
+        return inflater.inflate(R.layout.transaction_form_fragment, container, false);
     }
 
     @Override

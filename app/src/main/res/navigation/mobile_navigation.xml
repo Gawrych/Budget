@@ -40,7 +40,7 @@
         android:id="@+id/addNewHistory"
         android:name="com.example.budgetmanagement.ui.History.AddNewHistoryElement"
         android:label="activity_add_new_history"
-        tools:layout="@layout/add_new_history_element_fragment" >
+        tools:layout="@layout/transaction_form_fragment" >
         <action
             android:id="@+id/action_addNewHistory_to_navigation_history"
             app:destination="@id/navigation_history" />

@@ -4,7 +4,6 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DAT
 
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +70,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         String sectionTitle = getStringFromResId(section.getLabelId());
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.parent_view, viewGroup, false);
+            view = inflater.inflate(R.layout.coming_group_view, viewGroup, false);
         }
         TextView sectionName = view.findViewById(R.id.sectionName);
         TextView balance = view.findViewById(R.id.balance);
@@ -98,7 +97,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(final int i, final int i1, boolean b, View view, ViewGroup viewGroup) {
         if (view == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.child_view, viewGroup, false);
+            view = inflater.inflate(R.layout.coming_child_view, viewGroup, false);
         }
 
         final TextView titleField = view.findViewById(R.id.titleLayout);
