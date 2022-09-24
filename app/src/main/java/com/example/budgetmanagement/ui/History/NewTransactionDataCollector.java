@@ -4,6 +4,7 @@ import static androidx.test.internal.runner.junit4.statement.UiThreadStatement.r
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
 import android.text.Editable;
+import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 

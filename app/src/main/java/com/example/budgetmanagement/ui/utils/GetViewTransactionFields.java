@@ -1,6 +1,7 @@
 package com.example.budgetmanagement.ui.utils;
 
 import android.content.Context;
+import android.widget.AutoCompleteTextView;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
@@ -23,4 +24,6 @@ public interface GetViewTransactionFields {
     TextInputEditText getAmountField();
 
     Context getFragmentContext();
+
+    AutoCompleteTextView getSelectedCategory();
 }

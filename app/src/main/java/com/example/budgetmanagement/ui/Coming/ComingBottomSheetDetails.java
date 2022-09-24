@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.Navigation;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
@@ -45,17 +48,16 @@ public class ComingBottomSheetDetails extends Fragment {
     private final Button editButton;
     private final Button executeButton;
     private final Button moveButton;
+    private final View root;
     private ComingAndTransaction comingAndTransaction;
-    private TransactionViewModel transactionViewModel;
 
-    public ComingBottomSheetDetails(Context context, Activity activity, ViewModelStoreOwner owner) {
+    public ComingBottomSheetDetails(Context context, Activity activity, ViewModelStoreOwner owner, View root) {
         this.context = context;
         this.activity = activity;
+        this.root = root;
 
         this.comingViewModel = new ViewModelProvider(owner).get(ComingViewModel.class);
         this.historyViewModel = new ViewModelProvider(owner).get(HistoryViewModel.class);
-        this.transactionViewModel = new ViewModelProvider(owner).get(TransactionViewModel.class);
-
 
         bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(R.layout.coming_bottom_sheet_details);
@@ -120,7 +122,12 @@ public class ComingBottomSheetDetails extends Fragment {
     }
 
     private void editSelectedElement() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("comingId", comingAndTransaction.coming.getComingId());
 
+        Navigation.findNavController(root)
+                .navigate(R.id.action_navigation_incoming_to_editComingElement, bundle);
+        bottomSheetDialog.cancel();
     }
 
     private Calendar getCalendarWithValue(long value) {

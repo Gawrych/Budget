@@ -92,7 +92,7 @@ public class ComingFragment extends Fragment {
         pickedYear.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
 
         expandableListView = view.findViewById(R.id.expandableListView);
-        details = new ComingBottomSheetDetails(requireContext(), getActivity(), this);
+        details = new ComingBottomSheetDetails(requireContext(), getActivity(), this, view);
 
         expandableListAdapter = new ComingExpandableListAdapter(requireContext(), sectionList);
         expandableListView.setAdapter(expandableListAdapter);

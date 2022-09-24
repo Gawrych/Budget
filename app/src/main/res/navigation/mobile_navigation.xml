@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_navigation_incoming_to_addNewComingElement"
             app:destination="@id/addNewComing" />
+        <action
+            android:id="@+id/action_navigation_incoming_to_editComingElement"
+            app:destination="@id/editComingElement" />
     </fragment>
     <fragment
         android:id="@+id/addNewHistory"
@@ -60,6 +63,14 @@
         android:label="AddNewComingElement" >
         <action
             android:id="@+id/action_addNewComingElement_to_navigation_incoming"
+            app:destination="@id/navigation_incoming" />
+    </fragment>
+    <fragment
+        android:id="@+id/editComingElement"
+        android:name="com.example.budgetmanagement.ui.Coming.EditComingElement"
+        android:label="EditComingElement" >
+        <action
+            android:id="@+id/action_editComingElement_to_navigation_incoming"
             app:destination="@id/navigation_incoming" />
     </fragment>
 </navigation>

@@ -42,14 +42,16 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
     public boolean collectData() {
         super.collectData();
 
-        boolean correctlySetEndDateContent = setEndDate();
-        if (!correctlySetEndDateContent) {
-            return false;
-        }
+        if (fieldsInterface.getCyclicalSwitch().isChecked()) {
+            boolean correctlySetEndDateContent = setEndDate();
+            if (!correctlySetEndDateContent) {
+                return false;
+            }
 
-        boolean correctlySetTimeBetweenContent = setTimeBetween();
-        if (!correctlySetTimeBetweenContent) {
-            return false;
+            boolean correctlySetTimeBetweenContent = setTimeBetween();
+            if (!correctlySetTimeBetweenContent) {
+                return false;
+            }
         }
 
         return true;

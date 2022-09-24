@@ -25,6 +25,10 @@ public class ComingRepository {
         return allComingAndTransaction;
     }
 
+    public ComingAndTransaction getComingAndTransactionById(int comingId) {
+        return comingDao.getComingAndTransaction(comingId);
+    }
+
     public List<ComingAndTransaction> allComingAndTransactionList() {
         return allComingAndTransactionList;
     }

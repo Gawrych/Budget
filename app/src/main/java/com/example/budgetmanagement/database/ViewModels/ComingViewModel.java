@@ -100,6 +100,10 @@ public class ComingViewModel extends AndroidViewModel {
         return allComingAndTransactionByYear;
     }
 
+    public ComingAndTransaction getComingAndTransactionById(int comingId) {
+        return comingRepository.getComingAndTransactionById(comingId);
+    }
+
     public List<ComingAndTransaction> getAllComingAndTransactionList() {
         return allComingAndTransactionList;
     }

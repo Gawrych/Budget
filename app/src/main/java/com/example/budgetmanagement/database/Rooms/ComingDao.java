@@ -28,6 +28,9 @@ public interface ComingDao {
     @Query("UPDATE coming SET execute = :executeValue WHERE comingId = :comingId")
     void updateExecute(int comingId, boolean executeValue);
 
+    @Query("SELECT * FROM coming WHERE comingId = :comingId")
+    ComingAndTransaction getComingAndTransaction(int comingId);
+
     @Query("SELECT * FROM coming")
     LiveData<List<Coming>> getAllComing();
 

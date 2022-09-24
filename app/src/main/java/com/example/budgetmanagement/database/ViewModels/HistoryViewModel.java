@@ -47,8 +47,20 @@ public class HistoryViewModel extends AndroidViewModel {
         historyRepository.insert(history);
     }
 
+    public void update(History history) {
+        historyRepository.update(history);
+    }
+
     public List<CategoryBottomSheetEntity> getHistoryBottomSheetEntityList() {
         return categoryBottomSheetEntityList;
+    }
+
+    public History getByComingId(int comingId) {
+       return historyRepository.getByComingId(comingId);
+    }
+
+    public void updateTransactionIdInHistoryByComingId(int comingId, int newTransactionId) {
+        historyRepository.updateTransactionIdInHistoryByComingId(comingId, newTransactionId);
     }
 
     public List<HistoryAndTransaction> getAllHistoryAndTransactionInDateOrderList() {

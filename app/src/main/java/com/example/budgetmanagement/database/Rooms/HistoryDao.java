@@ -28,6 +28,12 @@ public interface HistoryDao {
     @Query("DELETE FROM history WHERE comingId = :comingId")
     void deleteByComingId(int comingId);
 
+    @Query("SELECT * FROM history WHERE comingId = :comingId")
+    History getByComingId(int comingId);
+
+    @Query("UPDATE history SET transactionId = :transactionId WHERE comingId = :comingId")
+    void updateTransactionIdInHistoryByComingId(int comingId, int transactionId);
+
     @Query("SELECT * FROM history")
     LiveData<List<History>> getAllHistory();
 

@@ -46,6 +46,14 @@ public class HistoryRepository {
         return historyDao.getAllHistoryAndTransactionByCategory(categoryId);
     }
 
+    public History getByComingId(int comingId) {
+        return historyDao.getByComingId(comingId);
+    }
+
+    public void updateTransactionIdInHistoryByComingId(int comingId, int transactionId) {
+        historyDao.updateTransactionIdInHistoryByComingId(comingId, transactionId);
+    }
+
     public LiveData<List<History>> getAllHistory() {
         return allHistory;
     }

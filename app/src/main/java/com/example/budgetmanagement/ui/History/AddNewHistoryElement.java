@@ -98,7 +98,7 @@ public class AddNewHistoryElement extends Fragment implements GetViewTransaction
             NewTransactionDataCollector newTransactionDataCollector = new NewTransactionDataCollector(this);
             boolean successfullyCollectedData = newTransactionDataCollector.collectData();
             if (successfullyCollectedData) {
-                submitNewHistoryItemToDatabase(newTransactionDataCollector);
+                submitToDatabase(newTransactionDataCollector);
                 requireActivity().onBackPressed();
             }
         });
@@ -136,7 +136,7 @@ public class AddNewHistoryElement extends Fragment implements GetViewTransaction
                 }, mYear, mMonth, mDay);
     }
 
-    private void submitNewHistoryItemToDatabase(NewTransactionDataCollector newItem) {
+    public void submitToDatabase(NewTransactionDataCollector newItem) {
         TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         HistoryViewModel historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
 
@@ -175,6 +175,11 @@ public class AddNewHistoryElement extends Fragment implements GetViewTransaction
     @Override
     public TextInputEditText getTitleField() {
         return title;
+    }
+
+    @Override
+    public AutoCompleteTextView getSelectedCategory() {
+        return selectedCategory;
     }
 
     @Override

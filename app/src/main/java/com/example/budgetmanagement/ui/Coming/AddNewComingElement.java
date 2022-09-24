@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
+import com.example.budgetmanagement.ui.History.NewTransactionDataCollector;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.example.budgetmanagement.ui.utils.DecimalDigitsInputFilter;
@@ -55,7 +57,9 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     private TextInputLayout titleLayout;
     private TextInputLayout amountLayout;
     private boolean successfullyCollectedData;
+    private ArrayList<Long> dates = new ArrayList<>();
     private final int MINIMAL_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING = 2;
+    private NewTransactionDataCollector newTransactionDataCollector;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -159,7 +163,7 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
 //            TODO Rewrite this to better look
                 if (cyclicalSwitch.isChecked()) {
                     if (amountOfNewDates < MINIMAL_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
-                        endDateLayout.setError(getString(R.string.not_enough_to_generate_cyclical_change_endDate_or_timeBetwen));
+                        endDateLayout.setError(getString(R.string.not_enough_to_generate_cyclical_change_endDate_or_timeBetween));
                     } else if (amountOfNewDates > 25) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
                         builder.setMessage("Czy na pewno chcesz dodać wszystkie daty? Jest ich " + amountOfNewDates)
@@ -285,6 +289,11 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     @Override
     public Context getFragmentContext() {
         return requireContext();
+    }
+
+    @Override
+    public AutoCompleteTextView getSelectedCategory() {
+        return selectedCategory;
     }
 
     @Override
