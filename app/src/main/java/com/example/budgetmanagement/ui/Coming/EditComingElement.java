@@ -42,7 +42,6 @@ public class EditComingElement extends TransactionFormService {
     int comingId;
     ComingAndTransaction comingAndTransaction;
     private TransactionViewModel transactionViewModel;
-    private TextInputEditText dateField;
 
     @Override
     public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
@@ -53,21 +52,33 @@ public class EditComingElement extends TransactionFormService {
 
         if (comingAndTransaction == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-            builder.setMessage("Wystąpił błąd! Nie ma elementu w bazie o takim id")
-                    .setPositiveButton("Ok", (dialog, id) -> {
-                    }).show();
+            builder.setMessage(R.string.error_element_with_this_id_was_not_found)
+                    .setPositiveButton("Ok", (dialog, id) -> {}).show();
             requireActivity().onBackPressed();
             return;
         }
 
+        prepareFields();
+
+        Button acceptButton = rootView.findViewById(R.id.acceptButton);
+
+        acceptButton.setText(R.string.edit);
+        acceptButton.setOnClickListener(view -> {
+            NewTransactionDataCollector newTransactionDataCollector = new NewTransactionDataCollector(this);
+            boolean successfullyCollectedData = newTransactionDataCollector.collectData();
+            if (successfullyCollectedData) {
+                submitToDatabase(newTransactionDataCollector);
+                requireActivity().onBackPressed();
+            }
+        });
+    }
+
+    private void prepareFields() {
         TextInputEditText title = getTitleField();
         TextInputEditText amount = getAmountField();
         AutoCompleteTextView selectedCategory = getSelectedCategory();
         SwitchMaterial profitSwitch = getProfitSwitch();
-        dateField = getStartDateField();
-        Button acceptButton = rootView.findViewById(R.id.acceptButton);
-
-        acceptButton.setText(R.string.edit);
+        TextInputEditText dateField = getStartDateField();
 
         Transaction transaction = comingAndTransaction.transaction;
         title.setText(transaction.getTitle());
@@ -88,15 +99,6 @@ public class EditComingElement extends TransactionFormService {
         selectedCategory.setText(categoryName);
 
         dateField.setText(DateProcessor.parseDate(comingAndTransaction.coming.getRepeatDate(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
-
-        acceptButton.setOnClickListener(view -> {
-            NewTransactionDataCollector newTransactionDataCollector = new NewTransactionDataCollector(this);
-            boolean successfullyCollectedData = newTransactionDataCollector.collectData();
-            if (successfullyCollectedData) {
-                submitToDatabase(newTransactionDataCollector);
-                requireActivity().onBackPressed();
-            }
-        });
     }
 
     public void submitToDatabase(NewTransactionDataCollector newItem) {
