@@ -56,8 +56,6 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     private TextInputLayout amountLayout;
     private boolean successfullyCollectedData;
     private ArrayList<Long> dates = new ArrayList<>();
-    private final int MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING = 2;
-    private final int MAX_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING_WITHOUT_ALERT = 25;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -168,6 +166,8 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     }
 
     private void submitCyclical(int amountOfNewDates) {
+        int MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING = 2;
+        int MAX_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING_WITHOUT_ALERT = 25;
         if (amountOfNewDates < MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
             endDateLayout.setError(getString(R.string.not_enough_to_generate_cyclical_change_endDate_or_timeBetween));
 

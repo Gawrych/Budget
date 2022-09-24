@@ -26,6 +26,7 @@ import com.example.budgetmanagement.ui.History.AddNewHistoryElement;
 import com.example.budgetmanagement.ui.History.NewTransactionDataCollector;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.example.budgetmanagement.ui.utils.TransactionFormService;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -33,40 +34,25 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Calendar;
 
-public class EditComingElement extends AddNewHistoryElement {
+public class EditComingElement extends TransactionFormService {
 
     private ComingViewModel comingViewModel;
     int comingId;
     ComingAndTransaction comingAndTransaction;
-    private TextInputEditText title;
-    private TextInputEditText amount;
-    private TextInputEditText dateField;
-    private AutoCompleteTextView selectedCategory;
-    private SwitchMaterial profitSwitch;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.transaction_form_fragment, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(rootView, savedInstanceState);
         this.comingId = getArguments() != null ? getArguments().getInt("comingId") : 0;
         this.comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
         comingAndTransaction = comingViewModel.getComingAndTransactionById(comingId);
 
-        title = getTitleField();
-        amount = getAmountField();
-        selectedCategory = getSelectedCategory();
-        profitSwitch = getProfitSwitch();
-        dateField = getStartDateField();
+        TextInputEditText title = getTitleField();
+        TextInputEditText amount = getAmountField();
+        AutoCompleteTextView selectedCategory = getSelectedCategory();
+        SwitchMaterial profitSwitch = getProfitSwitch();
+        TextInputEditText dateField = getStartDateField();
+        Button acceptButton = rootView.findViewById(R.id.acceptButton);
 
         Transaction transaction = comingAndTransaction.transaction;
 
@@ -82,9 +68,17 @@ public class EditComingElement extends AddNewHistoryElement {
         selectedCategory.setText(categoryName);
 
         dateField.setText(DateProcessor.parseDate(comingAndTransaction.coming.getRepeatDate(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
+
+        acceptButton.setOnClickListener(view -> {
+            NewTransactionDataCollector newTransactionDataCollector = new NewTransactionDataCollector(this);
+            boolean successfullyCollectedData = newTransactionDataCollector.collectData();
+            if (successfullyCollectedData) {
+                submitToDatabase(newTransactionDataCollector);
+                requireActivity().onBackPressed();
+            }
+        });
     }
 
-    @Override
     public void submitToDatabase(NewTransactionDataCollector newItem) {
         TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
 
