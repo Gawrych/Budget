@@ -40,8 +40,6 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
 
     @Override
     public boolean collectData() {
-        super.collectData();
-
         if (fieldsInterface.getCyclicalSwitch().isChecked()) {
             boolean correctlySetEndDateContent = setEndDate();
             if (!correctlySetEndDateContent) {
@@ -54,7 +52,7 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
             }
         }
 
-        return true;
+        return super.collectData();
     }
     
     private boolean setTimeBetween() {

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
-import com.example.budgetmanagement.ui.History.NewTransactionDataCollector;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.example.budgetmanagement.ui.utils.DecimalDigitsInputFilter;
@@ -58,8 +56,8 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     private TextInputLayout amountLayout;
     private boolean successfullyCollectedData;
     private ArrayList<Long> dates = new ArrayList<>();
-    private final int MINIMAL_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING = 2;
-    private NewTransactionDataCollector newTransactionDataCollector;
+    private final int MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING = 2;
+    private final int MAX_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING_WITHOUT_ALERT = 25;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -157,29 +155,34 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
             successfullyCollectedData = newComingDataCollector.collectData();
 
             if (successfullyCollectedData) {
-                ArrayList<Long> dates = newComingDataCollector.getNextDates();
+                dates = newComingDataCollector.getNextDates();
                 int amountOfNewDates = dates.size();
 
-//            TODO Rewrite this to better look
                 if (cyclicalSwitch.isChecked()) {
-                    if (amountOfNewDates < MINIMAL_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
-                        endDateLayout.setError(getString(R.string.not_enough_to_generate_cyclical_change_endDate_or_timeBetween));
-                    } else if (amountOfNewDates > 25) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-                        builder.setMessage("Czy na pewno chcesz dodać wszystkie daty? Jest ich " + amountOfNewDates)
-                                .setNegativeButton(R.string.cancel, (dialog, id) -> {})
-                                .setPositiveButton("Dodaj", (dialog, id) -> {
-                                    submitNewComingItemToDatabase(newComingDataCollector, dates);
-                                }).show();
-
-                    } else {
-                        submitNewComingItemToDatabase(newComingDataCollector, dates);
-                    }
+                    submitCyclical(amountOfNewDates);
                 } else {
                     submitNewComingItemToDatabase(newComingDataCollector, dates);
                 }
             }
         });
+    }
+
+    private void submitCyclical(int amountOfNewDates) {
+        if (amountOfNewDates < MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
+            endDateLayout.setError(getString(R.string.not_enough_to_generate_cyclical_change_endDate_or_timeBetween));
+
+        } else if (amountOfNewDates > 25) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+            builder.setMessage("Czy na pewno chcesz dodać wszystkie daty? Jest ich " + amountOfNewDates)
+                    .setNegativeButton(R.string.cancel, (dialog, id) -> {})
+                    .setPositiveButton("Dodaj", (dialog, id) -> {
+                        submitNewComingItemToDatabase(newComingDataCollector, dates);
+                    }).show();
+
+        } else if (amountOfNewDates > MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING &&
+                amountOfNewDates < MAX_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING_WITHOUT_ALERT) {
+            submitNewComingItemToDatabase(newComingDataCollector, dates);
+        }
     }
 
     private void setDatePickerDialog() {
