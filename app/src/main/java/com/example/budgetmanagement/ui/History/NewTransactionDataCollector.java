@@ -129,4 +129,9 @@ public class NewTransactionDataCollector {
         return new Transaction(0, this.categoryId, this.title,
                 this.amount.toString(), date, 0, this.profit);
     }
+
+    public Transaction getTransaction(int id) {
+        return new Transaction(id, this.categoryId, this.title,
+                this.amount.toString(), date, 0, this.profit);
+    }
 }

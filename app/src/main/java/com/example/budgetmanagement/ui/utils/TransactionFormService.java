@@ -63,13 +63,12 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
         amount = rootView.findViewById(R.id.amount);
         amountLayout = rootView.findViewById(R.id.amountLayout);
         profitSwitch = rootView.findViewById(R.id.profitSwitch);
-        Button acceptButton = rootView.findViewById(R.id.acceptButton);
         dateField = rootView.findViewById(R.id.startDate);
         dateField.setCursorVisible(false);
 
         categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
 
-        setDatePickerDialog();
+        setDatePickerDialog(Calendar.getInstance());
 
         amount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 2)});
 
@@ -111,8 +110,7 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
         };
     }
 
-    public void setDatePickerDialog() {
-        final Calendar calendarInstance = Calendar.getInstance();
+    public void setDatePickerDialog(Calendar calendarInstance) {
         int mYear = calendarInstance.get(Calendar.YEAR);
         int mMonth = calendarInstance.get(Calendar.MONTH);
         int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);

@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.ui.Coming;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -39,6 +41,8 @@ public class EditComingElement extends TransactionFormService {
     private ComingViewModel comingViewModel;
     int comingId;
     ComingAndTransaction comingAndTransaction;
+    private TransactionViewModel transactionViewModel;
+    private TextInputEditText dateField;
 
     @Override
     public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
@@ -47,16 +51,32 @@ public class EditComingElement extends TransactionFormService {
         this.comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
         comingAndTransaction = comingViewModel.getComingAndTransactionById(comingId);
 
+        if (comingAndTransaction == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+            builder.setMessage("Wystąpił błąd! Nie ma elementu w bazie o takim id")
+                    .setPositiveButton("Ok", (dialog, id) -> {
+                    }).show();
+            requireActivity().onBackPressed();
+            return;
+        }
+
         TextInputEditText title = getTitleField();
         TextInputEditText amount = getAmountField();
         AutoCompleteTextView selectedCategory = getSelectedCategory();
         SwitchMaterial profitSwitch = getProfitSwitch();
-        TextInputEditText dateField = getStartDateField();
+        dateField = getStartDateField();
         Button acceptButton = rootView.findViewById(R.id.acceptButton);
 
-        Transaction transaction = comingAndTransaction.transaction;
+        acceptButton.setText(R.string.edit);
 
+        Transaction transaction = comingAndTransaction.transaction;
         title.setText(transaction.getTitle());
+
+        long repeatDate = comingAndTransaction.coming.getRepeatDate();
+        dateField.setText(DateProcessor.parseDate(repeatDate, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(repeatDate);
+        setDatePickerDialog(calendar);
 
         BigDecimal amountInBigDecimal = new BigDecimal(transaction.getAmount());
         profitSwitch.setChecked(amountInBigDecimal.signum() != -1);
@@ -80,19 +100,34 @@ public class EditComingElement extends TransactionFormService {
     }
 
     public void submitToDatabase(NewTransactionDataCollector newItem) {
-        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-
-        long transactionId = transactionViewModel.insert(newItem.getTransaction());
+        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         Coming coming = comingAndTransaction.coming;
 
-        if (comingAndTransaction.coming.isExecute()) {
+        boolean isFirstModification = coming.getModifiedDate() == 0;
+        if (isFirstModification) {
+            long transactionId = createNewTransaction(newItem);
+            assignNewTransaction(coming, transactionId);
+        } else {
+            transactionViewModel.update(newItem.getTransaction(comingAndTransaction.transaction.getTransactionId()));
+        }
+
+        long now = Calendar.getInstance().getTimeInMillis();
+        coming.setModifiedDate(now);
+        coming.setRepeatDate(newItem.getTransaction().getAddDate());
+        comingViewModel.update(coming);
+    }
+
+    private long createNewTransaction(NewTransactionDataCollector newItem) {
+         return transactionViewModel.insert(newItem.getTransaction());
+    }
+
+    private void assignNewTransaction(Coming coming, long transactionId) {
+        boolean isThisComingElementIsInHistory = comingAndTransaction.coming.isExecute();
+        if (isThisComingElementIsInHistory) {
             HistoryViewModel historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
             historyViewModel.updateTransactionIdInHistoryByComingId(coming.getComingId(), (int) transactionId);
         }
 
         coming.setTransactionId((int) transactionId);
-        long now = Calendar.getInstance().getTimeInMillis();
-        coming.setModifiedDate(now);
-        comingViewModel.update(coming);
     }
 }

@@ -17,7 +17,7 @@ public class TransactionRepository {
     }
 
     public void update(Transaction transaction) {
-        database.databaseWriteExecutor.execute(() -> {
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> {
             transactionDao.update(transaction);
         });
     }
