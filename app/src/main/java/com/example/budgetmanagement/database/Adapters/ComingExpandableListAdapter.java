@@ -150,11 +150,6 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
             dateInfo.setTextColor(view.getContext().getColor(R.color.mat_red));
             outOfDateIconSetResource(view, R.drawable.calendar, R.color.mat_red);
         } else {
-//            if (todayDate.get(Calendar.YEAR) > otherDate.get(Calendar.YEAR)) {
-//                days = -Math.abs(days);
-//            } else if (todayDate.get(Calendar.YEAR) < otherDate.get(Calendar.YEAR)) {
-//                days = Math.abs(days);
-//            }
             remainingDays.setTextColor(view.getContext().getColor(R.color.font_default));
             daysText.setText("dni");
             daysText.setTextColor(view.getContext().getColor(R.color.font_default));
