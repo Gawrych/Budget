@@ -133,33 +133,11 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         Calendar todayDate = Calendar.getInstance();
         Calendar otherDate = Calendar.getInstance();
         otherDate.setTimeInMillis(repeatDate);
-//
-//        todayDate.set(Calendar.HOUR, 0);
-//        todayDate.set(Calendar.MINUTE, 0);
-//        todayDate.set(Calendar.SECOND, 0);
-//        todayDate.set(Calendar.MILLISECOND, 0);
-//
-//        otherDate.set(Calendar.HOUR, 0);
-//        otherDate.set(Calendar.MINUTE, 0);
-//        otherDate.set(Calendar.SECOND, 0);
-//        otherDate.set(Calendar.MILLISECOND, 0);
-//
-//        long timeInMillis = otherDate.getTimeInMillis() - todayDate.getTimeInMillis();
-//        Calendar resultDate = Calendar.getInstance();
-//        resultDate.setTimeInMillis(timeInMillis);
-//        int days = (int) TimeUnit.MILLISECONDS.toDays(resultDate.getTimeInMillis());
 
-        DateTimeZone timeZone = DateTimeZone.getDefault();
-
-        Date start = new Date();
-        Date end = new Date();
-        start.setTime(todayDate.getTimeInMillis());
-        end.setTime(otherDate.getTimeInMillis());
-        DateTime startDate = new DateTime(start, timeZone);
-        DateTime endDate = new DateTime(end, timeZone);
-
+        DateTimeZone defaultTimeZone = DateTimeZone.getDefault();
+        DateTime startDate = new DateTime(todayDate.getTimeInMillis(), defaultTimeZone);
+        DateTime endDate = new DateTime(otherDate.getTimeInMillis(), defaultTimeZone);
         int days = Days.daysBetween(startDate.withTimeAtStartOfDay(), endDate.withTimeAtStartOfDay()).getDays();
-
 
 
         boolean afterDeadline = otherDate.before(todayDate);
