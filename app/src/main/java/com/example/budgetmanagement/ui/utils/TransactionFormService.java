@@ -12,24 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.Rooms.History;
-import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
-import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
-import com.example.budgetmanagement.ui.History.NewTransactionDataCollector;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.time.LocalDate;
 import java.util.Calendar;
 
 public class TransactionFormService extends Fragment implements GetViewTransactionFields {
@@ -45,7 +38,6 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
     private SwitchMaterial profitSwitch;
     private AutoCompleteTextView selectedCategory;
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -55,8 +47,6 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
     @Override
     public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(rootView, savedInstanceState);
-        categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
-
         selectedCategory = rootView.findViewById(R.id.categorySelector);
         title = rootView.findViewById(R.id.title);
         titleLayout = rootView.findViewById(R.id.titleLayout);
@@ -68,7 +58,7 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
 
         categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
 
-        setDatePickerDialog(Calendar.getInstance());
+        datePickerDialog = setDatePickerDialog(Calendar.getInstance());
 
         amount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 2)});
 
@@ -79,19 +69,23 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
         selectedCategory.setText(rootView.getResources().getString(R.string.category_example_various));
         selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
 
-        Calendar selectedDate = Calendar.getInstance();
         dateField.setText(DateProcessor.getTodayDateInPattern(MONTH_NAME_YEAR_DATE_FORMAT));
         dateField.setOnClickListener(view -> {
-            datePickerDialog.setOnDateSetListener((v, year, monthOfYear, dayOfMonth) -> {
-                selectedDate.set(year, monthOfYear, dayOfMonth);
-                dateField.setText(
-                        DateProcessor.parseDate((selectedDate.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
-            });
+            serviceDatePickerDialog();
             datePickerDialog.show();
         });
     }
 
-    private void clearErrorWhenTextChanged(TextInputEditText fieldToListenTextChange, TextInputLayout fieldToBeCleared) {
+    private void serviceDatePickerDialog() {
+        Calendar selectedDate = Calendar.getInstance();
+        datePickerDialog.setOnDateSetListener((v, year, monthOfYear, dayOfMonth) -> {
+            selectedDate.set(year, monthOfYear, dayOfMonth);
+            dateField.setText(
+                    DateProcessor.parseDate((selectedDate.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
+        });
+    }
+
+    public void clearErrorWhenTextChanged(EditText fieldToListenTextChange, TextInputLayout fieldToBeCleared) {
         fieldToListenTextChange.addTextChangedListener(getTextWatcher(fieldToBeCleared));
     }
 
@@ -110,11 +104,11 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
         };
     }
 
-    public void setDatePickerDialog(Calendar calendarInstance) {
+    public DatePickerDialog setDatePickerDialog(Calendar calendarInstance) {
         int mYear = calendarInstance.get(Calendar.YEAR);
         int mMonth = calendarInstance.get(Calendar.MONTH);
         int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
-        datePickerDialog = new DatePickerDialog(requireContext(),
+        return datePickerDialog = new DatePickerDialog(requireContext(),
                 (view, year, monthOfYear, dayOfMonth) -> {
                     Calendar selectedDate = Calendar.getInstance();
                     selectedDate.set(year, monthOfYear, dayOfMonth);

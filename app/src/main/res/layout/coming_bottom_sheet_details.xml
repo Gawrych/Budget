@@ -45,10 +45,10 @@
 
             <ImageView
                 android:id="@+id/remainingDaysIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/ic_baseline_event_busy_24"
+                android:src="@drawable/calendar_smaller_icon"
                 app:layout_constraintStart_toEndOf="@+id/remainingDaysLabel"
                 app:layout_constraintTop_toTopOf="@+id/remainingDaysLabel" />
 
@@ -166,11 +166,11 @@
         app:layout_constraintTop_toBottomOf="@+id/details">
 
         <Button
-            android:id="@+id/move"
+            android:id="@+id/createNewByThisPattern"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/main_blue"
-            android:text="Przełóź"
+            android:text="Utwórz podobne"
             android:textColor="#EFF1F3"
             app:layout_constraintEnd_toEndOf="@+id/delete"
             app:layout_constraintStart_toStartOf="@+id/delete"

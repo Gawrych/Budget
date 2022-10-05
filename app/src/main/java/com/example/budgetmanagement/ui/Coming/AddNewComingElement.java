@@ -4,58 +4,52 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEA
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.Rooms.Transaction;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
-import com.example.budgetmanagement.ui.utils.DecimalDigitsInputFilter;
+import com.example.budgetmanagement.ui.utils.TransactionFormService;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddNewComingElement extends Fragment implements GetViewComingFields {
+public class AddNewComingElement extends TransactionFormService implements GetViewComingFields {
 
-    private CategoryBottomSheetSelector categoryBottomSheetSelector;
-    private int categoryId = 1;
     private DatePickerDialog datePickerDialog;
-    private TextInputEditText dateField;
     private ArrayAdapter<String> adapter;
     private AutoCompleteTextView timeBetweenExecutePicker;
-    private SwitchMaterial profitSwitch;
     private SwitchMaterial cyclicalSwitch;
     private NewComingFragmentDataCollector newComingDataCollector;
-    private TextInputEditText title;
+
     private TextInputEditText endDate;
     private TextInputLayout endDateLayout;
     private TextInputLayout timeBetweenPayLayout;
-    private AutoCompleteTextView selectedCategory;
-    private TextInputEditText amount;
-    private TextInputLayout titleLayout;
-    private TextInputLayout amountLayout;
     private boolean successfullyCollectedData;
     private ArrayList<Long> dates = new ArrayList<>();
+    private int comingId;
+    private ComingViewModel comingViewModel;
+
+    public AddNewComingElement() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,98 +65,132 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     @Override
     public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(rootView, savedInstanceState);
-
         endDateLayout = rootView.findViewById(R.id.endDateLayout);
         endDate = rootView.findViewById(R.id.endDate);
-        selectedCategory = rootView.findViewById(R.id.categorySelector);
         cyclicalSwitch = rootView.findViewById(R.id.cyclicalSwitch);
-        title = rootView.findViewById(R.id.title);
         timeBetweenPayLayout = rootView.findViewById(R.id.timeBetweenPayLayout);
         timeBetweenExecutePicker = rootView.findViewById(R.id.timeBetweenPay);
-        titleLayout = rootView.findViewById(R.id.titleLayout);
-        amount = rootView.findViewById(R.id.amount);
-        amountLayout = rootView.findViewById(R.id.amountLayout);
-        profitSwitch = rootView.findViewById(R.id.profitSwitch);
         Button acceptButton = rootView.findViewById(R.id.acceptButton);
-        dateField = rootView.findViewById(R.id.startDate);
-        dateField.setCursorVisible(false);
 
-        categoryBottomSheetSelector = new CategoryBottomSheetSelector(this);
 
-        setDatePickerDialog();
+        datePickerDialog = setDatePickerDialog(Calendar.getInstance());
 
-        amount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 2)});
-
-        selectedCategory.setCursorVisible(false);
-        selectedCategory.setText(R.string.category_example_various);
-        selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
-
-        clearErrorWhenTextChanged(title, titleLayout);
-        clearErrorWhenTextChanged(amount, amountLayout);
         clearErrorWhenTextChanged(endDate, endDateLayout);
         clearErrorWhenTextChanged(timeBetweenExecutePicker, timeBetweenPayLayout);
         clearErrorWhenTextChanged(timeBetweenExecutePicker, endDateLayout);
 
-        Calendar selectedDate = Calendar.getInstance();
-        dateField.setText(DateProcessor.getTodayDateInPattern(MONTH_NAME_YEAR_DATE_FORMAT));
-        dateField.setOnClickListener(view -> {
-            datePickerDialog.setOnDateSetListener((v, year, monthOfYear, dayOfMonth) -> {
-                selectedDate.set(year, monthOfYear, dayOfMonth);
-                dateField.setText(
-                        DateProcessor.parseDate((selectedDate.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
-            });
-            datePickerDialog.show();
-        });
-
         endDate.setCursorVisible(false);
         endDate.setOnClickListener(view -> {
-            datePickerDialog.setOnDateSetListener((v, year, monthOfYear, dayOfMonth) -> {
-                endDateLayout.setError(null);
-                selectedDate.set(year, monthOfYear, dayOfMonth);
-                endDate.setText(
-                        DateProcessor.parseDate((selectedDate.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
-            });
+            serviceDatePickerDialog();
             datePickerDialog.show();
         });
 
-        cyclicalSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (cyclicalSwitch.isChecked()) {
-                if (adapter == null) {
-                    final String[] TIME_BETWEEN = new String[] {
-                            getString(R.string.each_day),
-                            getString(R.string.each_week),
-                            getString(R.string.each_month),
-                            getString(R.string.each_quarter),
-                            getString(R.string.each_year)
-                    };
-
-                    adapter = new ArrayAdapter<>(getActivity(),
-                            android.R.layout.simple_dropdown_item_1line, TIME_BETWEEN);
-                    timeBetweenExecutePicker.setAdapter(adapter);
-                }
-                timeBetweenPayLayout.setVisibility(View.VISIBLE);
-                endDateLayout.setVisibility(View.VISIBLE);
-            } else {
-                timeBetweenPayLayout.setVisibility(View.GONE);
-                endDateLayout.setVisibility(View.GONE);
-            }
-        });
+        cyclicalSwitch.setOnCheckedChangeListener((compoundButton, b) -> adaptCyclicalFieldsVisibility());
 
         acceptButton.setOnClickListener(view -> {
-            newComingDataCollector = new NewComingFragmentDataCollector(this);
-            successfullyCollectedData = newComingDataCollector.collectData();
-
+            successfullyCollectedData = collectData();
             if (successfullyCollectedData) {
-                dates = newComingDataCollector.getNextDates();
-                int amountOfNewDates = dates.size();
-
-                if (cyclicalSwitch.isChecked()) {
-                    submitCyclical(amountOfNewDates);
-                } else {
-                    submitNewComingItemToDatabase(newComingDataCollector, dates);
-                }
+                selectSubmitMethodAndRun();
+                close();
             }
         });
+
+        ComingAndTransaction comingAndTransaction = getComingByIdFromBundle();
+        if (comingAndTransaction != null) {
+            fillFields(comingAndTransaction);
+        }
+    }
+
+    private void serviceDatePickerDialog() {
+        Calendar selectedDate = Calendar.getInstance();
+        datePickerDialog.setOnDateSetListener((v, year, monthOfYear, dayOfMonth) -> {
+            endDateLayout.setError(null);
+            selectedDate.set(year, monthOfYear, dayOfMonth);
+            endDate.setText(
+                    DateProcessor.parseDate((selectedDate.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
+        });
+    }
+
+    private void close() {
+        requireActivity().onBackPressed();
+    }
+
+    private boolean collectData() {
+        newComingDataCollector = new NewComingFragmentDataCollector(this);
+        return newComingDataCollector.collectData();
+    }
+
+    private void selectSubmitMethodAndRun() {
+        dates = newComingDataCollector.getNextDates();
+        int amountOfNewDates = dates.size();
+
+        if (cyclicalSwitch.isChecked()) {
+            submitCyclical(amountOfNewDates);
+        } else {
+            submitNewComingItemToDatabase(newComingDataCollector, dates);
+        }
+    }
+
+    private void adaptCyclicalFieldsVisibility() {
+        if (cyclicalSwitch.isChecked()) {
+            initializeFieldsIfFirstTime();
+
+            timeBetweenPayLayout.setVisibility(View.VISIBLE);
+            endDateLayout.setVisibility(View.VISIBLE);
+        } else {
+            timeBetweenPayLayout.setVisibility(View.GONE);
+            endDateLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private void initializeFieldsIfFirstTime() {
+        if (adapter == null) {
+            final String[] TIME_BETWEEN = new String[] {
+                    getString(R.string.each_day),
+                    getString(R.string.each_week),
+                    getString(R.string.each_month),
+                    getString(R.string.each_quarter),
+                    getString(R.string.each_year)
+            };
+
+            adapter = new ArrayAdapter<>(getActivity(),
+                    android.R.layout.simple_dropdown_item_1line, TIME_BETWEEN);
+            timeBetweenExecutePicker.setAdapter(adapter);
+        }
+    }
+
+    private ComingAndTransaction getComingByIdFromBundle() {
+        this.comingId = getArguments() != null ? getArguments().getInt("comingId") : 0;
+        this.comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
+        return comingViewModel.getComingAndTransactionById(comingId);
+    }
+
+    private void fillFields(ComingAndTransaction comingAndTransaction) {
+        TextInputEditText title = getTitleField();
+        TextInputEditText amount = getAmountField();
+        AutoCompleteTextView selectedCategory = getSelectedCategory();
+        SwitchMaterial profitSwitch = getProfitSwitch();
+        TextInputEditText dateField = getStartDateField();
+
+        Transaction transaction = comingAndTransaction.transaction;
+        title.setText(transaction.getTitle());
+
+        long repeatDate = comingAndTransaction.coming.getRepeatDate();
+        dateField.setText(DateProcessor.parseDate(repeatDate, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(repeatDate);
+        setDatePickerDialog(calendar);
+
+        BigDecimal amountInBigDecimal = new BigDecimal(transaction.getAmount());
+        profitSwitch.setChecked(amountInBigDecimal.signum() != -1);
+
+        String number = amountInBigDecimal.abs().toString();
+        amount.setText(number);
+
+        String categoryName = CategoryBottomSheetSelector.getCategoryName(transaction.getCategoryId(), this);
+        selectedCategory.setText(categoryName);
+
+        dateField.setText(DateProcessor.parseDate(comingAndTransaction.coming.getRepeatDate(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
     }
 
     private void submitCyclical(int amountOfNewDates) {
@@ -185,15 +213,6 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         }
     }
 
-    private void setDatePickerDialog() {
-        final Calendar calendarInstance = Calendar.getInstance();
-        int mYear = calendarInstance.get(Calendar.YEAR);
-        int mMonth = calendarInstance.get(Calendar.MONTH);
-        int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
-        datePickerDialog = new DatePickerDialog(requireContext(),
-                (view, year, monthOfYear, dayOfMonth) -> {}, mYear, mMonth, mDay);
-    }
-
     private void submitNewComingItemToDatabase(NewComingFragmentDataCollector newComing, ArrayList<Long> dates) {
         TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
@@ -203,45 +222,6 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
         for (Long date : dates) {
             comingViewModel.insert(newComing.getComing(transactionId, date));
         }
-        requireActivity().onBackPressed();
-    }
-
-    private void selectCategory(EditText categoryEditText) {
-        categoryBottomSheetSelector.show();
-        categoryBottomSheetSelector.getBottomSheetDialog().setOnDismissListener(v -> {
-            categoryId = categoryBottomSheetSelector.getSelectedId();
-            categoryEditText.setText(categoryBottomSheetSelector.getSelectedName());
-        });
-    }
-
-    private void clearErrorWhenTextChanged(EditText fieldToListenTextChange, TextInputLayout fieldToBeCleared) {
-        fieldToListenTextChange.addTextChangedListener(getTextWatcher(fieldToBeCleared));
-    }
-
-    private TextWatcher getTextWatcher(TextInputLayout fieldToBeCleared) {
-        return new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                fieldToBeCleared.setError(null);
-            }
-        };
-    }
-
-
-    @Override
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    @Override
-    public TextInputEditText getStartDateField() {
-        return dateField;
     }
 
     @Override
@@ -252,11 +232,6 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     @Override
     public SwitchMaterial getCyclicalSwitch() {
         return cyclicalSwitch;
-    }
-
-    @Override
-    public SwitchMaterial getProfitSwitch() {
-        return profitSwitch;
     }
 
     @Override
@@ -272,35 +247,5 @@ public class AddNewComingElement extends Fragment implements GetViewComingFields
     @Override
     public TextInputLayout getEndDateLayout() {
         return endDateLayout;
-    }
-
-    @Override
-    public TextInputEditText getTitleField() {
-        return title;
-    }
-
-    @Override
-    public TextInputLayout getTitleLayoutField() {
-        return titleLayout;
-    }
-
-    @Override
-    public TextInputEditText getAmountField() {
-        return amount;
-    }
-
-    @Override
-    public Context getFragmentContext() {
-        return requireContext();
-    }
-
-    @Override
-    public AutoCompleteTextView getSelectedCategory() {
-        return selectedCategory;
-    }
-
-    @Override
-    public TextInputLayout getAmountLayoutField() {
-        return amountLayout;
     }
 }

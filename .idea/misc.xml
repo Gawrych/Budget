@@ -43,8 +43,11 @@
         <entry key="app/src/main/res/layout/category_recycler_view.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/child_view.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/coming_bottom_sheet_details.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/coming_child_view.xml" value="0.37447916666666664" />
+        <entry key="app/src/main/res/layout/coming_form_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/coming_fragment.xml" value="0.37447916666666664" />
-        <entry key="app/src/main/res/layout/coming_recycler_view.xml" value="0.19427083333333334" />
+        <entry key="app/src/main/res/layout/coming_group_view.xml" value="0.37447916666666664" />
+        <entry key="app/src/main/res/layout/coming_recycler_view.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_edit_coming_element.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/fragment_filter.xml" value="0.37447916666666664" />
         <entry key="app/src/main/res/layout/history_bottom_sheet_category_filter_recycler_view.xml" value="0.37447916666666664" />

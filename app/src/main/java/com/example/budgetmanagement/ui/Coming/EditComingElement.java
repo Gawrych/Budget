@@ -40,7 +40,7 @@ public class EditComingElement extends TransactionFormService {
 
     private ComingViewModel comingViewModel;
     int comingId;
-    ComingAndTransaction comingAndTransaction;
+    private ComingAndTransaction comingAndTransaction;
     private TransactionViewModel transactionViewModel;
 
     @Override

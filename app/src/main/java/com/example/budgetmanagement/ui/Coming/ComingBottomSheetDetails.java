@@ -65,7 +65,7 @@ public class ComingBottomSheetDetails extends Fragment {
         deleteButton = bottomSheetDialog.findViewById(R.id.delete);
         editButton = bottomSheetDialog.findViewById(R.id.edit);
         executeButton = bottomSheetDialog.findViewById(R.id.execute);
-        moveButton = bottomSheetDialog.findViewById(R.id.move);
+        moveButton = bottomSheetDialog.findViewById(R.id.createNewByThisPattern);
 
         transactionNameField = bottomSheetDialog.findViewById(R.id.transactionName);
         addDateField = bottomSheetDialog.findViewById(R.id.addDate);
@@ -95,8 +95,9 @@ public class ComingBottomSheetDetails extends Fragment {
 
         boolean isExecute = comingAndTransaction.coming.isExecute();
         boolean isBeforeDeadline = deadlineDate.after(todayDate);
+        remainingDaysIconField.setImageResource(R.drawable.calendar_smaller_icon);
 
-        if (isBeforeDeadline || isExecute) {
+        if (isBeforeDeadline) {
             setRemainingElements(R.string.Remain, R.color.font_default);
         } else {
             setRemainingElements(R.string.after_the_deadline, R.color.mat_red);
@@ -110,15 +111,25 @@ public class ComingBottomSheetDetails extends Fragment {
 
             setExecuteButton(R.string.cancel_pay, R.color.dark_grey);
             setRemainingElements(R.string.paid_from, R.color.main_green);
+            remainingDaysIconField.setImageResource(R.drawable.ic_baseline_done_all_24);
         }
 
         deleteButton.setOnClickListener(v -> deleteItem());
 
         editButton.setOnClickListener(v -> editSelectedElement());
 
-        moveButton.setOnClickListener(v -> changeItemRepeatDate());
+        moveButton.setOnClickListener(v -> createNewByThisPattern());
 
         executeButton.setOnClickListener(v -> executePay());
+    }
+
+    private void createNewByThisPattern() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("comingId", comingAndTransaction.coming.getComingId());
+
+        Navigation.findNavController(root)
+                .navigate(R.id.action_navigation_incoming_to_addNewComingElement, bundle);
+        bottomSheetDialog.cancel();
     }
 
     private void editSelectedElement() {
@@ -201,28 +212,6 @@ public class ComingBottomSheetDetails extends Fragment {
         remainingDaysField.setText(String.valueOf(remainingDays));
     }
 
-    private void changeItemRepeatDate() {
-        final Calendar calendarInstance = Calendar.getInstance();
-        calendarInstance.setTimeInMillis(comingAndTransaction.coming.getRepeatDate());
-        int mYear = calendarInstance.get(Calendar.YEAR);
-        int mMonth = calendarInstance.get(Calendar.MONTH);
-        int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
-        Calendar newDateCalendar = Calendar.getInstance();
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context,
-                (view, year, monthOfYear, dayOfMonth) -> {
-                    newDateCalendar.set(year, monthOfYear, dayOfMonth);
-                    comingAndTransaction.coming.setRepeatDate(newDateCalendar.getTimeInMillis());
-
-                    updateComingInDatabase(comingAndTransaction);
-
-                    bottomSheetDialog.cancel();
-                    Toast.makeText(context, "Przełożono", Toast.LENGTH_SHORT).show();
-
-                }, mYear, mMonth, mDay);
-        datePickerDialog.show();
-    }
-
     private void deleteItem() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setMessage(R.string.are_you_sure_to_delete)
@@ -236,7 +225,6 @@ public class ComingBottomSheetDetails extends Fragment {
 
     private void setRemainingElements(int text, int color) {
         setColor(color);
-        setRemainingDaysIconToCalendar();
         setRemainingDaysLabelField(text);
     }
 
@@ -246,10 +234,6 @@ public class ComingBottomSheetDetails extends Fragment {
         remainingDaysLabelField.setTextColor(context.getColor(color));
         remainingDaysField.setTextColor(context.getColor(color));
         daysLabelField.setTextColor(context.getColor(color));
-    }
-
-    private void setRemainingDaysIconToCalendar() {
-        remainingDaysIconField.setImageResource(R.drawable.ic_baseline_event_busy_24);
     }
 
     private void setRemainingDaysLabelField(int text) {

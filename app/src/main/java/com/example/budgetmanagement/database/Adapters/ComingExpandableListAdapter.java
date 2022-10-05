@@ -4,6 +4,7 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DAT
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,15 @@ import com.example.budgetmanagement.ui.Coming.Section;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Days;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -125,33 +133,64 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         Calendar todayDate = Calendar.getInstance();
         Calendar otherDate = Calendar.getInstance();
         otherDate.setTimeInMillis(repeatDate);
+//
+//        todayDate.set(Calendar.HOUR, 0);
+//        todayDate.set(Calendar.MINUTE, 0);
+//        todayDate.set(Calendar.SECOND, 0);
+//        todayDate.set(Calendar.MILLISECOND, 0);
+//
+//        otherDate.set(Calendar.HOUR, 0);
+//        otherDate.set(Calendar.MINUTE, 0);
+//        otherDate.set(Calendar.SECOND, 0);
+//        otherDate.set(Calendar.MILLISECOND, 0);
+//
+//        long timeInMillis = otherDate.getTimeInMillis() - todayDate.getTimeInMillis();
+//        Calendar resultDate = Calendar.getInstance();
+//        resultDate.setTimeInMillis(timeInMillis);
+//        int days = (int) TimeUnit.MILLISECONDS.toDays(resultDate.getTimeInMillis());
 
-        int days = otherDate.get(Calendar.DAY_OF_YEAR) - todayDate.get(Calendar.DAY_OF_YEAR);
-        remainingDays.setText(String.valueOf(days));
+        DateTimeZone timeZone = DateTimeZone.getDefault();
+
+        Date start = new Date();
+        Date end = new Date();
+        start.setTime(todayDate.getTimeInMillis());
+        end.setTime(otherDate.getTimeInMillis());
+        DateTime startDate = new DateTime(start, timeZone);
+        DateTime endDate = new DateTime(end, timeZone);
+
+        int days = Days.daysBetween(startDate.withTimeAtStartOfDay(), endDate.withTimeAtStartOfDay()).getDays();
+
+
 
         boolean afterDeadline = otherDate.before(todayDate);
+        remainingDays.setText(String.valueOf(days));
         if (afterDeadline && !isExecuted) {
             remainingDays.setTextColor(view.getContext().getColor(R.color.mat_red));
             daysText.setTextColor(view.getContext().getColor(R.color.mat_red));
+            daysText.setText("dni");
+            dateInfo.setText(R.string.forDays);
             dateInfo.setTextColor(view.getContext().getColor(R.color.mat_red));
-
             outOfDateIconSetResource(view, R.drawable.calendar, R.color.mat_red);
         } else {
+//            if (todayDate.get(Calendar.YEAR) > otherDate.get(Calendar.YEAR)) {
+//                days = -Math.abs(days);
+//            } else if (todayDate.get(Calendar.YEAR) < otherDate.get(Calendar.YEAR)) {
+//                days = Math.abs(days);
+//            }
             remainingDays.setTextColor(view.getContext().getColor(R.color.font_default));
+            daysText.setText("dni");
             daysText.setTextColor(view.getContext().getColor(R.color.font_default));
+            dateInfo.setText(R.string.inDays);
             dateInfo.setTextColor(view.getContext().getColor(R.color.font_default));
-
             outOfDateIconSetResource(view, R.drawable.calendar, R.color.font_default);
         }
 
         if (isExecuted) {
             long executedDateInMillis = item.coming.getExecutedDate();
-            remainingDays.setText(String.valueOf(getRemainingDays(todayDate, getCalendarWithValue(executedDateInMillis))));
-
-            remainingDays.setTextColor(view.getContext().getColor(R.color.main_green));
-            daysText.setTextColor(view.getContext().getColor(R.color.main_green));
-            daysText.setText(R.string.paid);
-
+            remainingDays.setText("");
+            daysText.setText("");
+            dateInfo.setTextColor(view.getContext().getColor(R.color.main_green));
+            dateInfo.setText(R.string.paid);
             outOfDateIconSetResource(view, R.drawable.ic_baseline_done_all_24, R.color.main_green);
         }
 
@@ -169,12 +208,8 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     private void outOfDateIconSetResource(View view, int drawable, int color) {
-        outOfDateIcon.setColorFilter(view.getContext().getResources().getColor(color));
+        outOfDateIcon.setColorFilter(view.getContext().getColor(color));
         outOfDateIcon.setImageResource(drawable);
-    }
-
-    public void clearItems() {
-        this.items.clear();
     }
 
     @Override
