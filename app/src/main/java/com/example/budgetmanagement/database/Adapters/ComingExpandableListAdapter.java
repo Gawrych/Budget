@@ -1,9 +1,11 @@
 package com.example.budgetmanagement.database.Adapters;
 
+import static androidx.test.InstrumentationRegistry.getContext;
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DATE_FORMAT;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +15,14 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
+
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
+import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.ui.Coming.Section;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
@@ -34,10 +42,12 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     private final Context context;
     private ArrayList<Section> items;
     private ImageView outOfDateIcon;
+    private CategoryViewModel categoryViewModel;
 
-    public ComingExpandableListAdapter(Context context, ArrayList<Section> items) {
+    public ComingExpandableListAdapter(Context context, ArrayList<Section> items, ViewModelStoreOwner owner) {
         this.context = context;
         this.items = items;
+        categoryViewModel = new ViewModelProvider(owner).get(CategoryViewModel.class);
     }
 
     public void updateItems(ArrayList<Section> items) {
@@ -86,11 +96,11 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         balance.setText(section.getBalance());
 
         if (section.isBalanceNegative()) {
-            balance.setTextColor(context.getResources().getColor(R.color.mat_red));
-            currency.setTextColor(context.getResources().getColor(R.color.mat_red));
+            balance.setTextColor(context.getColor(R.color.black));
+            currency.setTextColor(context.getColor(R.color.black));
         } else {
-            balance.setTextColor(context.getResources().getColor(R.color.mat_green));
-            currency.setTextColor(context.getResources().getColor(R.color.mat_green));
+            balance.setTextColor(context.getColor(R.color.mat_green));
+            currency.setTextColor(context.getColor(R.color.mat_green));
         }
 
         sectionName.setText(sectionTitle);
@@ -140,6 +150,13 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         int days = Days.daysBetween(startDate.withTimeAtStartOfDay(), endDate.withTimeAtStartOfDay()).getDays();
 
 
+        int categoryId = item.transaction.getCategoryId();
+        Category category = categoryViewModel.getCategoryById(categoryId);
+
+//        TODO: Change field in category table to store resourceId instead iconName
+        String iconName = category.getIconName();
+        int resourceId = view.getContext().getResources().getIdentifier(iconName, "drawable", view.getContext().getPackageName());
+
         boolean afterDeadline = otherDate.before(todayDate);
         remainingDays.setText(String.valueOf(days));
         if (afterDeadline && !isExecuted) {
@@ -148,14 +165,14 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
             daysText.setText("dni");
             dateInfo.setText(R.string.forDays);
             dateInfo.setTextColor(view.getContext().getColor(R.color.mat_red));
-            outOfDateIconSetResource(view, R.drawable.calendar, R.color.mat_red);
+            outOfDateIconSetResource(view, resourceId, R.color.mat_red);
         } else {
             remainingDays.setTextColor(view.getContext().getColor(R.color.font_default));
             daysText.setText("dni");
             daysText.setTextColor(view.getContext().getColor(R.color.font_default));
             dateInfo.setText(R.string.inDays);
             dateInfo.setTextColor(view.getContext().getColor(R.color.font_default));
-            outOfDateIconSetResource(view, R.drawable.calendar, R.color.font_default);
+            outOfDateIconSetResource(view, resourceId, R.color.font_default);
         }
 
         if (isExecuted) {

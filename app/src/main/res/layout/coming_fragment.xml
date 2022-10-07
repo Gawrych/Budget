@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainLayout"
     android:orientation="vertical"
-    android:background="@color/grey"
+    android:background="@color/white"
     tools:context=".ui.Coming.ComingFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,7 +70,7 @@
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/grey"
+        android:background="@color/white"
         android:groupIndicator="@null"
         android:divider="@null">
     </ExpandableListView>

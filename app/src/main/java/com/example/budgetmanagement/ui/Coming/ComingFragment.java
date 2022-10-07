@@ -36,7 +36,6 @@ public class ComingFragment extends Fragment {
     private View view;
     private List<ComingAndTransaction> globalList;
     private ArrayList<Section> sectionList = new ArrayList<>();
-    private final HashMap<Short, ArrayList<Section>> sectionListsByYears = new HashMap<>();
     private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollection = new HashMap<>();
     private ComingBottomSheetDetails details;
     private ComingViewModel comingViewModel;
@@ -94,7 +93,7 @@ public class ComingFragment extends Fragment {
         expandableListView = view.findViewById(R.id.expandableListView);
         details = new ComingBottomSheetDetails(requireContext(), getActivity(), this, view);
 
-        expandableListAdapter = new ComingExpandableListAdapter(requireContext(), sectionList);
+        expandableListAdapter = new ComingExpandableListAdapter(requireContext(), sectionList, this);
         expandableListView.setAdapter(expandableListAdapter);
 
         comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
