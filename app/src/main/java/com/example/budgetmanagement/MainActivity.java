@@ -3,7 +3,12 @@ package com.example.budgetmanagement;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -15,9 +20,12 @@ import com.example.budgetmanagement.database.ViewModels.FilterViewModel;
 import com.example.budgetmanagement.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Objects;
+
 
 public class MainActivity extends AppCompatActivity {
 
+    private Toolbar actionbar;
     private ActivityMainBinding binding;
     private FilterViewModel filterViewModel;
     public static Resources resources;
@@ -28,6 +36,15 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         resources = getResources();
+
+//        Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        getSupportActionBar().setDisplayShowCustomEnabled(true);
+//        getSupportActionBar().setCustomView(R.layout.custom_action_bar_layout);
+//        View view = getSupportActionBar().getCustomView();
+
+        actionbar = findViewById(R.id.toolBar);
+        setSupportActionBar(actionbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
 
@@ -40,16 +57,29 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         BottomNavigationView navBar = findViewById(R.id.nav_view);
+        TextView fragmentName = findViewById(R.id.fragmentName);
+
+        actionbar.setNavigationOnClickListener(v -> onBackPressed());
 
         navController.addOnDestinationChangedListener((navController1, navDestination, bundle) -> {
-
-            if(navDestination.getId() == R.id.addNewComing ||
-                    navDestination.getId() == R.id.addNewHistory ||
-                    navDestination.getId() == R.id.filterFragment) {
+            int destination = navDestination.getId();
+            if(destination == R.id.addNewComing) {
                 navBar.setVisibility(View.INVISIBLE);
+                fragmentName.setText("Nowa transackcja");
+            } else if (destination == R.id.filterFragment) {
+                navBar.setVisibility(View.INVISIBLE);
+                fragmentName.setText("Sortowanie");
+            } else if (destination == R.id.navigation_statistics) {
+                navBar.setVisibility(View.VISIBLE);
+                fragmentName.setText("Statystyki");
+            } else if (destination == R.id.navigation_incoming) {
+                navBar.setVisibility(View.VISIBLE);
+                fragmentName.setText("Transakcje");
+            } else if (destination == R.id.editComingElement) {
+                navBar.setVisibility(View.INVISIBLE);
+                fragmentName.setText("Edycja");
             } else {
                 navBar.setVisibility(View.VISIBLE);
-
             }
         });
     }

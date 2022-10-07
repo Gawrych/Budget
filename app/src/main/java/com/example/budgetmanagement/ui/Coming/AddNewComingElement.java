@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,7 +72,6 @@ public class AddNewComingElement extends TransactionFormService implements GetVi
         timeBetweenPayLayout = rootView.findViewById(R.id.timeBetweenPayLayout);
         timeBetweenExecutePicker = rootView.findViewById(R.id.timeBetweenPay);
         Button acceptButton = rootView.findViewById(R.id.acceptButton);
-
 
         datePickerDialog = setDatePickerDialog(Calendar.getInstance());
 

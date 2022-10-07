@@ -4,7 +4,6 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="88dp"
-    android:background="@color/grey"
     android:paddingStart="20dp">
 
     <TextView

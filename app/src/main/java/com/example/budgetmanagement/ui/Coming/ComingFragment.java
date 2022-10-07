@@ -97,7 +97,6 @@ public class ComingFragment extends Fragment {
         expandableListAdapter = new ComingExpandableListAdapter(requireContext(), sectionList);
         expandableListView.setAdapter(expandableListAdapter);
 
-
         comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
             setSections(list, true);
             int actualPositionToScroll = getActualPositionToScroll();
@@ -119,6 +118,7 @@ public class ComingFragment extends Fragment {
                     .navigate(R.id.action_navigation_incoming_to_addNewComingElement);
         });
 
+        expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
         yearPicker.setOnClickListener(v -> selectYear());
     }
 
