@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,207 +9,336 @@
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingBottom="20dp"
+        android:background="@drawable/bottom_line"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp">
 
         <TextView
-            android:id="@+id/transactionName"
+            android:id="@+id/transactionTitleLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:text="Tytuł"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/transactionName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:text="@string/no_data"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/transactionTitleLabel" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/repeatDateLayout"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/amountLabel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="40dp"
-            android:paddingEnd="40dp"
             android:layout_marginTop="20dp"
+            android:text="Kwota"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/transactionName">
+            app:layout_constraintTop_toBottomOf="@+id/transactionName"/>
 
-            <TextView
-                android:id="@+id/remainingDaysLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pozostało"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/profitIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_baseline_arrow_drop_up_24"
+            android:text="@string/no_data"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
 
-            <ImageView
-                android:id="@+id/remainingDaysIcon"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/calendar_smaller_icon"
-                app:layout_constraintStart_toEndOf="@+id/remainingDaysLabel"
-                app:layout_constraintTop_toTopOf="@+id/remainingDaysLabel" />
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/no_data"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/profitIcon"
+            app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
 
-            <TextView
-                android:id="@+id/remainingDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:text="@string/no_data"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/remainingDaysLabel"
-                app:layout_constraintEnd_toStartOf="@+id/remainingDays" />
+        <TextView
+            android:id="@+id/currency"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:gravity="bottom|center_horizontal"
+            android:text="@string/polish_currency"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/amount"
+            app:layout_constraintStart_toEndOf="@+id/amount" />
 
-            <TextView
-                android:id="@+id/remainingDays"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no_data"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/remainingDaysLabel"
-                app:layout_constraintEnd_toStartOf="@+id/daysLabel" />
+        <TextView
+            android:id="@+id/categoryLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Kategoria"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/amount"/>
 
-            <TextView
-                android:id="@+id/daysLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="5dp"
-                android:text="dni"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/remainingDaysLabel"
-                app:layout_constraintEnd_toEndOf="parent" />
+        <ImageView
+            android:id="@+id/categoryIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_baseline_event_busy_24"
+            android:text="@string/no_data"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/categoryLabel" />
 
-            <TextView
-                android:id="@+id/validityLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Ważność"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/remainingDaysLabel" />
+        <TextView
+            android:id="@+id/categoryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/no_data"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/categoryIcon"
+            app:layout_constraintTop_toBottomOf="@+id/categoryLabel" />
 
-            <TextView
-                android:id="@+id/validity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no_data"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/validityLabel"
-                app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/repeatDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Data realizacji"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/categoryIcon"/>
 
-            <TextView
-                android:id="@+id/addDateLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Utworzono"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/validityLabel" />
+        <TextView
+            android:id="@+id/remainingDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_data"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/repeatDateLabel" />
 
-            <TextView
-                android:id="@+id/addDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no_data"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/addDateLabel"
-                app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/remainingDaysLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text="Pozostało"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/remainingDate"
+            app:layout_constraintEnd_toStartOf="@+id/remainingDays" />
 
-            <TextView
-                android:id="@+id/lastEditDateLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Ostatnia modyfikacja"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addDateLabel" />
+        <TextView
+            android:id="@+id/remainingDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text="0"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/remainingDaysLabel"
+            app:layout_constraintEnd_toStartOf="@+id/daysLabel" />
 
-            <TextView
-                android:id="@+id/lastEditDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no_data"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/lastEditDateLabel"
-                app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/daysLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text="dni"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/remainingDaysLabel"
+            app:layout_constraintEnd_toStartOf="@+id/dateWhenWasPaid" />
+
+        <TextView
+            android:id="@+id/dateWhenWasPaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_data"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/daysLabel"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/addDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Utworzono"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/remainingDate" />
+
+        <TextView
+            android:id="@+id/addDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_data"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addDateLabel" />
+
+        <TextView
+            android:id="@+id/lastEditDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Ostatnia modyfikacja"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/remainingDate" />
+
+        <TextView
+            android:id="@+id/lastEditDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/no_data"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/lastEditDateLabel"
+            app:layout_constraintTop_toBottomOf="@+id/lastEditDateLabel" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/remainingDaysLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/repeatDateLayout">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/buttons"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginTop="50dp"
-        android:paddingBottom="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/details">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="30dp">
 
-        <Button
-            android:id="@+id/createNewByThisPattern"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/main_blue"
-            android:text="Utwórz podobne"
-            android:textColor="#EFF1F3"
-            app:layout_constraintEnd_toEndOf="@+id/delete"
-            app:layout_constraintStart_toStartOf="@+id/delete"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/executeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/execute"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/mat_green"
-            android:text="Opłać"
-            android:textColor="#EFF1F3"
-            app:layout_constraintEnd_toEndOf="@+id/edit"
-            app:layout_constraintStart_toStartOf="@+id/edit"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/executeIcon"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_baseline_done_all_24"
+                android:layout_gravity="center" />
 
-        <Button
-            android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:text="Usuń"
-            android:textColor="#EFF1F3"
-            android:backgroundTint="@color/mat_red"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/executeLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="32dp"
+                android:gravity="center_vertical"
+                android:text="Zrealizuj"
+                android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#F78764"
-            android:layout_marginEnd="60dp"
-            android:text="Edytuj"
-            android:textColor="#EFF1F3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/editLayout"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/executeLayout">
+
+            <ImageView
+                android:id="@+id/editIcon"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_baseline_edit_24"
+                app:tint="@color/font_default"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/editLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="32dp"
+                android:gravity="center_vertical"
+                android:text="@string/edit"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/duplicateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editLayout">
+
+            <ImageView
+                android:id="@+id/duplicateIcon"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_baseline_content_copy_24"
+                app:tint="@color/font_default"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/duplicateLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="32dp"
+                android:gravity="center_vertical"
+                android:text="Utwórz podobne"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/deleteLayout"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/duplicateLayout">
+
+            <ImageView
+                android:id="@+id/deleteIcon"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_baseline_delete_24"
+                app:tint="@color/mat_red"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/deleteLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="32dp"
+                android:gravity="center_vertical"
+                android:text="Usuń"
+                android:textColor="@color/mat_red"
+                android:textSize="18sp" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

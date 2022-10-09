@@ -2,13 +2,12 @@ package com.example.budgetmanagement.ui.Coming;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,14 +17,16 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.Rooms.History;
+import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
-import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 public class ComingBottomSheetDetails extends Fragment {
@@ -41,14 +42,20 @@ public class ComingBottomSheetDetails extends Fragment {
     private final TextView remainingDaysLabelField;
     private final TextView daysLabelField;
     private final TextView lastEditDateField;
-    private final TextView validityField;
     private final TextView deadlineDateField;
-    private final ImageView remainingDaysIconField;
-    private final Button deleteButton;
-    private final Button editButton;
-    private final Button executeButton;
-    private final Button moveButton;
+    private final TextView dateWhenWasPaid;
+    private final LinearLayout deleteButton;
+    private final LinearLayout editButton;
+    private final LinearLayout executeButton;
+    private final LinearLayout duplicateButton;
     private final View root;
+    private final TextView amountField;
+    private final CategoryViewModel categoryViewModel;
+    private final TextView categoryName;
+    private final ImageView categoryIcon;
+    private final ImageView profitIcon;
+    private final TextView executeLabel;
+    private final ImageView executeIcon;
     private ComingAndTransaction comingAndTransaction;
 
     public ComingBottomSheetDetails(Context context, Activity activity, ViewModelStoreOwner owner, View root) {
@@ -57,15 +64,16 @@ public class ComingBottomSheetDetails extends Fragment {
         this.root = root;
 
         this.comingViewModel = new ViewModelProvider(owner).get(ComingViewModel.class);
+        this.categoryViewModel = new ViewModelProvider(owner).get(CategoryViewModel.class);
         this.historyViewModel = new ViewModelProvider(owner).get(HistoryViewModel.class);
 
         bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(R.layout.coming_bottom_sheet_details);
 
-        deleteButton = bottomSheetDialog.findViewById(R.id.delete);
-        editButton = bottomSheetDialog.findViewById(R.id.edit);
-        executeButton = bottomSheetDialog.findViewById(R.id.execute);
-        moveButton = bottomSheetDialog.findViewById(R.id.createNewByThisPattern);
+        deleteButton = bottomSheetDialog.findViewById(R.id.deleteLayout);
+        editButton = bottomSheetDialog.findViewById(R.id.editLayout);
+        executeButton = bottomSheetDialog.findViewById(R.id.executeLayout);
+        duplicateButton = bottomSheetDialog.findViewById(R.id.duplicateLayout);
 
         transactionNameField = bottomSheetDialog.findViewById(R.id.transactionName);
         addDateField = bottomSheetDialog.findViewById(R.id.addDate);
@@ -73,18 +81,34 @@ public class ComingBottomSheetDetails extends Fragment {
         remainingDaysField = bottomSheetDialog.findViewById(R.id.remainingDays);
         daysLabelField = bottomSheetDialog.findViewById(R.id.daysLabel);
         lastEditDateField = bottomSheetDialog.findViewById(R.id.lastEditDate);
-        validityField = bottomSheetDialog.findViewById(R.id.validity);
-        remainingDaysIconField = bottomSheetDialog.findViewById(R.id.remainingDaysIcon);
         deadlineDateField = bottomSheetDialog.findViewById(R.id.remainingDate);
+        dateWhenWasPaid = bottomSheetDialog.findViewById(R.id.dateWhenWasPaid);
+        amountField = bottomSheetDialog.findViewById(R.id.amount);
+        categoryName = bottomSheetDialog.findViewById(R.id.categoryName);
+        categoryIcon = bottomSheetDialog.findViewById(R.id.categoryIcon);
+        profitIcon = bottomSheetDialog.findViewById(R.id.profitIcon);
+        executeLabel = bottomSheetDialog.findViewById(R.id.executeLabel);
+        executeIcon = bottomSheetDialog.findViewById(R.id.executeIcon);
     }
 
     public void setData(ComingAndTransaction comingAndTransaction) {
         this.comingAndTransaction = comingAndTransaction;
         setTransactionName();
-        setValidityValue();
+        setAmount();
         setAddDate();
         setLastModifiedDate();
-        setExecuteButton(R.string.Pay, R.color.mat_green);
+        setExecuteButton(R.string.done, R.drawable.ic_baseline_done_all_24);
+        setAmountIcon();
+
+        int categoryId = comingAndTransaction.transaction.getCategoryId();
+        Category category = categoryViewModel.getCategoryById(categoryId);
+
+//        TODO: Change field in category table to store resourceId instead iconName
+        String iconName = category.getIconName();
+        int iconResId = context.getResources().getIdentifier(iconName, "drawable", context.getPackageName());
+
+        categoryIcon.setImageResource(iconResId);
+        categoryName.setText(category.getName());
 
         Calendar todayDate = getTodayDate();
         Calendar deadlineDate = getCalendarWithValue(getRepeatDate());
@@ -95,7 +119,11 @@ public class ComingBottomSheetDetails extends Fragment {
 
         boolean isExecute = comingAndTransaction.coming.isExecute();
         boolean isBeforeDeadline = deadlineDate.after(todayDate);
-        remainingDaysIconField.setImageResource(R.drawable.calendar_smaller_icon);
+
+        dateWhenWasPaid.setVisibility(View.GONE);
+
+        daysLabelField.setVisibility(View.VISIBLE);
+        remainingDaysField.setVisibility(View.VISIBLE);
 
         if (isBeforeDeadline) {
             setRemainingElements(R.string.Remain, R.color.font_default);
@@ -104,23 +132,40 @@ public class ComingBottomSheetDetails extends Fragment {
         }
 
         if (isExecute) {
-            long executedDateInMillis = comingAndTransaction.coming.getExecutedDate();
+            setDeadlineDateField(comingAndTransaction.coming.getRepeatDate());
 
-            setDeadlineDateField(executedDateInMillis);
-            setRemainingDaysField(getRemainingDays(todayDate, getCalendarWithValue(executedDateInMillis)));
+            dateWhenWasPaid.setVisibility(View.VISIBLE);
+            dateWhenWasPaid.setText(DateProcessor.parseDate(comingAndTransaction.coming.getExecutedDate()));
 
-            setExecuteButton(R.string.cancel_pay, R.color.dark_grey);
-            setRemainingElements(R.string.paid_from, R.color.main_green);
-            remainingDaysIconField.setImageResource(R.drawable.ic_baseline_done_all_24);
+            daysLabelField.setVisibility(View.GONE);
+            remainingDaysField.setVisibility(View.GONE);
+
+            setExecuteButton(R.string.cancel_completed, R.drawable.ic_baseline_cancel_24);
+            setRemainingElements(R.string.completed, R.color.main_green);
         }
 
         deleteButton.setOnClickListener(v -> deleteItem());
 
         editButton.setOnClickListener(v -> editSelectedElement());
 
-        moveButton.setOnClickListener(v -> createNewByThisPattern());
+        duplicateButton.setOnClickListener(v -> createNewByThisPattern());
 
         executeButton.setOnClickListener(v -> executePay());
+    }
+
+    private void setAmountIcon() {
+        BigDecimal bigDecimal = new BigDecimal(comingAndTransaction.transaction.getAmount());
+        if (isNegative(bigDecimal)) {
+            profitIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
+            profitIcon.setColorFilter(context.getColor(R.color.mat_red));
+        } else {
+            profitIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24);
+            profitIcon.setColorFilter(context.getColor(R.color.main_green));
+        }
+    }
+
+    private boolean isNegative(BigDecimal bigDecimal) {
+        return bigDecimal.signum() == -1;
     }
 
     private void createNewByThisPattern() {
@@ -151,11 +196,8 @@ public class ComingBottomSheetDetails extends Fragment {
         transactionNameField.setText(comingAndTransaction.transaction.getTitle());
     }
 
-    private void setValidityValue() {
-        byte validityValue = comingAndTransaction.coming.getValidity();
-        if (validityValue == 2) {
-            validityField.setText("Średnia");
-        }
+    private void setAmount() {
+        amountField.setText(comingAndTransaction.transaction.getAmount());
     }
 
     private void setAddDate() {
@@ -167,7 +209,7 @@ public class ComingBottomSheetDetails extends Fragment {
         if (modifiedDate != 0) {
             lastEditDateField.setText(DateProcessor.parseDate(modifiedDate));
         } else {
-            lastEditDateField.setText(R.string.Never);
+            lastEditDateField.setText(R.string.never);
         }
     }
 
@@ -229,7 +271,7 @@ public class ComingBottomSheetDetails extends Fragment {
     }
 
     private void setColor(int color) {
-        remainingDaysIconField.setColorFilter(context.getColor(color));
+        dateWhenWasPaid.setTextColor(context.getColor(color));
         deadlineDateField.setTextColor(context.getColor(color));
         remainingDaysLabelField.setTextColor(context.getColor(color));
         remainingDaysField.setTextColor(context.getColor(color));
@@ -240,17 +282,17 @@ public class ComingBottomSheetDetails extends Fragment {
         remainingDaysLabelField.setText(text);
     }
 
-    private void setExecuteButton(int text, int color) {
+    private void setExecuteButton(int text, int drawable) {
         setExecuteButtonText(text);
-        setExecuteButtonColor(color);
+        setExecuteIcon(drawable);
     }
     
     private void setExecuteButtonText(int text) {
-        executeButton.setText(text);
+        executeLabel.setText(text);
     }
 
-    private void setExecuteButtonColor(int color) {
-        executeButton.setBackgroundColor(context.getColor(color));
+    private void setExecuteIcon(int drawable) {
+        executeIcon.setImageResource(drawable);
     }
 
     private void removeFromDatabase(ComingAndTransaction comingAndTransaction) {

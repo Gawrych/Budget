@@ -1,12 +1,9 @@
 package com.example.budgetmanagement.database.Adapters;
 
-import static androidx.test.InstrumentationRegistry.getContext;
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DATE_FORMAT;
 
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +19,6 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
-import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.ui.Coming.Section;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
@@ -33,9 +29,6 @@ import org.joda.time.Days;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -124,7 +117,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         final TextView currencyField = view.findViewById(R.id.currency);
         final TextView remainingDays = view.findViewById(R.id.remainingDays);
         final TextView daysText = view.findViewById(R.id.daysText);
-        final TextView dateInfo = view.findViewById(R.id.dateInfo);
+        final TextView dateInfo = view.findViewById(R.id.info);
         outOfDateIcon = view.findViewById(R.id.outOfDateIcon);
 
 
@@ -156,32 +149,52 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 //        TODO: Change field in category table to store resourceId instead iconName
         String iconName = category.getIconName();
         int resourceId = view.getContext().getResources().getIdentifier(iconName, "drawable", view.getContext().getPackageName());
+        outOfDateIcon.setImageResource(resourceId);
+
+
+//        GradientDrawable gd = new GradientDrawable(
+//                GradientDrawable.Orientation.LEFT_RIGHT,
+//                new int[] {0x002E9F47,0x002E9F47,0x2A2E9F47,0x4A2E9F47,0x9A2E9F47});
+//        gd.setCornerRadius(0f);
+
+//        GradientDrawable gd = new GradientDrawable();
+//        gd.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+//        gd.setColors(new int[] {adjustAlpha(0x0000b4d8, 0.2f), adjustAlpha(0x0000b4d8, 0.5f), adjustAlpha(0x0000b4d8, 0.9f)});
+//
+//        view.findViewById(R.id.mainLayout).setBackground(gd);
+//        CardView cardView = view.findViewById(R.id.colorPad);
+//        cardView.setCardBackgroundColor(Color.parseColor("#2E9F47"));
+
 
         boolean afterDeadline = otherDate.before(todayDate);
-        remainingDays.setText(String.valueOf(days));
+        remainingDays.setText(String.valueOf(Math.abs(days)));
         if (afterDeadline && !isExecuted) {
             remainingDays.setTextColor(view.getContext().getColor(R.color.mat_red));
             daysText.setTextColor(view.getContext().getColor(R.color.mat_red));
-            daysText.setText("dni");
-            dateInfo.setText(R.string.forDays);
+
             dateInfo.setTextColor(view.getContext().getColor(R.color.mat_red));
-            outOfDateIconSetResource(view, resourceId, R.color.mat_red);
+
+            if (days == 0) {
+                remainingDays.setText("");
+                daysText.setText("");
+                dateInfo.setText(R.string.today);
+            } else {
+                daysText.setText("dni");
+                dateInfo.setText(R.string.forDays);
+            }
         } else {
             remainingDays.setTextColor(view.getContext().getColor(R.color.font_default));
             daysText.setText("dni");
             daysText.setTextColor(view.getContext().getColor(R.color.font_default));
             dateInfo.setText(R.string.inDays);
             dateInfo.setTextColor(view.getContext().getColor(R.color.font_default));
-            outOfDateIconSetResource(view, resourceId, R.color.font_default);
         }
 
         if (isExecuted) {
-            long executedDateInMillis = item.coming.getExecutedDate();
             remainingDays.setText("");
             daysText.setText("");
+            dateInfo.setText(R.string.completed);
             dateInfo.setTextColor(view.getContext().getColor(R.color.main_green));
-            dateInfo.setText(R.string.paid);
-            outOfDateIconSetResource(view, R.drawable.ic_baseline_done_all_24, R.color.main_green);
         }
 
         return view;
