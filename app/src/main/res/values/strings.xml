@@ -56,9 +56,9 @@
     <string name="Remain">Pozostało</string>
     <string name="after_the_deadline">Po terminie</string>
     <string name="paid">Opłacone</string>
-    <string name="completed">Zrealizowano</string>
+    <string name="realized">Zrealizowano</string>
     <string name="cancel_completed">Anuluj realizację</string>
-    <string name="done">Zrealizuj</string>
+    <string name="realize">Zrealizuj</string>
     <string name="empty_field">Puste pole!</string>
     <string name="each_day">Co dzień</string>
     <string name="each_week">Co tydzień</string>

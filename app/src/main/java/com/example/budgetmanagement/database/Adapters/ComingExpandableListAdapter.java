@@ -193,7 +193,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         if (isExecuted) {
             remainingDays.setText("");
             daysText.setText("");
-            dateInfo.setText(R.string.completed);
+            dateInfo.setText(R.string.realized);
             dateInfo.setTextColor(view.getContext().getColor(R.color.main_green));
         }
 
