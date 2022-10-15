@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_statistics, R.id.navigation_incoming, R.id.navigation_history, R.id.navigation_category)
+                R.id.navigation_statistics, R.id.navigation_incoming, R.id.navigation_history, R.id.navigation_settings)
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
@@ -75,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (destination == R.id.navigation_incoming) {
                 navBar.setVisibility(View.VISIBLE);
                 fragmentName.setText("Transakcje");
+            } else if (destination == R.id.navigation_settings) {
+                navBar.setVisibility(View.VISIBLE);
+                fragmentName.setText("Ustawienia");
             } else if (destination == R.id.editComingElement) {
                 navBar.setVisibility(View.INVISIBLE);
                 fragmentName.setText("Edycja");

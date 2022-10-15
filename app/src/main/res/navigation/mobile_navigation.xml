@@ -10,11 +10,19 @@
         android:name="com.example.budgetmanagement.ui.Statistics.StatisticsFragment"
         android:label="@string/title_statistics"
         tools:layout="@layout/statistics_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.budgetmanagement.ui.Settings.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+
     <fragment
         android:id="@+id/navigation_category"
         android:name="com.example.budgetmanagement.ui.Category.CategoryFragment"
         android:label="@string/title_category"
         tools:layout="@layout/category_fragment" />
+
     <fragment
         android:id="@+id/navigation_history"
         android:name="com.example.budgetmanagement.ui.History.HistoryFragment"
@@ -26,6 +34,7 @@
         <action
             android:id="@+id/action_navigation_history_to_filterFragment"
             app:destination="@id/filterFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/navigation_incoming"
