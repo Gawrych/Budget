@@ -7,7 +7,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-public interface GetViewComingFields extends GetViewTransactionFields {
+public interface ComingFields extends GetViewTransactionFields {
 
     AutoCompleteTextView getTimeBetweenExecutePicker();
 

@@ -53,12 +53,12 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         });
     }
 
-    private void setDataCollector(GetViewComingFields getViewComingFields) {
-        comingFragmentDataCollector = new NewComingFragmentDataCollector(getViewComingFields);
+    private void setDataCollector(ComingFields comingFields) {
+        comingFragmentDataCollector = new NewComingFragmentDataCollector(comingFields);
     }
 
-    private void setResources(GetViewComingFields getViewComingFields) {
-        resources = getViewComingFields.getFragmentContext().getResources();
+    private void setResources(ComingFields comingFields) {
+        resources = comingFields.getFragmentContext().getResources();
     }
 
     private NewComingFragmentDataCollector collectDataWithFilledRequireFields() {

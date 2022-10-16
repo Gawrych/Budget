@@ -2,7 +2,6 @@ package com.example.budgetmanagement.ui.Coming;
 
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,7 +32,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddNewComingElement extends TransactionFormService implements GetViewComingFields {
+public class AddNewComingElement extends TransactionFormService implements ComingFields {
 
     private DatePickerDialog datePickerDialog;
     private ArrayAdapter<String> adapter;
@@ -47,8 +45,6 @@ public class AddNewComingElement extends TransactionFormService implements GetVi
     private TextInputLayout timeBetweenPayLayout;
     private boolean successfullyCollectedData;
     private ArrayList<Long> dates = new ArrayList<>();
-    private int comingId;
-    private ComingViewModel comingViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -158,8 +154,8 @@ public class AddNewComingElement extends TransactionFormService implements GetVi
     }
 
     private ComingAndTransaction getComingByIdFromBundle() {
-        this.comingId = getArguments() != null ? getArguments().getInt("comingId") : 0;
-        this.comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
+        int comingId = getArguments() != null ? getArguments().getInt("comingId") : 0;
+        ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
         return comingViewModel.getComingAndTransactionById(comingId);
     }
 
@@ -185,8 +181,8 @@ public class AddNewComingElement extends TransactionFormService implements GetVi
         String number = amountInBigDecimal.abs().toString();
         amount.setText(number);
 
-        String categoryName = CategoryBottomSheetSelector.getCategoryName(transaction.getCategoryId(), this);
-        selectedCategory.setText(categoryName);
+        selectedCategory.setText(CategoryBottomSheetSelector.getCategoryName(transaction.getCategoryId(), this));
+        setCategoryId(transaction.getCategoryId());
 
         dateField.setText(DateProcessor.parseDate(comingAndTransaction.coming.getRepeatDate(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
     }

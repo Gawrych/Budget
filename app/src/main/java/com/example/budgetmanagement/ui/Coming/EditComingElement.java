@@ -1,30 +1,23 @@
 package com.example.budgetmanagement.ui.Coming;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Coming;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
-import com.example.budgetmanagement.database.Rooms.History;
 import com.example.budgetmanagement.database.Rooms.Transaction;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
-import com.example.budgetmanagement.ui.History.AddNewHistoryElement;
 import com.example.budgetmanagement.ui.History.NewTransactionDataCollector;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
@@ -33,7 +26,6 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Calendar;
 
 public class EditComingElement extends TransactionFormService {
@@ -58,7 +50,7 @@ public class EditComingElement extends TransactionFormService {
             return;
         }
 
-        prepareFields();
+        fillFields();
 
         Button acceptButton = rootView.findViewById(R.id.acceptButton);
 
@@ -73,7 +65,7 @@ public class EditComingElement extends TransactionFormService {
         });
     }
 
-    private void prepareFields() {
+    private void fillFields() {
         TextInputEditText title = getTitleField();
         TextInputEditText amount = getAmountField();
         AutoCompleteTextView selectedCategory = getSelectedCategory();
@@ -95,8 +87,8 @@ public class EditComingElement extends TransactionFormService {
         String number = amountInBigDecimal.abs().stripTrailingZeros().toPlainString();
         amount.setText(number);
 
-        String categoryName = CategoryBottomSheetSelector.getCategoryName(transaction.getCategoryId(), this);
-        selectedCategory.setText(categoryName);
+        selectedCategory.setText(CategoryBottomSheetSelector.getCategoryName(transaction.getCategoryId(), this));
+        setCategoryId(transaction.getCategoryId());
 
         dateField.setText(DateProcessor.parseDate(comingAndTransaction.coming.getRepeatDate(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
     }

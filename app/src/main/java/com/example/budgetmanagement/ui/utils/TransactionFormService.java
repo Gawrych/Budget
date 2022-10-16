@@ -124,6 +124,10 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
         });
     }
 
+    public void setCategoryId(int id) {
+        this.categoryId = id;
+    }
+
     @Override
     public Context getFragmentContext() {
         return requireContext();

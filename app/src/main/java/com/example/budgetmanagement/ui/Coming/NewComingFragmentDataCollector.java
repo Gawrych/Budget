@@ -18,14 +18,14 @@ import java.util.Calendar;
 
 public class NewComingFragmentDataCollector extends NewTransactionDataCollector {
 
-    private final GetViewComingFields fieldsInterface;
+    private final ComingFields fieldsInterface;
     private final ArrayMap<String, Integer> timeBetweenValues;
     private TextInputEditText endDate;
     private AutoCompleteTextView timeBetweenExecutePicker;
 
     private final int QUARTER_OF_YEAR = 0;
 
-    public NewComingFragmentDataCollector(GetViewComingFields fieldsInterface) {
+    public NewComingFragmentDataCollector(ComingFields fieldsInterface) {
         super(fieldsInterface);
         this.fieldsInterface = fieldsInterface;
         Resources resources = fieldsInterface.getFragmentContext().getResources();
