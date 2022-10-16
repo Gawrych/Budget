@@ -98,10 +98,9 @@ public class ComingFragment extends Fragment {
 
         comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
             setSections(list, true);
-            int actualPositionToScroll = getActualPositionToScroll();
-
+//            int actualPositionToScroll = getActualPositionToScroll();
             // TODO put this to callAfterLoadList();
-            expandableListView.smoothScrollToPositionFromTop(actualPositionToScroll, 0);
+//            expandableListView.smoothScrollToPositionFromTop(actualPositionToScroll, 0);
         });
 
         expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {

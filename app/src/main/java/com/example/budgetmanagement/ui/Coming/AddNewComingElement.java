@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,9 +49,6 @@ public class AddNewComingElement extends TransactionFormService implements GetVi
     private ArrayList<Long> dates = new ArrayList<>();
     private int comingId;
     private ComingViewModel comingViewModel;
-
-    public AddNewComingElement() {
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -199,18 +197,22 @@ public class AddNewComingElement extends TransactionFormService implements GetVi
         if (amountOfNewDates < MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
             endDateLayout.setError(getString(R.string.not_enough_to_generate_cyclical_change_endDate_or_timeBetween));
 
-        } else if (amountOfNewDates > 25) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-            builder.setMessage("Czy na pewno chcesz dodać wszystkie daty? Jest ich " + amountOfNewDates)
-                    .setNegativeButton(R.string.cancel, (dialog, id) -> {})
-                    .setPositiveButton("Dodaj", (dialog, id) -> {
-                        submitNewComingItemToDatabase(newComingDataCollector, dates);
-                    }).show();
-
-        } else if (amountOfNewDates > MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING &&
-                amountOfNewDates < MAX_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING_WITHOUT_ALERT) {
+        }
+        // TODO: Fix this, error: 'Can't access ViewModels from detached fragment'
+        // else if (amountOfNewDates > MAX_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING_WITHOUT_ALERT) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+//            builder.setMessage("Czy na pewno chcesz dodać wszystkie daty? Jest ich " + amountOfNewDates)
+//                    .setNegativeButton(R.string.cancel, (dialog, id) -> {})
+//                    .setPositiveButton("Dodaj", (dialog, id) -> {
+//                        submitNewComingItemToDatabase(newComingDataCollector, dates);
+//                    }).show();
+        // }
+         else if (amountOfNewDates > MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
             submitNewComingItemToDatabase(newComingDataCollector, dates);
         }
+
+        String howMuchAdded = "Dodano " + amountOfNewDates + " transakcje";
+        Toast.makeText(requireContext(), howMuchAdded, Toast.LENGTH_SHORT).show();
     }
 
     private void submitNewComingItemToDatabase(NewComingFragmentDataCollector newComing, ArrayList<Long> dates) {
