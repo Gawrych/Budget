@@ -5,18 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="88dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/colorPad"
-        android:layout_width="3dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        app:cardCornerRadius="30dp"
-        android:elevation="30dp"
-        app:cardBackgroundColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/outOfDateIcon"
         android:layout_width="22dp"

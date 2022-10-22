@@ -6,12 +6,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainLayout"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@color/first_color_theme"
     tools:context=".ui.Coming.ComingFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_bar_for_item_list"
         android:layout_width="match_parent"
+        android:background="@color/first_color_theme"
         android:layout_height="50dp"
         android:layout_gravity="end">
 
@@ -20,10 +21,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Domyślny rok"
+            android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/yearSelector"
+            app:layout_constraintEnd_toStartOf="@+id/categoriesButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/categoriesButton"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/press_feedback_background"
+            android:contentDescription="@string/icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/yearSelector"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_outline_widgets_24"
+            app:tint="@color/grey" />
 
         <ImageButton
             android:id="@+id/yearSelector"
@@ -36,7 +51,7 @@
             app:layout_constraintEnd_toStartOf="@+id/addButton"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_calendar_month_24"
-            app:tint="@color/main_green" />
+            app:tint="@color/grey" />
 
         <ImageButton
             android:id="@+id/addButton"
@@ -49,7 +64,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_add_24"
-            app:tint="@color/main_green" />
+            app:tint="@color/grey" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -57,7 +72,7 @@
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/rounded_bottom_corner"
         android:groupIndicator="@null"
         android:divider="@null">
     </ExpandableListView>

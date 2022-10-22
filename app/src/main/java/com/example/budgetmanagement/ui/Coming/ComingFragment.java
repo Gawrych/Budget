@@ -116,6 +116,12 @@ public class ComingFragment extends Fragment {
                     .navigate(R.id.action_navigation_incoming_to_addNewComingElement);
         });
 
+        ImageButton categories = view.findViewById(R.id.categoriesButton);
+        categories.setOnClickListener(root -> {
+            Navigation.findNavController(root)
+                    .navigate(R.id.navigation_category);
+        });
+
         expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
         yearPicker.setOnClickListener(v -> selectYear());
     }

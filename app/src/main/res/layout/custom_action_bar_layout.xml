@@ -5,8 +5,8 @@
     android:id="@+id/toolBar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/white"
-    android:textColor="@color/font_default"
+    android:background="@color/first_color_theme"
+    android:textColor="@color/grey"
     app:layout_constraintTop_toTopOf="parent"
     app:theme="@style/Theme.MaterialComponents.DayNight"
     app:contentInsetLeft="0dp"
@@ -20,6 +20,6 @@
         android:gravity="center"
         android:textSize="18sp"
         android:text="Fragment name"
-        android:textColor="@color/font_default" />
+        android:textColor="@color/grey" />
 
 </androidx.appcompat.widget.Toolbar>
