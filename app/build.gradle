@@ -70,7 +70,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.navigation:navigation-fragment:2.5.2'
@@ -127,6 +127,9 @@ dependencies {
 
     // Year picker
     implementation 'io.github.dzmitry-lakisau:month-year-picker-dialog:1.0.0'
+
+    implementation 'com.maltaisn:icondialog:3.3.0'
+    implementation "com.maltaisn:iconpack-default:1.1.0"
 
     androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2') {
         exclude group: 'com.android.support', module: 'appcompat'

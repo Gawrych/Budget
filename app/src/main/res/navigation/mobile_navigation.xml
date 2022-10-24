@@ -18,10 +18,17 @@
         tools:layout="@layout/fragment_settings" />
 
     <fragment
-        android:id="@+id/navigation_category"
+        android:id="@+id/categoryList"
         android:name="com.example.budgetmanagement.ui.Category.CategoryFragment"
         android:label="@string/title_category"
-        tools:layout="@layout/category_fragment" />
+        tools:layout="@layout/category_fragment" >
+        <action
+            android:id="@+id/action_categoryList_to_navigation_incoming"
+            app:destination="@id/navigation_incoming" />
+        <action
+            android:id="@+id/action_categoryList_to_addNewCategoryElement"
+            app:destination="@id/addNewCategoryElement" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_history"
@@ -47,6 +54,9 @@
         <action
             android:id="@+id/action_navigation_incoming_to_editComingElement"
             app:destination="@id/editComingElement" />
+        <action
+            android:id="@+id/action_navigation_incoming_to_categoryList"
+            app:destination="@id/categoryList" />
     </fragment>
     <fragment
         android:id="@+id/addNewHistory"
@@ -81,5 +91,10 @@
         <action
             android:id="@+id/action_editComingElement_to_navigation_incoming"
             app:destination="@id/navigation_incoming" />
+    </fragment>
+    <fragment
+        android:id="@+id/addNewCategoryElement"
+        android:name="com.example.budgetmanagement.ui.Category.AddNewCategoryElement"
+        android:label="AddNewCategoryElement" >
     </fragment>
 </navigation>

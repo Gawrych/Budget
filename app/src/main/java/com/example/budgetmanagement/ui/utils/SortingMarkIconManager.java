@@ -96,7 +96,7 @@ public class SortingMarkIconManager {
                         a.getCategoryId() == categoryId).findFirst();
         if (optional.isPresent()) {
             category = optional.get();
-            changeCategoryFilterIcon(category.getIconName());
+//            changeCategoryFilterIcon(category.getIcon());
             showShadowIcon(categoryFilterIcon);
         }
     }

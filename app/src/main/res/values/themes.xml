@@ -17,4 +17,16 @@
         <item name="background">@color/white</item>
     </style>
 
+    <style name="addButton">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:backgroundTint">@color/first_color_theme</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:text">@string/add</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="iconGravity">start</item>
+        <item name="iconTint">@color/grey</item>
+    </style>
+
 </resources>

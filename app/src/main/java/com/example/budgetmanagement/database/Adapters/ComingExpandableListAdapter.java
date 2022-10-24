@@ -4,6 +4,8 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DAT
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,10 +148,8 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         int categoryId = item.transaction.getCategoryId();
         Category category = categoryViewModel.getCategoryById(categoryId);
 
-//        TODO: Change field in category table to store resourceId instead iconName
-        String iconName = category.getIconName();
-        int resourceId = view.getContext().getResources().getIdentifier(iconName, "drawable", view.getContext().getPackageName());
-        outOfDateIcon.setImageResource(resourceId);
+        byte[] iconInByte = category.getIcon();
+        outOfDateIcon.setImageDrawable(new BitmapDrawable(view.getContext().getResources(), BitmapFactory.decodeByteArray(iconInByte, 0, iconInByte.length)));
 
 
 //        GradientDrawable gd = new GradientDrawable(

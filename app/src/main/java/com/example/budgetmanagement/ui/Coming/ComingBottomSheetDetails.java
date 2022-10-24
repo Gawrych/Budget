@@ -6,6 +6,8 @@ import static android.view.View.VISIBLE;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -158,9 +160,8 @@ public class ComingBottomSheetDetails extends Fragment {
     }
 
     private void setCategoryIcon(Category category) {
-        String iconName = category.getIconName();
-        int resId = context.getResources().getIdentifier(iconName, "drawable", context.getPackageName());
-        categoryIcon.setImageResource(resId);
+        byte[] iconInByte = category.getIcon();
+        categoryIcon.setImageDrawable(new BitmapDrawable(requireContext().getResources(), BitmapFactory.decodeByteArray(iconInByte, 0, iconInByte.length)));
     }
 
     private Category getCategory(Transaction transaction) {

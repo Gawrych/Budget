@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.database.Adapters;
 
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.example.budgetmanagement.database.ViewHolders.CategoryBottomSheetView
 public class CategoryBottomSheetAdapter extends ListAdapter<Category, CategoryBottomSheetViewHolder> {
 
     private final CategoryBottomSheetViewHolder.OnNoteListener mOnNoteListener;
+    View view;
 
     public CategoryBottomSheetAdapter(@NonNull DiffUtil.ItemCallback<Category> diffCallback, CategoryBottomSheetViewHolder.OnNoteListener onNoteListener) {
         super(diffCallback);
@@ -30,11 +33,12 @@ public class CategoryBottomSheetAdapter extends ListAdapter<Category, CategoryBo
     @Override
     public void onBindViewHolder(CategoryBottomSheetViewHolder holder, int position) {
         Category current = getItem(position);
-        holder.bind(current.getIconName(), current.getName());
+        byte[] b = current.getIcon();
+        holder.bind(new BitmapDrawable(view.getContext().getResources(), BitmapFactory.decodeByteArray(b, 0, b.length)), current.getName());
     }
 
     public CategoryBottomSheetViewHolder create(ViewGroup parent) {
-        View view;
+
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.icon_title_bottom_sheet_details_child, parent, false);
 

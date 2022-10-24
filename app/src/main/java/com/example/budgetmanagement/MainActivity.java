@@ -66,15 +66,18 @@ public class MainActivity extends AppCompatActivity {
             if(destination == R.id.addNewComing) {
                 navBar.setVisibility(View.INVISIBLE);
                 fragmentName.setText("Nowa transackcja");
-            } else if (destination == R.id.navigation_category) {
+            } else if (destination == R.id.categoryList) {
                 navBar.setVisibility(View.INVISIBLE);
-                fragmentName.setText("Sortowanie");
+                fragmentName.setText("Kategorie");
             } else if (destination == R.id.filterFragment) {
                 navBar.setVisibility(View.INVISIBLE);
                 fragmentName.setText("Sortowanie");
             } else if (destination == R.id.editComingElement) {
                 navBar.setVisibility(View.INVISIBLE);
                 fragmentName.setText("Edycja");
+            } else if (destination == R.id.addNewCategoryElement) {
+                navBar.setVisibility(View.INVISIBLE);
+                fragmentName.setText("Nowa kategoria");
             } else if (destination == R.id.navigation_statistics) {
                 navBar.setVisibility(View.VISIBLE);
                 fragmentName.setText("Statystyki");

@@ -10,6 +10,7 @@
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_marginStart="24dp"
+        app:tint="#404040"
         android:src="@drawable/ic_baseline_event_busy_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

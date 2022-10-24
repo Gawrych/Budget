@@ -74,4 +74,10 @@
     <string name="error_element_with_this_id_was_not_found">Wystąpił błąd! Nie ma elementu w bazie o takim id</string>
     <string name="settings">Settings</string>
     <string name="today">Dziś</string>
+    <string name="category_icon">category icon</string>
+    <string name="add_new_category">Dodaj nową</string>
+    <string name="budget">Budżet</string>
+    <string name="Icon">Ikonka</string>
+    <string name="cyclical_transaction">Transakcja cykliczna</string>
+    <string name="end_date">Do kiedy</string>
 </resources>

@@ -119,7 +119,7 @@ public class ComingFragment extends Fragment {
         ImageButton categories = view.findViewById(R.id.categoriesButton);
         categories.setOnClickListener(root -> {
             Navigation.findNavController(root)
-                    .navigate(R.id.navigation_category);
+                    .navigate(R.id.action_navigation_incoming_to_categoryList);
         });
 
         expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> true);

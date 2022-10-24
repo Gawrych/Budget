@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.database.Rooms;
 
+import android.graphics.drawable.Drawable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -16,9 +18,8 @@ public class Category {
     @ColumnInfo(name = "name")
     private String name;
 
-    @NonNull
-    @ColumnInfo(name = "iconName")
-    private String iconName;
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    private byte[] icon;
 
     @ColumnInfo(name = "budget")
     private int budget;
@@ -29,10 +30,10 @@ public class Category {
     @ColumnInfo(name = "modifiedDate")
     private long modifiedDate;
 
-    public Category(int categoryId, @NonNull String name, @NonNull String iconName, int budget, long addDate, long modifiedDate) {
+    public Category(int categoryId, @NonNull String name, @NonNull byte[] icon, int budget, long addDate, long modifiedDate) {
         this.categoryId = categoryId;
         this.name = name;
-        this.iconName = iconName;
+        this.icon = icon;
         this.budget = budget;
         this.addDate = addDate;
         this.modifiedDate = modifiedDate;
@@ -48,8 +49,8 @@ public class Category {
     }
 
     @NonNull
-    public String getIconName() {
-        return iconName;
+    public byte[] getIcon() {
+        return icon;
     }
 
     public int getBudget() {

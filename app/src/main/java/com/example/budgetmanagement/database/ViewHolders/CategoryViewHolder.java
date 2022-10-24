@@ -26,11 +26,9 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         itemView.setOnClickListener(this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void bind(String aIconName, String aTitle, int aBudget) {
+    public void bind(Drawable icon, String aTitle, int aBudget) {
         text.setText(aTitle);
-        int resourceId = itemView.getContext().getResources().getIdentifier(aIconName, "drawable", itemView.getContext().getPackageName());
-        imageView.setImageResource(resourceId);
+        imageView.setImageDrawable(icon);
     }
 
     @Override

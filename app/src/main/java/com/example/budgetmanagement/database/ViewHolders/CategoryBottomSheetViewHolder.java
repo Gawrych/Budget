@@ -1,5 +1,6 @@
 package com.example.budgetmanagement.database.ViewHolders;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,9 +25,9 @@ public class CategoryBottomSheetViewHolder extends RecyclerView.ViewHolder imple
         itemView.setOnClickListener(this);
     }
 
-    public void bind(String iconName, String name) {
+    public void bind(Drawable icon, String name) {
         entityName.setText(name);
-        entityIcon.setImageResource(getResourceIconIdByName(iconName));
+        entityIcon.setImageDrawable(icon);
     }
 
     private int getResourceIconIdByName(String iconName) {

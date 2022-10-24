@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.Coming.AddNewComingElement"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.Category.AddNewCategory">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/titleLayout"
@@ -14,11 +15,11 @@
         android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        app:errorEnabled="true"
         android:hint="Tytuł"
-        app:endIconMode="custom"
+        app:endIconContentDescription="coinIcon"
         app:endIconDrawable="@drawable/block_smaller_icon"
-        app:endIconContentDescription="coinIcon">
+        app:endIconMode="custom"
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/title"
@@ -33,19 +34,19 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginTop="10dp"
-        app:errorEnabled="true"
-        app:endIconMode="custom"
+        app:endIconContentDescription="coinIcon"
         app:endIconDrawable="@drawable/dollar_coin_smaller_icon"
-        app:endIconContentDescription="coinIcon">
+        app:endIconMode="custom"
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/amount"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:hint="@string/amount"
+            android:hint="@string/budget"
             android:inputType="numberDecimal"
             app:backgroundTint="@color/main_blue" />
 
@@ -56,14 +57,14 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginTop="10dp"
-        android:hint="Kategoria"
-        app:errorEnabled="true"
-        app:endIconMode="custom"
+        android:hint="@string/Icon"
+        app:endIconContentDescription="categoryIcon"
         app:endIconDrawable="@drawable/ic_outline_widgets_24"
-        app:endIconContentDescription="categoryIcon">
+        app:endIconMode="custom"
+        app:errorEnabled="true">
 
         <AutoCompleteTextView
             android:id="@+id/categorySelector"
@@ -75,35 +76,12 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/startDateLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/acceptButton"
+        style="@style/addButton"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="10dp"
-        app:errorEnabled="true"
-        android:hint="Pierwsza płatność"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/calendar_smaller_icon"
-        app:endIconContentDescription="calendarIcon">
+        android:layout_marginTop="60dp"
+        android:layout_gravity="center" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/startDate"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:focusable="false"
-            app:backgroundTint="@color/main_blue" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/profitSwitch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Przychód"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp" />
-</merge>
+</LinearLayout>

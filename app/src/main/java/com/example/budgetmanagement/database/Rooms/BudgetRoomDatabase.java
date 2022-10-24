@@ -1,18 +1,27 @@
 package com.example.budgetmanagement.database.Rooms;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.budgetmanagement.MainActivity;
+import com.example.budgetmanagement.R;
+
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 109, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 111, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -46,10 +55,30 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
             databaseWriteExecutor.execute(() -> {
+                Drawable categoryIcon = ResourcesCompat.getDrawable(MainActivity.resources, R.drawable.ic_baseline_category_24, null);
+                Drawable shoppingBasketIcon = ResourcesCompat.getDrawable(MainActivity.resources, R.drawable.ic_baseline_shopping_basket_24, null);
+                Drawable workIcon = ResourcesCompat.getDrawable(MainActivity.resources, R.drawable.ic_baseline_work_24, null);
+
+
+                Bitmap bitmap = ((BitmapDrawable) categoryIcon).getBitmap();
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] categoryIconBitmap = stream.toByteArray();
+
+                Bitmap bitmap2 = ((BitmapDrawable) shoppingBasketIcon).getBitmap();
+                ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
+                bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream2);
+                byte[] shoppingBasketIconBitmap = stream.toByteArray();
+
+                Bitmap bitmap3 = ((BitmapDrawable) workIcon).getBitmap();
+                ByteArrayOutputStream stream3 = new ByteArrayOutputStream();
+                bitmap3.compress(Bitmap.CompressFormat.JPEG, 100, stream3);
+                byte[] workIconBitmap = stream.toByteArray();
+
                 CategoryDao categoryDao = INSTANCE.categoryDao();
-                Category category = new Category(1, "Różne", "ic_baseline_category_24", 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
-                Category category2 = new Category(2, "Spożywcze", "ic_baseline_shopping_basket_24", 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
-                Category category3 = new Category(3, "Pensje", "ic_baseline_work_24", 1500, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category = new Category(1, "Różne", categoryIconBitmap, 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category2 = new Category(2, "Spożywcze", shoppingBasketIconBitmap, 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category3 = new Category(3, "Pensje", workIconBitmap, 1500, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
                 categoryDao.insert(category);
                 categoryDao.insert(category2);
                 categoryDao.insert(category3);

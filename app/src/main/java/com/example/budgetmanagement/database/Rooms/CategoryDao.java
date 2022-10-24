@@ -44,10 +44,10 @@ public interface CategoryDao {
     @Query("SELECT * FROM categories")
     List<CategoryAndTransaction> getCategoryAndTransaction();
 
-    @Query("SELECT categoryId, iconName, name FROM categories")
+    @Query("SELECT categoryId, icon, name FROM categories")
     LiveData<List<CategoryBottomSheetEntity>> getHistoryBottomSheetEntity();
 
-    @Query("SELECT categoryId, iconName, name FROM categories")
+    @Query("SELECT categoryId, icon, name FROM categories")
     List<CategoryBottomSheetEntity> getHistoryBottomSheetEntityList();
 
     @Query("SELECT * FROM categories")
