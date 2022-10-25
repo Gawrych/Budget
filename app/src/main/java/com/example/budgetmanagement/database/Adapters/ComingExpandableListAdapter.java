@@ -2,10 +2,10 @@ package com.example.budgetmanagement.database.Adapters;
 
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DATE_FORMAT;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +17,16 @@ import android.widget.TextView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
+import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
+import com.example.budgetmanagement.ui.Category.App;
 import com.example.budgetmanagement.ui.Coming.Section;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.maltaisn.icondialog.pack.IconPack;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -35,13 +38,15 @@ import java.util.Calendar;
 public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
     private final Context context;
+    private final IconPack iconPack;
     private ArrayList<Section> items;
     private ImageView outOfDateIcon;
     private CategoryViewModel categoryViewModel;
 
-    public ComingExpandableListAdapter(Context context, ArrayList<Section> items, ViewModelStoreOwner owner) {
+    public ComingExpandableListAdapter(Context context, ArrayList<Section> items, ViewModelStoreOwner owner, IconPack iconPack) {
         this.context = context;
         this.items = items;
+        this.iconPack = iconPack;
         categoryViewModel = new ViewModelProvider(owner).get(CategoryViewModel.class);
     }
 
@@ -148,23 +153,9 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         int categoryId = item.transaction.getCategoryId();
         Category category = categoryViewModel.getCategoryById(categoryId);
 
-        byte[] iconInByte = category.getIcon();
-        outOfDateIcon.setImageDrawable(new BitmapDrawable(view.getContext().getResources(), BitmapFactory.decodeByteArray(iconInByte, 0, iconInByte.length)));
-
-
-//        GradientDrawable gd = new GradientDrawable(
-//                GradientDrawable.Orientation.LEFT_RIGHT,
-//                new int[] {0x002E9F47,0x002E9F47,0x2A2E9F47,0x4A2E9F47,0x9A2E9F47});
-//        gd.setCornerRadius(0f);
-
-//        GradientDrawable gd = new GradientDrawable();
-//        gd.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
-//        gd.setColors(new int[] {adjustAlpha(0x0000b4d8, 0.2f), adjustAlpha(0x0000b4d8, 0.5f), adjustAlpha(0x0000b4d8, 0.9f)});
-//
-//        view.findViewById(R.id.mainLayout).setBackground(gd);
-//        CardView cardView = view.findViewById(R.id.colorPad);
-//        cardView.setCardBackgroundColor(Color.parseColor("#2E9F47"));
-
+        int iconId = category.getIcon();
+        Drawable icon = iconPack.getIcon(iconId).getDrawable();
+        outOfDateIcon.setImageDrawable(icon);
 
         boolean afterDeadline = otherDate.before(todayDate);
         remainingDays.setText(String.valueOf(Math.abs(days)));

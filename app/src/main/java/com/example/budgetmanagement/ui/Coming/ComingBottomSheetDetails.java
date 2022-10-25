@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 
+import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.Rooms.Coming;
@@ -29,15 +31,16 @@ import com.example.budgetmanagement.database.Rooms.Transaction;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
+import com.example.budgetmanagement.ui.Category.App;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.maltaisn.icondialog.pack.IconPack;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
 
 public class ComingBottomSheetDetails extends Fragment {
 
-    private final Activity activity;
     private final Context context;
     private final BottomSheetDialog bottomSheetDialog;
     private final HistoryViewModel historyViewModel;
@@ -58,12 +61,13 @@ public class ComingBottomSheetDetails extends Fragment {
     private final ImageView profitIcon;
     private final TextView executeLabel;
     private final ImageView executeIcon;
+    private IconPack iconPack;
     private Transaction transaction;
     private Coming coming;
 
-    public ComingBottomSheetDetails(Context context, Activity activity, ViewModelStoreOwner owner, View root) {
+    public ComingBottomSheetDetails(Context context, IconPack iconPack, ViewModelStoreOwner owner, View root) {
         this.context = context;
-        this.activity = activity;
+        this.iconPack = iconPack;
         this.root = root;
 
         this.comingViewModel = new ViewModelProvider(owner).get(ComingViewModel.class);
@@ -160,8 +164,9 @@ public class ComingBottomSheetDetails extends Fragment {
     }
 
     private void setCategoryIcon(Category category) {
-        byte[] iconInByte = category.getIcon();
-        categoryIcon.setImageDrawable(new BitmapDrawable(requireContext().getResources(), BitmapFactory.decodeByteArray(iconInByte, 0, iconInByte.length)));
+        int iconId = category.getIcon();
+        Drawable icon = iconPack.getIcon(iconId).getDrawable();
+        categoryIcon.setImageDrawable(icon);
     }
 
     private Category getCategory(Transaction transaction) {
@@ -247,7 +252,7 @@ public class ComingBottomSheetDetails extends Fragment {
     }
 
     private void deleteItem() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setMessage(R.string.are_you_sure_to_delete)
                 .setPositiveButton(R.string.delete, (dialog, id) -> {
                     removeFromDatabase();

@@ -1,14 +1,13 @@
 package com.example.budgetmanagement;
 
+import android.app.Application;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -29,18 +28,16 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private FilterViewModel filterViewModel;
     public static Resources resources;
-
+    static Application applicationInstance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        applicationInstance = this.getApplication();
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         resources = getResources();
-
-//        Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        getSupportActionBar().setDisplayShowCustomEnabled(true);
-//        getSupportActionBar().setCustomView(R.layout.custom_action_bar_layout);
-//        View view = getSupportActionBar().getCustomView();
 
         actionbar = findViewById(R.id.toolBar);
         setSupportActionBar(actionbar);
@@ -92,4 +89,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public static Application getApplicationInstance() {
+        return applicationInstance;
+    }
+
 }

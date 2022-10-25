@@ -15,11 +15,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.ComingExpandableListAdapter;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.databinding.ComingFragmentBinding;
+import com.example.budgetmanagement.ui.Category.App;
+import com.maltaisn.icondialog.pack.IconPack;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -90,10 +93,12 @@ public class ComingFragment extends Fragment {
         pickedYear = view.findViewById(R.id.pickedYear);
         pickedYear.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
 
-        expandableListView = view.findViewById(R.id.expandableListView);
-        details = new ComingBottomSheetDetails(requireContext(), getActivity(), this, view);
+        IconPack iconPack = ((App) requireActivity().getApplication()).getIconPack();
 
-        expandableListAdapter = new ComingExpandableListAdapter(requireContext(), sectionList, this);
+        expandableListView = view.findViewById(R.id.expandableListView);
+        details = new ComingBottomSheetDetails(requireContext(), iconPack, this, view);
+
+        expandableListAdapter = new ComingExpandableListAdapter(requireContext(), sectionList, this, iconPack);
         expandableListView.setAdapter(expandableListAdapter);
 
         comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {

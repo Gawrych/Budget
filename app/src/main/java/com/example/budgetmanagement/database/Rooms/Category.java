@@ -18,8 +18,8 @@ public class Category {
     @ColumnInfo(name = "name")
     private String name;
 
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    private byte[] icon;
+    @ColumnInfo(name = "icon")
+    private int icon;
 
     @ColumnInfo(name = "budget")
     private int budget;
@@ -30,7 +30,7 @@ public class Category {
     @ColumnInfo(name = "modifiedDate")
     private long modifiedDate;
 
-    public Category(int categoryId, @NonNull String name, @NonNull byte[] icon, int budget, long addDate, long modifiedDate) {
+    public Category(int categoryId, @NonNull String name, int icon, int budget, long addDate, long modifiedDate) {
         this.categoryId = categoryId;
         this.name = name;
         this.icon = icon;
@@ -49,7 +49,7 @@ public class Category {
     }
 
     @NonNull
-    public byte[] getIcon() {
+    public int getIcon() {
         return icon;
     }
 

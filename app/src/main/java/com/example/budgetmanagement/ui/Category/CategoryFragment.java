@@ -32,6 +32,7 @@ import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
 import com.example.budgetmanagement.databinding.CategoryFragmentBinding;
 import com.google.android.material.button.MaterialButton;
+import com.maltaisn.icondialog.pack.IconPack;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -49,7 +50,10 @@ public class CategoryFragment extends Fragment implements CategoryViewHolder.OnN
 
         root =  inflater.inflate(R.layout.category_fragment, container, false);
         recyclerView = root.findViewById(R.id.recyclerView);
-        final CategoryAdapter adapter = new CategoryAdapter(new CategoryAdapter.CategoryDiff(), this);
+
+        IconPack iconPack = ((App) requireActivity().getApplication()).getIconPack();
+
+        final CategoryAdapter adapter = new CategoryAdapter(new CategoryAdapter.CategoryDiff(), iconPack, this);
         recyclerView.setAdapter(adapter);
 
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);

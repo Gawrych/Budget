@@ -1,15 +1,11 @@
 package com.example.budgetmanagement.database.Adapters;
 
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
@@ -17,15 +13,19 @@ import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
 import com.example.budgetmanagement.database.Rooms.Category;
+import com.example.budgetmanagement.ui.Category.App;
+import com.maltaisn.icondialog.pack.IconPack;
 
 public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
 
     private CategoryViewHolder.OnNoteListener mOnNoteListener;
     private String layoutName = "";
+    private IconPack iconPack;
     View view;
 
-    public CategoryAdapter(@NonNull DiffUtil.ItemCallback<Category> diffCallback, CategoryViewHolder.OnNoteListener onNoteListener) {
+    public CategoryAdapter(@NonNull DiffUtil.ItemCallback<Category> diffCallback, IconPack iconPack, CategoryViewHolder.OnNoteListener onNoteListener) {
         super(diffCallback);
+        this.iconPack = iconPack;
         this.mOnNoteListener = onNoteListener;
     }
 
@@ -36,21 +36,22 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
     }
 
     @NonNull
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return create(parent);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         Category current = getItem(position);
-        byte[] b = current.getIcon();
-        holder.bind(new BitmapDrawable(view.getContext().getResources(), BitmapFactory.decodeByteArray(b, 0, b.length)), current.getName(), current.getBudget());
+        IconPack iconPack = ((App) MainActivity.getApplicationInstance()).getIconPack();
+        int iconId = current.getIcon();
+        Drawable icon = iconPack.getIcon(iconId).getDrawable();
+        holder.bind(icon, current.getName(), current.getBudget());
     }
 
     public CategoryViewHolder create(ViewGroup parent) {
+
 
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.category_recycler_view, parent, false);

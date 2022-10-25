@@ -21,7 +21,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 111, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 112, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -59,26 +59,10 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 Drawable shoppingBasketIcon = ResourcesCompat.getDrawable(MainActivity.resources, R.drawable.ic_baseline_shopping_basket_24, null);
                 Drawable workIcon = ResourcesCompat.getDrawable(MainActivity.resources, R.drawable.ic_baseline_work_24, null);
 
-
-                Bitmap bitmap = ((BitmapDrawable) categoryIcon).getBitmap();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] categoryIconBitmap = stream.toByteArray();
-
-                Bitmap bitmap2 = ((BitmapDrawable) shoppingBasketIcon).getBitmap();
-                ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
-                bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream2);
-                byte[] shoppingBasketIconBitmap = stream.toByteArray();
-
-                Bitmap bitmap3 = ((BitmapDrawable) workIcon).getBitmap();
-                ByteArrayOutputStream stream3 = new ByteArrayOutputStream();
-                bitmap3.compress(Bitmap.CompressFormat.JPEG, 100, stream3);
-                byte[] workIconBitmap = stream.toByteArray();
-
                 CategoryDao categoryDao = INSTANCE.categoryDao();
-                Category category = new Category(1, "Różne", categoryIconBitmap, 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
-                Category category2 = new Category(2, "Spożywcze", shoppingBasketIconBitmap, 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
-                Category category3 = new Category(3, "Pensje", workIconBitmap, 1500, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category = new Category(1, "Różne", 1, 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category2 = new Category(2, "Spożywcze", 2, 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category3 = new Category(3, "Pensje", 3, 1500, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
                 categoryDao.insert(category);
                 categoryDao.insert(category2);
                 categoryDao.insert(category3);

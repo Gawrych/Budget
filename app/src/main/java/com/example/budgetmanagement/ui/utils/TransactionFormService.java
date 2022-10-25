@@ -4,6 +4,7 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEA
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -19,9 +20,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.ui.Category.App;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.maltaisn.icondialog.pack.IconPack;
 
 import java.util.Calendar;
 
@@ -36,7 +39,9 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
     private TextInputLayout titleLayout;
     private TextInputLayout amountLayout;
     private SwitchMaterial profitSwitch;
+    private TextInputLayout categorySelectorLayout;
     private AutoCompleteTextView selectedCategory;
+    private IconPack iconPack;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -48,6 +53,7 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
     public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(rootView, savedInstanceState);
         selectedCategory = rootView.findViewById(R.id.categorySelector);
+        categorySelectorLayout = rootView.findViewById(R.id.categorySelectorLayout);
         title = rootView.findViewById(R.id.title);
         titleLayout = rootView.findViewById(R.id.titleLayout);
         amount = rootView.findViewById(R.id.amount);
@@ -65,6 +71,7 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
         clearErrorWhenTextChanged(title, titleLayout);
         clearErrorWhenTextChanged(amount, amountLayout);
 
+        iconPack = ((App) requireActivity().getApplication()).getIconPack();
         selectedCategory.setCursorVisible(false);
         selectedCategory.setText(rootView.getResources().getString(R.string.category_example_various));
         selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
@@ -121,6 +128,9 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
         categoryBottomSheetSelector.getBottomSheetDialog().setOnDismissListener(v -> {
             categoryId = categoryBottomSheetSelector.getSelectedId();
             categoryEditText.setText(categoryBottomSheetSelector.getSelectedName());
+            int categoryIconId = categoryBottomSheetSelector.getIconId();
+            Drawable icon = iconPack.getIcon(categoryIconId).getDrawable();
+            categorySelectorLayout.setEndIconDrawable(icon);
         });
     }
 

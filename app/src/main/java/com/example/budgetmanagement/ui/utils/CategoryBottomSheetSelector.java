@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.CategoryBottomSheetAdapter;
 import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
+import com.example.budgetmanagement.ui.Category.App;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.maltaisn.icondialog.pack.IconPack;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,13 +27,17 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
     private final CategoryViewModel categoryViewModel;
     private int selectedId = 0;
     private String selectedName = "";
+    private int iconId;
 
     public CategoryBottomSheetSelector(Fragment rootFragment) {
         categoryViewModel = new ViewModelProvider(rootFragment).get(CategoryViewModel.class);
 
+        IconPack iconPack = ((App) rootFragment.requireActivity().getApplication()).getIconPack();
+
         final CategoryBottomSheetAdapter categoryBottomSheetAdapter =
                 new CategoryBottomSheetAdapter(
                         new CategoryBottomSheetAdapter.HistoryBottomSheetEntityDiff(),
+                        iconPack,
                         this::onNoteClick);
 
         categoryLiveData = categoryViewModel.getAllCategory();
@@ -56,6 +63,7 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
         List<Category> listOfEntity = categoryViewModel.getCategoryList();
         this.selectedId = listOfEntity.get(position).getCategoryId();
         this.selectedName = listOfEntity.get(position).getName();
+        this.iconId = listOfEntity.get(position).getIcon();
         bottomSheetDialog.cancel();
     }
 
@@ -69,6 +77,10 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
 
     public String getSelectedName() {
         return selectedName;
+    }
+
+    public int getIconId() {
+        return iconId;
     }
 
     public String getCategoryNameById(Integer id) {

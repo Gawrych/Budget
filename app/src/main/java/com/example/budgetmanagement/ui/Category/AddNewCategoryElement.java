@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.maltaisn.icondialog.pack.IconPack;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import java.util.Map;
 
 public class AddNewCategoryElement extends Fragment implements IconDialog.Callback {
 
@@ -74,11 +76,5 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
         pickedIcon = selectedIcon.getDrawable();
         iconPicker.setEndIconDrawable(pickedIcon);
         iconPicker.setHint(selectedIcon.getTags().get(0));
-
-//        Drawable d; // the drawable (Captain Obvious, to the rescue!!!)
-//        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//        byte[] bitmapdata = stream.toByteArray();
     }
 }
