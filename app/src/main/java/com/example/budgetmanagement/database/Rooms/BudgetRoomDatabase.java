@@ -21,7 +21,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 112, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 113, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -55,14 +55,10 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
             databaseWriteExecutor.execute(() -> {
-                Drawable categoryIcon = ResourcesCompat.getDrawable(MainActivity.resources, R.drawable.ic_baseline_category_24, null);
-                Drawable shoppingBasketIcon = ResourcesCompat.getDrawable(MainActivity.resources, R.drawable.ic_baseline_shopping_basket_24, null);
-                Drawable workIcon = ResourcesCompat.getDrawable(MainActivity.resources, R.drawable.ic_baseline_work_24, null);
-
                 CategoryDao categoryDao = INSTANCE.categoryDao();
-                Category category = new Category(1, "Różne", 1, 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
-                Category category2 = new Category(2, "Spożywcze", 2, 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
-                Category category3 = new Category(3, "Pensje", 3, 1500, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category = new Category(1, "Różne", 190, 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category2 = new Category(2, "Spożywcze", 255, 0, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category3 = new Category(3, "Pensje", 256, 1500, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
                 categoryDao.insert(category);
                 categoryDao.insert(category2);
                 categoryDao.insert(category3);
