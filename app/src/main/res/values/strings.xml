@@ -76,7 +76,7 @@
     <string name="today">Dziś</string>
     <string name="category_icon">category icon</string>
     <string name="add_new_category">Dodaj nową</string>
-    <string name="budget">Budżet</string>
+    <string name="month_budget_planning">Planowany miesięczny budżet</string>
     <string name="Icon">Ikonka</string>
     <string name="cyclical_transaction">Transakcja cykliczna</string>
     <string name="end_date">Do kiedy</string>

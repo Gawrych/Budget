@@ -16,16 +16,15 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class NewComingFragmentDataCollector extends NewTransactionDataCollector {
+public class NewComingDataCollector extends NewTransactionDataCollector {
 
     private final ComingFields fieldsInterface;
     private final ArrayMap<String, Integer> timeBetweenValues;
     private TextInputEditText endDate;
     private AutoCompleteTextView timeBetweenExecutePicker;
-
     private final int QUARTER_OF_YEAR = 0;
 
-    public NewComingFragmentDataCollector(ComingFields fieldsInterface) {
+    public NewComingDataCollector(ComingFields fieldsInterface) {
         super(fieldsInterface);
         this.fieldsInterface = fieldsInterface;
         Resources resources = fieldsInterface.getFragmentContext().getResources();

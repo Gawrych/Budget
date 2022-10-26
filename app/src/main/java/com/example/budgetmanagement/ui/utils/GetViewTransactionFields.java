@@ -7,23 +7,13 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-public interface GetViewTransactionFields {
-
-    TextInputEditText getTitleField();
+public interface GetViewTransactionFields extends BasicFormFields {
 
     int getCategoryId();
 
     TextInputEditText getStartDateField();
 
-    SwitchMaterial getProfitSwitch();
-
-    TextInputLayout getTitleLayoutField();
-
-    TextInputLayout getAmountLayoutField();
-
-    TextInputEditText getAmountField();
+    AutoCompleteTextView getSelectedCategory();
 
     Context getFragmentContext();
-
-    AutoCompleteTextView getSelectedCategory();
 }

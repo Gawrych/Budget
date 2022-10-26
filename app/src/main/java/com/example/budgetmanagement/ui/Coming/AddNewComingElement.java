@@ -41,14 +41,14 @@ public class AddNewComingElement extends TransactionFormService implements Comin
     private ArrayAdapter<String> adapter;
     private AutoCompleteTextView timeBetweenExecutePicker;
     private SwitchMaterial cyclicalSwitch;
-    private NewComingFragmentDataCollector newComingDataCollector;
+    private NewComingDataCollector newComingDataCollector;
 
     private TextInputEditText endDate;
     private TextInputLayout endDateLayout;
     private TextInputLayout timeBetweenExecuteLayout;
-    private boolean successfullyCollectedData;
     private ArrayList<Long> dates = new ArrayList<>();
     private TextView showAllNextDates;
+    private ScrollView mainScrollView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,16 +62,18 @@ public class AddNewComingElement extends TransactionFormService implements Comin
     }
 
     @Override
-    public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(rootView, savedInstanceState);
-        endDateLayout = rootView.findViewById(R.id.endDateLayout);
-        endDate = rootView.findViewById(R.id.endDate);
-        ScrollView mainScrollView = rootView.findViewById(R.id.mainScrollView);
-        cyclicalSwitch = rootView.findViewById(R.id.cyclicalSwitch);
-        timeBetweenExecuteLayout = rootView.findViewById(R.id.timeBetweenPayLayout);
-        timeBetweenExecutePicker = rootView.findViewById(R.id.timeBetweenPay);
-        showAllNextDates = rootView.findViewById(R.id.showAllDates);
-        Button acceptButton = rootView.findViewById(R.id.acceptButton);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        endDateLayout = view.findViewById(R.id.endDateLayout);
+        endDate = view.findViewById(R.id.endDate);
+        mainScrollView = view.findViewById(R.id.mainScrollView);
+        cyclicalSwitch = view.findViewById(R.id.cyclicalSwitch);
+        timeBetweenExecuteLayout = view.findViewById(R.id.timeBetweenPayLayout);
+        timeBetweenExecutePicker = view.findViewById(R.id.timeBetweenPay);
+        showAllNextDates = view.findViewById(R.id.showAllDates);
+        Button acceptButton = view.findViewById(R.id.acceptButton);
+
+        newComingDataCollector = new NewComingDataCollector(this);
 
         datePickerDialog = setDatePickerDialog(Calendar.getInstance());
 
@@ -79,22 +81,21 @@ public class AddNewComingElement extends TransactionFormService implements Comin
         clearErrorWhenTextChanged(timeBetweenExecutePicker, timeBetweenExecuteLayout);
         clearErrorWhenTextChanged(timeBetweenExecutePicker, endDateLayout);
 
-
         endDate.setCursorVisible(false);
         Calendar today = Calendar.getInstance();
         endDate.setText(
                 DateProcessor.parseDate((today.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
-        endDate.setOnClickListener(view -> {
+        endDate.setOnClickListener(v -> {
             serviceDatePickerDialog();
             datePickerDialog.show();
         });
 
-        timeBetweenExecutePicker.setOnItemClickListener((parent, view, position, id) -> {
+        timeBetweenExecutePicker.setOnItemClickListener((parent, v, position, id) -> {
             collectDatesForDialogBox();
             showAllNextDates.setVisibility(View.VISIBLE);
         });
 
-        showAllNextDates.setOnClickListener(view -> {
+        showAllNextDates.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.new_transactions_dates);
             StringBuilder datesInString = new StringBuilder();
@@ -108,12 +109,12 @@ public class AddNewComingElement extends TransactionFormService implements Comin
 
         cyclicalSwitch.setOnCheckedChangeListener((compoundButton, b) -> adaptCyclicalFieldsVisibility());
 
-        acceptButton.setOnClickListener(view -> {
-            successfullyCollectedData = collectData();
+        acceptButton.setOnClickListener(v -> {
+            boolean successfullyCollectedData = newComingDataCollector.collectData();
             if (successfullyCollectedData) {
                 selectSubmitMethodAndRun();
             } else {
-                mainScrollView.fullScroll(View.FOCUS_UP);
+                scrollToUpToShowErrors();
             }
         });
 
@@ -121,8 +122,10 @@ public class AddNewComingElement extends TransactionFormService implements Comin
         if (comingAndTransaction != null) {
             fillFields(comingAndTransaction);
         }
+    }
 
-        newComingDataCollector = new NewComingFragmentDataCollector(this);
+    private void scrollToUpToShowErrors() {
+        mainScrollView.fullScroll(View.FOCUS_UP);
     }
 
     private void serviceDatePickerDialog() {
@@ -144,10 +147,6 @@ public class AddNewComingElement extends TransactionFormService implements Comin
 
     private void close() {
         requireActivity().onBackPressed();
-    }
-
-    private boolean collectData() {
-        return newComingDataCollector.collectData();
     }
 
     private void selectSubmitMethodAndRun() {
@@ -238,7 +237,7 @@ public class AddNewComingElement extends TransactionFormService implements Comin
         Toast.makeText(requireContext(), howMuchAdded, Toast.LENGTH_SHORT).show();
     }
 
-    private void submitNewComingItemToDatabase(NewComingFragmentDataCollector newComing, ArrayList<Long> dates) {
+    private void submitNewComingItemToDatabase(NewComingDataCollector newComing, ArrayList<Long> dates) {
         TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
 

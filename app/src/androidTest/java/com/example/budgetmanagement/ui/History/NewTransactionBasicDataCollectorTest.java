@@ -33,7 +33,7 @@ import java.util.Calendar;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class NewTransactionDataCollectorTest extends TestCase {
+public class NewTransactionBasicDataCollectorTest extends TestCase {
 
     private NewTransactionDataCollector newTransactionDataCollector;
     private Fragment rootFragment;

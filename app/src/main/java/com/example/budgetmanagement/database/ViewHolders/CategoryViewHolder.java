@@ -26,8 +26,8 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         itemView.setOnClickListener(this);
     }
 
-    public void bind(Drawable icon, String aTitle, int aBudget) {
-        text.setText(aTitle);
+    public void bind(Drawable icon, String title, String budget) {
+        text.setText(title);
         imageView.setImageDrawable(icon);
     }
 

@@ -1,110 +1,34 @@
 package com.example.budgetmanagement.ui.History;
 
-import static androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread;
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
-import android.text.Editable;
-import android.util.Log;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
-import com.example.budgetmanagement.MainActivity;
-import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Transaction;
+import com.example.budgetmanagement.ui.utils.BasicDataCollector;
 import com.example.budgetmanagement.ui.utils.GetViewTransactionFields;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-public class NewTransactionDataCollector {
+public class NewTransactionDataCollector extends BasicDataCollector {
 
-    private BigDecimal amount;
-    private String title;
     private long date;
-    private boolean profit;
     private int categoryId;
     private final GetViewTransactionFields fieldsInterface;
 
     public NewTransactionDataCollector(GetViewTransactionFields fieldsInterface) {
+        super(fieldsInterface);
         this.fieldsInterface = fieldsInterface;
     }
 
     public boolean collectData() {
+        super.collectData();
         this.categoryId = fieldsInterface.getCategoryId();
-
-        boolean correctlySetTitleContent = setTitle();
-        if (!correctlySetTitleContent) {
-            return false;
-        }
-
-        profit = fieldsInterface.getProfitSwitch().isChecked();
-
-        boolean correctlySetAmountContent = setAmount();
-        if (!correctlySetAmountContent) {
-            return false;
-        }
-
         setDateInPattern();
-
         return true;
-    }
-
-    private boolean setTitle() {
-        TextInputEditText titleField = fieldsInterface.getTitleField();
-        title = getContent(titleField);
-        if (contentNotExist(title)) {
-
-            try {
-                runOnUiThread(() -> fieldsInterface.getTitleLayoutField()
-                        .setError(MainActivity.resources.getString(R.string.empty_field)));
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-
-            return false;
-        }
-        return true;
-    }
-
-    private boolean setAmount() {
-        TextInputEditText amountField = fieldsInterface.getAmountField();
-        String amountContent = getContent(amountField);
-        if (contentNotExist(amountContent)) {
-            
-            try {
-                runOnUiThread(() -> fieldsInterface.getAmountLayoutField()
-                        .setError(MainActivity.resources.getString(R.string.empty_field)));
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-
-            return false;
-        }
-        DecimalPrecision amountDecimalPrecision = new DecimalPrecision(amountContent);
-        amount = addMinusIfNegativeAmount(amountDecimalPrecision.getParsedContent());
-        return true;
-    }
-
-    public boolean contentNotExist(String content) {
-        return content.length() < 1;
-    }
-
-    public String getContent(EditText field) {
-        Editable editable = field.getText();
-        if (editable == null) {
-            return "";
-        }
-        return editable.toString();
-    }
-
-    private BigDecimal addMinusIfNegativeAmount(BigDecimal number) {
-        if (!profit) {
-            return number.negate();
-        }
-        return number;
     }
 
     private void setDateInPattern() {
@@ -126,12 +50,12 @@ public class NewTransactionDataCollector {
     }
 
     public Transaction getTransaction() {
-        return new Transaction(0, this.categoryId, this.title,
-                this.amount.toString(), date, 0, this.profit);
+        return new Transaction(0, this.categoryId, getTitle(),
+                getAmount().toString(), date, 0, isProfit());
     }
 
     public Transaction getTransaction(int id) {
-        return new Transaction(id, this.categoryId, this.title,
-                this.amount.toString(), date, 0, this.profit);
+        return new Transaction(id, this.categoryId, getTitle(),
+                getAmount().toString(), date, 0, isProfit());
     }
 }

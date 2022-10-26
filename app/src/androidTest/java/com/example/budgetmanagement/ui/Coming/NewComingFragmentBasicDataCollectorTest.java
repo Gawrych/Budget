@@ -37,9 +37,9 @@ import java.util.Calendar;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class NewComingFragmentDataCollectorTest extends TestCase {
+public class NewComingFragmentBasicDataCollectorTest extends TestCase {
 
-    private NewComingFragmentDataCollector comingFragmentDataCollector;
+    private NewComingDataCollector comingFragmentDataCollector;
 
     private Resources resources;
 
@@ -54,14 +54,14 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
     }
 
     private void setDataCollector(ComingFields comingFields) {
-        comingFragmentDataCollector = new NewComingFragmentDataCollector(comingFields);
+        comingFragmentDataCollector = new NewComingDataCollector(comingFields);
     }
 
     private void setResources(ComingFields comingFields) {
         resources = comingFields.getFragmentContext().getResources();
     }
 
-    private NewComingFragmentDataCollector collectDataWithFilledRequireFields() {
+    private NewComingDataCollector collectDataWithFilledRequireFields() {
         String titleValue = "Hello World!";
         onView(withId(R.id.title)).perform(typeText(titleValue));
         String amountValue = "1.00";
@@ -93,7 +93,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         long newDateInMillis = getTomorrow().getTimeInMillis();
         String newDateInPattern = DateProcessor.parseDate(newDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
         onView(withId(R.id.endDate)).perform(replaceText(newDateInPattern));
-        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledRequireFields();
+        NewComingDataCollector collectedComingFields = collectDataWithFilledRequireFields();
         long collectDate = collectedComingFields.getEndDate();
         assertEquals(newDateInMillis, collectDate);
     }
@@ -120,7 +120,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         String endDateInPattern = DateProcessor.parseDate(endDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
         onView(withId(R.id.endDate)).perform(replaceText(endDateInPattern));
 
-        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledRequireFields();
+        NewComingDataCollector collectedComingFields = collectDataWithFilledRequireFields();
         ArrayList<Long> nextDates = collectedComingFields.getNextDates();
 
         ArrayList<Long> exampleDates = new ArrayList<>();
@@ -147,7 +147,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         String endDateInPattern = DateProcessor.parseDate(endDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
         onView(withId(R.id.endDate)).perform(replaceText(endDateInPattern));
 
-        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledRequireFields();
+        NewComingDataCollector collectedComingFields = collectDataWithFilledRequireFields();
         ArrayList<Long> nextDates = collectedComingFields.getNextDates();
 
         ArrayList<Long> exampleDates = new ArrayList<>();
@@ -172,7 +172,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         String endDateInPattern = DateProcessor.parseDate(endDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
         onView(withId(R.id.endDate)).perform(replaceText(endDateInPattern));
 
-        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledRequireFields();
+        NewComingDataCollector collectedComingFields = collectDataWithFilledRequireFields();
         ArrayList<Long> nextDates = collectedComingFields.getNextDates();
 
         ArrayList<Long> exampleDates = new ArrayList<>();
@@ -201,7 +201,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         String endDateInPattern = DateProcessor.parseDate(endDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
         onView(withId(R.id.endDate)).perform(replaceText(endDateInPattern));
 
-        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledRequireFields();
+        NewComingDataCollector collectedComingFields = collectDataWithFilledRequireFields();
         ArrayList<Long> nextDates = collectedComingFields.getNextDates();
 
         ArrayList<Long> exampleDates = new ArrayList<>();
@@ -226,7 +226,7 @@ public class NewComingFragmentDataCollectorTest extends TestCase {
         String endDateInPattern = DateProcessor.parseDate(endDateInMillis, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT);
         onView(withId(R.id.endDate)).perform(replaceText(endDateInPattern));
 
-        NewComingFragmentDataCollector collectedComingFields = collectDataWithFilledRequireFields();
+        NewComingDataCollector collectedComingFields = collectDataWithFilledRequireFields();
         ArrayList<Long> nextDates = collectedComingFields.getNextDates();
 
         ArrayList<Long> exampleDates = new ArrayList<>();
