@@ -27,7 +27,7 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
     private final CategoryViewModel categoryViewModel;
     private int selectedId = 0;
     private String selectedName = "";
-    private int iconId;
+    private int iconId = 995;
 
     public CategoryBottomSheetSelector(Fragment rootFragment) {
         categoryViewModel = new ViewModelProvider(rootFragment).get(CategoryViewModel.class);
@@ -56,6 +56,7 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
         bottomSheetDialog.show();
         resetSelectedId();
         resetSelectedName();
+        resetIconId();
     }
 
     @Override
@@ -120,6 +121,10 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
 
     public void resetSelectedId() {
         this.selectedId = 1;
+    }
+
+    public void resetIconId() {
+        this.iconId = 955;
     }
 
 }

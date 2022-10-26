@@ -47,7 +47,7 @@
             android:layout_height="55dp"
             android:hint="@string/amount"
             android:inputType="numberDecimal"
-            app:backgroundTint="@color/main_blue" />
+            app:backgroundTint="@color/second_color_theme" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,16 +62,16 @@
         android:hint="Kategoria"
         app:errorEnabled="true"
         app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_outline_widgets_24"
+        app:endIconDrawable="@drawable/ic_baseline_category_24"
         app:endIconContentDescription="categoryIcon">
 
         <AutoCompleteTextView
             android:id="@+id/categorySelector"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:focusable="false"
             android:inputType="none"
-            app:backgroundTint="@color/main_blue" />
+            app:backgroundTint="@color/second_color_theme" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:focusable="false"
-            app:backgroundTint="@color/main_blue" />
+            app:backgroundTint="@color/second_color_theme" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

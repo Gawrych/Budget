@@ -67,7 +67,7 @@
     <string name="each_year">Co rok</string>
     <string name="inDays">za</string>
     <string name="forDays">od</string>
-    <string name="not_enough_to_generate_cyclical_change_endDate_or_timeBetween">Nie wykona się ani razu, zmień datę lub okres</string>
+    <string name="not_enough_to_generate_cyclical_change_endDate_or_timeBetween">Wykona się tylko raz, zmień datę lub okres</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit">Edytuj</string>
@@ -80,4 +80,6 @@
     <string name="Icon">Ikonka</string>
     <string name="cyclical_transaction">Transakcja cykliczna</string>
     <string name="end_date">Do kiedy</string>
+    <string name="new_transactions_dates">Daty nowych transakcji</string>
+    <string name="ok">Ok</string>
 </resources>

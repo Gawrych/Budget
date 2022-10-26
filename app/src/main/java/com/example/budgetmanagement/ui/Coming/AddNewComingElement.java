@@ -2,6 +2,7 @@ package com.example.budgetmanagement.ui.Coming;
 
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,9 +45,10 @@ public class AddNewComingElement extends TransactionFormService implements Comin
 
     private TextInputEditText endDate;
     private TextInputLayout endDateLayout;
-    private TextInputLayout timeBetweenPayLayout;
+    private TextInputLayout timeBetweenExecuteLayout;
     private boolean successfullyCollectedData;
     private ArrayList<Long> dates = new ArrayList<>();
+    private TextView showAllNextDates;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,21 +66,44 @@ public class AddNewComingElement extends TransactionFormService implements Comin
         super.onViewCreated(rootView, savedInstanceState);
         endDateLayout = rootView.findViewById(R.id.endDateLayout);
         endDate = rootView.findViewById(R.id.endDate);
+        ScrollView mainScrollView = rootView.findViewById(R.id.mainScrollView);
         cyclicalSwitch = rootView.findViewById(R.id.cyclicalSwitch);
-        timeBetweenPayLayout = rootView.findViewById(R.id.timeBetweenPayLayout);
+        timeBetweenExecuteLayout = rootView.findViewById(R.id.timeBetweenPayLayout);
         timeBetweenExecutePicker = rootView.findViewById(R.id.timeBetweenPay);
+        showAllNextDates = rootView.findViewById(R.id.showAllDates);
         Button acceptButton = rootView.findViewById(R.id.acceptButton);
 
         datePickerDialog = setDatePickerDialog(Calendar.getInstance());
 
         clearErrorWhenTextChanged(endDate, endDateLayout);
-        clearErrorWhenTextChanged(timeBetweenExecutePicker, timeBetweenPayLayout);
+        clearErrorWhenTextChanged(timeBetweenExecutePicker, timeBetweenExecuteLayout);
         clearErrorWhenTextChanged(timeBetweenExecutePicker, endDateLayout);
 
+
         endDate.setCursorVisible(false);
+        Calendar today = Calendar.getInstance();
+        endDate.setText(
+                DateProcessor.parseDate((today.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
         endDate.setOnClickListener(view -> {
             serviceDatePickerDialog();
             datePickerDialog.show();
+        });
+
+        timeBetweenExecutePicker.setOnItemClickListener((parent, view, position, id) -> {
+            collectDatesForDialogBox();
+            showAllNextDates.setVisibility(View.VISIBLE);
+        });
+
+        showAllNextDates.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.new_transactions_dates);
+            StringBuilder datesInString = new StringBuilder();
+            for (Long date : dates) {
+                datesInString.append(DateProcessor.parseDate(date, MONTH_NAME_YEAR_DATE_FORMAT));
+                datesInString.append(System.getProperty("line.separator"));
+            }
+            builder.setMessage(datesInString.toString())
+                    .setPositiveButton(R.string.ok, (dialog, id) -> {}).show();
         });
 
         cyclicalSwitch.setOnCheckedChangeListener((compoundButton, b) -> adaptCyclicalFieldsVisibility());
@@ -85,7 +112,8 @@ public class AddNewComingElement extends TransactionFormService implements Comin
             successfullyCollectedData = collectData();
             if (successfullyCollectedData) {
                 selectSubmitMethodAndRun();
-                close();
+            } else {
+                mainScrollView.fullScroll(View.FOCUS_UP);
             }
         });
 
@@ -93,6 +121,8 @@ public class AddNewComingElement extends TransactionFormService implements Comin
         if (comingAndTransaction != null) {
             fillFields(comingAndTransaction);
         }
+
+        newComingDataCollector = new NewComingFragmentDataCollector(this);
     }
 
     private void serviceDatePickerDialog() {
@@ -102,7 +132,14 @@ public class AddNewComingElement extends TransactionFormService implements Comin
             selectedDate.set(year, monthOfYear, dayOfMonth);
             endDate.setText(
                     DateProcessor.parseDate((selectedDate.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
+            collectDatesForDialogBox();
+            showAllNextDates.setVisibility(View.VISIBLE);
         });
+    }
+
+    private void collectDatesForDialogBox() {
+        newComingDataCollector.collectData();
+        dates = newComingDataCollector.getNextDates();
     }
 
     private void close() {
@@ -110,7 +147,6 @@ public class AddNewComingElement extends TransactionFormService implements Comin
     }
 
     private boolean collectData() {
-        newComingDataCollector = new NewComingFragmentDataCollector(this);
         return newComingDataCollector.collectData();
     }
 
@@ -129,11 +165,12 @@ public class AddNewComingElement extends TransactionFormService implements Comin
         if (cyclicalSwitch.isChecked()) {
             initializeFieldsIfFirstTime();
 
-            timeBetweenPayLayout.setVisibility(View.VISIBLE);
+            timeBetweenExecuteLayout.setVisibility(View.VISIBLE);
             endDateLayout.setVisibility(View.VISIBLE);
         } else {
-            timeBetweenPayLayout.setVisibility(View.GONE);
+            timeBetweenExecuteLayout.setVisibility(View.GONE);
             endDateLayout.setVisibility(View.GONE);
+            showAllNextDates.setVisibility(View.GONE);
         }
     }
 
@@ -149,6 +186,7 @@ public class AddNewComingElement extends TransactionFormService implements Comin
 
             adapter = new ArrayAdapter<>(getActivity(),
                     android.R.layout.simple_dropdown_item_1line, TIME_BETWEEN);
+            timeBetweenExecutePicker.setText(R.string.each_month);
             timeBetweenExecutePicker.setAdapter(adapter);
         }
     }
@@ -189,23 +227,12 @@ public class AddNewComingElement extends TransactionFormService implements Comin
 
     private void submitCyclical(int amountOfNewDates) {
         int MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING = 2;
-        int MAX_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING_WITHOUT_ALERT = 25;
         if (amountOfNewDates < MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
             endDateLayout.setError(getString(R.string.not_enough_to_generate_cyclical_change_endDate_or_timeBetween));
+            return;
+        }
 
-        }
-        // TODO: Fix this, error: 'Can't access ViewModels from detached fragment'
-        // else if (amountOfNewDates > MAX_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING_WITHOUT_ALERT) {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-//            builder.setMessage("Czy na pewno chcesz dodać wszystkie daty? Jest ich " + amountOfNewDates)
-//                    .setNegativeButton(R.string.cancel, (dialog, id) -> {})
-//                    .setPositiveButton("Dodaj", (dialog, id) -> {
-//                        submitNewComingItemToDatabase(newComingDataCollector, dates);
-//                    }).show();
-        // }
-         else if (amountOfNewDates > MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
-            submitNewComingItemToDatabase(newComingDataCollector, dates);
-        }
+        submitNewComingItemToDatabase(newComingDataCollector, dates);
 
         String howMuchAdded = "Dodano " + amountOfNewDates + " transakcje";
         Toast.makeText(requireContext(), howMuchAdded, Toast.LENGTH_SHORT).show();
@@ -220,6 +247,7 @@ public class AddNewComingElement extends TransactionFormService implements Comin
         for (Long date : dates) {
             comingViewModel.insert(newComing.getComing(transactionId, date));
         }
+        close();
     }
 
     @Override
@@ -239,7 +267,7 @@ public class AddNewComingElement extends TransactionFormService implements Comin
 
     @Override
     public TextInputLayout getTimeBetweenExecutePickerLayout() {
-        return timeBetweenPayLayout;
+        return timeBetweenExecuteLayout;
     }
 
     @Override

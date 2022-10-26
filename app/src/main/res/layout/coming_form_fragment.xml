@@ -5,6 +5,7 @@
     tools:context=".ui.Coming.AddNewComingElement"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/mainScrollView"
     android:theme="@style/Theme.MaterialComponents.Light">
 
     <LinearLayout
@@ -25,12 +26,33 @@
             android:text="@string/cyclical_transaction" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/timeBetweenPayLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            app:errorEnabled="true"
+            android:hint="Okres"
+            android:visibility="gone">
+
+            <AutoCompleteTextView
+                android:id="@+id/timeBetweenPay"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:focusable="false"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/endDateLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:hint="@string/end_date"
             android:visibility="gone"
@@ -48,25 +70,17 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/timeBetweenPayLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/showAllDates"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
-            android:hint="Co ile"
-            android:visibility="gone">
-
-            <AutoCompleteTextView
-                android:id="@+id/timeBetweenPay"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:focusable="false"
-                android:inputType="none" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="-5dp"
+            android:layout_gravity="end"
+            android:textSize="16sp"
+            android:text="Pokaż daty"
+            android:visibility="gone"
+            android:textColor="@color/second_color_theme" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/acceptButton"
@@ -75,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="70dp"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp" />
+            android:layout_marginTop="50dp" />
     </LinearLayout>
 
 </ScrollView>

@@ -46,9 +46,9 @@ public class SortingMarkIconManagerTest {
         FragmentScenario<HistoryFragment> historyFragmentScenario = FragmentScenario.launchInContainer(HistoryFragment.class);
         historyFragmentScenario.moveToState(Lifecycle.State.RESUMED);
 
-        categoryList.add(new Category(1, "Różne", "ic_baseline_category_24", 1, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay()));
-        categoryList.add(new Category(2, "Spożywcze", "ic_baseline_shopping_basket_24", 1, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay()));
-        categoryList.add(new Category(3, "Paliwo", "ic_baseline_work_24", 1, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay()));
+        categoryList.add(new Category(1, "Różne", 190, 1, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay()));
+        categoryList.add(new Category(2, "Spożywcze", 255, 1, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay()));
+        categoryList.add(new Category(3, "Paliwo", 256, 1, LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay()));
 
         historyFragmentScenario.onFragment(fragment ->
                 manager = new SortingMarkIconManager(Objects.requireNonNull(fragment.getView()), categoryList));

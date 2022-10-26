@@ -17,6 +17,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.budgetmanagement.R;
@@ -24,6 +25,7 @@ import com.example.budgetmanagement.ui.Category.App;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.maltaisn.icondialog.data.Icon;
 import com.maltaisn.icondialog.pack.IconPack;
 
 import java.util.Calendar;
@@ -128,10 +130,16 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
         categoryBottomSheetSelector.getBottomSheetDialog().setOnDismissListener(v -> {
             categoryId = categoryBottomSheetSelector.getSelectedId();
             categoryEditText.setText(categoryBottomSheetSelector.getSelectedName());
-            int categoryIconId = categoryBottomSheetSelector.getIconId();
-            Drawable icon = iconPack.getIcon(categoryIconId).getDrawable();
-            categorySelectorLayout.setEndIconDrawable(icon);
+            categorySelectorLayout.setEndIconDrawable(getIcon(categoryBottomSheetSelector.getIconId()));
         });
+    }
+
+    private Drawable getIcon(int categoryIconId) {
+        Icon icon = iconPack.getIcon(categoryIconId);
+        if (icon == null) {
+            return ResourcesCompat.getDrawable(getResources(), R.drawable.ic_outline_icon_not_found_24, null);
+        }
+        return icon.getDrawable();
     }
 
     public void setCategoryId(int id) {

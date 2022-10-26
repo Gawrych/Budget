@@ -61,6 +61,7 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
             try {
                 runOnUiThread(() -> fieldsInterface.getTimeBetweenExecutePickerLayout()
                         .setError(MainActivity.resources.getString(R.string.empty_field)));
+
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -75,6 +76,7 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
             try {
                 runOnUiThread(() -> fieldsInterface.getEndDateLayout()
                         .setError(MainActivity.resources.getString(R.string.empty_field)));
+
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -89,7 +91,6 @@ public class NewComingFragmentDataCollector extends NewTransactionDataCollector 
     }
 
     public long getEndDate() {
-
         return getDateInPatternFromTextField(endDate);
     }
 
