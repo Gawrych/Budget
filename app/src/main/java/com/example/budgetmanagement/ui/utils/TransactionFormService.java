@@ -117,7 +117,7 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
         int mYear = calendarInstance.get(Calendar.YEAR);
         int mMonth = calendarInstance.get(Calendar.MONTH);
         int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
-        return datePickerDialog = new DatePickerDialog(requireContext(),
+        return new DatePickerDialog(requireContext(),
                 (view, year, monthOfYear, dayOfMonth) -> {
                     Calendar selectedDate = Calendar.getInstance();
                     selectedDate.set(year, monthOfYear, dayOfMonth);
@@ -140,6 +140,10 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
             return ResourcesCompat.getDrawable(getResources(), R.drawable.ic_outline_icon_not_found_24, null);
         }
         return icon.getDrawable();
+    }
+
+    public DatePickerDialog getDatePickerDialog() {
+        return datePickerDialog;
     }
 
     public void setCategoryId(int id) {

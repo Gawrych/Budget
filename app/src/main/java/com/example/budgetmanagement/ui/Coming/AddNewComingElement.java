@@ -37,7 +37,7 @@ import java.util.Calendar;
 
 public class AddNewComingElement extends TransactionFormService implements ComingFields {
 
-    private DatePickerDialog datePickerDialog;
+    private DatePickerDialog endDatePickerDialog;
     private ArrayAdapter<String> adapter;
     private AutoCompleteTextView timeBetweenExecutePicker;
     private SwitchMaterial cyclicalSwitch;
@@ -75,7 +75,9 @@ public class AddNewComingElement extends TransactionFormService implements Comin
 
         newComingDataCollector = new NewComingDataCollector(this);
 
-        datePickerDialog = setDatePickerDialog(Calendar.getInstance());
+        getDatePickerDialog().setOnDismissListener(v -> collectDatesForDialogBox());
+
+        endDatePickerDialog = setDatePickerDialog(Calendar.getInstance());
 
         clearErrorWhenTextChanged(endDate, endDateLayout);
         clearErrorWhenTextChanged(timeBetweenExecutePicker, timeBetweenExecuteLayout);
@@ -86,8 +88,8 @@ public class AddNewComingElement extends TransactionFormService implements Comin
         endDate.setText(
                 DateProcessor.parseDate((today.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
         endDate.setOnClickListener(v -> {
-            serviceDatePickerDialog();
-            datePickerDialog.show();
+            serviceEndDatePickerDialog();
+            endDatePickerDialog.show();
         });
 
         timeBetweenExecutePicker.setOnItemClickListener((parent, v, position, id) -> {
@@ -128,9 +130,9 @@ public class AddNewComingElement extends TransactionFormService implements Comin
         mainScrollView.fullScroll(View.FOCUS_UP);
     }
 
-    private void serviceDatePickerDialog() {
+    private void serviceEndDatePickerDialog() {
         Calendar selectedDate = Calendar.getInstance();
-        datePickerDialog.setOnDateSetListener((v, year, monthOfYear, dayOfMonth) -> {
+        endDatePickerDialog.setOnDateSetListener((v, year, monthOfYear, dayOfMonth) -> {
             endDateLayout.setError(null);
             selectedDate.set(year, monthOfYear, dayOfMonth);
             endDate.setText(
