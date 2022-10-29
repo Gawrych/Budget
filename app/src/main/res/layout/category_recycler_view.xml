@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="220dp"
-    android:layout_gravity="center"
+    android:minHeight="200dp"
+    android:gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         app:cardCornerRadius="7dp"
         app:cardElevation="10dp"
         android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
-        app:cardBackgroundColor="@color/light_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:cardBackgroundColor="@color/light_blue">
 
             <ImageView
                 android:id="@+id/categoryIcon"
@@ -45,4 +41,4 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

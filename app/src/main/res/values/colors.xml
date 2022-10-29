@@ -10,6 +10,7 @@
     <color name="yellow">#EAC68B</color>
 
     <color name="font_default">#808080</color>
+    <color name="light_dark">#303030</color>
     <color name="main_green">#2E9F47</color>
     <color name="dark_green">#145535</color>
     <color name="loss_transaction">#FF6347</color>

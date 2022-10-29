@@ -34,8 +34,13 @@ public interface CategoryDao {
     @Query("SELECT * FROM categories WHERE categoryId = :id")
     Category getCategoryById(int id);
 
-    @Query("SELECT * FROM categories ORDER BY addDate DESC")
+    // getAllCategory() must have the same sorting as getCategoryList() to correct work bottom sheet
+    // category selector
+    @Query("SELECT * FROM categories")
     LiveData<List<Category>> getAllCategory();
+
+    @Query("SELECT * FROM categories")
+    List<Category> getCategoryList();
 
     @Query("SELECT name, budget FROM categories ORDER BY categoryId ASC")
     LiveData<List<CategoryName>> getAllCategoryNames();
@@ -49,9 +54,6 @@ public interface CategoryDao {
 
     @Query("SELECT categoryId, icon, name FROM categories")
     List<CategoryBottomSheetEntity> getHistoryBottomSheetEntityList();
-
-    @Query("SELECT * FROM categories")
-    List<Category> getCategoryList();
 
 //    @androidx.room.Transaction
 //    @Query("SELECT * FROM coming")

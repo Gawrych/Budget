@@ -61,19 +61,19 @@ public class MainActivity extends AppCompatActivity {
         navController.addOnDestinationChangedListener((navController1, navDestination, bundle) -> {
             int destination = navDestination.getId();
             if(destination == R.id.addNewComing) {
-                navBar.setVisibility(View.INVISIBLE);
+                navBar.setVisibility(View.GONE);
                 fragmentName.setText("Nowa transackcja");
             } else if (destination == R.id.categoryList) {
-                navBar.setVisibility(View.INVISIBLE);
+                navBar.setVisibility(View.GONE);
                 fragmentName.setText("Kategorie");
             } else if (destination == R.id.filterFragment) {
-                navBar.setVisibility(View.INVISIBLE);
+                navBar.setVisibility(View.GONE);
                 fragmentName.setText("Sortowanie");
             } else if (destination == R.id.editComingElement) {
-                navBar.setVisibility(View.INVISIBLE);
+                navBar.setVisibility(View.GONE);
                 fragmentName.setText("Edycja");
             } else if (destination == R.id.addNewCategoryElement) {
-                navBar.setVisibility(View.INVISIBLE);
+                navBar.setVisibility(View.GONE);
                 fragmentName.setText("Nowa kategoria");
             } else if (destination == R.id.navigation_statistics) {
                 navBar.setVisibility(View.VISIBLE);
