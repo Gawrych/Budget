@@ -65,14 +65,16 @@ public class ComingBottomSheetDetails extends Fragment {
     private Transaction transaction;
     private Coming coming;
 
+    // TODO: merge this class and inheritance parent class (maybe abstract) with CategoryBottomSheetDetails
+
     public ComingBottomSheetDetails(Context context, IconPack iconPack, ViewModelStoreOwner owner, View root) {
         this.context = context;
         this.iconPack = iconPack;
         this.root = root;
 
         this.comingViewModel = new ViewModelProvider(owner).get(ComingViewModel.class);
-        this.categoryViewModel = new ViewModelProvider(owner).get(CategoryViewModel.class);
         this.historyViewModel = new ViewModelProvider(owner).get(HistoryViewModel.class);
+        this.categoryViewModel = new ViewModelProvider(owner).get(CategoryViewModel.class);
 
         this.bottomSheetDialog = new BottomSheetDialog(context);
         this.bottomSheetDialog.setContentView(R.layout.coming_bottom_sheet_details);

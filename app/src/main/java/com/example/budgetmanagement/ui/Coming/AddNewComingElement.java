@@ -217,7 +217,7 @@ public class AddNewComingElement extends TransactionFormService implements Comin
         BigDecimal amountInBigDecimal = new BigDecimal(transaction.getAmount());
         profitSwitch.setChecked(amountInBigDecimal.signum() != -1);
 
-        String number = amountInBigDecimal.abs().toString();
+        String number = amountInBigDecimal.abs().stripTrailingZeros().toPlainString();
         amount.setText(number);
 
         selectedCategory.setText(CategoryBottomSheetSelector.getCategoryName(transaction.getCategoryId(), this));

@@ -56,6 +56,9 @@ public class CategoryRepository {
     }
 
     public void delete(Category category) {
-        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> categoryDao.delete(category));
+        int mandatoryCategoryId = 1;
+        if (category.getCategoryId() != mandatoryCategoryId) {
+            BudgetRoomDatabase.databaseWriteExecutor.execute(() -> categoryDao.delete(category));
+        }
     }
 }

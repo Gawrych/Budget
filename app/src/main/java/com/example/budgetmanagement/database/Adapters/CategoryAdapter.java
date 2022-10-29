@@ -19,19 +19,12 @@ import com.maltaisn.icondialog.pack.IconPack;
 public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
 
     private CategoryViewHolder.OnNoteListener mOnNoteListener;
-    private String layoutName = "";
     private IconPack iconPack;
-    View view;
+    private View view;
 
     public CategoryAdapter(@NonNull DiffUtil.ItemCallback<Category> diffCallback, IconPack iconPack, CategoryViewHolder.OnNoteListener onNoteListener) {
         super(diffCallback);
         this.iconPack = iconPack;
-        this.mOnNoteListener = onNoteListener;
-    }
-
-    public CategoryAdapter(@NonNull DiffUtil.ItemCallback<Category> diffCallback, CategoryViewHolder.OnNoteListener onNoteListener, String aLayoutName) {
-        super(diffCallback);
-        layoutName = aLayoutName;
         this.mOnNoteListener = onNoteListener;
     }
 
@@ -44,15 +37,12 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         Category current = getItem(position);
-        IconPack iconPack = ((App) MainActivity.getApplicationInstance()).getIconPack();
         int iconId = current.getIcon();
         Drawable icon = iconPack.getIcon(iconId).getDrawable();
         holder.bind(icon, current.getName(), current.getBudget());
     }
 
     public CategoryViewHolder create(ViewGroup parent) {
-
-
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.category_recycler_view, parent, false);
         return new CategoryViewHolder(view, mOnNoteListener);

@@ -33,7 +33,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
 
     @Override
     public void onClick(View v) {
-        onNoteListener.onNoteClick(getAbsoluteAdapterPosition());
+        onNoteListener.onNoteClick(getBindingAdapterPosition());
     }
 
     public interface OnNoteListener {

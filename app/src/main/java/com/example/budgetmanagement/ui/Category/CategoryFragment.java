@@ -1,10 +1,12 @@
 package com.example.budgetmanagement.ui.Category;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +22,7 @@ import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
 import com.example.budgetmanagement.databinding.CategoryFragmentBinding;
+import com.google.android.gms.common.internal.Objects;
 import com.google.android.material.button.MaterialButton;
 import com.maltaisn.icondialog.pack.IconPack;
 
@@ -27,6 +30,7 @@ public class CategoryFragment extends Fragment implements CategoryViewHolder.OnN
 
     private CategoryFragmentBinding binding;
     private CategoryViewModel categoryViewModel;
+    private CategoryBottomSheetDetails details;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class CategoryFragment extends Fragment implements CategoryViewHolder.OnN
         recyclerView = view.findViewById(R.id.recyclerView);
 
         IconPack iconPack = ((App) requireActivity().getApplication()).getIconPack();
+        details = new CategoryBottomSheetDetails(requireContext(), requireActivity(), iconPack, this, view);
 
         final CategoryAdapter adapter = new CategoryAdapter(new CategoryAdapter.CategoryDiff(), iconPack, this);
         recyclerView.setAdapter(adapter);
@@ -59,10 +64,9 @@ public class CategoryFragment extends Fragment implements CategoryViewHolder.OnN
 
     @Override
     public void onNoteClick(int position) {
-//        ((MainActivity) requireActivity()).turnOnProgressBar();
-//        Intent intent = new Intent(getActivity(), AddNewCategoryElement.class);
-//        startActivityForResult.launch(intent);
         Category category = categoryViewModel.getCategory(position);
+        details.setData(category);
+        details.show();
     }
 
     @Override

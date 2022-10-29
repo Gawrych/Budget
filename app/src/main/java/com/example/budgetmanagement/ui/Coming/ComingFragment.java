@@ -2,6 +2,7 @@ package com.example.budgetmanagement.ui.Coming;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,6 @@ public class ComingFragment extends Fragment {
     private DatePickerDialog datePickerDialog;
     private TextView pickedYear;
     private List<ComingAndTransaction> actualList;
-    private final Calendar actualDate = Calendar.getInstance();
 
     public static final Map<String, Integer> months;
     static {

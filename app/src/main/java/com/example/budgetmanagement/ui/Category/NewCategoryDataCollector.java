@@ -42,4 +42,10 @@ public class NewCategoryDataCollector extends BasicDataCollector {
         return new Category(0, getTitle(),
                 iconId, getAmount().toString(), today.getTimeInMillis(), 0);
     }
+
+    public Category getCategoryWithId(int id) {
+        Calendar today = Calendar.getInstance();
+        return new Category(id, getTitle(),
+                iconId, getAmount().toString(), today.getTimeInMillis(), 0);
+    }
 }

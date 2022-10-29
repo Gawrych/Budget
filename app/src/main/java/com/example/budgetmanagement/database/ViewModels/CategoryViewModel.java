@@ -30,7 +30,6 @@ public class CategoryViewModel extends AndroidViewModel {
         categoryRepository = new CategoryRepository(app);
         allCategory = categoryRepository.getAllCategories();
         allCategoryNames = categoryRepository.getCategoryNames();
-//        transactionAndCategory = budgetRepository.getAllTransactions();
         allCategoryAndTransaction = categoryRepository.getCategoryAndTransaction();
         categoryList = categoryRepository.getCategoryList();
         categoryLiveData = categoryRepository.getAllCategory();
@@ -38,6 +37,14 @@ public class CategoryViewModel extends AndroidViewModel {
 
     public void insert(Category category) {
         categoryRepository.insert(category);
+    }
+
+    public void delete(Category category) {
+        categoryRepository.delete(category);
+    }
+
+    public void update(Category category) {
+        categoryRepository.update(category);
     }
 
     public List<Category> getCategoryList() {
@@ -64,7 +71,6 @@ public class CategoryViewModel extends AndroidViewModel {
         return allCategoryNames;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public Category getCategoryById(int id) {
         return categoryRepository.getCategoryById(id);
     }
