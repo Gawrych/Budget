@@ -9,11 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
-import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
 import com.example.budgetmanagement.database.Rooms.Category;
-import com.example.budgetmanagement.ui.Category.App;
 import com.maltaisn.icondialog.pack.IconPack;
 
 public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {

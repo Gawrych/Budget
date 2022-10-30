@@ -42,7 +42,6 @@ public class ComingRepository {
     }
 
     public void insert(Coming coming) {
-
         BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.insert(coming));
     }
 

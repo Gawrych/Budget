@@ -1,15 +1,12 @@
 package com.example.budgetmanagement.database.ViewModels;
 
 import android.app.Application;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.budgetmanagement.database.Rooms.CategoryAndTransaction;
-import com.example.budgetmanagement.database.utils.CategoryName;
 import com.example.budgetmanagement.database.Rooms.CategoryRepository;
 import com.example.budgetmanagement.database.Rooms.Category;
 
@@ -20,7 +17,6 @@ public class CategoryViewModel extends AndroidViewModel {
 
     private CategoryRepository categoryRepository;
     private LiveData<List<Category>> allCategory;
-    private LiveData<List<CategoryName>> allCategoryNames;
     private List<CategoryAndTransaction> allCategoryAndTransaction;
     private List<Category> categoryList;
     private LiveData<List<Category>> categoryLiveData;
@@ -29,7 +25,6 @@ public class CategoryViewModel extends AndroidViewModel {
         super(app);
         categoryRepository = new CategoryRepository(app);
         allCategory = categoryRepository.getAllCategories();
-        allCategoryNames = categoryRepository.getCategoryNames();
         allCategoryAndTransaction = categoryRepository.getCategoryAndTransaction();
         categoryList = categoryRepository.getCategoryList();
         categoryLiveData = categoryRepository.getAllCategory();
@@ -65,10 +60,6 @@ public class CategoryViewModel extends AndroidViewModel {
 
     public LiveData<List<Category>> getAllCategory() {
         return categoryLiveData;
-    }
-
-    public LiveData<List<CategoryName>> getAllCategoryNames() {
-        return allCategoryNames;
     }
 
     public Category getCategoryById(int id) {

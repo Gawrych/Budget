@@ -6,13 +6,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.CategoryBottomSheetAdapter;
 import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
-import com.example.budgetmanagement.ui.Category.App;
+import com.example.budgetmanagement.ui.Category.AppIconPack;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.maltaisn.icondialog.pack.IconPack;
 
@@ -32,7 +31,7 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
     public CategoryBottomSheetSelector(Fragment rootFragment) {
         categoryViewModel = new ViewModelProvider(rootFragment).get(CategoryViewModel.class);
 
-        IconPack iconPack = ((App) rootFragment.requireActivity().getApplication()).getIconPack();
+        IconPack iconPack = ((AppIconPack) rootFragment.requireActivity().getApplication()).getIconPack();
 
         final CategoryBottomSheetAdapter categoryBottomSheetAdapter =
                 new CategoryBottomSheetAdapter(

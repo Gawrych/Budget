@@ -8,39 +8,34 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "coming")
 public class Coming {
 
-    // TODO Change int to long in id fields
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "comingId")
-    private int comingId;
+    private final int comingId;
 
     @ColumnInfo(name = "transactionId")
     private int transactionId;
 
-    @ColumnInfo(name = "validity")
-    private byte validity;
-
     @ColumnInfo(name = "execute")
     private boolean execute;
 
-    @ColumnInfo(name = "repeatDate") // expireDate is better name, change this
-    private long repeatDate;
+    @ColumnInfo(name = "expireDate")
+    private long expireDate;
 
-    @ColumnInfo(name = "modifiedDate")
-    private long modifiedDate;
+    @ColumnInfo(name = "deadline")
+    private long deadline;
 
     @ColumnInfo(name = "executeDate")
     private long executedDate;
 
     @ColumnInfo(name = "addDate")
-    private long addDate;
+    private final long addDate;
 
-    public Coming(int comingId, int transactionId, byte validity, boolean execute, long repeatDate, long modifiedDate, long addDate, long executedDate) {
+    public Coming(int comingId, int transactionId, boolean execute, long expireDate, long deadline, long addDate, long executedDate) {
         this.comingId = comingId;
         this.transactionId = transactionId;
-        this.validity = validity;
         this.execute = execute;
-        this.repeatDate = repeatDate;
-        this.modifiedDate = modifiedDate;
+        this.expireDate = expireDate;
+        this.deadline = deadline;
         this.addDate = addDate;
         this.executedDate = executedDate;
     }
@@ -53,20 +48,16 @@ public class Coming {
         return transactionId;
     }
 
-    public byte getValidity() {
-        return validity;
-    }
-
     public boolean isExecute() {
         return execute;
     }
 
-    public long getRepeatDate() {
-        return repeatDate;
+    public long getExpireDate() {
+        return expireDate;
     }
 
-    public long getModifiedDate() {
-        return modifiedDate;
+    public long getDeadline() {
+        return deadline;
     }
 
     public long getAddDate() {
@@ -77,35 +68,23 @@ public class Coming {
         return executedDate;
     }
 
-    public void setComingId(int comingId) {
-        this.comingId = comingId;
-    }
-
     public void setTransactionId(int transactionId) {
         this.transactionId = transactionId;
-    }
-
-    public void setValidity(byte validity) {
-        this.validity = validity;
     }
 
     public void setExecute(boolean execute) {
         this.execute = execute;
     }
 
-    public void setRepeatDate(long repeatDate) {
-        this.repeatDate = repeatDate;
+    public void setExpireDate(long expireDate) {
+        this.expireDate = expireDate;
     }
 
-    public void setModifiedDate(long modifiedDate) {
-        this.modifiedDate = modifiedDate;
+    public void setDeadline(long deadline) {
+        this.deadline = deadline;
     }
 
     public void setExecutedDate(long executedDate) {
         this.executedDate = executedDate;
-    }
-
-    public void setAddDate(long addDate) {
-        this.addDate = addDate;
     }
 }

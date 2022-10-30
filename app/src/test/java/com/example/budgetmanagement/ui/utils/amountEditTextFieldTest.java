@@ -2,8 +2,6 @@ package com.example.budgetmanagement.ui.utils;
 
 import static org.junit.Assert.assertEquals;
 
-import com.example.budgetmanagement.ui.History.DecimalPrecision;
-
 import org.junit.Test;
 
 public class amountEditTextFieldTest {

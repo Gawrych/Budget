@@ -16,9 +16,8 @@ import com.example.budgetmanagement.database.Rooms.Coming;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.Rooms.Transaction;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
-import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
 import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
-import com.example.budgetmanagement.ui.History.NewTransactionDataCollector;
+import com.example.budgetmanagement.ui.utils.NewTransactionDataCollector;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.example.budgetmanagement.ui.utils.TransactionFormService;
@@ -75,7 +74,7 @@ public class EditComingElement extends TransactionFormService {
         Transaction transaction = comingAndTransaction.transaction;
         title.setText(transaction.getTitle());
 
-        long repeatDate = comingAndTransaction.coming.getRepeatDate();
+        long repeatDate = comingAndTransaction.coming.getExpireDate();
         dateField.setText(DateProcessor.parseDate(repeatDate, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(repeatDate);
@@ -90,24 +89,24 @@ public class EditComingElement extends TransactionFormService {
         selectedCategory.setText(CategoryBottomSheetSelector.getCategoryName(transaction.getCategoryId(), this));
         setCategoryId(transaction.getCategoryId());
 
-        dateField.setText(DateProcessor.parseDate(comingAndTransaction.coming.getRepeatDate(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
+        dateField.setText(DateProcessor.parseDate(comingAndTransaction.coming.getExpireDate(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
     }
 
     public void submitToDatabase(NewTransactionDataCollector newItem) {
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         Coming coming = comingAndTransaction.coming;
 
-        boolean isFirstModification = coming.getModifiedDate() == 0;
+        boolean isFirstModification = coming.getDeadline() == 0;
         if (isFirstModification) {
-            long transactionId = createNewTransaction(newItem);
+            int transactionId = (int) createNewTransaction(newItem);
             assignNewTransaction(coming, transactionId);
         } else {
             transactionViewModel.update(newItem.getTransaction(comingAndTransaction.transaction.getTransactionId()));
         }
 
         long now = Calendar.getInstance().getTimeInMillis();
-        coming.setModifiedDate(now);
-        coming.setRepeatDate(newItem.getTransaction().getAddDate());
+        coming.setDeadline(now);
+        coming.setExpireDate(newItem.getTransaction().getAddDate());
         comingViewModel.update(coming);
     }
 
@@ -115,13 +114,7 @@ public class EditComingElement extends TransactionFormService {
          return transactionViewModel.insert(newItem.getTransaction());
     }
 
-    private void assignNewTransaction(Coming coming, long transactionId) {
-        boolean isThisComingElementIsInHistory = comingAndTransaction.coming.isExecute();
-        if (isThisComingElementIsInHistory) {
-            HistoryViewModel historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
-            historyViewModel.updateTransactionIdInHistoryByComingId(coming.getComingId(), (int) transactionId);
-        }
-
-        coming.setTransactionId((int) transactionId);
+    private void assignNewTransaction(Coming coming, int transactionId) {
+        coming.setTransactionId(transactionId);
     }
 }

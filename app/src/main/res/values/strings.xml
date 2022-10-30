@@ -2,7 +2,7 @@
     <string name="app_name">BudgetManagement</string>
     <string name="title_statistics">Statistics</string>
     <string name="title_history">History</string>
-    <string name="title_incoming">Incoming</string>
+    <string name="title_coming">Coming</string>
     <string name="title_category">Category</string>
     <string name="default_item_title_value">This is title</string>
     <string name="default_amount_value">0.00</string>

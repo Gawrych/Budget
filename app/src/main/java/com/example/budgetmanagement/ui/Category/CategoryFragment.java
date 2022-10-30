@@ -1,12 +1,10 @@
 package com.example.budgetmanagement.ui.Category;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,8 +20,6 @@ import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
 import com.example.budgetmanagement.databinding.CategoryFragmentBinding;
-import com.google.android.gms.common.internal.Objects;
-import com.google.android.material.button.MaterialButton;
 import com.maltaisn.icondialog.pack.IconPack;
 
 public class CategoryFragment extends Fragment implements CategoryViewHolder.OnNoteListener {
@@ -43,7 +39,7 @@ public class CategoryFragment extends Fragment implements CategoryViewHolder.OnN
         RecyclerView recyclerView;
         recyclerView = view.findViewById(R.id.recyclerView);
 
-        IconPack iconPack = ((App) requireActivity().getApplication()).getIconPack();
+        IconPack iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
         details = new CategoryBottomSheetDetails(requireContext(), requireActivity(), iconPack, this, view);
 
         final CategoryAdapter adapter = new CategoryAdapter(new CategoryAdapter.CategoryDiff(), iconPack, this);

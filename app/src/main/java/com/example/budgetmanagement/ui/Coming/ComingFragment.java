@@ -2,7 +2,6 @@ package com.example.budgetmanagement.ui.Coming;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.ComingExpandableListAdapter;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
 import com.example.budgetmanagement.databinding.ComingFragmentBinding;
-import com.example.budgetmanagement.ui.Category.App;
+import com.example.budgetmanagement.ui.Category.AppIconPack;
 import com.maltaisn.icondialog.pack.IconPack;
 
 import java.util.ArrayList;
@@ -93,7 +91,7 @@ public class ComingFragment extends Fragment {
         pickedYear = view.findViewById(R.id.pickedYear);
         pickedYear.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
 
-        IconPack iconPack = ((App) requireActivity().getApplication()).getIconPack();
+        IconPack iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
 
         expandableListView = view.findViewById(R.id.expandableListView);
         details = new ComingBottomSheetDetails(requireContext(), iconPack, this, view);
@@ -213,12 +211,12 @@ public class ComingFragment extends Fragment {
         initializeEmptyTransactionsCollection();
 
         globalList = list.stream().filter(element -> {
-            long repeatDateMillis = element.coming.getRepeatDate();
+            long repeatDateMillis = element.coming.getExpireDate();
             return repeatDateMillis >= startYear && repeatDateMillis <= endYear;
         }).collect(Collectors.toList());
 
         globalList.forEach(item -> {
-            int monthNumber = getMonthNumberFromDate(item.coming.getRepeatDate());
+            int monthNumber = getMonthNumberFromDate(item.coming.getExpireDate());
 
             ArrayList<ComingAndTransaction> actualList = transactionsCollection.get(monthNumber);
             assert actualList != null;

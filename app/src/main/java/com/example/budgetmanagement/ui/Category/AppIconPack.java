@@ -8,7 +8,7 @@ import com.maltaisn.iconpack.defaultpack.IconPackDefault;
 
 import javax.annotation.Nullable;
 
-public class App extends Application {
+public class AppIconPack extends Application {
 
     @Nullable
     private IconPack iconPack;

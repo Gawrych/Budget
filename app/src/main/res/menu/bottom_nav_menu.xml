@@ -7,9 +7,9 @@
         android:title="@string/title_statistics" />
 
     <item
-        android:id="@+id/navigation_incoming"
+        android:id="@+id/navigation_coming"
         android:icon="@drawable/ic_outline_event_repeat_24"
-        android:title="@string/title_incoming" />
+        android:title="@string/title_coming" />
 
     <item
         android:id="@+id/navigation_settings"

@@ -3,11 +3,8 @@ package com.example.budgetmanagement.ui.Coming;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -21,17 +18,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 
-import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.Rooms.Coming;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
-import com.example.budgetmanagement.database.Rooms.History;
 import com.example.budgetmanagement.database.Rooms.Transaction;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
-import com.example.budgetmanagement.database.ViewModels.HistoryViewModel;
-import com.example.budgetmanagement.ui.Category.App;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.maltaisn.icondialog.pack.IconPack;
@@ -43,7 +36,6 @@ public class ComingBottomSheetDetails extends Fragment {
 
     private final Context context;
     private final BottomSheetDialog bottomSheetDialog;
-    private final HistoryViewModel historyViewModel;
     private final ComingViewModel comingViewModel;
     private final TextView transactionNameField;
     private final TextView addDateField;
@@ -73,7 +65,6 @@ public class ComingBottomSheetDetails extends Fragment {
         this.root = root;
 
         this.comingViewModel = new ViewModelProvider(owner).get(ComingViewModel.class);
-        this.historyViewModel = new ViewModelProvider(owner).get(HistoryViewModel.class);
         this.categoryViewModel = new ViewModelProvider(owner).get(CategoryViewModel.class);
 
         this.bottomSheetDialog = new BottomSheetDialog(context);
@@ -118,7 +109,7 @@ public class ComingBottomSheetDetails extends Fragment {
 
         setTextInFields();
 
-        boolean isBeforeDeadline = getRemainingDays(coming.getRepeatDate()) < 0;
+        boolean isBeforeDeadline = getRemainingDays(coming.getExpireDate()) < 0;
         boolean isExecute = coming.isExecute();
 
         setVisibilityOfExecutedDate(GONE);
@@ -144,15 +135,15 @@ public class ComingBottomSheetDetails extends Fragment {
         transactionNameField.setText(transaction.getTitle());
         amountField.setText(transaction.getAmount());
         addDateField.setText(DateProcessor.parseDate(coming.getAddDate()));
-        lastModifiedDateField.setText(getLastEditDate(coming.getModifiedDate()));
+        lastModifiedDateField.setText(getLastEditDate(coming.getDeadline()));
         categoryName.setText(category.getName());
 
         setAmountIconDependOfValue(transaction.getAmount());
         setCategoryIcon(category);
         setExecuteButtonProperties(R.string.realize, R.drawable.ic_baseline_done_all_24);
 
-        int remainingDays = getRemainingDays(coming.getRepeatDate());
-        deadlineDateField.setText(DateProcessor.parseDate(coming.getRepeatDate()));
+        int remainingDays = getRemainingDays(coming.getExpireDate());
+        deadlineDateField.setText(DateProcessor.parseDate(coming.getExpireDate()));
         remainingDaysField.setText(String.valueOf(Math.abs(remainingDays)));
     }
 
@@ -229,23 +220,10 @@ public class ComingBottomSheetDetails extends Fragment {
     }
 
     private void executePay() {
-        boolean isExecute = !this.coming.isExecute();
-
-        this.coming.setExecute(!this.coming.isExecute());
+        boolean negateExecute = !this.coming.isExecute();
+        this.coming.setExecute(negateExecute);
         this.coming.setExecutedDate(getTodayDate().getTimeInMillis());
         updateComingInDatabase();
-
-        int comingId = this.coming.getComingId();
-        History newHistoryElement = new History(0, comingId,
-                this.transaction.getTransactionId(),
-                getTodayDate().getTimeInMillis());
-
-        if (isExecute) {
-            historyViewModel.insert(newHistoryElement);
-        } else {
-            historyViewModel.deleteByComingId(comingId);
-        }
-
         bottomSheetDialog.cancel();
     }
 

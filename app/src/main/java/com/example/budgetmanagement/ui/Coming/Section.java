@@ -5,7 +5,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
-import com.example.budgetmanagement.ui.History.DecimalPrecision;
+import com.example.budgetmanagement.ui.utils.DecimalPrecision;
 
 import java.math.BigDecimal;
 import java.util.List;

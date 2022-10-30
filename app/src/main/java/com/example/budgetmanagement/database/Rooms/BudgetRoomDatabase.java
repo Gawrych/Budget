@@ -21,13 +21,12 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class, History.class}, version = 118, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class}, version = 120, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
     public abstract CategoryDao categoryDao();
     public abstract ComingDao comingDao();
-    public abstract HistoryDao historyDao();
 
     private static volatile BudgetRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -164,16 +163,6 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
 //                Coming coming10 = new Coming(10, 10, validity, false,
 //                        1665525600000L, 0, LocalDate.now().toEpochDay(), 0);
 //                comingDao.insert(coming10);
-//
-//
-//                HistoryDao historyDao = INSTANCE.historyDao();
-//                History history = new History(1, 0, 2, LocalDate.now().toEpochDay());
-//                History history2 = new History(2, 0, 1, LocalDate.now().toEpochDay());
-//                History history3 = new History(3, 0, 3, LocalDate.parse("2022-04-03").toEpochDay());
-//                historyDao.insert(history);
-//                historyDao.insert(history2);
-//                historyDao.insert(history3);
-
             });
         }
     };

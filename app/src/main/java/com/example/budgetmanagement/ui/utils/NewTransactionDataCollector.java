@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.ui.History;
+package com.example.budgetmanagement.ui.utils;
 
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 

@@ -2,7 +2,6 @@ package com.example.budgetmanagement.database.Adapters;
 
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DATE_FORMAT;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
@@ -17,12 +16,10 @@ import android.widget.TextView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
-import com.example.budgetmanagement.ui.Category.App;
 import com.example.budgetmanagement.ui.Coming.Section;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
@@ -130,7 +127,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
         ComingAndTransaction item = getChild(i, i1);
         String amount = item.transaction.getAmount();
-        long repeatDate = item.coming.getRepeatDate();
+        long repeatDate = item.coming.getExpireDate();
         boolean isExecuted = item.coming.isExecute();
 
         titleField.setText(item.transaction.getTitle());

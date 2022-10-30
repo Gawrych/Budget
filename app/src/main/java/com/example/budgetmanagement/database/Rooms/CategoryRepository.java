@@ -4,8 +4,6 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.budgetmanagement.database.utils.CategoryName;
-
 import java.util.List;
 
 public class CategoryRepository {
@@ -41,10 +39,6 @@ public class CategoryRepository {
 
     public LiveData<List<Category>> getAllCategories() {
         return allCategories;
-    }
-
-    public LiveData<List<CategoryName>> getCategoryNames() {
-        return categoryDao.getAllCategoryNames();
     }
 
     public void insert(Category category) {

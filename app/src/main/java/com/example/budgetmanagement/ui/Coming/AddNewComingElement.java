@@ -208,7 +208,7 @@ public class AddNewComingElement extends TransactionFormService implements Comin
         Transaction transaction = comingAndTransaction.transaction;
         title.setText(transaction.getTitle());
 
-        long repeatDate = comingAndTransaction.coming.getRepeatDate();
+        long repeatDate = comingAndTransaction.coming.getExpireDate();
         dateField.setText(DateProcessor.parseDate(repeatDate, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(repeatDate);
@@ -223,7 +223,7 @@ public class AddNewComingElement extends TransactionFormService implements Comin
         selectedCategory.setText(CategoryBottomSheetSelector.getCategoryName(transaction.getCategoryId(), this));
         setCategoryId(transaction.getCategoryId());
 
-        dateField.setText(DateProcessor.parseDate(comingAndTransaction.coming.getRepeatDate(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
+        dateField.setText(DateProcessor.parseDate(comingAndTransaction.coming.getExpireDate(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
     }
 
     private void submitCyclical(int amountOfNewDates) {

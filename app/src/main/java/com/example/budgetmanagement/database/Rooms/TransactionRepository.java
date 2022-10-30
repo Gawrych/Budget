@@ -23,7 +23,7 @@ public class TransactionRepository {
     }
 
     public void delete(Transaction transaction) {
-        database.databaseWriteExecutor.execute(() -> {
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> {
             transactionDao.delete(transaction);
         });
     }

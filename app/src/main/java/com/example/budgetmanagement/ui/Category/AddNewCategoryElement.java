@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +22,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
-import com.example.budgetmanagement.database.ViewModels.TransactionViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
@@ -82,7 +80,7 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
         iconPickerLayout = view.findViewById(R.id.iconPickerLayout);
         profitSwitch = view.findViewById(R.id.profitSwitch);
 
-        iconPack = ((App) requireActivity().getApplication()).getIconPack();
+        iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
 
         this.category = getCategoryByIdFromBundle();
         if (category != null && isEdit) {
@@ -190,7 +188,7 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
 
     @Override
     public IconPack getIconDialogIconPack() {
-        return ((App) requireActivity().getApplication()).getIconPack();
+        return ((AppIconPack) requireActivity().getApplication()).getIconPack();
     }
 
     @Override

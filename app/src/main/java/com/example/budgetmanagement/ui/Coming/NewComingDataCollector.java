@@ -9,7 +9,7 @@ import android.widget.AutoCompleteTextView;
 import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Coming;
-import com.example.budgetmanagement.ui.History.NewTransactionDataCollector;
+import com.example.budgetmanagement.ui.utils.NewTransactionDataCollector;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -94,7 +94,7 @@ public class NewComingDataCollector extends NewTransactionDataCollector {
     }
 
     public Coming getComing(long transactionId, long date) {
-        return new Coming(0, (int) transactionId, (byte) 0, false,
+        return new Coming(0, (int) transactionId, false,
                 date, 0, Calendar.getInstance().getTimeInMillis(), 0);
     }
 

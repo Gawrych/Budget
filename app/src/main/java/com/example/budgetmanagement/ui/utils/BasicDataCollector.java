@@ -7,7 +7,6 @@ import android.widget.EditText;
 
 import com.example.budgetmanagement.MainActivity;
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.ui.History.DecimalPrecision;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 

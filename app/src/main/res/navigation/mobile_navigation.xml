@@ -18,32 +18,9 @@
         tools:layout="@layout/fragment_settings" />
 
     <fragment
-        android:id="@+id/categoryList"
-        android:name="com.example.budgetmanagement.ui.Category.CategoryFragment"
-        android:label="@string/title_category"
-        tools:layout="@layout/category_fragment" >
-        <action
-            android:id="@+id/action_categoryList_to_addNewCategoryElement"
-            app:destination="@id/addNewCategoryElement" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_history"
-        android:name="com.example.budgetmanagement.ui.History.HistoryFragment"
-        android:label="@string/title_history"
-        tools:layout="@layout/history_fragment" >
-        <action
-            android:id="@+id/action_navigation_history_to_addNewHistory"
-            app:destination="@id/addNewHistory" />
-        <action
-            android:id="@+id/action_navigation_history_to_filterFragment"
-            app:destination="@id/filterFragment" />
-
-    </fragment>
-    <fragment
-        android:id="@+id/navigation_incoming"
+        android:id="@+id/navigation_coming"
         android:name="com.example.budgetmanagement.ui.Coming.ComingFragment"
-        android:label="@string/title_incoming"
+        android:label="@string/title_coming"
         tools:layout="@layout/coming_fragment" >
         <action
             android:id="@+id/action_navigation_incoming_to_addNewComingElement"
@@ -55,24 +32,23 @@
             android:id="@+id/action_navigation_incoming_to_categoryList"
             app:destination="@id/categoryList" />
     </fragment>
+
     <fragment
-        android:id="@+id/addNewHistory"
-        android:name="com.example.budgetmanagement.ui.History.AddNewHistoryElement"
-        android:label="activity_add_new_history"
-        tools:layout="@layout/transaction_form_fragment" >
+        android:id="@+id/categoryList"
+        android:name="com.example.budgetmanagement.ui.Category.CategoryFragment"
+        android:label="@string/title_category"
+        tools:layout="@layout/category_fragment" >
         <action
-            android:id="@+id/action_addNewHistory_to_navigation_history"
-            app:destination="@id/navigation_history" />
+            android:id="@+id/action_categoryList_to_addNewCategoryElement"
+            app:destination="@id/addNewCategoryElement" />
     </fragment>
+
     <fragment
-        android:id="@+id/filterFragment"
-        android:name="com.example.budgetmanagement.ui.utils.filteringList.FilterFragment"
-        android:label="fragment_filter"
-        tools:layout="@layout/fragment_filter" >
-        <action
-            android:id="@+id/action_filterFragment_to_navigation_history"
-            app:destination="@id/navigation_history" />
+        android:id="@+id/addNewCategoryElement"
+        android:name="com.example.budgetmanagement.ui.Category.AddNewCategoryElement"
+        android:label="AddNewCategoryElement" >
     </fragment>
+
     <fragment
         android:id="@+id/addNewComing"
         android:name="com.example.budgetmanagement.ui.Coming.AddNewComingElement"
@@ -81,9 +57,4 @@
         android:id="@+id/editComingElement"
         android:name="com.example.budgetmanagement.ui.Coming.EditComingElement"
         android:label="EditComingElement" />
-    <fragment
-        android:id="@+id/addNewCategoryElement"
-        android:name="com.example.budgetmanagement.ui.Category.AddNewCategoryElement"
-        android:label="AddNewCategoryElement" >
-    </fragment>
 </navigation>

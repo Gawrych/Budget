@@ -9,13 +9,11 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.budgetmanagement.database.ViewModels.FilterViewModel;
 import com.example.budgetmanagement.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -26,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar actionbar;
     private ActivityMainBinding binding;
-    private FilterViewModel filterViewModel;
     public static Resources resources;
     static Application applicationInstance;
     @Override
@@ -43,10 +40,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(actionbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
-        filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
-
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_statistics, R.id.navigation_incoming, R.id.navigation_history, R.id.navigation_settings)
+                R.id.navigation_statistics, R.id.navigation_coming, R.id.navigation_history, R.id.navigation_settings)
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
@@ -78,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (destination == R.id.navigation_statistics) {
                 navBar.setVisibility(View.VISIBLE);
                 fragmentName.setText("Statystyki");
-            } else if (destination == R.id.navigation_incoming) {
+            } else if (destination == R.id.navigation_coming) {
                 navBar.setVisibility(View.VISIBLE);
                 fragmentName.setText("Transakcje");
             } else if (destination == R.id.navigation_settings) {
@@ -89,9 +84,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    public static Application getApplicationInstance() {
-        return applicationInstance;
-    }
-
 }

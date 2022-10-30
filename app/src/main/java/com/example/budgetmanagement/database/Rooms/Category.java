@@ -10,23 +10,23 @@ public class Category {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "categoryId", index = true)
-    private int categoryId;
+    private final int categoryId;
 
     @NonNull
     @ColumnInfo(name = "name")
-    private String name;
+    private final String name;
 
     @ColumnInfo(name = "icon")
-    private int icon;
+    private final int icon;
 
     @ColumnInfo(name = "budget")
-    private String budget;
+    private final String budget;
 
     @ColumnInfo(name = "addDate")
-    private long addDate;
+    private final long addDate;
 
     @ColumnInfo(name = "modifiedDate")
-    private long modifiedDate;
+    private final long modifiedDate;
 
     public Category(int categoryId, @NonNull String name, int icon, @NonNull String budget, long addDate, long modifiedDate) {
         this.categoryId = categoryId;

@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.ui.History;
+package com.example.budgetmanagement.ui.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
