@@ -87,10 +87,6 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/acceptButton"
-        style="@style/addButton"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_gravity="center" />
+        style="@style/addButton" />
 
 </LinearLayout>

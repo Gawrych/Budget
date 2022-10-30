@@ -13,7 +13,7 @@ public interface GetViewTransactionFields extends BasicFormFields {
 
     TextInputEditText getStartDateField();
 
-    AutoCompleteTextView getSelectedCategory();
+    TextInputEditText getSelectedCategory();
 
     Context getFragmentContext();
 }

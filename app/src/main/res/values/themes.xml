@@ -18,15 +18,41 @@
     </style>
 
     <style name="addButton">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:layout_marginBottom">70dp</item>
         <item name="android:textColor">@color/grey</item>
         <item name="android:backgroundTint">@color/first_color_theme</item>
         <item name="android:padding">10dp</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:text">@string/add</item>
+        <item name="android:layout_gravity">center</item>
         <item name="cornerRadius">12dp</item>
         <item name="iconGravity">start</item>
         <item name="iconTint">@color/grey</item>
     </style>
 
+    <style name="TextInputLayoutCustomView" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:layout_marginEnd">30dp</item>
+        <item name="hintTextColor">@color/first_color_theme</item>
+        <item name="boxStrokeColor">@color/first_color_theme</item>
+        <item name="errorEnabled">true</item>
+        <item name="endIconMode">custom</item>
+        <item name="endIconContentDescription">@string/icon</item>
+    </style>
+
+    <style name="TextInputEditTextCustomView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+    </style>
+
+    <style name="SwitchMaterialCustomView">
+<!--    TODO Create this -->
+    </style>
 </resources>

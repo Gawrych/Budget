@@ -8,93 +8,53 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/titleLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        app:errorEnabled="true"
-        android:hint="Tytuł"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/block_smaller_icon"
-        app:endIconContentDescription="coinIcon">
+        style="@style/TextInputLayoutCustomView"
+        android:hint="@string/title"
+        app:endIconDrawable="@drawable/block_smaller_icon">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:inputType="textCapWords" />
+            style="@style/TextInputEditTextCustomView"
+            android:inputType="textCapSentences" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/amountLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="10dp"
-        app:errorEnabled="true"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/dollar_coin_smaller_icon"
-        app:endIconContentDescription="coinIcon">
+        style="@style/TextInputLayoutCustomView"
+        android:hint="@string/amount"
+        app:endIconDrawable="@drawable/dollar_coin_smaller_icon">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/amount"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:hint="@string/amount"
-            android:inputType="numberDecimal"
-            app:backgroundTint="@color/second_color_theme" />
+            style="@style/TextInputEditTextCustomView"
+            android:inputType="numberDecimal" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/categorySelectorLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="10dp"
-        android:hint="Kategoria"
-        app:errorEnabled="true"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_baseline_category_24"
-        app:endIconContentDescription="categoryIcon">
+        style="@style/TextInputLayoutCustomView"
+        android:hint="@string/category"
+        app:endIconDrawable="@drawable/ic_baseline_category_24">
 
-        <AutoCompleteTextView
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/categorySelector"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:focusable="false"
-            android:inputType="none"
-            app:backgroundTint="@color/second_color_theme" />
+            style="@style/TextInputEditTextCustomView"
+            android:focusable="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/startDateLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="10dp"
-        app:errorEnabled="true"
-        android:hint="Pierwsza płatność"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/calendar_smaller_icon"
-        app:endIconContentDescription="calendarIcon">
+        style="@style/TextInputLayoutCustomView"
+        android:hint="@string/first_deadline"
+        app:endIconDrawable="@drawable/calendar_smaller_icon">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/startDate"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:focusable="false"
-            app:backgroundTint="@color/second_color_theme" />
+            style="@style/TextInputEditTextCustomView"
+            android:focusable="false" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

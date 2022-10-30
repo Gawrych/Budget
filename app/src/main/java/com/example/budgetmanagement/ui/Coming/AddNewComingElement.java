@@ -201,7 +201,7 @@ public class AddNewComingElement extends TransactionFormService implements Comin
     private void fillFields(ComingAndTransaction comingAndTransaction) {
         TextInputEditText title = getTitleField();
         TextInputEditText amount = getAmountField();
-        AutoCompleteTextView selectedCategory = getSelectedCategory();
+        TextInputEditText selectedCategory = getSelectedCategory();
         SwitchMaterial profitSwitch = getProfitSwitch();
         TextInputEditText dateField = getStartDateField();
 

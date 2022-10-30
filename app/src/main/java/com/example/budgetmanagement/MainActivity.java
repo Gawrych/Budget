@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_statistics, R.id.navigation_coming, R.id.navigation_history, R.id.navigation_settings)
+                R.id.navigation_statistics, R.id.navigation_coming, R.id.navigation_settings)
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
@@ -61,9 +61,6 @@ public class MainActivity extends AppCompatActivity {
             } else if (destination == R.id.categoryList) {
                 navBar.setVisibility(View.GONE);
                 fragmentName.setText("Kategorie");
-            } else if (destination == R.id.filterFragment) {
-                navBar.setVisibility(View.GONE);
-                fragmentName.setText("Sortowanie");
             } else if (destination == R.id.editComingElement) {
                 navBar.setVisibility(View.GONE);
                 fragmentName.setText("Edycja");

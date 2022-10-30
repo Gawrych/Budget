@@ -34,39 +34,27 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             app:errorEnabled="true"
-            android:hint="Okres"
+            android:hint="@string/period_of_time"
             android:visibility="gone">
 
             <AutoCompleteTextView
                 android:id="@+id/timeBetweenPay"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:focusable="false"
-                android:inputType="none" />
+                style="@style/TextInputEditTextCustomView"
+                android:focusable="false" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/endDateLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
+            style="@style/TextInputLayoutCustomView"
             android:hint="@string/end_date"
             android:visibility="gone"
-            app:endIconContentDescription="calendarIcon"
-            app:endIconDrawable="@drawable/calendar_smaller_icon"
-            app:endIconMode="custom"
-            app:errorEnabled="true">
+            app:endIconDrawable="@drawable/calendar_smaller_icon">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/endDate"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:focusable="false"
-                app:backgroundTint="@color/main_blue" />
+                style="@style/TextInputEditTextCustomView"
+                android:focusable="false" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,12 +72,8 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/acceptButton"
-            style="@style/addButton"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="70dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp" />
+            style="@style/addButton" />
+
     </LinearLayout>
 
 </ScrollView>

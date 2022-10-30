@@ -42,7 +42,7 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
     private TextInputLayout amountLayout;
     private SwitchMaterial profitSwitch;
     private TextInputLayout categorySelectorLayout;
-    private AutoCompleteTextView selectedCategory;
+    private TextInputEditText selectedCategory;
     private IconPack iconPack;
 
     @Override
@@ -176,7 +176,7 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
     }
 
     @Override
-    public AutoCompleteTextView getSelectedCategory() {
+    public TextInputEditText getSelectedCategory() {
         return selectedCategory;
     }
 

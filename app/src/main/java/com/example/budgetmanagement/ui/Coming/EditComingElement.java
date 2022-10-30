@@ -67,7 +67,7 @@ public class EditComingElement extends TransactionFormService {
     private void fillFields() {
         TextInputEditText title = getTitleField();
         TextInputEditText amount = getAmountField();
-        AutoCompleteTextView selectedCategory = getSelectedCategory();
+        TextInputEditText selectedCategory = getSelectedCategory();
         SwitchMaterial profitSwitch = getProfitSwitch();
         TextInputEditText dateField = getStartDateField();
 
