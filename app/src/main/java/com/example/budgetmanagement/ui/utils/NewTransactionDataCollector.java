@@ -2,6 +2,7 @@ package com.example.budgetmanagement.ui.utils;
 
 import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
 
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 import com.example.budgetmanagement.database.Rooms.Transaction;
@@ -25,18 +26,17 @@ public class NewTransactionDataCollector extends BasicDataCollector {
     }
 
     public boolean collectData() {
-        super.collectData();
         this.categoryId = fieldsInterface.getCategoryId();
         setDateInPattern();
-        return true;
+        return super.collectData();
     }
 
     private void setDateInPattern() {
-        TextInputEditText dateField = fieldsInterface.getStartDateField();
+        AutoCompleteTextView dateField = fieldsInterface.getStartDateField();
         date = getDateInPatternFromTextField(dateField);
     }
 
-    public long getDateInPatternFromTextField(TextInputEditText dateField) {
+    public long getDateInPatternFromTextField(AutoCompleteTextView dateField) {
         LocalDate localDate = getSelectedDateInPattern(dateField);
         return localDate.atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli();
     }

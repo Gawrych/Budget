@@ -81,9 +81,11 @@
     <string name="cyclical_transaction">Transakcja cykliczna</string>
     <string name="end_date">Do kiedy</string>
     <string name="new_transactions_dates">Daty nowych transakcji</string>
-    <string name="ok">Ok</string>
+    <string name="ok">@android:string/ok</string>
     <string name="title">Tytuł</string>
     <string name="category">Kategoria</string>
     <string name="first_deadline">Pierwsza płatność</string>
     <string name="period_of_time">Okres</string>
+    <string name="show_dates">Pokaż daty</string>
+    <string name="income">Przychód</string>
 </resources>

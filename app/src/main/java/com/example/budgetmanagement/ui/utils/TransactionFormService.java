@@ -35,14 +35,14 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
     private CategoryBottomSheetSelector categoryBottomSheetSelector;
     private int categoryId = 1;
     private DatePickerDialog datePickerDialog;
-    private TextInputEditText dateField;
+    private AutoCompleteTextView dateField;
     private TextInputEditText title;
     private TextInputEditText amount;
     private TextInputLayout titleLayout;
     private TextInputLayout amountLayout;
     private SwitchMaterial profitSwitch;
     private TextInputLayout categorySelectorLayout;
-    private TextInputEditText selectedCategory;
+    private AutoCompleteTextView selectedCategory;
     private IconPack iconPack;
 
     @Override
@@ -161,7 +161,7 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
     }
 
     @Override
-    public TextInputEditText getStartDateField() {
+    public AutoCompleteTextView getStartDateField() {
         return dateField;
     }
 
@@ -176,7 +176,7 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
     }
 
     @Override
-    public TextInputEditText getSelectedCategory() {
+    public AutoCompleteTextView getSelectedCategory() {
         return selectedCategory;
     }
 

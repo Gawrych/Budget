@@ -18,43 +18,32 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/cyclicalSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="40dp"
+            android:theme="@style/SwitchMaterialTheme"
+            style="@style/SwitchMaterialCustomView"
             android:text="@string/cyclical_transaction" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/timeBetweenPayLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            app:errorEnabled="true"
-            android:hint="@string/period_of_time"
+            style="@style/LayoutExposedDropMenuCustomView"
             android:visibility="gone">
 
             <AutoCompleteTextView
                 android:id="@+id/timeBetweenPay"
-                style="@style/TextInputEditTextCustomView"
-                android:focusable="false" />
+                style="@style/AutoCompleteCustomView"
+                android:hint="@string/period_of_time"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/endDateLayout"
-            style="@style/TextInputLayoutCustomView"
-            android:hint="@string/end_date"
+            style="@style/LayoutExposedDropMenuCustomView"
             android:visibility="gone"
             app:endIconDrawable="@drawable/calendar_smaller_icon">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/endDate"
-                style="@style/TextInputEditTextCustomView"
-                android:focusable="false" />
+                style="@style/AutoCompleteCustomView"
+                android:hint="@string/end_date"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,7 +55,7 @@
             android:layout_marginTop="-5dp"
             android:layout_gravity="end"
             android:textSize="16sp"
-            android:text="Pokaż daty"
+            android:text="@string/show_dates"
             android:visibility="gone"
             android:textColor="@color/second_color_theme" />
 

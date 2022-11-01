@@ -11,7 +11,7 @@ public interface ComingFields extends GetViewTransactionFields {
 
     AutoCompleteTextView getTimeBetweenExecutePicker();
 
-    TextInputEditText getEndDate();
+    AutoCompleteTextView getEndDate();
 
     TextInputLayout getTimeBetweenExecutePickerLayout();
 

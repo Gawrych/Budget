@@ -20,7 +20,7 @@ public class NewComingDataCollector extends NewTransactionDataCollector {
 
     private final ComingFields fieldsInterface;
     private final ArrayMap<String, Integer> timeBetweenValues;
-    private TextInputEditText endDate;
+    private AutoCompleteTextView endDate;
     private AutoCompleteTextView timeBetweenExecutePicker;
     private final int QUARTER_OF_YEAR = 0;
 
@@ -85,7 +85,7 @@ public class NewComingDataCollector extends NewTransactionDataCollector {
     }
 
     public long getStartDate() {
-        TextInputEditText startDate = fieldsInterface.getStartDateField();
+        AutoCompleteTextView startDate = fieldsInterface.getStartDateField();
         return getDateInPatternFromTextField(startDate);
     }
 

@@ -34,36 +34,32 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/categorySelectorLayout"
-        style="@style/TextInputLayoutCustomView"
-        android:hint="@string/category"
+        style="@style/LayoutExposedDropMenuCustomView"
         app:endIconDrawable="@drawable/ic_baseline_category_24">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:id="@+id/categorySelector"
-            style="@style/TextInputEditTextCustomView"
-            android:focusable="false" />
+            style="@style/AutoCompleteCustomView"
+            android:hint="@string/category" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/startDateLayout"
-        style="@style/TextInputLayoutCustomView"
-        android:hint="@string/first_deadline"
+        style="@style/LayoutExposedDropMenuCustomView"
         app:endIconDrawable="@drawable/calendar_smaller_icon">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:id="@+id/startDate"
-            style="@style/TextInputEditTextCustomView"
-            android:focusable="false" />
+            style="@style/AutoCompleteCustomView"
+            android:hint="@string/first_deadline" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/profitSwitch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Przychód"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp" />
+        android:theme="@style/SwitchMaterialTheme"
+        style="@style/SwitchMaterialCustomView"
+        android:layout_marginBottom="20dp"
+        android:text="@string/income" />
 </merge>

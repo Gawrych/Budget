@@ -9,81 +9,47 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/titleLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:hint="Tytuł"
-        app:endIconContentDescription="coinIcon"
-        app:endIconDrawable="@drawable/block_smaller_icon"
-        app:endIconMode="custom"
-        app:errorEnabled="true">
+        style="@style/TextInputLayoutCustomView"
+        android:hint="@string/title"
+        app:endIconDrawable="@drawable/block_smaller_icon">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:inputType="textCapWords" />
+            style="@style/TextInputEditTextCustomView"
+            android:inputType="textCapSentences" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/iconPickerLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:hint="@string/Icon"
-        app:endIconContentDescription="categoryIcon"
-        app:endIconDrawable="@drawable/ic_outline_widgets_24"
-        app:endIconMode="custom"
-        app:errorEnabled="true">
+        style="@style/LayoutExposedDropMenuCustomView"
+        app:endIconDrawable="@drawable/ic_outline_widgets_24">
 
         <AutoCompleteTextView
             android:id="@+id/iconPicker"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:focusable="false"
-            android:inputType="none"
-            app:backgroundTint="@color/main_blue" />
+            android:hint="@string/Icon"
+            style="@style/AutoCompleteCustomView" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/amountLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        app:endIconContentDescription="coinIcon"
-        app:endIconDrawable="@drawable/dollar_coin_smaller_icon"
-        app:endIconMode="custom"
-        app:errorEnabled="true">
+        style="@style/TextInputLayoutCustomView"
+        app:endIconDrawable="@drawable/dollar_coin_smaller_icon">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/amount"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
+            style="@style/TextInputEditTextCustomView"
             android:hint="@string/month_budget_planning"
-            android:inputType="numberDecimal"
-            app:backgroundTint="@color/main_blue" />
+            android:inputType="numberDecimal" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/profitSwitch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Planowane przychody/dochody"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp" />
+        android:theme="@style/SwitchMaterialTheme"
+        style="@style/SwitchMaterialCustomView"
+        android:text="@string/income" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/acceptButton"

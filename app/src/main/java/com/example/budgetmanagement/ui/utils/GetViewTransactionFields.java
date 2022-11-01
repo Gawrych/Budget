@@ -11,9 +11,9 @@ public interface GetViewTransactionFields extends BasicFormFields {
 
     int getCategoryId();
 
-    TextInputEditText getStartDateField();
+    AutoCompleteTextView getStartDateField();
 
-    TextInputEditText getSelectedCategory();
+    AutoCompleteTextView getSelectedCategory();
 
     Context getFragmentContext();
 }

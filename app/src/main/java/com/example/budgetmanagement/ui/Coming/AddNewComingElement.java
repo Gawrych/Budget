@@ -43,7 +43,7 @@ public class AddNewComingElement extends TransactionFormService implements Comin
     private SwitchMaterial cyclicalSwitch;
     private NewComingDataCollector newComingDataCollector;
 
-    private TextInputEditText endDate;
+    private AutoCompleteTextView endDate;
     private TextInputLayout endDateLayout;
     private TextInputLayout timeBetweenExecuteLayout;
     private ArrayList<Long> dates = new ArrayList<>();
@@ -201,9 +201,9 @@ public class AddNewComingElement extends TransactionFormService implements Comin
     private void fillFields(ComingAndTransaction comingAndTransaction) {
         TextInputEditText title = getTitleField();
         TextInputEditText amount = getAmountField();
-        TextInputEditText selectedCategory = getSelectedCategory();
+        AutoCompleteTextView selectedCategory = getSelectedCategory();
         SwitchMaterial profitSwitch = getProfitSwitch();
-        TextInputEditText dateField = getStartDateField();
+        AutoCompleteTextView dateField = getStartDateField();
 
         Transaction transaction = comingAndTransaction.transaction;
         title.setText(transaction.getTitle());
@@ -262,7 +262,7 @@ public class AddNewComingElement extends TransactionFormService implements Comin
     }
 
     @Override
-    public TextInputEditText getEndDate() {
+    public AutoCompleteTextView getEndDate() {
         return endDate;
     }
 
