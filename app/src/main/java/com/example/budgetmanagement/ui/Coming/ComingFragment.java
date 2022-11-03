@@ -34,9 +34,7 @@ import java.util.stream.Collectors;
 
 public class ComingFragment extends Fragment {
 
-    private ComingFragmentBinding binding;
     private View view;
-    private List<ComingAndTransaction> globalList;
     private ArrayList<Section> sectionList = new ArrayList<>();
     private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollection = new HashMap<>();
     private ComingBottomSheetDetails details;
@@ -46,7 +44,7 @@ public class ComingFragment extends Fragment {
     private int year = 2022;
     private long startYear = 0;
     private long endYear = 0;
-    private HashMap<Integer, ArrayList<Section>> savedLists = new HashMap<>();
+    private final HashMap<Integer, ArrayList<Section>> savedLists = new HashMap<>();
     private DatePickerDialog datePickerDialog;
     private TextView pickedYear;
     private List<ComingAndTransaction> actualList;
@@ -114,16 +112,12 @@ public class ComingFragment extends Fragment {
         });
 
         ImageButton addButton = view.findViewById(R.id.addButton);
-        addButton.setOnClickListener(root -> {
-            Navigation.findNavController(root)
-                    .navigate(R.id.action_navigation_incoming_to_addNewComingElement);
-        });
+        addButton.setOnClickListener(root -> Navigation.findNavController(root)
+                .navigate(R.id.action_navigation_incoming_to_addNewComingElement));
 
         ImageButton categories = view.findViewById(R.id.categoriesButton);
-        categories.setOnClickListener(root -> {
-            Navigation.findNavController(root)
-                    .navigate(R.id.action_navigation_incoming_to_categoryList);
-        });
+        categories.setOnClickListener(root -> Navigation.findNavController(root)
+                .navigate(R.id.action_navigation_incoming_to_categoryList));
 
         expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
         yearPicker.setOnClickListener(v -> selectYear());
@@ -210,7 +204,7 @@ public class ComingFragment extends Fragment {
     private void collectTransactionByMonthId(List<ComingAndTransaction> list) {
         initializeEmptyTransactionsCollection();
 
-        globalList = list.stream().filter(element -> {
+        List<ComingAndTransaction> globalList = list.stream().filter(element -> {
             long repeatDateMillis = element.coming.getExpireDate();
             return repeatDateMillis >= startYear && repeatDateMillis <= endYear;
         }).collect(Collectors.toList());
@@ -238,6 +232,6 @@ public class ComingFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+        com.example.budgetmanagement.databinding.ComingFragmentBinding binding = null;
     }
 }

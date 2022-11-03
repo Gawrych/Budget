@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,55 +17,31 @@
 
         <TextView
             android:id="@+id/categoryNameLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Nazwa"
-            android:textSize="14sp"
+            style="@style/DetailsLabelField"
+            android:labelFor="@+id/categoryName"
+            android:text="@string/name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/categoryName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/no_data"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/DetailsValueField"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/categoryNameLabel" />
 
         <TextView
             android:id="@+id/budgetLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Budżet"
-            android:textSize="14sp"
+            style="@style/DetailsLabelField"
+            android:labelFor="@+id/budget"
+            android:text="@string/budget"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/categoryName" />
 
-        <ImageView
-            android:id="@+id/profitIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/ic_baseline_arrow_drop_up_24"
-            android:text="@string/no_data"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/budgetLabel" />
-
         <TextView
             android:id="@+id/budget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
-            android:text="@string/no_data"
-            android:textSize="16sp"
+            style="@style/DetailsValueField"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/profitIcon"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/budgetLabel" />
 
         <TextView
@@ -80,41 +57,31 @@
 
         <TextView
             android:id="@+id/iconLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Icon"
-            android:textSize="14sp"
+            style="@style/DetailsLabelField"
+            android:labelFor="@+id/icon"
+            android:text="@string/Icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/budget" />
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="5dp"
+            style="@style/DetailsIconField"
             android:src="@drawable/ic_baseline_event_busy_24"
-            android:text="@string/no_data"
+            android:contentDescription="@string/category_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iconLabel" />
 
         <TextView
             android:id="@+id/addDateLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Utworzono"
-            android:textSize="14sp"
+            style="@style/DetailsLabelField"
+            android:labelFor="@+id/addDate"
+            android:text="@string/created_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/icon" />
 
         <TextView
             android:id="@+id/addDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_data"
-            android:layout_marginTop="5dp"
-            android:textSize="16sp"
+            style="@style/DetailsValueField"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addDateLabel" />
 
@@ -130,62 +97,46 @@
 
         <LinearLayout
             android:id="@+id/editLayout"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="16dp"
-            android:orientation="horizontal"
-            android:background="?android:attr/selectableItemBackground"
+            style="@style/DetailsButtonLayout"
+            tools:ignore="UseCompoundDrawables"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/executeLayout">
 
             <ImageView
                 android:id="@+id/editIcon"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                style="@style/DetailsIconButtonField"
                 android:src="@drawable/ic_baseline_edit_24"
-                app:tint="@color/font_default"
-                android:layout_gravity="center"/>
+                android:contentDescription="@string/edit_icon"
+                app:tint="@color/font_default" />
 
             <TextView
                 android:id="@+id/editLabel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="32dp"
-                android:gravity="center_vertical"
-                android:text="@string/edit"
-                android:textSize="18sp" />
+                style="@style/DetailsLabelButtonField"
+                android:text="@string/edit" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/deleteLayout"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="16dp"
-            android:orientation="horizontal"
-            android:background="?android:attr/selectableItemBackground"
+            style="@style/DetailsButtonLayout"
+            tools:ignore="UseCompoundDrawables"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/duplicateLayout">
 
             <ImageView
                 android:id="@+id/deleteIcon"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                style="@style/DetailsIconButtonField"
                 android:src="@drawable/ic_baseline_delete_24"
-                app:tint="@color/mat_red"
-                android:layout_gravity="center"/>
+                android:contentDescription="@string/delete_icon"
+                app:tint="@color/mat_red" />
 
             <TextView
                 android:id="@+id/deleteLabel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="32dp"
-                android:gravity="center_vertical"
-                android:text="Usuń"
-                android:textColor="@color/mat_red"
-                android:textSize="18sp" />
+                style="@style/DetailsLabelButtonField"
+                android:text="@string/delete"
+                android:textColor="@color/mat_red" />
 
         </LinearLayout>
 

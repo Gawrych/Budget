@@ -24,8 +24,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/timeBetweenPayLayout"
-            style="@style/LayoutExposedDropMenuCustomView"
-            android:visibility="gone">
+            style="@style/LayoutExposedDropMenuCustomView">
 
             <AutoCompleteTextView
                 android:id="@+id/timeBetweenPay"
@@ -37,7 +36,6 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/endDateLayout"
             style="@style/LayoutExposedDropMenuCustomView"
-            android:visibility="gone"
             app:endIconDrawable="@drawable/calendar_smaller_icon">
 
             <AutoCompleteTextView

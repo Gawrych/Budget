@@ -32,7 +32,7 @@ public interface ComingDao {
     ComingAndTransaction getComingAndTransaction(int comingId);
 
     @androidx.room.Transaction
-    @Query("SELECT * FROM coming ORDER BY deadline ASC")
+    @Query("SELECT * FROM coming ORDER BY deadline DESC")
     LiveData<List<ComingAndTransaction>> getAllComingAndTransaction();
 
     @androidx.room.Transaction

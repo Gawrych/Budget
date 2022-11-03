@@ -82,5 +82,52 @@
         <item name="android:layout_marginEnd">40dp</item>
     </style>
 
+    <style name="DetailsLabelField">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="DetailsValueFieldBasicSet">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DetailsValueField" parent="DetailsValueFieldBasicSet">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:text">@string/no_data</item>
+    </style>
+
+    <style name="DetailsIconField">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+
+    <style name="DetailsButtonLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="DetailsIconButtonField">
+        <item name="android:layout_width">26dp</item>
+        <item name="android:layout_height">26dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+
+    <style name="DetailsLabelButtonField">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">32dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 
 </resources>

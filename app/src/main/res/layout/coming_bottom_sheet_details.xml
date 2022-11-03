@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,200 +15,181 @@
         android:paddingStart="30dp"
         android:paddingEnd="30dp">
 
-        <TextView
-            android:id="@+id/transactionTitleLabel"
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/titleGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Tytuł"
-            android:textSize="14sp"
+            app:constraint_referenced_ids="transactionTitleLabel, transactionName" />
+
+        <TextView
+            android:id="@+id/transactionTitleLabel"
+            style="@style/DetailsLabelField"
+            android:labelFor="@+id/transactionName"
+            android:text="@string/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/transactionName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/no_data"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/DetailsValueField"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/transactionTitleLabel" />
 
-        <TextView
-            android:id="@+id/amountLabel"
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/amountGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Kwota"
-            android:textSize="14sp"
+            app:constraint_referenced_ids="amountLabel, amount, currency" />
+
+        <TextView
+            android:id="@+id/amountLabel"
+            style="@style/DetailsLabelField"
+            android:labelFor="@+id/amount"
+            android:text="@string/amount"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/transactionName"/>
 
-        <ImageView
-            android:id="@+id/profitIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/ic_baseline_arrow_drop_up_24"
-            android:text="@string/no_data"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
-
         <TextView
             android:id="@+id/amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
-            android:text="@string/no_data"
-            android:textSize="16sp"
+            style="@style/DetailsValueField"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/profitIcon"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
 
         <TextView
             android:id="@+id/currency"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:gravity="bottom|center_horizontal"
             android:text="@string/polish_currency"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/amount"
-            app:layout_constraintStart_toEndOf="@+id/amount" />
+            app:layout_constraintStart_toEndOf="@+id/amount"
+            app:layout_constraintTop_toTopOf="@+id/amount" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/categoryGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="categoryLabel, categoryIcon, categoryName" />
 
         <TextView
             android:id="@+id/categoryLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Kategoria"
-            android:textSize="14sp"
+            style="@style/DetailsLabelField"
+            android:labelFor="@+id/categoryName"
+            android:text="@string/category"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/amount"/>
 
         <ImageView
             android:id="@+id/categoryIcon"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="5dp"
+            style="@style/DetailsIconField"
             android:src="@drawable/ic_baseline_event_busy_24"
-            android:text="@string/no_data"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/categoryLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/categoryLabel"
+            android:contentDescription="@string/category_icon" />
 
         <TextView
             android:id="@+id/categoryName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            style="@style/DetailsValueField"
             android:layout_marginStart="10dp"
-            android:text="@string/no_data"
-            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/categoryIcon"
             app:layout_constraintTop_toBottomOf="@+id/categoryLabel" />
 
-        <TextView
-            android:id="@+id/repeatDateLabel"
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/deadlineGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Data realizacji"
-            android:textSize="14sp"
+            app:constraint_referenced_ids="repeatDateLabel, remainingDate,
+            remainingDaysDecision, remainingDays, staticDaysText, dateWhenWasPaid" />
+
+        <TextView
+            android:id="@+id/repeatDateLabel"
+            style="@style/DetailsLabelField"
+            android:labelFor="@+id/remainingDate"
+            android:text="@string/deadline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/categoryIcon"/>
 
         <TextView
             android:id="@+id/remainingDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_data"
-            android:layout_marginTop="5dp"
-            android:textSize="16sp"
+            style="@style/DetailsValueField"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/repeatDateLabel" />
 
         <TextView
-            android:id="@+id/remainingDaysLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/remainingDaysDecision"
+            style="@style/DetailsValueFieldBasicSet"
             android:layout_marginEnd="5dp"
-            android:text="Pozostało"
-            android:textSize="16sp"
+            android:text="@string/left"
+            android:labelFor="@+id/remainingDays"
             app:layout_constraintBottom_toBottomOf="@+id/remainingDate"
             app:layout_constraintEnd_toStartOf="@+id/remainingDays" />
 
         <TextView
             android:id="@+id/remainingDays"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/DetailsValueFieldBasicSet"
             android:layout_marginEnd="5dp"
-            android:text="0"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/remainingDaysLabel"
-            app:layout_constraintEnd_toStartOf="@+id/daysLabel" />
+            android:text="@string/default_amount"
+            app:layout_constraintBottom_toBottomOf="@+id/remainingDaysDecision"
+            app:layout_constraintEnd_toStartOf="@+id/staticDaysText" />
 
         <TextView
-            android:id="@+id/daysLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/staticDaysText"
+            style="@style/DetailsValueFieldBasicSet"
             android:layout_marginEnd="5dp"
-            android:text="dni"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/remainingDaysLabel"
+            android:text="@string/days"
+            app:layout_constraintBottom_toBottomOf="@+id/remainingDaysDecision"
             app:layout_constraintEnd_toStartOf="@+id/dateWhenWasPaid" />
 
         <TextView
             android:id="@+id/dateWhenWasPaid"
+            style="@style/DetailsValueFieldBasicSet"
+            android:text="@string/no_data"
+            app:layout_constraintBottom_toBottomOf="@+id/staticDaysText"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/createDateGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no_data"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/daysLabel"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:constraint_referenced_ids="addDateLabel, addDate" />
 
         <TextView
             android:id="@+id/addDateLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Utworzono"
-            android:textSize="14sp"
+            style="@style/DetailsLabelField"
+            android:labelFor="@+id/addDate"
+            android:text="@string/created_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/remainingDate" />
 
         <TextView
             android:id="@+id/addDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_data"
-            android:layout_marginTop="5dp"
-            android:textSize="16sp"
+            style="@style/DetailsValueField"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addDateLabel" />
 
-        <TextView
-            android:id="@+id/lastEditDateLabel"
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/editDateGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Ostatnia modyfikacja"
-            android:textSize="14sp"
+            app:constraint_referenced_ids="lastEditDateLabel, lastEditDate" />
+
+        <TextView
+            android:id="@+id/lastEditDateLabel"
+            style="@style/DetailsLabelField"
+            android:labelFor="@+id/lastEditDate"
+            android:text="@string/last_modification"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/remainingDate" />
 
         <TextView
             android:id="@+id/lastEditDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/no_data"
-            android:textSize="16sp"
+            style="@style/DetailsValueField"
             app:layout_constraintStart_toStartOf="@+id/lastEditDateLabel"
             app:layout_constraintTop_toBottomOf="@+id/lastEditDateLabel" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -220,122 +202,89 @@
 
         <LinearLayout
             android:id="@+id/executeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="16dp"
-            android:orientation="horizontal"
-            android:background="?android:attr/selectableItemBackground"
+            style="@style/DetailsButtonLayout"
+            tools:ignore="UseCompoundDrawables"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/executeIcon"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                style="@style/DetailsIconButtonField"
                 android:src="@drawable/ic_baseline_done_all_24"
-                android:layout_gravity="center" />
+                android:contentDescription="@string/done_check_sign" />
 
             <TextView
                 android:id="@+id/executeLabel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="32dp"
-                android:gravity="center_vertical"
-                android:text="Zrealizuj"
-                android:textSize="18sp" />
-
+                style="@style/DetailsLabelButtonField"
+                android:text="@string/execute" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/editLayout"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="16dp"
-            android:orientation="horizontal"
-            android:background="?android:attr/selectableItemBackground"
+            style="@style/DetailsButtonLayout"
+            tools:ignore="UseCompoundDrawables"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/executeLayout">
 
             <ImageView
                 android:id="@+id/editIcon"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                style="@style/DetailsIconButtonField"
                 android:src="@drawable/ic_baseline_edit_24"
                 app:tint="@color/font_default"
-                android:layout_gravity="center"/>
+                android:contentDescription="@string/edit_icon" />
 
             <TextView
                 android:id="@+id/editLabel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="32dp"
-                android:gravity="center_vertical"
-                android:text="@string/edit"
-                android:textSize="18sp" />
+                style="@style/DetailsLabelButtonField"
+                android:text="@string/edit" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/duplicateLayout"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="16dp"
-            android:orientation="horizontal"
-            android:background="?android:attr/selectableItemBackground"
+            style="@style/DetailsButtonLayout"
+            tools:ignore="UseCompoundDrawables"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editLayout">
 
             <ImageView
                 android:id="@+id/duplicateIcon"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                style="@style/DetailsIconButtonField"
                 android:src="@drawable/ic_baseline_content_copy_24"
                 app:tint="@color/font_default"
-                android:layout_gravity="center"/>
+                android:contentDescription="@string/duplicate_icon" />
 
             <TextView
                 android:id="@+id/duplicateLabel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="32dp"
-                android:gravity="center_vertical"
-                android:text="Utwórz podobne"
-                android:textSize="18sp" />
+                style="@style/DetailsLabelButtonField"
+                android:text="@string/create_similar" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/deleteLayout"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="16dp"
-            android:orientation="horizontal"
-            android:background="?android:attr/selectableItemBackground"
+            style="@style/DetailsButtonLayout"
+            tools:ignore="UseCompoundDrawables"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/duplicateLayout">
 
             <ImageView
                 android:id="@+id/deleteIcon"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                style="@style/DetailsIconButtonField"
                 android:src="@drawable/ic_baseline_delete_24"
                 app:tint="@color/mat_red"
-                android:layout_gravity="center"/>
+                android:contentDescription="@string/delete_icon" />
 
             <TextView
                 android:id="@+id/deleteLabel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="32dp"
-                android:gravity="center_vertical"
-                android:text="Usuń"
-                android:textColor="@color/mat_red"
-                android:textSize="18sp" />
+                style="@style/DetailsLabelButtonField"
+                android:text="@string/delete"
+                android:textColor="@color/mat_red"/>
 
         </LinearLayout>
 

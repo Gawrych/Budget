@@ -5,6 +5,8 @@ import static android.view.View.VISIBLE;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -31,6 +35,7 @@ import com.maltaisn.icondialog.pack.IconPack;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class ComingBottomSheetDetails extends Fragment {
 
@@ -45,16 +50,15 @@ public class ComingBottomSheetDetails extends Fragment {
     private final TextView lastModifiedDateField;
     private final TextView deadlineDateField;
     private final TextView executedDate;
-    private final View root;
     private final TextView amountField;
     private final CategoryViewModel categoryViewModel;
     private final TextView categoryName;
     private final ImageView categoryIcon;
-    private final ImageView profitIcon;
     private final TextView executeLabel;
     private final ImageView executeIcon;
-    private IconPack iconPack;
+    private final IconPack iconPack;
     private Transaction transaction;
+    private final View root;
     private Coming coming;
 
     // TODO: merge this class and inheritance parent class (maybe abstract) with CategoryBottomSheetDetails
@@ -72,16 +76,15 @@ public class ComingBottomSheetDetails extends Fragment {
 
         this.transactionNameField = bottomSheetDialog.findViewById(R.id.transactionName);
         this.addDateField = bottomSheetDialog.findViewById(R.id.addDate);
-        this.remainingDaysLabelField = bottomSheetDialog.findViewById(R.id.remainingDaysLabel);
+        this.remainingDaysLabelField = bottomSheetDialog.findViewById(R.id.remainingDaysDecision);
         this.remainingDaysField = bottomSheetDialog.findViewById(R.id.remainingDays);
-        this.daysLabelField = bottomSheetDialog.findViewById(R.id.daysLabel);
+        this.daysLabelField = bottomSheetDialog.findViewById(R.id.staticDaysText);
         this.lastModifiedDateField = bottomSheetDialog.findViewById(R.id.lastEditDate);
         this.deadlineDateField = bottomSheetDialog.findViewById(R.id.remainingDate);
         this.executedDate = bottomSheetDialog.findViewById(R.id.dateWhenWasPaid);
         this.amountField = bottomSheetDialog.findViewById(R.id.amount);
         this.categoryName = bottomSheetDialog.findViewById(R.id.categoryName);
         this.categoryIcon = bottomSheetDialog.findViewById(R.id.categoryIcon);
-        this.profitIcon = bottomSheetDialog.findViewById(R.id.profitIcon);
         this.executeLabel = bottomSheetDialog.findViewById(R.id.executeLabel);
         this.executeIcon = bottomSheetDialog.findViewById(R.id.executeIcon);
 
@@ -158,7 +161,7 @@ public class ComingBottomSheetDetails extends Fragment {
 
     private void setCategoryIcon(Category category) {
         int iconId = category.getIcon();
-        Drawable icon = iconPack.getIcon(iconId).getDrawable();
+        Drawable icon = Objects.requireNonNull(iconPack.getIcon(iconId)).getDrawable();
         categoryIcon.setImageDrawable(icon);
     }
 
@@ -170,12 +173,24 @@ public class ComingBottomSheetDetails extends Fragment {
     private void setAmountIconDependOfValue(String value) {
         BigDecimal bigDecimal = new BigDecimal(value);
         if (isNegative(bigDecimal)) {
-            profitIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
-            profitIcon.setColorFilter(context.getColor(R.color.mat_red));
+            Drawable drawable = getDrawableWithColor(R.drawable.ic_baseline_arrow_drop_down_24, R.color.mat_red);
+            if (drawable != null) {
+                amountField.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            }
         } else {
-            profitIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24);
-            profitIcon.setColorFilter(context.getColor(R.color.main_green));
+            Drawable drawable = getDrawableWithColor(R.drawable.ic_baseline_arrow_drop_up_24, R.color.mat_green);
+            if (drawable != null) {
+                amountField.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            }
         }
+    }
+
+    private Drawable getDrawableWithColor(int drawableResId, int colorResId) {
+        Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), drawableResId, null);
+        if (drawable != null) {
+            drawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(context, colorResId), PorterDuff.Mode.SRC_IN));
+        }
+        return drawable;
     }
 
     private boolean isNegative(BigDecimal bigDecimal) {

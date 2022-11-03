@@ -75,7 +75,6 @@ public class NewComingDataCollector extends NewTransactionDataCollector {
             try {
                 runOnUiThread(() -> fieldsInterface.getEndDateLayout()
                         .setError(MainActivity.resources.getString(R.string.empty_field)));
-
             } catch (Throwable e) {
                 e.printStackTrace();
             }

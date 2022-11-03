@@ -8,17 +8,13 @@ import java.util.List;
 
 public class ComingRepository {
 
-    private BudgetRoomDatabase database;
-    private ComingDao comingDao;
-
-    private LiveData<List<ComingAndTransaction>> allComingAndTransaction;
-    private List<ComingAndTransaction> allComingAndTransactionList;
+    private final ComingDao comingDao;
+    private final LiveData<List<ComingAndTransaction>> allComingAndTransaction;
 
     public ComingRepository(Application app) {
-        database = BudgetRoomDatabase.getDatabase(app);
+        BudgetRoomDatabase database = BudgetRoomDatabase.getDatabase(app);
         comingDao = database.comingDao();
         allComingAndTransaction = comingDao.getAllComingAndTransaction();
-        allComingAndTransactionList = comingDao.getAllComingAndTransactionList();
     }
 
     public LiveData<List<ComingAndTransaction>> getAllComingAndTransaction() {
@@ -29,28 +25,12 @@ public class ComingRepository {
         return comingDao.getComingAndTransaction(comingId);
     }
 
-    public List<ComingAndTransaction> allComingAndTransactionList() {
-        return allComingAndTransactionList;
-    }
-
-    public List<ComingAndTransaction> getComingAndTransactionByYear(long startYear, long endYear) {
-        return comingDao.getComingAndTransactionByYear(startYear, endYear);
-    }
-
-    public LiveData<List<ComingAndTransaction>> getComingAndTransactionByYearLiveData(long startYear, long endYear) {
-        return comingDao.getComingAndTransactionByYearLiveData(startYear, endYear);
-    }
-
     public void insert(Coming coming) {
         BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.insert(coming));
     }
 
     public void update(Coming coming) {
         BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.update(coming));
-    }
-
-    public void updateExecute(int comingId, boolean executeValue) {
-        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.updateExecute(comingId, executeValue));
     }
 
     public void delete(Coming coming) {

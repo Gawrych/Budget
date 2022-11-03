@@ -88,4 +88,21 @@
     <string name="period_of_time">Okres</string>
     <string name="show_dates">Pokaż daty</string>
     <string name="income">Przychód</string>
+    <string name="created_date">Utworzono</string>
+    <string name="name">Nazwa</string>
+    <string name="last_modification">Ostatnia modyfikacja</string>
+    <string name="days">dni</string>
+    <string name="left">Pozostało</string>
+    <string name="deadline">Data realizacji</string>
+    <string name="default_amount">0</string>
+    <string name="budget">Budżet</string>
+    <string name="create_similar">Utwórz podobne</string>
+    <string name="execute">Zrealizuj</string>
+    <string name="done_all_icon">done all icon</string>
+    <string name="edit_icon">edit icon</string>
+    <string name="content_copy_icon">content copy icon</string>
+    <string name="profit_arrow_icon">profit arrow icon</string>
+    <string name="done_check_sign">Done check sign</string>
+    <string name="delete_icon">delete icon</string>
+    <string name="duplicate_icon">duplicate icon</string>
 </resources>
