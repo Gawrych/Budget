@@ -28,22 +28,14 @@ public interface ComingDao {
     @Query("UPDATE coming SET execute = :executeValue WHERE comingId = :comingId")
     void updateExecute(int comingId, boolean executeValue);
 
+    @androidx.room.Transaction
+    @Query("SELECT * FROM coming WHERE comingId = :id")
+    Coming getComingById(int id);
+
     @Query("SELECT * FROM coming WHERE comingId = :comingId")
     ComingAndTransaction getComingAndTransaction(int comingId);
 
     @androidx.room.Transaction
-    @Query("SELECT * FROM coming ORDER BY deadline DESC")
+    @Query("SELECT * FROM coming ORDER BY expireDate ASC")
     LiveData<List<ComingAndTransaction>> getAllComingAndTransaction();
-
-    @androidx.room.Transaction
-    @Query("SELECT * FROM coming ORDER BY deadline ASC")
-    List<ComingAndTransaction> getAllComingAndTransactionList();
-
-    @androidx.room.Transaction
-    @Query("SELECT * FROM coming WHERE deadline >= :startYear AND deadline <= :endYear ORDER BY deadline ASC")
-    List<ComingAndTransaction> getComingAndTransactionByYear(long startYear, long endYear);
-
-    @androidx.room.Transaction
-    @Query("SELECT * FROM coming WHERE deadline >= :startYear AND deadline <= :endYear ORDER BY deadline ASC")
-    LiveData<List<ComingAndTransaction>> getComingAndTransactionByYearLiveData(long startYear, long endYear);
 }

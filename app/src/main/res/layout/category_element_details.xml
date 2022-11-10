@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/details"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dp"
+    android:background="@drawable/bottom_line"
+    android:paddingStart="30dp"
+    android:paddingEnd="30dp"
+    tools:context=".ui.Category.CategoryElementDetails">
+
+    <TextView
+        android:id="@+id/categoryNameLabel"
+        style="@style/DetailsLabelField"
+        android:labelFor="@+id/categoryName"
+        android:text="@string/name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/categoryName"
+        style="@style/DetailsValueField"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/categoryNameLabel" />
+
+    <TextView
+        android:id="@+id/budgetLabel"
+        style="@style/DetailsLabelField"
+        android:labelFor="@+id/budget"
+        android:text="@string/budget"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/categoryName" />
+
+    <TextView
+        android:id="@+id/budget"
+        style="@style/DetailsValueField"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/budgetLabel" />
+
+    <TextView
+        android:id="@+id/currency"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:gravity="bottom|center_horizontal"
+        android:text="@string/polish_currency"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/budget"
+        app:layout_constraintStart_toEndOf="@+id/budget" />
+
+    <TextView
+        android:id="@+id/iconLabel"
+        style="@style/DetailsLabelField"
+        android:labelFor="@+id/icon"
+        android:text="@string/Icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/budget" />
+
+    <ImageView
+        android:id="@+id/icon"
+        style="@style/DetailsIconField"
+        android:src="@drawable/ic_baseline_event_busy_24"
+        android:contentDescription="@string/category_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iconLabel" />
+
+    <TextView
+        android:id="@+id/addDateLabel"
+        style="@style/DetailsLabelField"
+        android:labelFor="@+id/addDate"
+        android:text="@string/created_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icon" />
+
+    <TextView
+        android:id="@+id/addDate"
+        style="@style/DetailsValueField"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addDateLabel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

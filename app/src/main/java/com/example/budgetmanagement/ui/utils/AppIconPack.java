@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.ui.Category;
+package com.example.budgetmanagement.ui.utils;
 
 import android.app.Application;
 

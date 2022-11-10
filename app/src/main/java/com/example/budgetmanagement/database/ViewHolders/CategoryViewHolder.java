@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
 
-public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
     private TextView text;
     private ImageView imageView;
     private OnNoteListener onNoteListener;
@@ -24,6 +24,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         imageView = itemView.findViewById(R.id.categoryIcon);
         this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
+        itemView.setOnLongClickListener(this);
     }
 
     public void bind(Drawable icon, String title, String budget) {
@@ -36,7 +37,14 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
         onNoteListener.onNoteClick(getBindingAdapterPosition());
     }
 
+    @Override
+    public boolean onLongClick(View v) {
+        onNoteListener.onLongNoteClick(getBindingAdapterPosition());
+        return true;
+    }
+
     public interface OnNoteListener {
         void onNoteClick(int position);
+        void onLongNoteClick(int position);
     }
 }

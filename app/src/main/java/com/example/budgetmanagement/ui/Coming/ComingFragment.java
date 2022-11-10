@@ -5,9 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +18,7 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Adapters.ComingExpandableListAdapter;
 import com.example.budgetmanagement.database.Rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.ViewModels.ComingViewModel;
-import com.example.budgetmanagement.databinding.ComingFragmentBinding;
-import com.example.budgetmanagement.ui.Category.AppIconPack;
+import com.example.budgetmanagement.ui.utils.AppIconPack;
 import com.maltaisn.icondialog.pack.IconPack;
 
 import java.util.ArrayList;
@@ -35,47 +33,48 @@ import java.util.stream.Collectors;
 public class ComingFragment extends Fragment {
 
     private View view;
+    private ComingFragmentBinding binding;
     private ArrayList<Section> sectionList = new ArrayList<>();
     private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollection = new HashMap<>();
-    private ComingBottomSheetDetails details;
-    private ComingViewModel comingViewModel;
-    private ExpandableListView expandableListView;
     private ComingExpandableListAdapter expandableListAdapter;
-    private int year = 2022;
+    private int selectedYear = 2022;
     private long startYear = 0;
     private long endYear = 0;
     private final HashMap<Integer, ArrayList<Section>> savedLists = new HashMap<>();
     private DatePickerDialog datePickerDialog;
-    private TextView pickedYear;
     private List<ComingAndTransaction> actualList;
+    public static final String COMING_BOTTOM_SHEET = "coming_bottom_sheet";
 
-    public static final Map<String, Integer> months;
+    public static final Map<Integer, Integer> months;
     static {
-        Map<String, Integer> items = new LinkedHashMap<>();
-        items.put("january", 0);
-        items.put("february", 1);
-        items.put("march", 2);
-        items.put("april", 3);
-        items.put("may", 4);
-        items.put("june", 5);
-        items.put("july", 6);
-        items.put("august", 7);
-        items.put("september", 8);
-        items.put("october", 9);
-        items.put("november", 10);
-        items.put("december", 11);
+        Map<Integer, Integer> items = new LinkedHashMap<>();
+        items.put(R.string.january, Calendar.JANUARY);
+        items.put(R.string.february, Calendar.FEBRUARY);
+        items.put(R.string.march, Calendar.MARCH);
+        items.put(R.string.april, Calendar.APRIL);
+        items.put(R.string.may, Calendar.MAY);
+        items.put(R.string.june, Calendar.JUNE);
+        items.put(R.string.july, Calendar.JULY);
+        items.put(R.string.august, Calendar.AUGUST);
+        items.put(R.string.september, Calendar.SEPTEMBER);
+        items.put(R.string.october, Calendar.OCTOBER);
+        items.put(R.string.november, Calendar.NOVEMBER);
+        items.put(R.string.december, Calendar.DECEMBER);
         months = Collections.unmodifiableMap(items);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
+        initializeSelectedYearToCurrent();
     }
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.coming_fragment, container, false);
+
+        binding = ComingFragmentBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -83,44 +82,66 @@ public class ComingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
 
-        setYearStartAndEnd();
-
-        ImageButton yearPicker = view.findViewById(R.id.yearSelector);
-        pickedYear = view.findViewById(R.id.pickedYear);
-        pickedYear.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+        binding.pickedYear.setText(String.valueOf(selectedYear));
 
         IconPack iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
+        expandableListAdapter = new ComingExpandableListAdapter
+                (requireContext(), sectionList, this, iconPack);
 
-        expandableListView = view.findViewById(R.id.expandableListView);
-        details = new ComingBottomSheetDetails(requireContext(), iconPack, this, view);
+        binding.expandableListView.setAdapter(expandableListAdapter);
 
-        expandableListAdapter = new ComingExpandableListAdapter(requireContext(), sectionList, this, iconPack);
-        expandableListView.setAdapter(expandableListAdapter);
+        ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
+        comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list
+                -> setSections(list, true));
 
-        comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), list -> {
-            setSections(list, true);
-//            int actualPositionToScroll = getActualPositionToScroll();
-            // TODO put this to callAfterLoadList();
-//            expandableListView.smoothScrollToPositionFromTop(actualPositionToScroll, 0);
-        });
+//        int actualPositionToScroll = getActualPositionToScroll();
+//        binding.expandableListView.smoothScrollToPositionFromTop(actualPositionToScroll, 0);
 
-        expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-            ComingAndTransaction comingAndTransaction = expandableListAdapter.getChild(groupPosition, childPosition);
-            details.setData(comingAndTransaction);
-            details.show();
-            return true;
-        });
+        binding.expandableListView.setOnChildClickListener
+                ((parent, v, groupPosition, childPosition, id)
+                        -> openDetailsFragment(groupPosition, childPosition));
 
-        ImageButton addButton = view.findViewById(R.id.addButton);
-        addButton.setOnClickListener(root -> Navigation.findNavController(root)
+        binding.expandableListView.setOnItemLongClickListener
+                ((parent, v, flatPosition, id) -> showBottomSheetMenu(parent, flatPosition));
+
+        binding.addButton.setOnClickListener(root -> Navigation.findNavController(root)
                 .navigate(R.id.action_navigation_incoming_to_addNewComingElement));
 
-        ImageButton categories = view.findViewById(R.id.categoriesButton);
-        categories.setOnClickListener(root -> Navigation.findNavController(root)
+        binding.categoriesButton.setOnClickListener(root -> Navigation.findNavController(root)
                 .navigate(R.id.action_navigation_incoming_to_categoryList));
 
-        expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
-        yearPicker.setOnClickListener(v -> selectYear());
+        binding.expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
+
+        binding.yearSelector.setOnClickListener(v -> selectYear());
+    }
+
+    private void initializeSelectedYearToCurrent() {
+        this.selectedYear = Calendar.getInstance().get(Calendar.YEAR);
+    }
+
+    private boolean openDetailsFragment(int groupPosition, int childPosition) {
+        ComingAndTransaction comingAndTransaction = expandableListAdapter.getChild(groupPosition, childPosition);
+        ComingElementDetails comingElementDetails = ComingElementDetails.newInstance(comingAndTransaction.coming.getComingId());
+        Navigation.findNavController(view)
+                .navigate(R.id.action_navigation_coming_to_comingElementDetails, comingElementDetails.getArguments());
+        return true;
+    }
+
+    private boolean showBottomSheetMenu(AdapterView<?> parent, int flatPosition) {
+        long packedPosition = ((ExpandableListView) parent).getExpandableListPosition(flatPosition);
+        if (ExpandableListView.getPackedPositionType(packedPosition)
+                == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+            int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
+            int childPosition = ExpandableListView.getPackedPositionChild(packedPosition);
+
+            ComingAndTransaction comingAndTransaction =
+                    expandableListAdapter.getChild(groupPosition, childPosition);
+            BottomSheetDialogComing bottomSheet =
+                    BottomSheetDialogComing.newInstance(comingAndTransaction.coming.getComingId());
+            bottomSheet.show(getParentFragmentManager(), COMING_BOTTOM_SHEET);
+            return true;
+        }
+        return false;
     }
 
     private void selectYear() {
@@ -128,15 +149,14 @@ public class ComingFragment extends Fragment {
         int mMonth = calendarInstance.get(Calendar.MONTH);
         int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
          datePickerDialog = new DatePickerDialog(requireContext(),
-                (view, year, monthOfYear, dayOfMonth) -> {}, this.year, mMonth, mDay);
+                (view, year, monthOfYear, dayOfMonth) -> {}, this.selectedYear, mMonth, mDay);
 
         datePickerDialog.getDatePicker().getTouchables().get(0).performClick();
         datePickerDialog.getDatePicker().getTouchables().get(1).setVisibility(View.GONE);
         datePickerDialog.getDatePicker()
                 .setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
-                    this.year = year;
-                    pickedYear.setText(String.valueOf(year));
-                    setYearStartAndEnd();
+                    this.selectedYear = year;
+                    binding.pickedYear.setText(String.valueOf(year));
                     setSections(actualList, false);
                     datePickerDialog.cancel();
         });
@@ -146,33 +166,39 @@ public class ComingFragment extends Fragment {
     private int getActualPositionToScroll() {
         int monthNumber = getMonthNumberFromDate(Calendar.getInstance().getTimeInMillis());
         int endPosition = monthNumber;
-        for (int i=0; i<=monthNumber; i++) {
+        for (int i=0; i<monthNumber; i++) {
             endPosition = endPosition + sectionList.get(i).getComingAndTransactionList().size();
         }
         return endPosition;
     }
 
     private void setYearStartAndEnd() {
-        Calendar c = Calendar.getInstance();
-        getLastMillisOfYear(c);
-        endYear = c.getTimeInMillis();
-        getFirstMillisOfYear(c);
-        startYear = c.getTimeInMillis();
+        startYear = getFirstMillisOfYear(this.selectedYear).getTimeInMillis();
+        endYear = getLastMillisOfYear(this.selectedYear).getTimeInMillis();
     }
 
-    private void getLastMillisOfYear(Calendar c) {
-        c.set(Calendar.YEAR, this.year);
+    private Calendar getLastMillisOfYear(int year) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, Calendar.DECEMBER);
         c.set(Calendar.DAY_OF_MONTH, 31);
         c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MINUTE, 59);
         c.set(Calendar.SECOND, 59);
         c.set(Calendar.MILLISECOND, 999);
+        return c;
     }
 
-    private void getFirstMillisOfYear(Calendar lastMillisOfYear) {
-        lastMillisOfYear.add(Calendar.MILLISECOND, 1);
-        lastMillisOfYear.add(Calendar.YEAR, -1);
+    private Calendar getFirstMillisOfYear(int year) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, Calendar.JANUARY);
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c;
     }
 
     private void setSections(List<ComingAndTransaction> list, boolean resetSavedLists) {
@@ -181,28 +207,26 @@ public class ComingFragment extends Fragment {
             savedLists.clear();
         }
 
-        if (savedLists.containsKey(this.year)) {
-            sectionList = savedLists.get(this.year);
+        if (savedLists.containsKey(this.selectedYear)) {
+            sectionList = savedLists.get(this.selectedYear);
         } else {
             sectionList.clear();
             collectTransactionByMonthId(list);
-            months.forEach((name, id) -> sectionList.add(new Section(getStringResId(name), transactionsCollection.get(id))));
-            savedLists.put(this.year, new ArrayList<>(sectionList));
+            months.forEach((name, id) -> sectionList.add(new Section(name, transactionsCollection.get(id))));
+            savedLists.put(this.selectedYear, new ArrayList<>(sectionList));
         }
         notifyUpdatedList();
     }
 
     private void notifyUpdatedList() {
         expandableListAdapter.updateItems(new ArrayList<>(sectionList));
-        expandableListAdapter.notifyAdapter(expandableListView);
-    }
-
-    private int getStringResId(String stringName) {
-        return getResources().getIdentifier(stringName, "string", view.getContext().getPackageName());
+        expandableListAdapter.notifyAdapter(binding.expandableListView);
     }
 
     private void collectTransactionByMonthId(List<ComingAndTransaction> list) {
-        initializeEmptyTransactionsCollection();
+        initializeEmptyTransactionsCollectionForEachMonth();
+
+        setYearStartAndEnd();
 
         List<ComingAndTransaction> globalList = list.stream().filter(element -> {
             long repeatDateMillis = element.coming.getExpireDate();
@@ -212,10 +236,10 @@ public class ComingFragment extends Fragment {
         globalList.forEach(item -> {
             int monthNumber = getMonthNumberFromDate(item.coming.getExpireDate());
 
-            ArrayList<ComingAndTransaction> actualList = transactionsCollection.get(monthNumber);
-            assert actualList != null;
-            actualList.add(item);
-            transactionsCollection.put(monthNumber, actualList);
+            ArrayList<ComingAndTransaction> currentList = transactionsCollection.get(monthNumber);
+            assert currentList != null;
+            currentList.add(item);
+            transactionsCollection.put(monthNumber, currentList);
         });
     }
 
@@ -225,13 +249,13 @@ public class ComingFragment extends Fragment {
         return date.get(Calendar.MONTH);
     }
 
-    private void initializeEmptyTransactionsCollection() {
+    private void initializeEmptyTransactionsCollectionForEachMonth() {
         months.forEach((name, id) -> transactionsCollection.put(id, new ArrayList<>()));
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        com.example.budgetmanagement.databinding.ComingFragmentBinding binding = null;
+        binding = null;
     }
 }

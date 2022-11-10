@@ -25,6 +25,10 @@ public class ComingRepository {
         return comingDao.getComingAndTransaction(comingId);
     }
 
+    public Coming getComingById(int id) {
+        return comingDao.getComingById(id);
+    }
+
     public void insert(Coming coming) {
         BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.insert(coming));
     }

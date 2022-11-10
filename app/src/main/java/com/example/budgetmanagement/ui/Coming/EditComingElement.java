@@ -29,15 +29,24 @@ import java.util.Calendar;
 
 public class EditComingElement extends TransactionFormService {
 
+    public static final String BUNDLE_COMING_ID = "comingId";
     private ComingViewModel comingViewModel;
     int comingId;
     private ComingAndTransaction comingAndTransaction;
     private TransactionViewModel transactionViewModel;
 
+    public static EditComingElement newInstance(int comingId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(BUNDLE_COMING_ID, comingId);
+        EditComingElement editComingElement = new EditComingElement();
+        editComingElement.setArguments(bundle);
+        return editComingElement;
+    }
+
     @Override
     public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(rootView, savedInstanceState);
-        this.comingId = getArguments() != null ? getArguments().getInt("comingId") : 0;
+        this.comingId = getArguments() != null ? getArguments().getInt(BUNDLE_COMING_ID, -1) : -1;
         this.comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
         comingAndTransaction = comingViewModel.getComingAndTransactionById(comingId);
 
@@ -96,7 +105,7 @@ public class EditComingElement extends TransactionFormService {
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         Coming coming = comingAndTransaction.coming;
 
-        boolean isFirstModification = coming.getDeadline() == 0;
+        boolean isFirstModification = coming.getLastEditDate() == 0;
         if (isFirstModification) {
             int transactionId = (int) createNewTransaction(newItem);
             assignNewTransaction(coming, transactionId);
@@ -105,7 +114,7 @@ public class EditComingElement extends TransactionFormService {
         }
 
         long now = Calendar.getInstance().getTimeInMillis();
-        coming.setDeadline(now);
+        coming.setLastEditDate(now);
         coming.setExpireDate(newItem.getTransaction().getAddDate());
         comingViewModel.update(coming);
     }

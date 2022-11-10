@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/details"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dp"
+    android:paddingStart="30dp"
+    android:paddingEnd="30dp">
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/titleGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="transactionTitleLabel, transactionName" />
+
+    <TextView
+        android:id="@+id/transactionTitleLabel"
+        style="@style/DetailsLabelField"
+        android:labelFor="@+id/transactionName"
+        android:text="@string/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/transactionName"
+        style="@style/DetailsValueField"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transactionTitleLabel" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/amountGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="amountLabel, amount, currency" />
+
+    <TextView
+        android:id="@+id/amountLabel"
+        style="@style/DetailsLabelField"
+        android:labelFor="@+id/amount"
+        android:text="@string/amount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transactionName"/>
+
+    <TextView
+        android:id="@+id/amount"
+        style="@style/DetailsValueField"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
+
+    <TextView
+        android:id="@+id/currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:gravity="bottom|center_horizontal"
+        android:text="@string/polish_currency"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/amount"
+        app:layout_constraintStart_toEndOf="@+id/amount"
+        app:layout_constraintTop_toTopOf="@+id/amount" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/categoryGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="categoryLabel, categoryIcon, categoryName" />
+
+    <TextView
+        android:id="@+id/categoryLabel"
+        style="@style/DetailsLabelField"
+        android:labelFor="@+id/categoryName"
+        android:text="@string/category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amount"/>
+
+    <ImageView
+        android:id="@+id/categoryIcon"
+        style="@style/DetailsIconField"
+        android:src="@drawable/ic_baseline_event_busy_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/categoryLabel"
+        android:contentDescription="@string/category_icon" />
+
+    <TextView
+        android:id="@+id/categoryName"
+        style="@style/DetailsValueField"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/categoryIcon"
+        app:layout_constraintTop_toBottomOf="@+id/categoryLabel" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/deadlineGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="repeatDateLabel, remainingDate,
+        remainingDaysDecision, remainingDays, staticDaysText, dateWhenWasPaid" />
+
+    <TextView
+        android:id="@+id/repeatDateLabel"
+        style="@style/DetailsLabelField"
+        android:labelFor="@+id/remainingDate"
+        android:text="@string/deadline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/categoryIcon"/>
+
+    <TextView
+        android:id="@+id/remainingDate"
+        style="@style/DetailsValueField"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/repeatDateLabel" />
+
+    <TextView
+        android:id="@+id/remainingDaysDecision"
+        style="@style/DetailsValueFieldBasicSet"
+        android:layout_marginEnd="5dp"
+        android:text="@string/left"
+        android:labelFor="@+id/remainingDays"
+        app:layout_constraintBottom_toBottomOf="@+id/remainingDate"
+        app:layout_constraintEnd_toStartOf="@+id/remainingDays" />
+
+    <TextView
+        android:id="@+id/remainingDays"
+        style="@style/DetailsValueFieldBasicSet"
+        android:layout_marginEnd="5dp"
+        android:text="@string/default_amount"
+        app:layout_constraintBottom_toBottomOf="@+id/remainingDaysDecision"
+        app:layout_constraintEnd_toStartOf="@+id/staticDaysText" />
+
+    <TextView
+        android:id="@+id/staticDaysText"
+        style="@style/DetailsValueFieldBasicSet"
+        android:layout_marginEnd="5dp"
+        android:text="@string/days"
+        app:layout_constraintBottom_toBottomOf="@+id/remainingDaysDecision"
+        app:layout_constraintEnd_toStartOf="@+id/dateWhenWasPaid" />
+
+    <TextView
+        android:id="@+id/dateWhenWasPaid"
+        style="@style/DetailsValueFieldBasicSet"
+        android:text="@string/no_data"
+        app:layout_constraintBottom_toBottomOf="@+id/staticDaysText"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/createDateGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="addDateLabel, addDate" />
+
+    <TextView
+        android:id="@+id/addDateLabel"
+        style="@style/DetailsLabelField"
+        android:labelFor="@+id/addDate"
+        android:text="@string/created_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/remainingDate" />
+
+    <TextView
+        android:id="@+id/addDate"
+        style="@style/DetailsValueField"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addDateLabel" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/editDateGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="lastEditDateLabel, lastEditDate" />
+
+    <TextView
+        android:id="@+id/lastEditDateLabel"
+        style="@style/DetailsLabelField"
+        android:labelFor="@+id/lastEditDate"
+        android:text="@string/last_modification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/remainingDate" />
+
+    <TextView
+        android:id="@+id/lastEditDate"
+        style="@style/DetailsValueField"
+        app:layout_constraintStart_toStartOf="@+id/lastEditDateLabel"
+        app:layout_constraintTop_toBottomOf="@+id/lastEditDateLabel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

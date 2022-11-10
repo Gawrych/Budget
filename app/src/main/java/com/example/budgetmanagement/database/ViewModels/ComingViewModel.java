@@ -44,6 +44,10 @@ public class ComingViewModel extends AndroidViewModel {
         comingRepository.update(coming);
     }
 
+    public Coming getComingById(int id) {
+        return comingRepository.getComingById(id);
+    }
+
     public LiveData<List<ComingAndTransaction>> getAllComingAndTransaction() {
         return allComingAndTransaction;
     }

@@ -53,7 +53,7 @@
     <string name="amount_balance">Saldo:</string>
     <string name="never">Nigdy</string>
     <string name="Pay">Opłać</string>
-    <string name="Remain">Pozostało</string>
+    <string name="remain">Pozostało</string>
     <string name="after_the_deadline">Po terminie</string>
     <string name="paid">Opłacone</string>
     <string name="realized">Zrealizowano</string>
@@ -105,4 +105,10 @@
     <string name="done_check_sign">Done check sign</string>
     <string name="delete_icon">delete icon</string>
     <string name="duplicate_icon">duplicate icon</string>
+    <string name="element_removed">Element został usunięty</string>
+    <string name="coming_id_not_found">Not found coming id</string>
+    <string name="coming_not_found">Not found coming with id:</string>
+    <string name="category_id_not_found">Not found category id</string>
+    <string name="not_found_id">Not found id</string>
+    <string name="category_not_found">Category not found</string>
 </resources>

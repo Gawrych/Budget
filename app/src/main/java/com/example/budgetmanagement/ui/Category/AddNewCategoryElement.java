@@ -1,8 +1,5 @@
 package com.example.budgetmanagement.ui.Category;
 
-import static com.example.budgetmanagement.ui.Category.CategoryBottomSheetDetails.EDIT_CATEGORY_KEY;
-import static com.example.budgetmanagement.ui.Category.CategoryBottomSheetDetails.SEND_CATEGORY_ID_KEY;
-
 import android.app.AlertDialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -22,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
+import com.example.budgetmanagement.ui.utils.AppIconPack;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
@@ -37,6 +35,8 @@ import java.util.List;
 public class AddNewCategoryElement extends Fragment implements IconDialog.Callback, NewCategoryFields {
 
     private static final String ICON_DIALOG_TAG = "icon-dialog";
+    public static final String CATEGORY_ID_KEY = "categoryId";
+    public static final String EDIT_CATEGORY_KEY = "isEditCategory";
 
     private IconDialog iconDialog;
     private Drawable pickedIcon;
@@ -50,12 +50,20 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
     private MaterialButton acceptButton;
     private SwitchMaterial profitSwitch;
     private int iconId = 0; // TODO Change this to global static variable
-
     private CategoryViewModel categoryViewModel;
     private int categoryId;
     private Category category;
     private boolean isEdit;
     private IconPack iconPack;
+
+    public static AddNewCategoryElement newInstance(int categoryId, boolean isEdit) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(CATEGORY_ID_KEY, categoryId);
+        bundle.putBoolean(EDIT_CATEGORY_KEY, isEdit);
+        AddNewCategoryElement addNewCategoryElement = new AddNewCategoryElement();
+        addNewCategoryElement.setArguments(bundle);
+        return addNewCategoryElement;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +91,9 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
         iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
 
         this.category = getCategoryByIdFromBundle();
-        if (category != null && isEdit) {
+
+        boolean editElement = category != null && isEdit;
+        if (editElement) {
             fillFields(category);
             int categoryWithBanOnChangingTitle = 1;
             if (category.getCategoryId() == categoryWithBanOnChangingTitle) {
@@ -145,8 +155,8 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
     }
 
     private Category getCategoryByIdFromBundle() {
-        this.categoryId = getArguments() != null ? getArguments().getInt(SEND_CATEGORY_ID_KEY) : 0;
-        this.isEdit = getArguments() != null && getArguments().getBoolean(EDIT_CATEGORY_KEY);
+        this.categoryId = getArguments() != null ? getArguments().getInt(CATEGORY_ID_KEY, -1) : -1;
+        this.isEdit = getArguments() != null && getArguments().getBoolean(EDIT_CATEGORY_KEY, false);
         this.categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         return categoryViewModel.getCategoryById(categoryId);
     }

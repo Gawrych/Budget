@@ -11,7 +11,6 @@ import com.example.budgetmanagement.database.Adapters.CategoryBottomSheetAdapter
 import com.example.budgetmanagement.database.Rooms.Category;
 import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
 import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
-import com.example.budgetmanagement.ui.Category.AppIconPack;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.maltaisn.icondialog.pack.IconPack;
 
@@ -65,6 +64,11 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
         this.selectedName = listOfEntity.get(position).getName();
         this.iconId = listOfEntity.get(position).getIcon();
         bottomSheetDialog.cancel();
+    }
+
+    @Override
+    public void onLongNoteClick(int position) {
+        onNoteClick(position);
     }
 
     public BottomSheetDialog getBottomSheetDialog() {

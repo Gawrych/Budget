@@ -21,8 +21,8 @@ public class Coming {
     @ColumnInfo(name = "expireDate")
     private long expireDate;
 
-    @ColumnInfo(name = "deadline")
-    private long deadline;
+    @ColumnInfo(name = "lastEditDate")
+    private long lastEditDate;
 
     @ColumnInfo(name = "executeDate")
     private long executedDate;
@@ -30,12 +30,12 @@ public class Coming {
     @ColumnInfo(name = "addDate")
     private final long addDate;
 
-    public Coming(int comingId, int transactionId, boolean execute, long expireDate, long deadline, long addDate, long executedDate) {
+    public Coming(int comingId, int transactionId, boolean execute, long expireDate, long lastEditDate, long addDate, long executedDate) {
         this.comingId = comingId;
         this.transactionId = transactionId;
         this.execute = execute;
         this.expireDate = expireDate;
-        this.deadline = deadline;
+        this.lastEditDate = lastEditDate;
         this.addDate = addDate;
         this.executedDate = executedDate;
     }
@@ -56,8 +56,8 @@ public class Coming {
         return expireDate;
     }
 
-    public long getDeadline() {
-        return deadline;
+    public long getLastEditDate() {
+        return lastEditDate;
     }
 
     public long getAddDate() {
@@ -80,8 +80,8 @@ public class Coming {
         this.expireDate = expireDate;
     }
 
-    public void setDeadline(long deadline) {
-        this.deadline = deadline;
+    public void setLastEditDate(long deadline) {
+        this.lastEditDate = deadline;
     }
 
     public void setExecutedDate(long executedDate) {

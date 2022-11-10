@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_navigation_incoming_to_categoryList"
             app:destination="@id/categoryList" />
+        <action
+            android:id="@+id/action_navigation_coming_to_comingElementDetails"
+            app:destination="@id/comingElementDetails" />
     </fragment>
 
     <fragment
@@ -41,6 +44,9 @@
         <action
             android:id="@+id/action_categoryList_to_addNewCategoryElement"
             app:destination="@id/addNewCategoryElement" />
+        <action
+            android:id="@+id/action_categoryList_to_categoryElementDetails"
+            app:destination="@id/categoryElementDetails" />
     </fragment>
 
     <fragment
@@ -57,4 +63,13 @@
         android:id="@+id/editComingElement"
         android:name="com.example.budgetmanagement.ui.Coming.EditComingElement"
         android:label="EditComingElement" />
+    <fragment
+        android:id="@+id/comingElementDetails"
+        android:name="com.example.budgetmanagement.ui.Coming.ComingElementDetails"
+        android:label="ComingElementDetails" />
+    <fragment
+        android:id="@+id/categoryElementDetails"
+        android:name="com.example.budgetmanagement.ui.Category.CategoryElementDetails"
+        android:label="fragment_category_element_details"
+        tools:layout="@layout/category_element_details" />
 </navigation>

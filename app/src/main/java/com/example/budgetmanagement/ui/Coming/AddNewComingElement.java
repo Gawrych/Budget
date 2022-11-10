@@ -37,6 +37,7 @@ import java.util.Calendar;
 
 public class AddNewComingElement extends TransactionFormService implements ComingFields {
 
+    public static final String BUNDLE_COMING_ID = "comingId";
     private DatePickerDialog endDatePickerDialog;
     private ArrayAdapter<String> adapter;
     private AutoCompleteTextView timeBetweenExecutePicker;
@@ -49,6 +50,14 @@ public class AddNewComingElement extends TransactionFormService implements Comin
     private ArrayList<Long> dates = new ArrayList<>();
     private TextView showAllNextDates;
     private ScrollView mainScrollView;
+
+    public static AddNewComingElement newInstance(int comingId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(BUNDLE_COMING_ID, comingId);
+        AddNewComingElement addNewComingElement = new AddNewComingElement();
+        addNewComingElement.setArguments(bundle);
+        return addNewComingElement;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
