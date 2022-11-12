@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_statistics"
-        android:name="com.example.budgetmanagement.ui.Statistics.StatisticsFragment"
+        android:name="com.example.budgetmanagement.ui.statistics.StatisticsFragment"
         android:label="@string/title_statistics"
         tools:layout="@layout/statistics_fragment" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.example.budgetmanagement.ui.Settings.SettingsFragment"
+        android:name="com.example.budgetmanagement.ui.settings.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/navigation_coming"
-        android:name="com.example.budgetmanagement.ui.Coming.ComingFragment"
+        android:name="com.example.budgetmanagement.ui.coming.ComingFragment"
         android:label="@string/title_coming"
         tools:layout="@layout/coming_fragment" >
         <action
@@ -38,7 +38,7 @@
 
     <fragment
         android:id="@+id/categoryList"
-        android:name="com.example.budgetmanagement.ui.Category.CategoryFragment"
+        android:name="com.example.budgetmanagement.ui.category.CategoryFragment"
         android:label="@string/title_category"
         tools:layout="@layout/category_fragment" >
         <action
@@ -51,25 +51,25 @@
 
     <fragment
         android:id="@+id/addNewCategoryElement"
-        android:name="com.example.budgetmanagement.ui.Category.AddNewCategoryElement"
+        android:name="com.example.budgetmanagement.ui.category.AddNewCategoryElement"
         android:label="AddNewCategoryElement" >
     </fragment>
 
     <fragment
         android:id="@+id/addNewComing"
-        android:name="com.example.budgetmanagement.ui.Coming.AddNewComingElement"
+        android:name="com.example.budgetmanagement.ui.coming.AddNewComingElement"
         android:label="AddNewComingElement" />
     <fragment
         android:id="@+id/editComingElement"
-        android:name="com.example.budgetmanagement.ui.Coming.EditComingElement"
+        android:name="com.example.budgetmanagement.ui.coming.EditComingElement"
         android:label="EditComingElement" />
     <fragment
         android:id="@+id/comingElementDetails"
-        android:name="com.example.budgetmanagement.ui.Coming.ComingElementDetails"
+        android:name="com.example.budgetmanagement.ui.coming.ComingElementDetails"
         android:label="ComingElementDetails" />
     <fragment
         android:id="@+id/categoryElementDetails"
-        android:name="com.example.budgetmanagement.ui.Category.CategoryElementDetails"
+        android:name="com.example.budgetmanagement.ui.category.CategoryElementDetails"
         android:label="fragment_category_element_details"
         tools:layout="@layout/category_element_details" />
 </navigation>

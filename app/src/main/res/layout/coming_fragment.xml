@@ -7,7 +7,7 @@
     android:id="@+id/mainLayout"
     android:orientation="vertical"
     android:background="@color/first_color_theme"
-    tools:context=".ui.Coming.ComingFragment">
+    tools:context=".ui.coming.ComingFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_bar_for_item_list"

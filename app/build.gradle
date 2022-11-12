@@ -29,6 +29,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
     namespace 'com.example.budgetmanagement'
     buildToolsVersion '33.0.0'

@@ -15,7 +15,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.Rooms.Category;
+import com.example.budgetmanagement.database.rooms.Category;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.maltaisn.icondialog.pack.IconPack;
 

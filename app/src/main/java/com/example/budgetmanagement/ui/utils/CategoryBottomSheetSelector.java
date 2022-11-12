@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.Adapters.CategoryBottomSheetAdapter;
-import com.example.budgetmanagement.database.Rooms.Category;
-import com.example.budgetmanagement.database.ViewHolders.CategoryViewHolder;
-import com.example.budgetmanagement.database.ViewModels.CategoryViewModel;
+import com.example.budgetmanagement.database.adapters.CategoryBottomSheetAdapter;
+import com.example.budgetmanagement.database.rooms.Category;
+import com.example.budgetmanagement.database.viewholders.CategoryViewHolder;
+import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.maltaisn.icondialog.pack.IconPack;
 
