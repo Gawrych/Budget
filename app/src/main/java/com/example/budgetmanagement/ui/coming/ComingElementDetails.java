@@ -3,6 +3,10 @@ package com.example.budgetmanagement.ui.coming;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import static com.example.budgetmanagement.ui.coming.Details.MODE_AFTER_DEADLINE;
+import static com.example.budgetmanagement.ui.coming.Details.MODE_NORMAL;
+import static com.example.budgetmanagement.ui.coming.Details.MODE_REALIZED;
+
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -40,9 +44,6 @@ import java.util.Objects;
 public class ComingElementDetails extends Fragment {
 
     public static final String COMING_ID_ARG = "comingId";
-    public static final int MODE_AFTER_DEADLINE = -1;
-    public static final int MODE_NORMAL = 0;
-    public static final int MODE_REALIZED = 1;
     private ComingElementDetailsBinding binding;
     private Transaction transaction;
     private Coming coming;
@@ -74,37 +75,11 @@ public class ComingElementDetails extends Fragment {
         }
 
         ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
-
-        ComingAndTransaction comingAndTransaction = comingViewModel.getComingAndTransactionById(comingId);
-        Category category = getCategory(comingAndTransaction.transaction);
-        Details details = new Details(comingAndTransaction, category, requireActivity());
-        binding.setDetails(details);
+        this.coming = comingViewModel.getComingById(comingId);
 
         int mode = getMode();
-        setFieldAttributesByMode(mode);
-    }
-
-    private Drawable getAmountIconDependOfValue(String value) {
-        BigDecimal bigDecimal = new BigDecimal(value);
-        if (isNegative(bigDecimal)) {
-            return getDrawableWithColor(R.drawable.ic_baseline_arrow_drop_down_24, R.color.mat_red);
-        } else {
-            return getDrawableWithColor(R.drawable.ic_baseline_arrow_drop_up_24, R.color.mat_green);
-        }
-    }
-
-    private boolean isNegative(BigDecimal bigDecimal) {
-        return bigDecimal.signum() == -1;
-    }
-
-    private Drawable getDrawableWithColor(int drawableResId, int colorResId) {
-        Drawable drawable = ResourcesCompat.getDrawable(requireContext().getResources(), drawableResId, null);
-        if (drawable != null) {
-            drawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(requireContext(), colorResId), PorterDuff.Mode.SRC_IN));
-        } else {
-            drawable = ResourcesCompat.getDrawable(requireContext().getResources(), R.drawable.ic_outline_icon_not_found_24, null);
-        }
-        return drawable;
+        Details details = new Details(comingId, this, mode);
+        binding.setDetails(details);
     }
 
     private int getMode() {
@@ -118,63 +93,15 @@ public class ComingElementDetails extends Fragment {
     }
 
     private int getRemainingDays(long repeatDate) {
-        Calendar todayDate = getTodayDate();
+        Calendar todayDate = Calendar.getInstance();
         Calendar deadlineDate = getCalendarWithValue(repeatDate);
         return deadlineDate.get(Calendar.DAY_OF_YEAR) - todayDate.get(Calendar.DAY_OF_YEAR);
-    }
-
-    private Calendar getTodayDate() {
-        return Calendar.getInstance();
     }
 
     private Calendar getCalendarWithValue(long value) {
         Calendar calendarInstance = Calendar.getInstance();
         calendarInstance.setTimeInMillis(value);
         return calendarInstance;
-    }
-
-    private void setFieldAttributesByMode(int mode) {
-        if (mode == MODE_REALIZED) {
-            setRemainingElements(R.string.realized, R.color.main_green);
-            binding.staticDaysText.setVisibility(GONE);
-            binding.remainingDays.setVisibility(GONE);
-            binding.dateWhenWasPaid.setVisibility(VISIBLE);
-            binding.dateWhenWasPaid.setText(DateProcessor.parseDate(coming.getExecutedDate()));
-        }
-
-        if (mode == MODE_NORMAL) {
-            setRemainingElements(R.string.remain, R.color.font_default);
-            binding.staticDaysText.setVisibility(VISIBLE);
-            binding.remainingDays.setVisibility(VISIBLE);
-            binding.dateWhenWasPaid.setVisibility(GONE);
-        }
-
-        if (mode == MODE_AFTER_DEADLINE) {
-            setRemainingElements(R.string.after_the_deadline, R.color.mat_red);
-            binding.staticDaysText.setVisibility(VISIBLE);
-            binding.remainingDays.setVisibility(VISIBLE);
-            binding.dateWhenWasPaid.setVisibility(GONE);
-        }
-    }
-
-    private void setRemainingElements(int text, int color) {
-        binding.remainingDaysDecision.setText(text);
-        setColor(color);
-    }
-
-    private Category getCategory(Transaction transaction) {
-        int categoryId = transaction.getCategoryId();
-        CategoryViewModel categoryViewModel =
-                new ViewModelProvider(this).get(CategoryViewModel.class);
-        return categoryViewModel.getCategoryById(categoryId);
-    }
-
-    private void setColor(int color) {
-        binding.dateWhenWasPaid.setTextColor(requireContext().getColor(color));
-        binding.remainingDate.setTextColor(requireContext().getColor(color));
-        binding.remainingDaysDecision.setTextColor(requireContext().getColor(color));
-        binding.remainingDays.setTextColor(requireContext().getColor(color));
-        binding.staticDaysText.setTextColor(requireContext().getColor(color));
     }
 
     @Override

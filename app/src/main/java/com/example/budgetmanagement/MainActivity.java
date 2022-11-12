@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (destination == R.id.addNewCategoryElement) {
                 navBar.setVisibility(View.GONE);
                 fragmentName.setText("Nowa kategoria");
+            } else if (destination == R.id.comingElementDetails) {
+                navBar.setVisibility(View.GONE);
+                fragmentName.setText("Szczegóły");
             } else if (destination == R.id.navigation_statistics) {
                 navBar.setVisibility(View.VISIBLE);
                 fragmentName.setText("Statystyki");

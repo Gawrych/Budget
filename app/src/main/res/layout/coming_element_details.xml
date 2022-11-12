@@ -2,6 +2,7 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
+        <import type="android.view.View" />
         <variable name="details" type="com.example.budgetmanagement.ui.coming.Details" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -114,6 +115,7 @@
             android:id="@+id/remainingDate"
             style="@style/DetailsValueField"
             android:text="@{details.remainingDate}"
+            android:textColor="@{context.getColor(details.textColorRes)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/repeatDateLabel" />
 
@@ -121,7 +123,8 @@
             android:id="@+id/remainingDaysDecision"
             style="@style/DetailsValueFieldBasicSet"
             android:layout_marginEnd="5dp"
-            android:text="@string/left"
+            android:text="@{details.textRes}"
+            android:textColor="@{context.getColor(details.textColorRes)}"
             android:labelFor="@+id/remainingDays"
             app:layout_constraintBottom_toBottomOf="@+id/remainingDate"
             app:layout_constraintEnd_toStartOf="@+id/remainingDays" />
@@ -131,6 +134,8 @@
             style="@style/DetailsValueFieldBasicSet"
             android:layout_marginEnd="5dp"
             android:text="@{details.remainingDayAmount}"
+            android:textColor="@{context.getColor(details.textColorRes)}"
+            android:visibility="@{details.mode == details.MODE_REALIZED ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/remainingDaysDecision"
             app:layout_constraintEnd_toStartOf="@+id/staticDaysText" />
 
@@ -139,6 +144,8 @@
             style="@style/DetailsValueFieldBasicSet"
             android:layout_marginEnd="5dp"
             android:text="@string/days"
+            android:textColor="@{context.getColor(details.textColorRes)}"
+            android:visibility="@{details.mode == details.MODE_REALIZED ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/remainingDaysDecision"
             app:layout_constraintEnd_toStartOf="@+id/dateWhenWasPaid" />
 
@@ -146,6 +153,8 @@
             android:id="@+id/dateWhenWasPaid"
             style="@style/DetailsValueFieldBasicSet"
             android:text="@{details.executedDate}"
+            android:textColor="@{context.getColor(details.textColorRes)}"
+            android:visibility="@{details.mode == details.MODE_REALIZED ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/staticDaysText"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -181,8 +190,8 @@
             style="@style/DetailsLabelField"
             android:labelFor="@+id/lastEditDate"
             android:text="@string/last_modification"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/remainingDate" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addDate" />
 
         <TextView
             android:id="@+id/lastEditDate"

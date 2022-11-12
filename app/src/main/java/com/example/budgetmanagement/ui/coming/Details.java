@@ -1,12 +1,13 @@
 package com.example.budgetmanagement.ui.coming;
 
-import android.app.Activity;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
@@ -14,6 +15,7 @@ import com.example.budgetmanagement.database.rooms.Category;
 import com.example.budgetmanagement.database.rooms.Coming;
 import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.rooms.Transaction;
+import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.ui.utils.AppIconPack;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
@@ -25,6 +27,9 @@ import java.util.Objects;
 
 public class Details {
 
+    public static final int MODE_AFTER_DEADLINE = -1;
+    public static final int MODE_NORMAL = 0;
+    public static final int MODE_REALIZED = 1;
     public final String title;
     public final String amount;
     public final Drawable amountIcon;
@@ -35,15 +40,23 @@ public class Details {
     public final String remainingDate;
     public final String remainingDayAmount;
     public final String executedDate;
-    private final Activity activity;
+    public final int mode;
+    public int textColorRes;
+    public int textRes;
+    private final Fragment fragment;
 
-    public Details(ComingAndTransaction comingAndTransaction, Category category, Activity activity) {
-        this.activity = activity;
+    public Details(int comingId, @NonNull Fragment fragment, int mode) {
+        this.fragment = fragment;
+        this.mode = mode;
 
+        ComingViewModel comingViewModel = new ViewModelProvider(fragment).get(ComingViewModel.class);
+        CategoryViewModel categoryViewModel = new ViewModelProvider(fragment).get(CategoryViewModel.class);
+
+        ComingAndTransaction comingAndTransaction = comingViewModel.getComingAndTransactionById(comingId);
         Transaction transaction = comingAndTransaction.transaction;
         Coming coming = comingAndTransaction.coming;
 
-        ComingViewModel comingViewModel = new ViewModelProvider(activity.get).get(ComingViewModel.class);
+        Category category = categoryViewModel.getCategoryById(transaction.getCategoryId());
 
         title = transaction.getTitle();
         amount = transaction.getAmount();
@@ -56,10 +69,28 @@ public class Details {
         remainingDayAmount = String.valueOf(Math.abs(remainingDays));
         amountIcon = getAmountIconDependOfValue(transaction.getAmount());
         executedDate = DateProcessor.parseDate(coming.getExecutedDate());
+        setFieldAttributesByMode(mode);
+    }
+
+    private void setFieldAttributesByMode(int mode) {
+        if (mode == MODE_REALIZED) {
+            this.textColorRes = R.color.main_green;
+            this.textRes = R.string.realized;
+        }
+
+        if (mode == MODE_NORMAL) {
+            this.textColorRes = R.color.font_default;
+            this.textRes = R.string.remain;
+        }
+
+        if (mode == MODE_AFTER_DEADLINE) {
+            this.textColorRes = R.color.mat_red;
+            this.textRes = R.string.after_the_deadline;
+        }
     }
 
     private Drawable getCategoryIcon(Category category) {
-        IconPack iconPack = ((AppIconPack) activity.getApplication()).getIconPack();
+        IconPack iconPack = ((AppIconPack) fragment.requireActivity().getApplication()).getIconPack();
         assert iconPack != null;
         return Objects.requireNonNull(iconPack.getIcon(category.getIcon())).getDrawable();
     }
@@ -68,7 +99,7 @@ public class Details {
         if (modifiedDate != 0) {
             return DateProcessor.parseDate(modifiedDate);
         }
-        return activity.getApplicationContext().getString(R.string.never);
+        return fragment.requireActivity().getApplicationContext().getString(R.string.never);
     }
 
     private int getRemainingDays(long repeatDate) {
@@ -101,11 +132,11 @@ public class Details {
     }
 
     private Drawable getDrawableWithColor(int drawableResId, int colorResId) {
-        Drawable drawable = ResourcesCompat.getDrawable(activity.getApplicationContext().getResources(), drawableResId, null);
+        Drawable drawable = ResourcesCompat.getDrawable(fragment.getResources(), drawableResId, null);
         if (drawable != null) {
-            drawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(activity.getApplicationContext(), colorResId), PorterDuff.Mode.SRC_IN));
+            drawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(fragment.requireContext(), colorResId), PorterDuff.Mode.SRC_IN));
         } else {
-            drawable = ResourcesCompat.getDrawable(activity.getApplicationContext().getResources(), R.drawable.ic_outline_icon_not_found_24, null);
+            drawable = ResourcesCompat.getDrawable(fragment.getResources(), R.drawable.ic_outline_icon_not_found_24, null);
         }
         return drawable;
     }
