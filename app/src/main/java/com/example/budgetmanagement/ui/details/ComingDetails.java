@@ -1,12 +1,8 @@
-package com.example.budgetmanagement.ui.coming;
+package com.example.budgetmanagement.ui.details;
 
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -17,15 +13,11 @@ import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
-import com.example.budgetmanagement.ui.utils.AppIconPack;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
-import com.maltaisn.icondialog.pack.IconPack;
 
-import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.Objects;
 
-public class Details {
+public class ComingDetails extends DetailsUtils {
 
     public static final int MODE_AFTER_DEADLINE = -1;
     public static final int MODE_NORMAL = 0;
@@ -45,7 +37,7 @@ public class Details {
     public int textRes;
     private final Fragment fragment;
 
-    public Details(int comingId, @NonNull Fragment fragment, int mode) {
+    public ComingDetails(int comingId, @NonNull Fragment fragment, int mode) {
         this.fragment = fragment;
         this.mode = mode;
 
@@ -58,18 +50,19 @@ public class Details {
 
         Category category = categoryViewModel.getCategoryById(transaction.getCategoryId());
 
-        title = transaction.getTitle();
-        amount = transaction.getAmount();
-        categoryName = category.getName();
-        icon = getCategoryIcon(category);
-        addDate = DateProcessor.parseDate(coming.getAddDate());
-        lastEditDate = getValueFromModifiedDate(coming.getLastEditDate());
+        this.title = transaction.getTitle();
+        this.amount = transaction.getAmount();
+        this.categoryName = category.getName();
+        this.icon = getCategoryIcon(category);
+        this.addDate = DateProcessor.parseDate(coming.getAddDate());
+        this.lastEditDate = getValueFromModifiedDate(coming.getLastEditDate());
+        this.remainingDate = DateProcessor.parseDate(coming.getExpireDate());
+
         int remainingDays = getRemainingDays(coming.getExpireDate());
-        remainingDate = DateProcessor.parseDate(coming.getExpireDate());
-        remainingDayAmount = String.valueOf(Math.abs(remainingDays));
-        amountIcon = getAmountIconDependOfValue(transaction.getAmount());
-        executedDate = DateProcessor.parseDate(coming.getExecutedDate());
-        setFieldAttributesByMode(mode);
+        this.remainingDayAmount = String.valueOf(Math.abs(remainingDays));
+        this.amountIcon = getAmountIconDependOfValue(transaction.getAmount());
+        this.executedDate = DateProcessor.parseDate(coming.getExecutedDate());
+        this.setFieldAttributesByMode(mode);
     }
 
     private void setFieldAttributesByMode(int mode) {
@@ -89,27 +82,10 @@ public class Details {
         }
     }
 
-    private Drawable getCategoryIcon(Category category) {
-        IconPack iconPack = ((AppIconPack) fragment.requireActivity().getApplication()).getIconPack();
-        assert iconPack != null;
-        return Objects.requireNonNull(iconPack.getIcon(category.getIcon())).getDrawable();
-    }
-
-    private String getValueFromModifiedDate(long modifiedDate) {
-        if (modifiedDate != 0) {
-            return DateProcessor.parseDate(modifiedDate);
-        }
-        return fragment.requireActivity().getApplicationContext().getString(R.string.never);
-    }
-
     private int getRemainingDays(long repeatDate) {
-        Calendar todayDate = getTodayDate();
+        Calendar todayDate =  Calendar.getInstance();
         Calendar deadlineDate = getCalendarWithValue(repeatDate);
         return deadlineDate.get(Calendar.DAY_OF_YEAR) - todayDate.get(Calendar.DAY_OF_YEAR);
-    }
-
-    private Calendar getTodayDate() {
-        return Calendar.getInstance();
     }
 
     private Calendar getCalendarWithValue(long value) {
@@ -118,26 +94,8 @@ public class Details {
         return calendarInstance;
     }
 
-    private Drawable getAmountIconDependOfValue(String value) {
-        BigDecimal bigDecimal = new BigDecimal(value);
-        if (isNegative(bigDecimal)) {
-            return getDrawableWithColor(R.drawable.ic_baseline_arrow_drop_down_24, R.color.mat_red);
-        } else {
-            return getDrawableWithColor(R.drawable.ic_baseline_arrow_drop_up_24, R.color.mat_green);
-        }
-    }
-
-    private boolean isNegative(BigDecimal bigDecimal) {
-        return bigDecimal.signum() == -1;
-    }
-
-    private Drawable getDrawableWithColor(int drawableResId, int colorResId) {
-        Drawable drawable = ResourcesCompat.getDrawable(fragment.getResources(), drawableResId, null);
-        if (drawable != null) {
-            drawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(fragment.requireContext(), colorResId), PorterDuff.Mode.SRC_IN));
-        } else {
-            drawable = ResourcesCompat.getDrawable(fragment.getResources(), R.drawable.ic_outline_icon_not_found_24, null);
-        }
-        return drawable;
+    @Override
+    public Fragment getFragment() {
+        return this.fragment;
     }
 }

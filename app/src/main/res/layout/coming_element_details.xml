@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <import type="android.view.View" />
-        <variable name="details" type="com.example.budgetmanagement.ui.coming.Details" />
+        <variable name="comingDetails" type="com.example.budgetmanagement.ui.details.ComingDetails"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/detailsConstraintLayout"
@@ -24,7 +24,7 @@
         <TextView
             android:id="@+id/transactionName"
             style="@style/DetailsValueField"
-            android:text="@{details.title}"
+            android:text="@{comingDetails.title}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/transactionTitleLabel" />
 
@@ -40,14 +40,14 @@
             android:id="@+id/amountIcon"
             style="@style/DetailsIconField"
             android:contentDescription="@string/amount_icon"
-            android:src="@{details.amountIcon}"
+            android:src="@{comingDetails.amountIcon}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
 
         <TextView
             android:id="@+id/amount"
             style="@style/DetailsValueField"
-            android:text="@{details.amount}"
+            android:text="@{comingDetails.amount}"
             android:layout_marginStart="5dp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/amountIcon"
@@ -83,7 +83,7 @@
         <ImageView
             android:id="@+id/categoryIcon"
             style="@style/DetailsIconField"
-            android:src="@{details.icon}"
+            android:src="@{comingDetails.icon}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/categoryLabel"
             android:contentDescription="@string/category_icon" />
@@ -92,7 +92,7 @@
             android:id="@+id/categoryName"
             style="@style/DetailsValueField"
             android:layout_marginStart="10dp"
-            android:text="@{details.categoryName}"
+            android:text="@{comingDetails.categoryName}"
             app:layout_constraintStart_toEndOf="@+id/categoryIcon"
             app:layout_constraintTop_toBottomOf="@+id/categoryLabel" />
 
@@ -114,8 +114,8 @@
         <TextView
             android:id="@+id/remainingDate"
             style="@style/DetailsValueField"
-            android:text="@{details.remainingDate}"
-            android:textColor="@{context.getColor(details.textColorRes)}"
+            android:text="@{comingDetails.remainingDate}"
+            android:textColor="@{context.getColor(comingDetails.textColorRes)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/repeatDateLabel" />
 
@@ -123,8 +123,8 @@
             android:id="@+id/remainingDaysDecision"
             style="@style/DetailsValueFieldBasicSet"
             android:layout_marginEnd="5dp"
-            android:text="@{details.textRes}"
-            android:textColor="@{context.getColor(details.textColorRes)}"
+            android:text="@{comingDetails.textRes}"
+            android:textColor="@{context.getColor(comingDetails.textColorRes)}"
             android:labelFor="@+id/remainingDays"
             app:layout_constraintBottom_toBottomOf="@+id/remainingDate"
             app:layout_constraintEnd_toStartOf="@+id/remainingDays" />
@@ -133,9 +133,9 @@
             android:id="@+id/remainingDays"
             style="@style/DetailsValueFieldBasicSet"
             android:layout_marginEnd="5dp"
-            android:text="@{details.remainingDayAmount}"
-            android:textColor="@{context.getColor(details.textColorRes)}"
-            android:visibility="@{details.mode == details.MODE_REALIZED ? View.GONE : View.VISIBLE}"
+            android:text="@{comingDetails.remainingDayAmount}"
+            android:textColor="@{context.getColor(comingDetails.textColorRes)}"
+            android:visibility="@{comingDetails.mode == comingDetails.MODE_REALIZED ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/remainingDaysDecision"
             app:layout_constraintEnd_toStartOf="@+id/staticDaysText" />
 
@@ -144,17 +144,17 @@
             style="@style/DetailsValueFieldBasicSet"
             android:layout_marginEnd="5dp"
             android:text="@string/days"
-            android:textColor="@{context.getColor(details.textColorRes)}"
-            android:visibility="@{details.mode == details.MODE_REALIZED ? View.GONE : View.VISIBLE}"
+            android:textColor="@{context.getColor(comingDetails.textColorRes)}"
+            android:visibility="@{comingDetails.mode == comingDetails.MODE_REALIZED ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/remainingDaysDecision"
             app:layout_constraintEnd_toStartOf="@+id/dateWhenWasPaid" />
 
         <TextView
             android:id="@+id/dateWhenWasPaid"
             style="@style/DetailsValueFieldBasicSet"
-            android:text="@{details.executedDate}"
-            android:textColor="@{context.getColor(details.textColorRes)}"
-            android:visibility="@{details.mode == details.MODE_REALIZED ? View.VISIBLE : View.GONE}"
+            android:text="@{comingDetails.executedDate}"
+            android:textColor="@{context.getColor(comingDetails.textColorRes)}"
+            android:visibility="@{comingDetails.mode == comingDetails.MODE_REALIZED ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/staticDaysText"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -175,7 +175,7 @@
         <TextView
             android:id="@+id/addDate"
             style="@style/DetailsValueField"
-            android:text="@{details.addDate}"
+            android:text="@{comingDetails.addDate}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addDateLabel" />
 
@@ -196,7 +196,7 @@
         <TextView
             android:id="@+id/lastEditDate"
             style="@style/DetailsValueField"
-            android:text="@{details.lastEditDate}"
+            android:text="@{comingDetails.lastEditDate}"
             app:layout_constraintStart_toStartOf="@+id/lastEditDateLabel"
             app:layout_constraintTop_toBottomOf="@+id/lastEditDateLabel" />
 

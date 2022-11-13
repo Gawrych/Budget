@@ -80,8 +80,8 @@ public class Coming {
         this.expireDate = expireDate;
     }
 
-    public void setLastEditDate(long deadline) {
-        this.lastEditDate = deadline;
+    public void setLastEditDate(long newDate) {
+        this.lastEditDate = newDate;
     }
 
     public void setExecutedDate(long executedDate) {
