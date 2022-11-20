@@ -9,6 +9,7 @@
         android:id="@+id/detailsConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bottom_line"
         android:paddingBottom="20dp"
         android:paddingStart="30dp"
         android:paddingEnd="30dp">
@@ -121,48 +122,40 @@
 
         <TextView
             android:id="@+id/remainingDaysDecision"
-            style="@style/DetailsValueFieldBasicSet"
-            android:layout_marginEnd="5dp"
-            android:text="@{comingDetails.textRes}"
-            android:textColor="@{context.getColor(comingDetails.textColorRes)}"
+            style="@style/DetailsLabelField"
             android:labelFor="@+id/remainingDays"
-            app:layout_constraintBottom_toBottomOf="@+id/remainingDate"
-            app:layout_constraintEnd_toStartOf="@+id/remainingDays" />
+            android:text="@{comingDetails.textRes}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/categoryIcon" />
 
         <TextView
             android:id="@+id/remainingDays"
-            style="@style/DetailsValueFieldBasicSet"
+            style="@style/DetailsValueField"
             android:layout_marginEnd="5dp"
             android:text="@{comingDetails.remainingDayAmount}"
             android:textColor="@{context.getColor(comingDetails.textColorRes)}"
-            android:visibility="@{comingDetails.mode == comingDetails.MODE_REALIZED ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/remainingDaysDecision"
-            app:layout_constraintEnd_toStartOf="@+id/staticDaysText" />
+            android:visibility="@{comingDetails.mode == comingDetails.MODE_REALIZED ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintEnd_toStartOf="@+id/staticDaysText"
+            app:layout_constraintTop_toBottomOf="@+id/remainingDaysDecision" />
 
         <TextView
             android:id="@+id/staticDaysText"
-            style="@style/DetailsValueFieldBasicSet"
-            android:layout_marginEnd="5dp"
+            style="@style/DetailsValueField"
             android:text="@string/days"
+            android:layout_marginStart="5dp"
             android:textColor="@{context.getColor(comingDetails.textColorRes)}"
-            android:visibility="@{comingDetails.mode == comingDetails.MODE_REALIZED ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/remainingDaysDecision"
-            app:layout_constraintEnd_toStartOf="@+id/dateWhenWasPaid" />
+            android:visibility="@{comingDetails.mode == comingDetails.MODE_REALIZED ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/remainingDaysDecision" />
 
         <TextView
             android:id="@+id/dateWhenWasPaid"
-            style="@style/DetailsValueFieldBasicSet"
+            style="@style/DetailsValueField"
             android:text="@{comingDetails.executedDate}"
             android:textColor="@{context.getColor(comingDetails.textColorRes)}"
             android:visibility="@{comingDetails.mode == comingDetails.MODE_REALIZED ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@+id/staticDaysText"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/createDateGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="addDateLabel, addDate" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/remainingDaysDecision" />
 
         <TextView
             android:id="@+id/addDateLabel"
