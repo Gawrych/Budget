@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class}, version = 125, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class}, version = 131, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -53,19 +53,19 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 categoryDao.insert(category2);
                 categoryDao.insert(category3);
 //
-//                TransactionDao transactionDao = INSTANCE.transactionDao();
-//                Transaction transaction = new Transaction(1, 1,
-//                        "Kebab", "-200.50", 1,
-//                         0, true);
-//                Transaction transaction2 = new Transaction(2, 2,
-//                        "Kawa", "22.00", 1,
-//                        0, false);
-//                Transaction transaction3 = new Transaction(3, 2,
-//                        "Herbatka", "99.00", LocalDate.now().toEpochDay(),
-//                       0, false);
-//                transactionDao.insert(transaction);
-//                transactionDao.insert(transaction2);
-//                transactionDao.insert(transaction3);
+                TransactionDao transactionDao = INSTANCE.transactionDao();
+                Transaction transaction = new Transaction(1, 1,
+                        "Samochód", "-200.50", 1,
+                         0, true);
+                Transaction transaction2 = new Transaction(2, 2,
+                        "Kawa", "22.00", 1,
+                        0, false);
+                Transaction transaction3 = new Transaction(3, 2,
+                        "Wypłata", "2899.00", LocalDate.now().toEpochDay(),
+                       0, false);
+                transactionDao.insert(transaction);
+                transactionDao.insert(transaction2);
+                transactionDao.insert(transaction3);
 //
 //                Transaction transaction4 = new Transaction(4, 2,
 //                        "Abonament na telefon", "99.00", LocalDate.now().toEpochDay(),
@@ -94,13 +94,13 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
 //
 //                byte validity = 2;
 //
-//                ComingDao comingDao = INSTANCE.comingDao();
-//                Coming coming = new Coming(1, 1, validity, false,
-//                        5454, 0, LocalDate.now().toEpochDay(), 0);
-//                Coming coming2 = new Coming(2, 2, validity, false,
-//                        5454L, 0, LocalDate.now().toEpochDay(), 0);
-//                comingDao.insert(coming);
-//                comingDao.insert(coming2);
+                ComingDao comingDao = INSTANCE.comingDao();
+                Coming coming = new Coming(1, 1, false,
+                        1641078000000L, 0, 0, LocalDate.now().toEpochDay(), 0);
+                Coming coming2 = new Coming(2, 2, false,
+                        1641078000000L, 0, 0, LocalDate.now().toEpochDay(), 0);
+                comingDao.insert(coming);
+                comingDao.insert(coming2);
 //
 //                byte element = 2;
 //

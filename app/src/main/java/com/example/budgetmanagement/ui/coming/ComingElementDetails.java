@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Coming;
-import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.ComingElementDetailsBinding;
 import com.example.budgetmanagement.ui.details.ComingDetails;
@@ -67,7 +66,7 @@ public class ComingElementDetails extends Fragment {
     }
 
     private int getMode() {
-        boolean isExecute = coming.isExecute();
+        boolean isExecute = coming.isExecuted();
         if (isExecute) {
             return MODE_REALIZED;
         }

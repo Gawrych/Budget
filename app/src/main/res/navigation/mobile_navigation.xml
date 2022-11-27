@@ -9,7 +9,11 @@
         android:id="@+id/navigation_statistics"
         android:name="com.example.budgetmanagement.ui.statistics.StatisticsFragment"
         android:label="@string/title_statistics"
-        tools:layout="@layout/statistics_fragment" />
+        tools:layout="@layout/statistics_fragment" >
+        <action
+            android:id="@+id/action_navigation_statistics_to_monthStatistics"
+            app:destination="@id/monthStatistics" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
@@ -72,4 +76,9 @@
         android:name="com.example.budgetmanagement.ui.category.CategoryElementDetails"
         android:label="fragment_category_element_details"
         tools:layout="@layout/category_element_details" />
+    <fragment
+        android:id="@+id/monthStatistics"
+        android:name="com.example.budgetmanagement.ui.statistics.MonthStatistics"
+        android:label="month_statistics"
+        tools:layout="@layout/month_statistics" />
 </navigation>

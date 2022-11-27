@@ -29,6 +29,10 @@ public class ComingRepository {
         return comingDao.getComingById(id);
     }
 
+    public List<ComingAndTransaction> getAllComingByMonth(int monthNumber) {
+        return comingDao.getAllComingByMonth(monthNumber);
+    }
+
     public void insert(Coming coming) {
         BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.insert(coming));
     }

@@ -112,4 +112,5 @@
     <string name="not_found_id">Not found id</string>
     <string name="category_not_found">Category not found</string>
     <string name="amount_icon">amountIcon</string>
+    <string name="month_icon">month icon</string>
 </resources>

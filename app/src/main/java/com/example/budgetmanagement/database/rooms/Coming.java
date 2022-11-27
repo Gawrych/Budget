@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-
 @Entity(tableName = "coming")
 public class Coming {
 
@@ -15,26 +14,30 @@ public class Coming {
     @ColumnInfo(name = "transactionId")
     private int transactionId;
 
-    @ColumnInfo(name = "execute")
-    private boolean execute;
+    @ColumnInfo(name = "executed")
+    private boolean executed;
 
     @ColumnInfo(name = "expireDate")
     private long expireDate;
 
+    @ColumnInfo(name = "expireMonth")
+    private final int expireMonth;
+
     @ColumnInfo(name = "lastEditDate")
     private long lastEditDate;
 
-    @ColumnInfo(name = "executeDate")
+    @ColumnInfo(name = "executedDate")
     private long executedDate;
 
     @ColumnInfo(name = "addDate")
     private final long addDate;
 
-    public Coming(int comingId, int transactionId, boolean execute, long expireDate, long lastEditDate, long addDate, long executedDate) {
+    public Coming(int comingId, int transactionId, boolean executed, long expireDate, int expireMonth, long lastEditDate, long addDate, long executedDate) {
         this.comingId = comingId;
         this.transactionId = transactionId;
-        this.execute = execute;
+        this.executed = executed;
         this.expireDate = expireDate;
+        this.expireMonth = expireMonth;
         this.lastEditDate = lastEditDate;
         this.addDate = addDate;
         this.executedDate = executedDate;
@@ -48,12 +51,16 @@ public class Coming {
         return transactionId;
     }
 
-    public boolean isExecute() {
-        return execute;
+    public boolean isExecuted() {
+        return executed;
     }
 
     public long getExpireDate() {
         return expireDate;
+    }
+
+    public int getExpireMonth() {
+        return expireMonth;
     }
 
     public long getLastEditDate() {
@@ -72,8 +79,8 @@ public class Coming {
         this.transactionId = transactionId;
     }
 
-    public void setExecute(boolean execute) {
-        this.execute = execute;
+    public void setExecuted(boolean executed) {
+        this.executed = executed;
     }
 
     public void setExpireDate(long expireDate) {

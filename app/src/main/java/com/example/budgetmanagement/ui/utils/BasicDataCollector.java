@@ -57,7 +57,7 @@ public class BasicDataCollector {
             return false;
         }
         DecimalPrecision amountDecimalPrecision = new DecimalPrecision(amountContent);
-        amount = negateIfNegativeAmount(amountDecimalPrecision.getParsedContent());
+        amount = negateIfNegativeProfit(amountDecimalPrecision.getParsedContent());
         return true;
     }
 
@@ -81,7 +81,7 @@ public class BasicDataCollector {
         return editable.toString();
     }
 
-    private BigDecimal negateIfNegativeAmount(BigDecimal number) {
+    private BigDecimal negateIfNegativeProfit(BigDecimal number) {
         if (!profit) {
             return number.negate();
         }

@@ -1,19 +1,30 @@
 package com.example.budgetmanagement.database.viewmodels;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class StatisticsViewModel extends ViewModel {
+import com.example.budgetmanagement.database.rooms.Coming;
+import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.rooms.ComingRepository;
 
-    private MutableLiveData<String> mText;
+import java.util.List;
 
-    public StatisticsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is statistics fragment");
+public class StatisticsViewModel extends AndroidViewModel {
+
+    private final ComingRepository comingRepository;
+
+    public StatisticsViewModel(@NonNull Application app) {
+        super(app);
+        comingRepository = new ComingRepository(app);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public List<ComingAndTransaction> getAllComingByMonth(int monthNumber) {
+        return comingRepository.getAllComingByMonth(monthNumber);
     }
+
 }

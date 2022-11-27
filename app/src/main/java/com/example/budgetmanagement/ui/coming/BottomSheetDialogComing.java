@@ -65,7 +65,7 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
             return;
         }
 
-        if (coming.isExecute()) {
+        if (coming.isExecuted()) {
             changeButtonText();
         }
 
@@ -83,8 +83,8 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
     }
 
     public void execute() {
-        boolean negateExecute = !this.coming.isExecute();
-        this.coming.setExecute(negateExecute);
+        boolean negateExecute = !this.coming.isExecuted();
+        this.coming.setExecuted(negateExecute);
         this.coming.setExecutedDate(getTodayDate().getTimeInMillis());
         updateComingInDatabase();
         dismiss();

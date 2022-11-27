@@ -128,7 +128,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         ComingAndTransaction item = getChild(i, i1);
         String amount = item.transaction.getAmount();
         long repeatDate = item.coming.getExpireDate();
-        boolean isExecuted = item.coming.isExecute();
+        boolean isExecuted = item.coming.isExecuted();
 
         titleField.setText(item.transaction.getTitle());
 

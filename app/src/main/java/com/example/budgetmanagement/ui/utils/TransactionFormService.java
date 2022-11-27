@@ -77,7 +77,7 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
         selectedCategory.setText(rootView.getResources().getString(R.string.category_example_various));
         selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
 
-        dateField.setText(DateProcessor.getTodayDateInPattern(MONTH_NAME_YEAR_DATE_FORMAT));
+        dateField.setText(DateProcessor.getTodayDate(MONTH_NAME_YEAR_DATE_FORMAT));
         dateField.setOnClickListener(view -> {
             serviceDatePickerDialog();
             datePickerDialog.show();
