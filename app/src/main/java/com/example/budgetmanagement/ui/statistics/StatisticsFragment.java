@@ -1,19 +1,16 @@
 package com.example.budgetmanagement.ui.statistics;
 
-import static com.example.budgetmanagement.ui.statistics.MonthStatistics.AUTUMN;
-import static com.example.budgetmanagement.ui.statistics.MonthStatistics.SPRING;
-import static com.example.budgetmanagement.ui.statistics.MonthStatistics.SUMMER;
-import static com.example.budgetmanagement.ui.statistics.MonthStatistics.WINTER;
+import static com.example.budgetmanagement.ui.statistics.MonthStatisticsFragment.AUTUMN;
+import static com.example.budgetmanagement.ui.statistics.MonthStatisticsFragment.SPRING;
+import static com.example.budgetmanagement.ui.statistics.MonthStatisticsFragment.SUMMER;
+import static com.example.budgetmanagement.ui.statistics.MonthStatisticsFragment.WINTER;
 import static com.example.budgetmanagement.ui.utils.DateProcessor.FULL_MONTH_NAME_ONLY;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +18,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
@@ -32,7 +27,6 @@ import com.example.budgetmanagement.databinding.StatisticsFragmentBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 import java.math.BigDecimal;
-import java.time.Month;
 import java.util.Calendar;
 import java.util.List;
 
@@ -83,14 +77,19 @@ public class StatisticsFragment extends Fragment {
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), getMonthIconRes(season), null);
         binding.monthIcon.setImageDrawable(drawable);
         binding.monthName.setText(currentMonthNameCapitalized);
-        binding.loss.setText(monthBalance.getLoss());
-        binding.profit.setText(monthBalance.getProfit());
-        binding.balance.setText(monthBalance.getBalance());
+        binding.loss.setText(getAmountWithCurrency(monthBalance.getLoss()));
+        binding.profit.setText(getAmountWithCurrency(monthBalance.getProfit()));
+        binding.balance.setText(getAmountWithCurrency(monthBalance.getBalance()));
 
         boolean balanceIsNegative = new BigDecimal(monthBalance.getBalance()).signum() == -1;
         if(balanceIsNegative) {
             binding.balance.setTextColor(requireContext().getColor(R.color.mat_red));
         }
+    }
+
+    private String getAmountWithCurrency(String amount) {
+        String currency = getResources().getString(R.string.polish_currency);
+        return String.format(getResources().getString(R.string.amount_with_currency), amount, currency);
     }
 
     private int getSeason(int monthNumber) {

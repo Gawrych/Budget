@@ -15,12 +15,16 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.MonthStatisticsBinding;
-import com.example.budgetmanagement.databinding.StatisticsFragmentBinding;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class MonthStatistics extends Fragment {
+public class MonthStatisticsFragment extends Fragment {
 
     private MonthStatisticsBinding binding;
     private ComingViewModel comingViewModel;
@@ -52,6 +56,18 @@ public class MonthStatistics extends Fragment {
         List<ComingAndTransaction> allComingFromCurrentMonth =
                 comingViewModel.getAllComingByMonth(currentDate.get(Calendar.MONTH));
 
+        PieChart pieChart = binding.pieChart;
 
+        List<PieEntry> pieChartData = new ArrayList<>();
+        pieChartData.add(new PieEntry(30F, "Przychody"));
+        pieChartData.add(new PieEntry(70F, "Wydatki"));
+
+        PieDataSet dataSet = new PieDataSet(pieChartData, "Balance");
+        dataSet.setColors(new int[] {R.color.mat_green, R.color.mat_red}, requireContext());
+
+        PieData pieData = new PieData(dataSet);
+
+        pieChart.setData(pieData);
+        pieChart.invalidate();
     }
 }

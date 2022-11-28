@@ -78,7 +78,7 @@
         tools:layout="@layout/category_element_details" />
     <fragment
         android:id="@+id/monthStatistics"
-        android:name="com.example.budgetmanagement.ui.statistics.MonthStatistics"
+        android:name="com.example.budgetmanagement.ui.statistics.MonthStatisticsFragment"
         android:label="month_statistics"
         tools:layout="@layout/month_statistics" />
 </navigation>
