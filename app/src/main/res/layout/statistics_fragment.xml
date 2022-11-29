@@ -182,16 +182,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:background="@drawable/wavy_background">
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/monthBalance"
-        android:layout_width="260dp"
+        android:layout_width="300dp"
         android:layout_height="160dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:clickable="false"
         android:layout_gravity="center_horizontal"
         app:cardCornerRadius="20dp"
@@ -200,7 +199,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/chart3"
+            android:background="@drawable/gradient"
             android:paddingStart="15dp"
             android:paddingEnd="15dp">
 
@@ -236,46 +235,26 @@
                 app:layout_constraintStart_toEndOf="@+id/monthIconCard"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/loss"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:text="-1225 zł"
-                android:textColor="@color/mat_red"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/profit"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/monthName" />
-
-            <TextView
-                android:id="@+id/profit"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="+1660 zł"
-                android:textColor="@color/mat_green"
-                android:textSize="18sp"
-                android:textStyle="bold"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/background_for_pieChart"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/loss"
-                app:layout_constraintTop_toTopOf="@+id/loss" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/balance"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp"
-                android:text="+435 zł"
-                android:textColor="@color/mat_green"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loss" />
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barChart"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.cardview.widget.CardView>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class}, version = 131, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class}, version = 132, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -96,9 +96,9 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
 //
                 ComingDao comingDao = INSTANCE.comingDao();
                 Coming coming = new Coming(1, 1, false,
-                        1641078000000L, 0, 0, LocalDate.now().toEpochDay(), 0);
+                        1641078000000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
                 Coming coming2 = new Coming(2, 2, false,
-                        1641078000000L, 0, 0, LocalDate.now().toEpochDay(), 0);
+                        1641078000000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
                 comingDao.insert(coming);
                 comingDao.insert(coming2);
 //

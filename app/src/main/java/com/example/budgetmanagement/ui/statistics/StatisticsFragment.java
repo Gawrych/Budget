@@ -25,8 +25,12 @@ import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.database.viewmodels.StatisticsViewModel;
 import com.example.budgetmanagement.databinding.StatisticsFragmentBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -51,10 +55,32 @@ public class StatisticsFragment extends Fragment {
         statisticsViewModel =
                 new ViewModelProvider(this).get(StatisticsViewModel.class);
 
+
         binding.monthBalance.setOnClickListener(v -> Navigation.findNavController(view).navigate(
                 R.id.action_navigation_statistics_to_monthStatistics));
         setMonthCardView();
 
+        List<BarEntry> entriesGroup1 = new ArrayList<>();
+        List<BarEntry> entriesGroup2 = new ArrayList<>();
+
+        entriesGroup1.add(new BarEntry(0, 70));
+        entriesGroup1.add(new BarEntry(0, 30));
+        entriesGroup2.add(new BarEntry(1, 60));
+        entriesGroup2.add(new BarEntry(1, 40));
+
+        BarDataSet set1 = new BarDataSet(entriesGroup1, "Styczeń");
+        BarDataSet set2 = new BarDataSet(entriesGroup2, "Luty");
+
+        float groupSpace = 0.06f;
+        float barSpace = 0.02f; // x2 dataset
+        float barWidth = 0.45f; // x2 dataset
+// (0.02 + 0.45) * 2 + 0.06 = 1.00 -> interval per "group"
+        BarData data = new BarData(set1, set2);
+        data.setBarWidth(barWidth); // set the width of each bar
+        BarChart barChart = binding.barChart;
+        barChart.setData(data);
+        barChart.groupBars(20f, groupSpace, barSpace); // perform the "explicit" grouping
+        barChart.invalidate();
     }
 
     private void setMonthCardView() {
@@ -62,13 +88,10 @@ public class StatisticsFragment extends Fragment {
         int currentMonthNumber = currentDate.get(Calendar.MONTH);
 
         List<ComingAndTransaction> allComingFromCurrentMonth =
-                comingViewModel.getAllComingByMonth(currentMonthNumber);
-
-        MonthBalance monthBalance = new MonthBalance(allComingFromCurrentMonth);
+                comingViewModel.getAllComingByYear(currentMonthNumber);
 
         String currentMonthName =
                 DateProcessor.parseDate(currentDate.getTimeInMillis(), FULL_MONTH_NAME_ONLY);
-
         String currentMonthNameCapitalized =
                 currentMonthName.substring(0, 1).toUpperCase() + currentMonthName.substring(1);
 
@@ -77,14 +100,6 @@ public class StatisticsFragment extends Fragment {
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), getMonthIconRes(season), null);
         binding.monthIcon.setImageDrawable(drawable);
         binding.monthName.setText(currentMonthNameCapitalized);
-        binding.loss.setText(getAmountWithCurrency(monthBalance.getLoss()));
-        binding.profit.setText(getAmountWithCurrency(monthBalance.getProfit()));
-        binding.balance.setText(getAmountWithCurrency(monthBalance.getBalance()));
-
-        boolean balanceIsNegative = new BigDecimal(monthBalance.getBalance()).signum() == -1;
-        if(balanceIsNegative) {
-            binding.balance.setTextColor(requireContext().getColor(R.color.mat_red));
-        }
     }
 
     private String getAmountWithCurrency(String amount) {
@@ -117,22 +132,35 @@ public class StatisticsFragment extends Fragment {
         return R.drawable.ic_outline_icon_not_found_24;
     }
 
-    private void setColors(int season) {
-        if (season == WINTER) {
-
-        } else if (season == SPRING) {
-
-        } else if (season == SUMMER) {
-
-        } else if (season == AUTUMN) {
-
-        }
-
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void setPieChart() {
+//        PieChart pieChart = binding.pieChart;
+//        Description description = new Description();
+//        description.setText("");
+//        pieChart.setDescription(description);
+//
+//        pieChart.setHoleRadius(0);
+//        pieChart.setDrawHoleEnabled(false);
+//        pieChart.setUsePercentValues(true);
+//
+//        Legend legend = pieChart.getLegend();
+//        legend.setEnabled(false);
+//
+//        List<PieEntry> pieChartData = new ArrayList<>();
+//        pieChartData.add(new PieEntry(300F));
+//        pieChartData.add(new PieEntry(1700F));
+//
+//        PieDataSet dataSet = new PieDataSet(pieChartData, "Balance");
+//        dataSet.setColors(new int[] {R.color.mat_green, R.color.mat_red}, requireContext());
+//
+//        PieData pieData = new PieData(dataSet);
+//
+//        pieChart.setData(pieData);
+//        pieChart.invalidate();
     }
 }

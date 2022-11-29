@@ -20,8 +20,8 @@ public class Coming {
     @ColumnInfo(name = "expireDate")
     private long expireDate;
 
-    @ColumnInfo(name = "expireMonth")
-    private final int expireMonth;
+    @ColumnInfo(name = "expireYear")
+    private final int expireYear;
 
     @ColumnInfo(name = "lastEditDate")
     private long lastEditDate;
@@ -32,12 +32,12 @@ public class Coming {
     @ColumnInfo(name = "addDate")
     private final long addDate;
 
-    public Coming(int comingId, int transactionId, boolean executed, long expireDate, int expireMonth, long lastEditDate, long addDate, long executedDate) {
+    public Coming(int comingId, int transactionId, boolean executed, long expireDate, int expireYear, long lastEditDate, long addDate, long executedDate) {
         this.comingId = comingId;
         this.transactionId = transactionId;
         this.executed = executed;
         this.expireDate = expireDate;
-        this.expireMonth = expireMonth;
+        this.expireYear = expireYear;
         this.lastEditDate = lastEditDate;
         this.addDate = addDate;
         this.executedDate = executedDate;
@@ -59,8 +59,8 @@ public class Coming {
         return expireDate;
     }
 
-    public int getExpireMonth() {
-        return expireMonth;
+    public int getExpireYear() {
+        return expireYear;
     }
 
     public long getLastEditDate() {

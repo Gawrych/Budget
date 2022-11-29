@@ -94,10 +94,10 @@ public class NewComingDataCollector extends NewTransactionDataCollector {
     public Coming getComing(long transactionId, long date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(date);
-        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
 
         return new Coming(0, (int) transactionId, false,
-                date, month, 0, Calendar.getInstance().getTimeInMillis(), 0);
+                date, year, 0, Calendar.getInstance().getTimeInMillis(), 0);
     }
 
     public ArrayList<Long> getNextDates() {

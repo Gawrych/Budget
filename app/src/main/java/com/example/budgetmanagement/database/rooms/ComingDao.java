@@ -39,6 +39,6 @@ public interface ComingDao {
     @Query("SELECT * FROM coming ORDER BY expireDate ASC")
     LiveData<List<ComingAndTransaction>> getAllComingAndTransaction();
 
-    @Query("SELECT * FROM coming WHERE expireMonth = :monthNumber")
-    List<ComingAndTransaction> getAllComingByMonth(int monthNumber);
+    @Query("SELECT * FROM coming WHERE expireYear = :year")
+    List<ComingAndTransaction> getAllComingByYear(int year);
 }
