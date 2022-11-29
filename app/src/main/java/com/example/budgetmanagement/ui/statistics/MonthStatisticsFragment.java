@@ -84,8 +84,7 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
         groupBarChart();
     }
 
-    public void groupBarChart(){
-
+    public void groupBarChart() {
         monthsNames = new ArrayList<>();
         monthsNames.add("Chart is skipping this line, but it have to be here");
         monthsNames.addAll(DateProcessor.getMonthInShort());
