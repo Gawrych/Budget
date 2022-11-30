@@ -15,12 +15,10 @@ import java.util.List;
 public class ComingViewModel extends AndroidViewModel {
 
     private final ComingRepository comingRepository;
-    private final LiveData<List<ComingAndTransaction>> allComingAndTransaction;
 
     public ComingViewModel(@NonNull Application app) {
         super(app);
         comingRepository = new ComingRepository(app);
-        allComingAndTransaction = comingRepository.getAllComingAndTransaction();
     }
 
     public void insert(Coming coming) {
@@ -47,11 +45,11 @@ public class ComingViewModel extends AndroidViewModel {
         return comingRepository.getAllComingByYear(year);
     }
 
-    public ComingAndTransaction getComingAndTransactionById(int comingId) {
-        return comingRepository.getComingAndTransactionById(comingId);
+    public LiveData<List<ComingAndTransaction>> getAllComingAndTransactionByYear(int year) {
+        return comingRepository.getAllComingAndTransactionByYear(year);
     }
 
-    public LiveData<List<ComingAndTransaction>> getAllComingAndTransaction() {
-        return allComingAndTransaction;
+    public ComingAndTransaction getComingAndTransactionById(int comingId) {
+        return comingRepository.getComingAndTransactionById(comingId);
     }
 }

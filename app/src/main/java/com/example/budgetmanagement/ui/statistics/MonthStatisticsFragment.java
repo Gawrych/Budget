@@ -36,14 +36,15 @@ import java.util.List;
 
 public class MonthStatisticsFragment extends Fragment implements OnChartValueSelectedListener {
 
-    private MonthStatisticsBinding binding;
-    private ComingViewModel comingViewModel;
+    private static final int NUMBER_OF_MONTHS = 12;
     public static final int WINTER = 0;
     public static final int SPRING = 1;
     public static final int SUMMER = 2;
     public static final int AUTUMN = 3;
+    private MonthStatisticsBinding binding;
+    private ComingViewModel comingViewModel;
     private ArrayList<String> monthsNames;
-    private MonthBalance[] monthBalances;
+    private final MonthBalance[] monthBalance = new MonthBalance[NUMBER_OF_MONTHS];
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,17 +69,15 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
         List<ComingAndTransaction> allComingFromCurrentYear =
                 comingViewModel.getAllComingByYear(currentDate.get(Calendar.YEAR));
 
-        monthBalances = new MonthBalance[12];
-
-        for (int i=0; i<monthBalances.length; i++) {
-            monthBalances[i] = new MonthBalance();
+        for (int i = 0; i < monthBalance.length; i++) {
+            monthBalance[i] = new MonthBalance();
         }
 
         Calendar calendar = Calendar.getInstance();
         for (ComingAndTransaction element : allComingFromCurrentYear) {
             long expireDate = element.coming.getExpireDate();
             calendar.setTimeInMillis(expireDate);
-            monthBalances[calendar.get(Calendar.MONTH)].add(element.transaction.getAmount());
+            monthBalance[calendar.get(Calendar.MONTH)].add(element.transaction.getAmount());
         }
 
         groupBarChart();
@@ -120,14 +119,11 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
         mChart.getAxisRight().setEnabled(false);
         mChart.getLegend().setEnabled(false);
 
-        float[] valOne = {1056, 20, 3053, 4066, 5045, 60, 40, 50, 60, 0, 0, 0};
-        float[] valTwo = {6043, 50, 4550, 3066, 204, 55, 34, 57, 66, 0, 0, 0};
-
         ArrayList<BarEntry> loss = new ArrayList<>();
         ArrayList<BarEntry> profit = new ArrayList<>();
-        for (int i = 0; i < monthBalances.length; i++) {
-            loss.add(new BarEntry(i, monthBalances[i].getLoss()));
-            profit.add(new BarEntry(i, monthBalances[i].getProfit()));
+        for (int i = 0; i < monthBalance.length; i++) {
+            loss.add(new BarEntry(i, monthBalance[i].getLoss()));
+            profit.add(new BarEntry(i, monthBalance[i].getProfit()));
         }
 
         BarDataSet set1 = new BarDataSet(loss, "loss");
