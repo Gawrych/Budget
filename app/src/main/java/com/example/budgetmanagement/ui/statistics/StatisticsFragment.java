@@ -59,28 +59,6 @@ public class StatisticsFragment extends Fragment {
         binding.monthBalance.setOnClickListener(v -> Navigation.findNavController(view).navigate(
                 R.id.action_navigation_statistics_to_monthStatistics));
         setMonthCardView();
-
-        List<BarEntry> entriesGroup1 = new ArrayList<>();
-        List<BarEntry> entriesGroup2 = new ArrayList<>();
-
-        entriesGroup1.add(new BarEntry(0, 70));
-        entriesGroup1.add(new BarEntry(0, 30));
-        entriesGroup2.add(new BarEntry(1, 60));
-        entriesGroup2.add(new BarEntry(1, 40));
-
-        BarDataSet set1 = new BarDataSet(entriesGroup1, "Styczeń");
-        BarDataSet set2 = new BarDataSet(entriesGroup2, "Luty");
-
-        float groupSpace = 0.06f;
-        float barSpace = 0.02f; // x2 dataset
-        float barWidth = 0.45f; // x2 dataset
-// (0.02 + 0.45) * 2 + 0.06 = 1.00 -> interval per "group"
-        BarData data = new BarData(set1, set2);
-        data.setBarWidth(barWidth); // set the width of each bar
-        BarChart barChart = binding.barChart;
-        barChart.setData(data);
-        barChart.groupBars(20f, groupSpace, barSpace); // perform the "explicit" grouping
-        barChart.invalidate();
     }
 
     private void setMonthCardView() {
@@ -136,31 +114,5 @@ public class StatisticsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    private void setPieChart() {
-//        PieChart pieChart = binding.pieChart;
-//        Description description = new Description();
-//        description.setText("");
-//        pieChart.setDescription(description);
-//
-//        pieChart.setHoleRadius(0);
-//        pieChart.setDrawHoleEnabled(false);
-//        pieChart.setUsePercentValues(true);
-//
-//        Legend legend = pieChart.getLegend();
-//        legend.setEnabled(false);
-//
-//        List<PieEntry> pieChartData = new ArrayList<>();
-//        pieChartData.add(new PieEntry(300F));
-//        pieChartData.add(new PieEntry(1700F));
-//
-//        PieDataSet dataSet = new PieDataSet(pieChartData, "Balance");
-//        dataSet.setColors(new int[] {R.color.mat_green, R.color.mat_red}, requireContext());
-//
-//        PieData pieData = new PieData(dataSet);
-//
-//        pieChart.setData(pieData);
-//        pieChart.invalidate();
     }
 }
