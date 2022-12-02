@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/allTransactionNumberLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="50dp"
@@ -25,6 +25,8 @@
         android:text="Transakcji"
         android:textColor="@color/dark_grey"
         android:textSize="15sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintEnd_toStartOf="@+id/outstandingTransactionNumberLabel"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -43,12 +45,14 @@
 
     <TextView
         android:id="@+id/outstandingTransactionNumberLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:labelFor="@+id/outstandingTransactionNumber"
         android:text="Po terminie"
         android:textColor="@color/dark_grey"
         android:textSize="15sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintEnd_toStartOf="@+id/executedTransactionNumberLabel"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/allTransactionNumberLabel"
@@ -66,13 +70,15 @@
 
     <TextView
         android:id="@+id/executedTransactionNumberLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
         android:labelFor="@+id/executedTransactionNumber"
         android:text="Do zapłacenia"
         android:textColor="@color/dark_grey"
         android:textSize="15sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/outstandingTransactionNumberLabel"
@@ -90,7 +96,7 @@
 
     <TextView
         android:id="@+id/profitIncreaseLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="50dp"
@@ -98,6 +104,10 @@
         android:text="Przychody"
         android:textColor="@color/dark_grey"
         android:textSize="15sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/gainLabel"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/allTransactionNumber" />
 
@@ -115,15 +125,48 @@
         app:layout_constraintTop_toBottomOf="@+id/profitIncreaseLabel" />
 
     <TextView
-        android:id="@+id/lossIncreaseLabel"
+        android:id="@+id/gainLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/executedTransactionNumber"
+        android:minWidth="70dp"
+        android:text="Dochody"
+        android:textColor="@color/dark_grey"
+        android:textSize="15sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/lossIncreaseLabel"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/profitIncreaseLabel"
+        app:layout_constraintTop_toTopOf="@+id/profitIncreaseLabel" />
+
+    <TextView
+        android:id="@+id/gain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="15%"
+        android:textColor="@color/mat_red"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_down_24"
+        app:drawableTint="@color/mat_red"
+        app:layout_constraintStart_toStartOf="@+id/gainLabel"
+        app:layout_constraintTop_toBottomOf="@+id/gainLabel" />
+
+    <TextView
+        android:id="@+id/lossIncreaseLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
         android:labelFor="@+id/executedTransactionNumber"
         android:text="Zobowiązania"
         android:textColor="@color/dark_grey"
         android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/gainLabel"
-        app:layout_constraintStart_toEndOf="@+id/profitIncreaseLabel"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/gainLabel"
         app:layout_constraintTop_toTopOf="@+id/profitIncreaseLabel" />
 
     <TextView
@@ -140,34 +183,8 @@
         app:layout_constraintTop_toBottomOf="@+id/lossIncreaseLabel" />
 
     <TextView
-        android:id="@+id/gainLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minWidth="70dp"
-        android:layout_marginEnd="40dp"
-        android:labelFor="@+id/executedTransactionNumber"
-        android:text="Dochody"
-        android:textColor="@color/dark_grey"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/lossIncreaseLabel" />
-
-    <TextView
-        android:id="@+id/gain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="15%"
-        android:textColor="@color/mat_red"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_down_24"
-        app:drawableTint="@color/mat_red"
-        app:layout_constraintStart_toStartOf="@+id/gainLabel"
-        app:layout_constraintTop_toBottomOf="@+id/gainLabel" />
-
-    <TextView
         android:id="@+id/averageTimeAfterTheDeadlineLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="50dp"
@@ -175,6 +192,8 @@
         android:text="Średnio po terminie"
         android:textColor="@color/dark_grey"
         android:textSize="15sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintEnd_toStartOf="@+id/payOnTimeLabel"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -205,13 +224,15 @@
 
     <TextView
         android:id="@+id/payOnTimeLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
         android:labelFor="@+id/executedTransactionNumber"
         android:text="Zapłacone w terminie"
         android:textColor="@color/dark_grey"
         android:textSize="15sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/averageTimeAfterTheDeadlineLabel"
