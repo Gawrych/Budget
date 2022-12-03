@@ -40,7 +40,7 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
     private MonthStatisticsBinding binding;
     private ComingViewModel comingViewModel;
     private ArrayList<String> monthsNames;
-    private final MonthBalance[] monthBalance = new MonthBalance[NUMBER_OF_MONTHS];
+    private final MonthSummary[] monthSummary = new MonthSummary[NUMBER_OF_MONTHS];
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,30 +61,38 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
         comingViewModel =
                 new ViewModelProvider(this).get(ComingViewModel.class);
 
+        setButtons();
+
         Calendar currentDate = Calendar.getInstance();
         List<ComingAndTransaction> allComingFromCurrentYear =
                 comingViewModel.getAllComingByYear(currentDate.get(Calendar.YEAR));
 
-        for (int i = 0; i < monthBalance.length; i++) {
-            monthBalance[i] = new MonthBalance();
+        for (int i = 0; i < monthSummary.length; i++) {
+            monthSummary[i] = new MonthSummary();
         }
 
         Calendar calendar = Calendar.getInstance();
         for (ComingAndTransaction element : allComingFromCurrentYear) {
             long expireDate = element.coming.getExpireDate();
             calendar.setTimeInMillis(expireDate);
-            monthBalance[calendar.get(Calendar.MONTH)].add(element.transaction.getAmount());
+            monthSummary[calendar.get(Calendar.MONTH)].add(element);
         }
+        groupBarChart(monthSummary);
 
-        setButtons();
-        groupBarChart();
     }
 
     private void setButtons() {
+        binding.yearButton.setOnClickListener(v -> {
+            Toast.makeText(requireContext(), "Year button", Toast.LENGTH_SHORT).show();
 
+        });
+
+        binding.monthsButton.setOnClickListener(v -> {
+            Toast.makeText(requireContext(), "Month button", Toast.LENGTH_SHORT).show();
+        });
     }
 
-    public void groupBarChart() {
+    public void groupBarChart(MonthSummary[] monthSummary) {
         monthsNames = new ArrayList<>();
         monthsNames.add("Chart is skipping this line, but it have to be here");
         monthsNames.addAll(DateProcessor.getMonthInShort());
@@ -122,9 +130,9 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
 
         ArrayList<BarEntry> loss = new ArrayList<>();
         ArrayList<BarEntry> profit = new ArrayList<>();
-        for (int i = 0; i < monthBalance.length; i++) {
-            loss.add(new BarEntry(i, monthBalance[i].getLoss()));
-            profit.add(new BarEntry(i, monthBalance[i].getProfit()));
+        for (int i = 0; i < monthSummary.length; i++) {
+            loss.add(new BarEntry(i, monthSummary[i].getLoss()));
+            profit.add(new BarEntry(i, monthSummary[i].getProfit()));
         }
 
         BarDataSet set1 = new BarDataSet(loss, "loss");

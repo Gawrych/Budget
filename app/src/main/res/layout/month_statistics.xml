@@ -120,6 +120,7 @@
         android:layout_height="wrap_content"
         android:labelFor="@+id/outstandingTransactionNumber"
         android:text="Po terminie"
+        android:hint="Executed after the time"
         android:textColor="@color/dark_grey"
         android:textSize="15sp"
         android:ellipsize="end"
