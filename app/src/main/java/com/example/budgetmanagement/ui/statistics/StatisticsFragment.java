@@ -1,9 +1,5 @@
 package com.example.budgetmanagement.ui.statistics;
 
-import static com.example.budgetmanagement.ui.statistics.MonthStatisticsFragment.AUTUMN;
-import static com.example.budgetmanagement.ui.statistics.MonthStatisticsFragment.SPRING;
-import static com.example.budgetmanagement.ui.statistics.MonthStatisticsFragment.SUMMER;
-import static com.example.budgetmanagement.ui.statistics.MonthStatisticsFragment.WINTER;
 import static com.example.budgetmanagement.ui.utils.DateProcessor.FULL_MONTH_NAME_ONLY;
 
 import android.graphics.drawable.Drawable;
@@ -36,6 +32,10 @@ import java.util.List;
 
 public class StatisticsFragment extends Fragment {
 
+    public static final int WINTER = 0;
+    public static final int SPRING = 1;
+    public static final int SUMMER = 2;
+    public static final int AUTUMN = 3;
     private StatisticsViewModel statisticsViewModel;
     private StatisticsFragmentBinding binding;
     private ComingViewModel comingViewModel;

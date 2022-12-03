@@ -37,10 +37,6 @@ import java.util.List;
 public class MonthStatisticsFragment extends Fragment implements OnChartValueSelectedListener {
 
     private static final int NUMBER_OF_MONTHS = 12;
-    public static final int WINTER = 0;
-    public static final int SPRING = 1;
-    public static final int SUMMER = 2;
-    public static final int AUTUMN = 3;
     private MonthStatisticsBinding binding;
     private ComingViewModel comingViewModel;
     private ArrayList<String> monthsNames;
@@ -80,7 +76,12 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
             monthBalance[calendar.get(Calendar.MONTH)].add(element.transaction.getAmount());
         }
 
+        setButtons();
         groupBarChart();
+    }
+
+    private void setButtons() {
+
     }
 
     public void groupBarChart() {
