@@ -377,7 +377,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/monthSummary"
+        android:id="@+id/monthStatsSummary"
         android:layout_width="300dp"
         android:layout_height="160dp"
         android:layout_marginTop="30dp"

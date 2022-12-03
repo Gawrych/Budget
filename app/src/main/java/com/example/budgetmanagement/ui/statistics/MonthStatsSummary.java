@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class MonthSummary {
+public class MonthStatsSummary {
 
     private static final int NUMBER_OF_MILLISECONDS_IN_ONE_DAY = 86400000;
     private BigDecimal profitBalance = new BigDecimal(0);
@@ -16,9 +16,9 @@ public class MonthSummary {
     private int numberOfExecutedTransactions = 0;
     private long averageTransactionExecutedDelay = 0;
 
-    public MonthSummary() {}
+    public MonthStatsSummary() {}
 
-    public MonthSummary(List<ComingAndTransaction> transactionsFromMonthToSummarise) {
+    public MonthStatsSummary(List<ComingAndTransaction> transactionsFromMonthToSummarise) {
         for(ComingAndTransaction item : transactionsFromMonthToSummarise) {
             BigDecimal amount = new BigDecimal(item.transaction.getAmount());
             if (amount.signum() == 1) {
@@ -64,7 +64,7 @@ public class MonthSummary {
         return numberOfTransactions;
     }
 
-    public int getNumberOfOutdatedTransactions() {
+    public int getNumberOfTransactionsExecutedAfterTheTime() {
         return numberOfTransactionsExecutedAfterTheTime;
     }
 

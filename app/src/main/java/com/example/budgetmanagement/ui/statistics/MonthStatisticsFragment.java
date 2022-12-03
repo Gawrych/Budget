@@ -40,7 +40,9 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
     private MonthStatisticsBinding binding;
     private ComingViewModel comingViewModel;
     private ArrayList<String> monthsNames;
-    private final MonthSummary[] monthSummary = new MonthSummary[NUMBER_OF_MONTHS];
+    private final MonthStatsSummary[] monthStatsSummary = new MonthStatsSummary[NUMBER_OF_MONTHS];
+    private Calendar currentDate;
+    private int selectedMonthNumber = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,23 +65,42 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
 
         setButtons();
 
-        Calendar currentDate = Calendar.getInstance();
+        currentDate = Calendar.getInstance();
+        selectedMonthNumber = currentDate.get(Calendar.MONTH);
+
         List<ComingAndTransaction> allComingFromCurrentYear =
                 comingViewModel.getAllComingByYear(currentDate.get(Calendar.YEAR));
 
-        for (int i = 0; i < monthSummary.length; i++) {
-            monthSummary[i] = new MonthSummary();
+        for (int i = 0; i < monthStatsSummary.length; i++) {
+            monthStatsSummary[i] = new MonthStatsSummary();
         }
 
         Calendar calendar = Calendar.getInstance();
         for (ComingAndTransaction element : allComingFromCurrentYear) {
             long expireDate = element.coming.getExpireDate();
             calendar.setTimeInMillis(expireDate);
-            monthSummary[calendar.get(Calendar.MONTH)].add(element);
+            monthStatsSummary[calendar.get(Calendar.MONTH)].add(element);
         }
-        groupBarChart(monthSummary);
+        groupBarChart(monthStatsSummary);
+
+        bindData();
+    }
+
+    private void bindData() {
+        MonthStatsSummary selectedMonthStatsSummary = monthStatsSummary[selectedMonthNumber];
+        binding.allTransactionNumber.setText(String.valueOf(selectedMonthStatsSummary.getNumberOfTransactions()));
+        binding.numberOfTransactionsExecutedAfterTheTime.setText(String.valueOf(selectedMonthStatsSummary.getNumberOfTransactionsExecutedAfterTheTime()));
+        binding.numberOfRemainingTransaction.setText(String.valueOf(selectedMonthStatsSummary.getNumberOfRemainingTransactions()));
+
+        if (selectedMonthNumber == 0) {
+            return;
+        }
+
+        PeriodStatsComparator statsComparator = new PeriodStatsComparator(selectedMonthStatsSummary, monthStatsSummary[selectedMonthNumber-1]);
+        binding.profitIncrease.setText(statsComparator.getIncome() + "%");
 
     }
+
 
     private void setButtons() {
         binding.yearButton.setOnClickListener(v -> {
@@ -92,7 +113,7 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
         });
     }
 
-    public void groupBarChart(MonthSummary[] monthSummary) {
+    public void groupBarChart(MonthStatsSummary[] monthStatsSummary) {
         monthsNames = new ArrayList<>();
         monthsNames.add("Chart is skipping this line, but it have to be here");
         monthsNames.addAll(DateProcessor.getMonthInShort());
@@ -130,9 +151,9 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
 
         ArrayList<BarEntry> loss = new ArrayList<>();
         ArrayList<BarEntry> profit = new ArrayList<>();
-        for (int i = 0; i < monthSummary.length; i++) {
-            loss.add(new BarEntry(i, monthSummary[i].getLoss()));
-            profit.add(new BarEntry(i, monthSummary[i].getProfit()));
+        for (int i = 0; i < monthStatsSummary.length; i++) {
+            loss.add(new BarEntry(i, monthStatsSummary[i].getLoss()));
+            profit.add(new BarEntry(i, monthStatsSummary[i].getProfit()));
         }
 
         BarDataSet set1 = new BarDataSet(loss, "loss");
@@ -165,7 +186,8 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        Toast.makeText(requireContext(), monthsNames.get((int) e.getX()), Toast.LENGTH_SHORT).show();
+        selectedMonthNumber = (int) (e.getX() - 1);
+        bindData();
     }
 
     @Override
