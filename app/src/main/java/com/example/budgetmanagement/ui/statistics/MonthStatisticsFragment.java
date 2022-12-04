@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.ui.statistics;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -8,9 +10,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.example.budgetmanagement.R;
@@ -29,10 +33,16 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.kal.rackmonthpicker.RackMonthPicker;
+import com.kal.rackmonthpicker.listener.DateMonthDialogListener;
+import com.kal.rackmonthpicker.listener.OnCancelMonthDialogListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+
+import by.dzmitry_lakisau.month_year_picker_dialog.MonthYearPickerDialog;
 
 public class MonthStatisticsFragment extends Fragment implements OnChartValueSelectedListener {
 
@@ -43,6 +53,7 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
     private final MonthStatsSummary[] monthStatsSummary = new MonthStatsSummary[NUMBER_OF_MONTHS];
     private Calendar currentDate;
     private int selectedMonthNumber = 0;
+    private DatePickerDialog datePickerDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,20 +108,40 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
         }
 
         PeriodStatsComparator statsComparator = new PeriodStatsComparator(selectedMonthStatsSummary, monthStatsSummary[selectedMonthNumber-1]);
-        binding.profitIncrease.setText(statsComparator.getIncome() + "%");
+        binding.amountOfIncomeIncrease.setText(statsComparator.getObtainedIncome()+"");
+        binding.amountOfProfitIncrease.setText(statsComparator.getObtainedProfit()+"");
+        binding.amountOfLossIncrease.setText(statsComparator.getObtainedLoss()+"");
 
+        binding.incomeIncrease.setText(statsComparator.getPercentIncome() + "%");
+        binding.profitIncrease.setText(statsComparator.getPercentProfit() + "%");
+        binding.lossIncrease.setText(statsComparator.getPercentLoss() + "%");
     }
 
 
     private void setButtons() {
         binding.yearButton.setOnClickListener(v -> {
             Toast.makeText(requireContext(), "Year button", Toast.LENGTH_SHORT).show();
-
         });
 
         binding.monthsButton.setOnClickListener(v -> {
             Toast.makeText(requireContext(), "Month button", Toast.LENGTH_SHORT).show();
+
+
         });
+    }
+
+    private void prepareYearPicker() {
+        final Calendar calendarInstance = Calendar.getInstance();
+        int mMonth = calendarInstance.get(Calendar.MONTH);
+        int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
+        datePickerDialog = new DatePickerDialog(requireContext(),
+                (view, year, monthOfYear, dayOfMonth) -> {}, 2022, mMonth, mDay);
+
+        datePickerDialog.getDatePicker()
+                .setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
+
+                    datePickerDialog.cancel();
+                });
     }
 
     public void groupBarChart(MonthStatsSummary[] monthStatsSummary) {
@@ -150,17 +181,17 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
         mChart.getLegend().setEnabled(false);
 
         ArrayList<BarEntry> loss = new ArrayList<>();
-        ArrayList<BarEntry> profit = new ArrayList<>();
+        ArrayList<BarEntry> income = new ArrayList<>();
         for (int i = 0; i < monthStatsSummary.length; i++) {
+            income.add(new BarEntry(i, monthStatsSummary[i].getIncome()));
             loss.add(new BarEntry(i, monthStatsSummary[i].getLoss()));
-            profit.add(new BarEntry(i, monthStatsSummary[i].getProfit()));
         }
 
         BarDataSet set1 = new BarDataSet(loss, "loss");
         set1.setHighlightEnabled(true);
         set1.setColors(new int[]{R.color.mat_red}, requireContext());
         set1.setHighLightColor(Color.BLACK);
-        BarDataSet set2 = new BarDataSet(profit, "profit");
+        BarDataSet set2 = new BarDataSet(income, "income");
         set2.setHighlightEnabled(true);
         set2.setColors(new int[]{R.color.mat_green}, requireContext());
         set2.setHighLightColor(Color.BLACK);

@@ -10,14 +10,39 @@ public class PeriodStatsComparator {
         this.secondMonth = secondMonth;
     }
 
-    public int getIncome() {
-        if (secondMonth.getProfit() == 0) {
-            return 100;
-        }
-        return (int) (((firstMonth.getProfit() - secondMonth.getProfit()) / secondMonth.getProfit()) * 100);
+    public int getPercentIncome() {
+        return percentGrowth(getObtainedIncome(), secondMonth.getIncome());
     }
 
-    public int getProfit() {
-        return 0;
+    public int getPercentProfit() {
+        float secondProfit = secondMonth.getIncome() - secondMonth.getLoss();
+        return percentGrowth(getObtainedProfit(), secondProfit);
+    }
+
+    public int getPercentLoss() {
+        return percentGrowth(getObtainedLoss(), secondMonth.getLoss());
+    }
+
+    public int getObtainedIncome() {
+        return (int) (firstMonth.getIncome() - secondMonth.getIncome());
+    }
+
+    public int getObtainedProfit() {
+        float firstProfit = firstMonth.getIncome() - firstMonth.getLoss();
+        float secondProfit = secondMonth.getIncome() - secondMonth.getLoss();
+        return (int) (firstProfit - secondProfit);
+    }
+
+    public int getObtainedLoss() {
+        return (int) (firstMonth.getLoss() - secondMonth.getLoss());
+    }
+
+    private int percentGrowth(float obtained, float total) {
+        if (obtained == 0 && total == 0) {
+            return 0;
+        } else if (total == 0) {
+            return 100;
+        }
+        return (int) (obtained * 100 / total);
     }
 }

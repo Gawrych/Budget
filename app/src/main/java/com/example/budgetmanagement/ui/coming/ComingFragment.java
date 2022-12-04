@@ -96,7 +96,7 @@ public class ComingFragment extends Fragment {
         int monthNumber = getMonthFromDate(Calendar.getInstance().getTimeInMillis());
         int endPosition = monthNumber;
         for (int i=0; i<monthNumber; i++) {
-            endPosition = endPosition + this.currentSectionList.get(i).getComingAndTransactionList().size();
+            endPosition += this.currentSectionList.get(i).getComingAndTransactionList().size();
         }
         return endPosition;
     }

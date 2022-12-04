@@ -56,7 +56,7 @@ public class MonthStatsSummary {
         return lossBalance.abs().intValue();
     }
 
-    public float getProfit() {
+    public float getIncome() {
         return profitBalance.abs().intValue();
     }
 
