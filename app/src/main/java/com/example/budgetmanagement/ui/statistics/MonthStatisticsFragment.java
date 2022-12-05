@@ -1,6 +1,7 @@
 package com.example.budgetmanagement.ui.statistics;
 
-import android.app.AlertDialog;
+import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPicker.MONTH_YEAR_PICKER;
+
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,17 +11,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
+import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
+import com.example.budgetmanagement.databinding.ComingBottomSheetDialogBinding;
 import com.example.budgetmanagement.databinding.MonthStatisticsBinding;
+import com.example.budgetmanagement.ui.coming.BottomSheetDialogComing;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -33,16 +36,12 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.kal.rackmonthpicker.RackMonthPicker;
-import com.kal.rackmonthpicker.listener.DateMonthDialogListener;
-import com.kal.rackmonthpicker.listener.OnCancelMonthDialogListener;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
-import by.dzmitry_lakisau.month_year_picker_dialog.MonthYearPickerDialog;
 
 public class MonthStatisticsFragment extends Fragment implements OnChartValueSelectedListener {
 
@@ -95,6 +94,16 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
         groupBarChart(monthStatsSummary);
 
         bindData();
+
+        String[] months = new DateFormatSymbols(Locale.getDefault()).getShortMonths();
+
+        binding.yearButton.setOnClickListener(v -> {
+            BottomSheetMonthYearPicker monthYearPicker = new BottomSheetMonthYearPicker();
+            monthYearPicker.setOnDateSelectedListener((year, month) -> {
+                Toast.makeText(requireContext(), "Year: " + year + " Month: " + months[month], Toast.LENGTH_SHORT).show();
+            });
+            monthYearPicker.show(getParentFragmentManager(), MONTH_YEAR_PICKER);
+        });
     }
 
     private void bindData() {
@@ -117,7 +126,6 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
         binding.lossIncrease.setText(statsComparator.getPercentLoss() + "%");
     }
 
-
     private void setButtons() {
         binding.yearButton.setOnClickListener(v -> {
             Toast.makeText(requireContext(), "Year button", Toast.LENGTH_SHORT).show();
@@ -128,20 +136,6 @@ public class MonthStatisticsFragment extends Fragment implements OnChartValueSel
 
 
         });
-    }
-
-    private void prepareYearPicker() {
-        final Calendar calendarInstance = Calendar.getInstance();
-        int mMonth = calendarInstance.get(Calendar.MONTH);
-        int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
-        datePickerDialog = new DatePickerDialog(requireContext(),
-                (view, year, monthOfYear, dayOfMonth) -> {}, 2022, mMonth, mDay);
-
-        datePickerDialog.getDatePicker()
-                .setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
-
-                    datePickerDialog.cancel();
-                });
     }
 
     public void groupBarChart(MonthStatsSummary[] monthStatsSummary) {

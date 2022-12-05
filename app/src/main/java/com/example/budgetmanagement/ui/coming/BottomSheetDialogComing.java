@@ -73,9 +73,9 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
 
         binding.duplicateLayout.setOnClickListener(v -> createNewComingByThisPattern());
 
-        binding.editLayout.setOnClickListener(v -> editSelectedElement());
+        binding.editLayout.setOnClickListener(v -> edit());
 
-        binding.deleteLayout.setOnClickListener(v -> deleteItem());
+        binding.deleteLayout.setOnClickListener(v -> delete());
     }
 
     private void changeButtonText() {
@@ -98,7 +98,7 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
         comingViewModel.update(this.coming);
     }
 
-    private void deleteItem() {
+    private void delete() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setMessage(R.string.are_you_sure_to_delete)
                 .setPositiveButton(R.string.delete, (dialog, id) -> {
@@ -113,7 +113,7 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
         comingViewModel.delete(this.coming);
     }
 
-    private void editSelectedElement() {
+    private void edit() {
         View rootView = getRootView();
         if (rootView == null) {
             dismiss();
