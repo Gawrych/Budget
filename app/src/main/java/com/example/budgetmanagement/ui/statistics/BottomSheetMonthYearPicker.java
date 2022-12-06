@@ -1,4 +1,3 @@
-
 package com.example.budgetmanagement.ui.statistics;
 
 import android.os.Bundle;
@@ -8,27 +7,37 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.database.adapters.BottomMonthSelectorAdapter;
-import com.example.budgetmanagement.database.adapters.CategoryAdapter;
-import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.databinding.BottomSheetMonthYearPickerBinding;
-import com.example.budgetmanagement.ui.utils.AppIconPack;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.maltaisn.icondialog.pack.IconPack;
 
-import java.text.DateFormatSymbols;
-import java.util.Locale;
-
-public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment implements BottomMonthSelectorAdapter.OnSelectedListener {
+public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
+        implements BottomMonthSelectorAdapter.OnSelectedListener {
 
     public static final String MONTH_YEAR_PICKER = "monthYearPicker";
+    public static final String BUNDLE_YEAR = "yearBundleTag";
+    public static final String BUNDLE_MONTH = "monthBundleTag";
+    public static final String PICKER_MODE = "pickerMode";
+    public static final int ONLY_MONTHS_MODE = 0;
+    public static final int MONTHS_AND_YEAR_MODE = 1;
     private BottomSheetMonthYearPickerBinding binding;
     private OnMonthAndYearSelectedListener monthAndYearListener;
+    private int year = -1;
+    private int month = -1;
+    private int mode = -1;
+
+    public static BottomSheetMonthYearPicker newInstance(int mode, int year, int month) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(BUNDLE_YEAR, year);
+        bundle.putInt(BUNDLE_MONTH, month);
+        bundle.putInt(PICKER_MODE, mode);
+        BottomSheetMonthYearPicker bottomSheetMonthYearPicker = new BottomSheetMonthYearPicker();
+        bottomSheetMonthYearPicker.setArguments(bundle);
+        return bottomSheetMonthYearPicker;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -40,15 +49,46 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment implem
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getDataFromBundle();
+        notifyYearChanged();
 
-        RecyclerView recyclerView;
-        recyclerView = binding.recyclerView;
-
-        final BottomMonthSelectorAdapter adapter = new BottomMonthSelectorAdapter(this);
-        recyclerView.setAdapter(adapter);
-
+        final BottomMonthSelectorAdapter adapter = new BottomMonthSelectorAdapter(this, this.month);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(),4);
+        RecyclerView recyclerView = binding.monthsItems;
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(mLayoutManager);
+
+        setArrowsListenerToChangeYear();
+
+        setMode();
+    }
+
+    private void setMode() {
+        if (mode == ONLY_MONTHS_MODE) binding.yearGroup.setVisibility(View.GONE);
+    }
+
+    private void getDataFromBundle() {
+        if (this.mode == -1 || this.year == -1 || this.month == -1) {
+            this.mode = getArguments() != null ? getArguments().getInt(PICKER_MODE) : 0;
+            this.year = getArguments() != null ? getArguments().getInt(BUNDLE_YEAR) : 0;
+            this.month = getArguments() != null ? getArguments().getInt(BUNDLE_MONTH) : 0;
+        }
+    }
+
+    private void notifyYearChanged() {
+        binding.year.setText(String.valueOf(this.year));
+    }
+
+    private void setArrowsListenerToChangeYear() {
+        binding.leftArrow.setOnClickListener(v -> {
+            this.year--;
+            notifyYearChanged();
+        });
+
+        binding.rightArrow.setOnClickListener(v -> {
+            this.year++;
+            notifyYearChanged();
+        });
     }
 
     public void setOnDateSelectedListener(OnMonthAndYearSelectedListener listener) {
@@ -57,7 +97,8 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment implem
 
     @Override
     public void onContentSelected(int position) {
-        monthAndYearListener.onMonthAndYearSelected(1, position);
+        this.month = position;
+        monthAndYearListener.onMonthAndYearSelected(this.year, position);
         dismiss();
     }
 

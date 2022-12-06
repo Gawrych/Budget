@@ -202,7 +202,7 @@ public class AddNewComingElement extends TransactionFormService implements Comin
     }
 
     private ComingAndTransaction getComingByIdFromBundle() {
-        int comingId = getArguments() != null ? getArguments().getInt("comingId") : 0;
+        int comingId = getArguments() != null ? getArguments().getInt(BUNDLE_COMING_ID) : 0;
         ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
         return comingViewModel.getComingAndTransactionById(comingId);
     }

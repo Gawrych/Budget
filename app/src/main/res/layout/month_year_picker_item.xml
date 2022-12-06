@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     tools:context=".ui.statistics.BottomSheetMonthYearPicker">
 
     <CheckBox
@@ -12,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:background="@drawable/month_item_bottom_sheet"
         android:button="@android:color/transparent"
         android:gravity="center"

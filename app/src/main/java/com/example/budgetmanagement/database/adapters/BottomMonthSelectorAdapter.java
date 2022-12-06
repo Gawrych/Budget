@@ -15,11 +15,13 @@ import java.util.Locale;
 
 public class BottomMonthSelectorAdapter extends RecyclerView.Adapter<BottomMonthSelectorAdapter.BottomMonthSelectorHolder> {
 
-    private String[] months;
-    private OnSelectedListener listener;
+    private final String[] months;
+    private final OnSelectedListener listener;
+    private final int monthToSetChecked;
 
-    public BottomMonthSelectorAdapter(OnSelectedListener listener) {
+    public BottomMonthSelectorAdapter(OnSelectedListener listener, int monthToSetChecked) {
         this.listener = listener;
+        this.monthToSetChecked = monthToSetChecked;
         months = new DateFormatSymbols(Locale.getDefault()).getShortMonths();
     }
 
@@ -33,7 +35,8 @@ public class BottomMonthSelectorAdapter extends RecyclerView.Adapter<BottomMonth
 
     @Override
     public void onBindViewHolder(@NonNull BottomMonthSelectorHolder holder, int position) {
-        holder.bind(months[position]);
+        boolean setChecked = position == monthToSetChecked;
+        holder.bind(months[position], setChecked);
     }
 
     @Override
@@ -43,7 +46,7 @@ public class BottomMonthSelectorAdapter extends RecyclerView.Adapter<BottomMonth
 
     class BottomMonthSelectorHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private CheckBox monthCheckBox;
+        private final CheckBox monthCheckBox;
 
         public BottomMonthSelectorHolder(View itemView) {
             super(itemView);
@@ -52,8 +55,9 @@ public class BottomMonthSelectorAdapter extends RecyclerView.Adapter<BottomMonth
             monthCheckBox.setOnClickListener(this);
         }
 
-        public void bind(String shortMonth) {
+        public void bind(String shortMonth, boolean setChecked) {
             monthCheckBox.setText(shortMonth);
+            monthCheckBox.setChecked(setChecked);
         }
 
         @Override

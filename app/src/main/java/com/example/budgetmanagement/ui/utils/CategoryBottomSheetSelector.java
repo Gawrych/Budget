@@ -45,7 +45,7 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
         bottomSheetDialog = new BottomSheetDialog(rootFragment.requireContext());
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog);
 
-        RecyclerView bottomSheetRecyclerView = bottomSheetDialog.findViewById(R.id.recyclerView);
+        RecyclerView bottomSheetRecyclerView = bottomSheetDialog.findViewById(R.id.monthsItems);
         Objects.requireNonNull(bottomSheetRecyclerView).setAdapter(categoryBottomSheetAdapter);
         bottomSheetRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }

@@ -188,21 +188,6 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
-    private int getRemainingDays(Calendar today, Calendar deadLine) {
-        return today.get(Calendar.DAY_OF_YEAR) - deadLine.get(Calendar.DAY_OF_YEAR);
-    }
-
-    private Calendar getCalendarWithValue(long value) {
-        Calendar calendarInstance = Calendar.getInstance();
-        calendarInstance.setTimeInMillis(value);
-        return calendarInstance;
-    }
-
-    private void outOfDateIconSetResource(View view, int drawable, int color) {
-        outOfDateIcon.setColorFilter(view.getContext().getColor(color));
-        outOfDateIcon.setImageResource(drawable);
-    }
-
     @Override
     public long getGroupId(int i) {
         return i;

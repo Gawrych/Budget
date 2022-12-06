@@ -1,13 +1,14 @@
 package com.example.budgetmanagement.ui.utils;
 
-import org.joda.time.Period;
-
+import java.text.DateFormatSymbols;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Locale;
 
 public class DateProcessor {
 
@@ -39,18 +40,7 @@ public class DateProcessor {
         return dateTimeFormatter.format(LocalDate.now());
     }
 
-    public static ArrayList<String> getMonthInShort() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, Calendar.JANUARY);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(SHORT_MONTH_NAME_ONLY);
-        ArrayList<String> months = new ArrayList<>();
-
-        for (int i=0; i<12; i++) {
-            LocalDate date = Instant.ofEpochMilli(calendar.getTimeInMillis()).atZone(ZoneId.systemDefault()).toLocalDate();
-            months.add(dateTimeFormatter.format(date));
-            calendar.add(Calendar.MONTH, 1);
-        }
-
-        return months;
+    public static String[] getShortMonths() {
+        return new DateFormatSymbols(Locale.getDefault()).getShortMonths();
     }
 }

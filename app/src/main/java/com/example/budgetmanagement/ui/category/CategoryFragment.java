@@ -44,7 +44,7 @@ public class CategoryFragment extends Fragment implements CategoryViewHolder.OnN
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
         RecyclerView recyclerView;
-        recyclerView = binding.recyclerView;
+        recyclerView = binding.monthsItems;
 
         IconPack iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
 
