@@ -56,7 +56,7 @@ public class StatisticsFragment extends Fragment {
                 new ViewModelProvider(this).get(StatisticsViewModel.class);
 
 
-        binding.monthStatsSummary.setOnClickListener(v -> Navigation.findNavController(view).navigate(
+        binding.periodSummary.setOnClickListener(v -> Navigation.findNavController(view).navigate(
                 R.id.action_navigation_statistics_to_monthStatistics));
         setMonthCardView();
     }

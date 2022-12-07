@@ -37,6 +37,10 @@ public class ComingRepository {
         return comingDao.getAllComingAndTransactionByYear(year);
     }
 
+    public int[] getAllYears() {
+        return comingDao.getAllYears();
+    }
+
     public void insert(Coming coming) {
         BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.insert(coming));
     }
@@ -52,4 +56,5 @@ public class ComingRepository {
     public void delete(int comingId) {
         BudgetRoomDatabase.databaseWriteExecutor.execute(() -> comingDao.delete(comingId));
     }
+
 }

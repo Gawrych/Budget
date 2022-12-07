@@ -41,6 +41,10 @@ public class ComingViewModel extends AndroidViewModel {
         return comingRepository.getComingById(id);
     }
 
+    public int[] getAllYears() {
+        return comingRepository.getAllYears();
+    }
+
     public List<ComingAndTransaction> getAllComingByYear(int year) {
         return comingRepository.getAllComingByYear(year);
     }

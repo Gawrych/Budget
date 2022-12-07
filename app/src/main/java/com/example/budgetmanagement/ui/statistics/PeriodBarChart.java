@@ -3,6 +3,8 @@ package com.example.budgetmanagement.ui.statistics;
 import android.graphics.Color;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.MonthStatisticsBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.github.mikephil.charting.charts.BarChart;
@@ -20,17 +22,17 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
 
 public class PeriodBarChart implements OnChartValueSelectedListener {
 
-    private final MonthStatsSummary[] monthStatsSummary;
+    private PeriodSummary[] periodSummary;
     private final MonthStatisticsBinding binding;
     private int selectedMonth;
     private int selectedYear;
 
-    public PeriodBarChart(MonthStatisticsBinding binding, MonthStatsSummary[] monthStatsSummary) {
+    public PeriodBarChart(MonthStatisticsBinding binding) {
         this.binding = binding;
-        this.monthStatsSummary = monthStatsSummary;
 
         Calendar currentDate = Calendar.getInstance();
         this.selectedMonth = currentDate.get(Calendar.MONTH);
@@ -75,9 +77,9 @@ public class PeriodBarChart implements OnChartValueSelectedListener {
 
         ArrayList<BarEntry> loss = new ArrayList<>();
         ArrayList<BarEntry> income = new ArrayList<>();
-        for (int i = 0; i < monthStatsSummary.length; i++) {
-            income.add(new BarEntry(i, monthStatsSummary[i].getIncome()));
-            loss.add(new BarEntry(i, monthStatsSummary[i].getLoss()));
+        for (int i = 0; i < periodSummary.length; i++) {
+            income.add(new BarEntry(i, periodSummary[i].getIncome()));
+            loss.add(new BarEntry(i, periodSummary[i].getLoss()));
         }
 
         BarDataSet set1 = new BarDataSet(loss, "loss");
@@ -108,16 +110,25 @@ public class PeriodBarChart implements OnChartValueSelectedListener {
         mChart.setOnChartValueSelectedListener(this);
     }
 
+    public void setData(PeriodSummary[] periodSummary) {
+        this.periodSummary = periodSummary;
+    }
+
     public void setChartStats() {
-        MonthStatsSummary selectedMonthStatsSummary = monthStatsSummary[selectedMonth];
-        binding.allTransactionNumber.setText(String.valueOf(selectedMonthStatsSummary.getNumberOfTransactions()));
-        binding.numberOfTransactionsExecutedAfterTheTime.setText(String.valueOf(selectedMonthStatsSummary.getNumberOfTransactionsExecutedAfterTheTime()));
-        binding.numberOfRemainingTransaction.setText(String.valueOf(selectedMonthStatsSummary.getNumberOfRemainingTransactions()));
+        PeriodSummary selectedPeriodSummary = periodSummary[selectedMonth];
+        binding.allTransactionNumber.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactions()));
+        binding.numberOfTransactionsExecutedAfterTheTime.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactionsExecutedAfterTheTime()));
+        binding.numberOfRemainingTransaction.setText(String.valueOf(selectedPeriodSummary.getNumberOfRemainingTransactions()));
     }
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         selectedMonth = (int) (e.getX() - 1);
+        setChartStats();
+    }
+
+    public void notifyDataChanged() {
+        drawChart();
         setChartStats();
     }
 

@@ -2,10 +2,10 @@ package com.example.budgetmanagement.ui.statistics;
 
 public class PeriodStatsComparator {
 
-    private final MonthStatsSummary firstMonth;
-    private final MonthStatsSummary secondMonth;
+    private final PeriodSummary firstMonth;
+    private final PeriodSummary secondMonth;
 
-    public PeriodStatsComparator(MonthStatsSummary firstMonth, MonthStatsSummary secondMonth) {
+    public PeriodStatsComparator(PeriodSummary firstMonth, PeriodSummary secondMonth) {
         this.firstMonth = firstMonth;
         this.secondMonth = secondMonth;
     }

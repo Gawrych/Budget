@@ -2,6 +2,7 @@ package com.example.budgetmanagement.ui.statistics;
 
 import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPicker.MONTH_YEAR_PICKER;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,26 +13,20 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.MonthStatisticsBinding;
-import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 import java.util.Calendar;
-import java.util.List;
 
 public class MonthStatisticsFragment extends Fragment {
 
-    private static final int NUMBER_OF_MONTHS = 12;
     private MonthStatisticsBinding binding;
     private ComingViewModel comingViewModel;
-    private final MonthStatsSummary[] monthStatsSummary = new MonthStatsSummary[NUMBER_OF_MONTHS];
-    private Calendar currentDate;
-    private int selectedStartYear = 0;
-    private int selectedStartMonthNumber = 0;
-
+    private DatePickerDialog datePickerDialog;
+    private int selectedYear;
+    private PeriodBarChart barChart;
+    private MonthsStats monthsStats;
 
 
     @Override
@@ -49,34 +44,20 @@ public class MonthStatisticsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        comingViewModel =
-                new ViewModelProvider(this).get(ComingViewModel.class);
-
+        comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
         setButtons();
+        int[] allYears = comingViewModel.getAllYears();
 
-        currentDate = Calendar.getInstance();
-        selectedStartMonthNumber = currentDate.get(Calendar.MONTH);
+        Calendar currentDate = Calendar.getInstance();
+        this.selectedYear = currentDate.get(Calendar.YEAR);
+        monthsStats = new MonthsStats(comingViewModel);
 
-        List<ComingAndTransaction> allComingFromCurrentYear =
-                comingViewModel.getAllComingByYear(currentDate.get(Calendar.YEAR));
+        PeriodSummary[] monthsData = monthsStats.getMonthsStatsFromYear(this.selectedYear);
+        barChart = new PeriodBarChart(binding);
+        barChart.setData(monthsData);
+        barChart.notifyDataChanged();
 
-        for (int i = 0; i < monthStatsSummary.length; i++) {
-            monthStatsSummary[i] = new MonthStatsSummary();
-        }
-
-        Calendar calendar = Calendar.getInstance();
-        for (ComingAndTransaction element : allComingFromCurrentYear) {
-            long expireDate = element.coming.getExpireDate();
-            calendar.setTimeInMillis(expireDate);
-            monthStatsSummary[calendar.get(Calendar.MONTH)].add(element);
-        }
-
-        PeriodBarChart barChart = new PeriodBarChart(binding, monthStatsSummary);
-        barChart.drawChart();
-        barChart.setChartStats();
-
-        PeriodStats periodStats = new PeriodStats(binding, monthStatsSummary);
+        PeriodStats periodStats = new PeriodStats(binding, comingViewModel);
         periodStats.notifyPeriodChanged();
 
         binding.startDate.setOnClickListener(v ->
@@ -84,15 +65,44 @@ public class MonthStatisticsFragment extends Fragment {
 
         binding.endDate.setOnClickListener(v ->
                 periodStats.getEndPeriodMonthYearPicker().show(getParentFragmentManager(), MONTH_YEAR_PICKER));
+
+        binding.yearPicker.setOnClickListener(v -> changeYearToChart());
     }
 
     private void setButtons() {
         binding.yearButton.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Year button", Toast.LENGTH_SHORT).show();
+//            PeriodBarChart barChart = new PeriodBarChart(binding, comingViewModel);
+//            barChart.collectYearsData();
+//            barChart.drawChart();
+//            barChart.setChartStats();
         });
 
         binding.monthsButton.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Month button", Toast.LENGTH_SHORT).show();
+//            PeriodBarChart barChart = new PeriodBarChart(binding, comingViewModel);
+//            barChart.collectMonthsData(this.selectedYear);
+//            barChart.drawChart();
+//            barChart.setChartStats();
         });
+    }
+
+    private void changeYearToChart() {
+        final Calendar calendarInstance = Calendar.getInstance();
+        int mMonth = calendarInstance.get(Calendar.MONTH);
+        int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
+        datePickerDialog = new DatePickerDialog(requireContext(),
+                (view, year, monthOfYear, dayOfMonth) -> {}, this.selectedYear, mMonth, mDay);
+
+        datePickerDialog.getDatePicker().getTouchables().get(0).performClick();
+        datePickerDialog.getDatePicker().getTouchables().get(1).setVisibility(View.GONE);
+        datePickerDialog.getDatePicker()
+                .setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
+                    this.selectedYear = year;
+                    binding.yearPicker.setText(String.valueOf(year));
+                    PeriodSummary[] monthsStats = this.monthsStats.getMonthsStatsFromYear(year);
+                    barChart.setData(monthsStats);
+                    barChart.notifyDataChanged();
+                    datePickerDialog.cancel();
+                });
+        datePickerDialog.show();
     }
 }

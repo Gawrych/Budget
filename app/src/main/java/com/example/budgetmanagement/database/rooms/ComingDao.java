@@ -41,4 +41,7 @@ public interface ComingDao {
 
     @Query("SELECT * FROM coming WHERE expireYear = :year ORDER BY expireDate ASC")
     List<ComingAndTransaction> getAllComingByYear(int year);
+
+    @Query("SELECT DISTINCT expireYear FROM coming ORDER BY expireYear ASC")
+    int[] getAllYears();
 }

@@ -26,7 +26,7 @@
             android:orientation="horizontal"
             android:background="@drawable/buttons_background"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView2"
+            app:layout_constraintEnd_toStartOf="@+id/yearPicker"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
         </RadioGroup>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/yearPicker"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="30dp"

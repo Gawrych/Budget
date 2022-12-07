@@ -3,31 +3,18 @@ package com.example.budgetmanagement.ui.statistics;
 import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class MonthStatsSummary {
+public class PeriodSummary {
 
-    private static final int NUMBER_OF_MILLISECONDS_IN_ONE_DAY = 86400000;
     private BigDecimal profitBalance = new BigDecimal(0);
     private BigDecimal lossBalance = new BigDecimal(0);
-    private int numberOfTransactions = 0;
-    private int numberOfTransactionsExecutedAfterTheTime = 0;
-    private int numberOfExecutedTransactions = 0;
-    private long averageTransactionExecutedDelay = 0;
+    private int numberOfTransactions;
+    private int numberOfTransactionsExecutedAfterTheTime ;
+    private int numberOfExecutedTransactions;
+    private long averageTransactionExecutedDelay;
 
-    public MonthStatsSummary() {}
-
-    public MonthStatsSummary(List<ComingAndTransaction> transactionsFromMonthToSummarise) {
-        for(ComingAndTransaction item : transactionsFromMonthToSummarise) {
-            BigDecimal amount = new BigDecimal(item.transaction.getAmount());
-            if (amount.signum() == 1) {
-                profitBalance = profitBalance.add(amount);
-            } else {
-                lossBalance = lossBalance.add(amount);
-            }
-        }
-    }
+    public PeriodSummary() {}
 
     public void add(ComingAndTransaction item) {
         numberOfTransactions++;

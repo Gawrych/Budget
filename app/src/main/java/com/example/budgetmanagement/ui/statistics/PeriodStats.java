@@ -2,6 +2,7 @@ package com.example.budgetmanagement.ui.statistics;
 
 import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPicker.MONTHS_AND_YEAR_MODE;
 
+import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.MonthStatisticsBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
@@ -10,7 +11,7 @@ import java.util.Calendar;
 public class PeriodStats {
 
     private final MonthStatisticsBinding binding;
-    private MonthStatsSummary[] monthStatsSummary;
+    private PeriodSummary[] periodSummary;
     private BottomSheetMonthYearPicker startPeriodMonthYearPicker;
     private BottomSheetMonthYearPicker endPeriodMonthYearPicker;
     private final String[] shortMonths;
@@ -21,18 +22,19 @@ public class PeriodStats {
     private int endPeriodMonth;
     private int endPeriodYear;
 
-    public PeriodStats(MonthStatisticsBinding binding, MonthStatsSummary[] monthStatsSummary) {
+    public PeriodStats(MonthStatisticsBinding binding, ComingViewModel comingViewModel) {
         this.binding = binding;
-        this.monthStatsSummary = monthStatsSummary;
+
+        MonthsStats monthsStats = new MonthsStats(comingViewModel);
+        this.periodSummary = monthsStats.getMonthsStatsFromYear(2022);
 
         Calendar currentDate = Calendar.getInstance();
         this.currentMonth = currentDate.get(Calendar.MONTH);
         this.currentYear = currentDate.get(Calendar.YEAR);
-
-        startPeriodMonth = this.currentMonth;
-        endPeriodMonth = this.currentMonth -1;
-        startPeriodYear = currentYear;
-        endPeriodYear = currentYear;
+        this.startPeriodMonth = this.currentMonth;
+        this.endPeriodMonth = this.currentMonth -1;
+        this.startPeriodYear = currentYear;
+        this.endPeriodYear = currentYear;
 
         shortMonths = DateProcessor.getShortMonths();
 
@@ -69,7 +71,7 @@ public class PeriodStats {
     }
 
     public void notifyPeriodChanged() {
-        PeriodStatsComparator statsComparator = new PeriodStatsComparator(monthStatsSummary[startPeriodMonth], monthStatsSummary[endPeriodMonth]);
+        PeriodStatsComparator statsComparator = new PeriodStatsComparator(periodSummary[startPeriodMonth], periodSummary[endPeriodMonth]);
         binding.amountOfIncomeIncrease.setText(statsComparator.getObtainedIncome()+" zł");
         binding.amountOfProfitIncrease.setText(statsComparator.getObtainedProfit()+" zł");
         binding.amountOfLossIncrease.setText(statsComparator.getObtainedLoss()+" zł");
