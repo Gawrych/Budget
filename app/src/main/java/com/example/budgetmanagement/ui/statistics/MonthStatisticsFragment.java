@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.MonthStatisticsBinding;
+import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 import java.util.Calendar;
 
@@ -26,8 +27,9 @@ public class MonthStatisticsFragment extends Fragment {
     private DatePickerDialog datePickerDialog;
     private int selectedYear;
     private PeriodBarChart barChart;
-    private MonthsStats monthsStats;
-
+    private StatsCollector statsCollector;
+    private PeriodStats periodStats;
+    private Calendar currentDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,44 +47,58 @@ public class MonthStatisticsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
-        setButtons();
-        int[] allYears = comingViewModel.getAllYears();
 
-        Calendar currentDate = Calendar.getInstance();
+        currentDate = Calendar.getInstance();
         this.selectedYear = currentDate.get(Calendar.YEAR);
-        monthsStats = new MonthsStats(comingViewModel);
 
-        PeriodSummary[] monthsData = monthsStats.getMonthsStatsFromYear(this.selectedYear);
-        barChart = new PeriodBarChart(binding);
-        barChart.setData(monthsData);
-        barChart.notifyDataChanged();
+        statsCollector = new StatsCollector(comingViewModel);
 
-        PeriodStats periodStats = new PeriodStats(binding, comingViewModel);
-        periodStats.notifyPeriodChanged();
-
-        binding.startDate.setOnClickListener(v ->
-                periodStats.getStartPeriodMonthYearPicker().show(getParentFragmentManager(), MONTH_YEAR_PICKER));
-
-        binding.endDate.setOnClickListener(v ->
-                periodStats.getEndPeriodMonthYearPicker().show(getParentFragmentManager(), MONTH_YEAR_PICKER));
+        setMonthsAsPeriod();
+        setButtons();
 
         binding.yearPicker.setOnClickListener(v -> changeYearToChart());
     }
 
     private void setButtons() {
         binding.yearButton.setOnClickListener(v -> {
-//            PeriodBarChart barChart = new PeriodBarChart(binding, comingViewModel);
-//            barChart.collectYearsData();
-//            barChart.drawChart();
-//            barChart.setChartStats();
+            setYearAsPeriod();
         });
 
         binding.monthsButton.setOnClickListener(v -> {
-//            PeriodBarChart barChart = new PeriodBarChart(binding, comingViewModel);
-//            barChart.collectMonthsData(this.selectedYear);
-//            barChart.drawChart();
-//            barChart.setChartStats();
+            setMonthsAsPeriod();
         });
+    }
+
+    private void setMonthsAsPeriod() {
+        barChart = new PeriodBarChart(binding, comingViewModel);
+        PeriodSummary[] monthsPeriodSummary = statsCollector.getMonthsStats(this.selectedYear);
+        barChart.setMonthsAsLabels(DateProcessor.getShortMonths());
+        barChart.setData(monthsPeriodSummary);
+        barChart.setSelectedValue(this.currentDate.get(Calendar.MONTH));
+        barChart.notifyDataChanged();
+
+        periodStats = new PeriodStats(binding, comingViewModel);
+        periodStats.setMonthsPeriod();
+        periodStats.notifyPeriodChanged();
+
+        binding.startDate.setOnClickListener(v ->
+                periodStats.getDatesPicker().show(getParentFragmentManager(), MONTH_YEAR_PICKER));
+    }
+
+    private void setYearAsPeriod() {
+        barChart = new PeriodBarChart(binding, comingViewModel);
+        PeriodSummary[] yearPeriodSummary = statsCollector.getYearStats();
+        barChart.setYearsAsLabels(statsCollector.getYears());
+        barChart.setData(yearPeriodSummary);
+        barChart.setSelectedValue(0);
+        barChart.notifyDataChanged();
+
+        periodStats = new PeriodStats(binding, comingViewModel);
+        periodStats.setYearsPeriod();
+        periodStats.notifyPeriodChanged();
+
+        binding.startDate.setOnClickListener(v ->
+                periodStats.getDatesPicker().show(getParentFragmentManager(), MONTH_YEAR_PICKER));
     }
 
     private void changeYearToChart() {
@@ -98,8 +114,8 @@ public class MonthStatisticsFragment extends Fragment {
                 .setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
                     this.selectedYear = year;
                     binding.yearPicker.setText(String.valueOf(year));
-                    PeriodSummary[] monthsStats = this.monthsStats.getMonthsStatsFromYear(year);
-                    barChart.setData(monthsStats);
+                    PeriodSummary[] periodSummary = statsCollector.getMonthsStats(this.selectedYear);
+                    barChart.setData(periodSummary);
                     barChart.notifyDataChanged();
                     datePickerDialog.cancel();
                 });

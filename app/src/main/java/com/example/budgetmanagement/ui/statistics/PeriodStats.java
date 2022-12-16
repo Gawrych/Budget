@@ -1,6 +1,7 @@
 package com.example.budgetmanagement.ui.statistics;
 
 import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPicker.MONTHS_AND_YEAR_MODE;
+import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPicker.ONLY_YEAR_MODE;
 
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.MonthStatisticsBinding;
@@ -11,12 +12,14 @@ import java.util.Calendar;
 public class PeriodStats {
 
     private final MonthStatisticsBinding binding;
-    private PeriodSummary[] periodSummary;
-    private BottomSheetMonthYearPicker startPeriodMonthYearPicker;
-    private BottomSheetMonthYearPicker endPeriodMonthYearPicker;
-    private final String[] shortMonths;
-    private final int currentMonth;
-    private final int currentYear;
+    private ComingViewModel comingViewModel;
+    private StatsCollector statsCollector;
+    private PeriodSummary[] startPeriodSummary;
+    private PeriodSummary[] endPeriodSummary;
+    private BottomSheetMonthYearPicker datesPicker;
+    private String[] shortMonths;
+    private int currentMonth;
+    private int currentYear;
     private int startPeriodMonth;
     private int startPeriodYear;
     private int endPeriodMonth;
@@ -24,54 +27,85 @@ public class PeriodStats {
 
     public PeriodStats(MonthStatisticsBinding binding, ComingViewModel comingViewModel) {
         this.binding = binding;
+        this.comingViewModel = comingViewModel;
+    }
 
-        MonthsStats monthsStats = new MonthsStats(comingViewModel);
-        this.periodSummary = monthsStats.getMonthsStatsFromYear(2022);
+    public void currentMonthIsJanuary() {
 
+    }
+
+    public void setMonthsPeriod() {
         Calendar currentDate = Calendar.getInstance();
         this.currentMonth = currentDate.get(Calendar.MONTH);
         this.currentYear = currentDate.get(Calendar.YEAR);
-        this.startPeriodMonth = this.currentMonth;
-        this.endPeriodMonth = this.currentMonth -1;
         this.startPeriodYear = currentYear;
         this.endPeriodYear = currentYear;
+        this.startPeriodMonth = this.currentMonth;
+        this.endPeriodMonth = this.currentMonth - 1;
 
         shortMonths = DateProcessor.getShortMonths();
+
+        statsCollector = new StatsCollector(comingViewModel);
+        this.startPeriodSummary = statsCollector.getMonthsStats(this.currentYear);
+        this.endPeriodSummary = statsCollector.getMonthsStats(this.currentYear);
 
         binding.startDate.setText(startPeriodYear + " " + shortMonths[startPeriodMonth]);
         binding.endDate.setText(endPeriodYear + " " + shortMonths[endPeriodMonth]);
 
-
-        setStartPeriodPicker();
-        setEndPeriodPicker();
+        initializeMonthAndYearPeriodPicker();
     }
 
-    private void setStartPeriodPicker() {
-        startPeriodMonthYearPicker = BottomSheetMonthYearPicker
-                .newInstance(MONTHS_AND_YEAR_MODE, currentYear, currentMonth);
+    public void setYearsPeriod() {
+        Calendar currentDate = Calendar.getInstance();
+        this.currentYear = currentDate.get(Calendar.YEAR);
+        this.startPeriodYear = currentYear;
+        this.endPeriodYear = currentYear;
 
-        startPeriodMonthYearPicker.setOnDateSelectedListener((year, month) -> {
-            startPeriodMonth = month;
-            startPeriodYear = year;
+//        statsCollector = new StatsCollector(comingViewModel);
+//        this.startPeriodSummary = statsCollector.getYearStats();
+//        this.endPeriodSummary = statsCollector.getYearStats();
+
+        binding.startDate.setText(String.valueOf(startPeriodYear));
+        binding.endDate.setText(String.valueOf(endPeriodYear));
+
+        initializeYearPeriodPicker();
+    }
+
+    private void initializeMonthAndYearPeriodPicker() {
+        datesPicker = BottomSheetMonthYearPicker
+                .newInstance(MONTHS_AND_YEAR_MODE, startPeriodYear, startPeriodMonth, endPeriodYear, endPeriodMonth);
+        datesPicker.setCancelable(false);
+
+        datesPicker.setOnDateSelectedListener((firstYear, firstMonth, secondYear, secondMonth) -> {
+            startPeriodMonth = firstMonth;
+            startPeriodYear = firstYear;
+            endPeriodYear = secondYear;
+            endPeriodMonth = secondMonth;
             notifyPeriodChanged();
-            binding.startDate.setText(year + " " + shortMonths[month]);
+            binding.startDate.setText(firstYear + " " + shortMonths[firstMonth]);
         });
     }
 
-    private void setEndPeriodPicker() {
-        endPeriodMonthYearPicker = BottomSheetMonthYearPicker
-                .newInstance(MONTHS_AND_YEAR_MODE, currentYear, currentMonth);
+    private void initializeYearPeriodPicker() {
+        datesPicker = BottomSheetMonthYearPicker
+                .newInstance(ONLY_YEAR_MODE, startPeriodYear, startPeriodMonth, endPeriodYear, endPeriodMonth);
+        datesPicker.setCancelable(false);
 
-        endPeriodMonthYearPicker.setOnDateSelectedListener((year, month) -> {
-            endPeriodMonth = month;
-            endPeriodYear = year;
+        datesPicker.setOnDateSelectedListener((firstYear, firstMonth, secondYear, secondMonth) -> {
+            startPeriodYear = firstYear;
+            endPeriodYear = secondYear;
             notifyPeriodChanged();
-            binding.endDate.setText(year + " " + shortMonths[month]);
+            binding.startDate.setText(firstYear + secondYear);
         });
     }
 
     public void notifyPeriodChanged() {
-        PeriodStatsComparator statsComparator = new PeriodStatsComparator(periodSummary[startPeriodMonth], periodSummary[endPeriodMonth]);
+        this.startPeriodSummary = statsCollector.getMonthsStats(this.startPeriodYear);
+        this.endPeriodSummary = statsCollector.getMonthsStats(this.endPeriodYear);
+        binding.startDate.setText(startPeriodYear + " " + shortMonths[startPeriodMonth]);
+        binding.endDate.setText(endPeriodYear + " " + shortMonths[endPeriodMonth]);
+
+        PeriodStatsComparator statsComparator = new PeriodStatsComparator(startPeriodSummary[startPeriodMonth], endPeriodSummary[endPeriodMonth]);
         binding.amountOfIncomeIncrease.setText(statsComparator.getObtainedIncome()+" zł");
         binding.amountOfProfitIncrease.setText(statsComparator.getObtainedProfit()+" zł");
         binding.amountOfLossIncrease.setText(statsComparator.getObtainedLoss()+" zł");
@@ -81,11 +115,7 @@ public class PeriodStats {
         binding.lossIncrease.setText(statsComparator.getPercentLoss() + "%");
     }
 
-    public BottomSheetMonthYearPicker getStartPeriodMonthYearPicker() {
-        return startPeriodMonthYearPicker;
-    }
-
-    public BottomSheetMonthYearPicker getEndPeriodMonthYearPicker() {
-        return endPeriodMonthYearPicker;
+    public BottomSheetMonthYearPicker getDatesPicker() {
+        return datesPicker;
     }
 }

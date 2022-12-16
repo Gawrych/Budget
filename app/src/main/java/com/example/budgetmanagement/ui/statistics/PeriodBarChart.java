@@ -3,7 +3,6 @@ package com.example.budgetmanagement.ui.statistics;
 import android.graphics.Color;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.MonthStatisticsBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
@@ -20,32 +19,34 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 public class PeriodBarChart implements OnChartValueSelectedListener {
 
+    private final StatsCollector statsCollector;
     private PeriodSummary[] periodSummary;
     private final MonthStatisticsBinding binding;
-    private int selectedMonth;
-    private int selectedYear;
+    private int selectedValue;
+    private int[] years = new int[0];
+    private ArrayList<String> chartLabels = new ArrayList<>();
 
-    public PeriodBarChart(MonthStatisticsBinding binding) {
+    public PeriodBarChart(MonthStatisticsBinding binding, ComingViewModel comingViewModel) {
         this.binding = binding;
-
-        Calendar currentDate = Calendar.getInstance();
-        this.selectedMonth = currentDate.get(Calendar.MONTH);
-        this.selectedYear = currentDate.get(Calendar.YEAR);
+        statsCollector = new StatsCollector(comingViewModel);
     }
 
     public void drawChart() {
-        ArrayList<String> monthsNames = new ArrayList<>();
-        monthsNames.add("Chart is skipping this line, but it have to be here");
-        Collections.addAll(monthsNames, DateProcessor.getShortMonths());
-        monthsNames.add("Chart is skipping this line, but it have to be here");
-
         BarChart mChart = binding.barChart;
+        mChart.invalidate();
+        mChart.fitScreen();
+
+        if(mChart.getData() != null)
+            mChart.getData().clearValues();
+
+        mChart.setFitBars(true);
+
+        mChart.animateY(1000);
         mChart.setHighlightPerTapEnabled(true);
         mChart.setDrawBarShadow(false);
         mChart.getDescription().setEnabled(false);
@@ -60,7 +61,7 @@ public class PeriodBarChart implements OnChartValueSelectedListener {
         xAxis.setTextSize(12);
         xAxis.setAxisLineColor(Color.WHITE);
         xAxis.setAxisMinimum(1f);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(monthsNames));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(chartLabels));
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
@@ -99,12 +100,12 @@ public class PeriodBarChart implements OnChartValueSelectedListener {
         float barSpace = 0.1f;
         float barWidth = 0.3f;
         data.setBarWidth(barWidth);
-        xAxis.setAxisMaximum(monthsNames.size() - 1.1f);
+        xAxis.setAxisMaximum(chartLabels.size() - 1.1f);
         mChart.setData(data);
         mChart.setExtraBottomOffset(10);
         mChart.setScaleEnabled(false);
         mChart.setVisibleXRangeMaximum(4f);
-        mChart.moveViewToX(monthsNames.size());
+        mChart.moveViewToX(chartLabels.size());
         mChart.groupBars(1f, groupSpace, barSpace);
         mChart.invalidate();
         mChart.setOnChartValueSelectedListener(this);
@@ -115,21 +116,43 @@ public class PeriodBarChart implements OnChartValueSelectedListener {
     }
 
     public void setChartStats() {
-        PeriodSummary selectedPeriodSummary = periodSummary[selectedMonth];
+        PeriodSummary selectedPeriodSummary = periodSummary[selectedValue];
         binding.allTransactionNumber.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactions()));
         binding.numberOfTransactionsExecutedAfterTheTime.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactionsExecutedAfterTheTime()));
         binding.numberOfRemainingTransaction.setText(String.valueOf(selectedPeriodSummary.getNumberOfRemainingTransactions()));
     }
 
+    public void setSelectedValue(int selectedValue) {
+        this.selectedValue = selectedValue;
+    }
+
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        selectedMonth = (int) (e.getX() - 1);
+        selectedValue = (int) (e.getX() - 1);
         setChartStats();
     }
 
     public void notifyDataChanged() {
         drawChart();
         setChartStats();
+    }
+
+    public void setYearsAsLabels(int[] years) {
+        String[] labels = Arrays.stream(years)
+                .mapToObj(String::valueOf)
+                .toArray(String[]::new);
+
+        chartLabels.clear();
+        chartLabels.add("Chart is skipping this line, but it have to be here");
+        Collections.addAll(chartLabels, labels);
+        chartLabels.add("Chart is skipping this line, but it have to be here");
+    }
+
+    public void setMonthsAsLabels(String[] labels) {
+        chartLabels.clear();
+        chartLabels.add("Chart is skipping this line, but it have to be here");
+        Collections.addAll(chartLabels, labels);
+        chartLabels.add("Chart is skipping this line, but it have to be here");
     }
 
     @Override

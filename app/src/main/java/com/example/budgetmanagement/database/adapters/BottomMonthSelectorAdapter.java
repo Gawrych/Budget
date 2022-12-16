@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.database.adapters;
 
+import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPicker.ONLY_YEAR_MODE;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,20 +11,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
-
-import java.text.DateFormatSymbols;
-import java.util.Locale;
+import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 public class BottomMonthSelectorAdapter extends RecyclerView.Adapter<BottomMonthSelectorAdapter.BottomMonthSelectorHolder> {
 
     private final String[] months;
     private final OnSelectedListener listener;
     private final int monthToSetChecked;
+    private boolean disableMonths;
+    private CheckBox selectedMonth;
+    public CheckBox[] monthsCheckBox = new CheckBox[12];
 
-    public BottomMonthSelectorAdapter(OnSelectedListener listener, int monthToSetChecked) {
+    public BottomMonthSelectorAdapter(OnSelectedListener listener, int monthToSetChecked, int mode) {
         this.listener = listener;
+        this.disableMonths = mode == ONLY_YEAR_MODE;
         this.monthToSetChecked = monthToSetChecked;
-        months = new DateFormatSymbols(Locale.getDefault()).getShortMonths();
+        months = DateProcessor.getShortMonths();
     }
 
     @NonNull
@@ -36,7 +40,7 @@ public class BottomMonthSelectorAdapter extends RecyclerView.Adapter<BottomMonth
     @Override
     public void onBindViewHolder(@NonNull BottomMonthSelectorHolder holder, int position) {
         boolean setChecked = position == monthToSetChecked;
-        holder.bind(months[position], setChecked);
+        holder.bind(position, setChecked);
     }
 
     @Override
@@ -46,24 +50,45 @@ public class BottomMonthSelectorAdapter extends RecyclerView.Adapter<BottomMonth
 
     class BottomMonthSelectorHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final CheckBox monthCheckBox;
+        private final CheckBox month;
 
         public BottomMonthSelectorHolder(View itemView) {
             super(itemView);
-            monthCheckBox = itemView.findViewById(R.id.month);
+            month = itemView.findViewById(R.id.month);
             itemView.setOnClickListener(this);
-            monthCheckBox.setOnClickListener(this);
+            month.setOnClickListener(this);
         }
 
-        public void bind(String shortMonth, boolean setChecked) {
-            monthCheckBox.setText(shortMonth);
-            monthCheckBox.setChecked(setChecked);
+        public void bind(int position, boolean setChecked) {
+            monthsCheckBox[position] = month;
+            month.setText(months[position]);
+            if (setChecked) {
+                month.setChecked(true);
+                selectedMonth = month;
+            }
+            month.setEnabled(!disableMonths);
         }
 
         @Override
         public void onClick(View v) {
-            listener.onContentSelected(getBindingAdapterPosition());
+            if (v instanceof CheckBox) {
+                CheckBox newSelectedMonth = (CheckBox) v;
+                if (newSelectedMonth != selectedMonth) {
+                    selectedMonth.setChecked(false);
+                    selectedMonth = month;
+                } else {
+                    selectedMonth.setChecked(true);
+                }
+                listener.onContentSelected(getBindingAdapterPosition());
+            }
         }
+    }
+
+    public void setMonthByPosition(int month) {
+        CheckBox newSelectedMonth = monthsCheckBox[month];
+        selectedMonth.setChecked(false);
+        newSelectedMonth.setChecked(true);
+        selectedMonth = newSelectedMonth;
     }
 
     public interface OnSelectedListener {
