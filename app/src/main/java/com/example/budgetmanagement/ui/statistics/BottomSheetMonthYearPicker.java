@@ -18,7 +18,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
         implements BottomMonthSelectorAdapter.OnSelectedListener {
 
-    public static final String MONTH_YEAR_PICKER = "monthYearPicker";
+    public static final String MONTH_YEAR_PICKER_TAG = "monthYearPicker";
     public static final String BUNDLE_FIRST_YEAR = "firstYear";
     public static final String BUNDLE_FIRST_MONTH = "firstMonth";
     public static final String BUNDLE_SECOND_YEAR = "secondYear";
@@ -133,8 +133,17 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
 
     private void setDatesInButtons() {
         String firstDate = this.firstYear + " " + shortMonths[this.firstMonth];
-        binding.firstDate.setText(firstDate);
         String secondDate = this.secondYear + " " + shortMonths[this.secondMonth];
+
+        if (this.mode == ONLY_YEAR_MODE) {
+            firstDate = String.valueOf(this.firstYear);
+            secondDate = String.valueOf(this.secondYear);
+        } if (this.mode == ONLY_MONTHS_MODE) {
+            firstDate = shortMonths[this.firstMonth];
+            secondDate = shortMonths[this.secondMonth];
+        }
+
+        binding.firstDate.setText(firstDate);
         binding.secondDate.setText(secondDate);
     }
 

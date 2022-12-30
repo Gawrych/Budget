@@ -1,6 +1,7 @@
 package com.example.budgetmanagement.ui.statistics;
 
 import android.graphics.Color;
+import android.widget.LinearLayout;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
@@ -24,35 +25,43 @@ import java.util.Collections;
 
 public class PeriodBarChart implements OnChartValueSelectedListener {
 
-    private final StatsCollector statsCollector;
+    private BarChart barChart;
     private PeriodSummary[] periodSummary;
     private final MonthStatisticsBinding binding;
-    private int selectedValue;
-    private int[] years = new int[0];
     private ArrayList<String> chartLabels = new ArrayList<>();
+    private OnValueSelected onValueSelected;
 
-    public PeriodBarChart(MonthStatisticsBinding binding, ComingViewModel comingViewModel) {
+    public PeriodBarChart(MonthStatisticsBinding binding, BarChart barChart) {
         this.binding = binding;
-        statsCollector = new StatsCollector(comingViewModel);
+        this.barChart = barChart;
     }
 
     public void drawChart() {
-        BarChart mChart = binding.barChart;
-        mChart.invalidate();
-        mChart.fitScreen();
+        LinearLayout chartLayout = binding.chartLayout;
+        chartLayout.removeAllViews();
+        barChart.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
+        barChart.setId(R.id.periodBarChart);
 
-        if(mChart.getData() != null)
-            mChart.getData().clearValues();
+        barChart.invalidate();
+        barChart.resetZoom();
+        barChart.setFitBars(true);
+        barChart.fitScreen();
+        barChart.resetPivot();
+        barChart.resetTracking();
+        barChart.resetViewPortOffsets();
 
-        mChart.setFitBars(true);
+        if(barChart.getData() != null)
+            barChart.getData().clearValues();
 
-        mChart.animateY(1000);
-        mChart.setHighlightPerTapEnabled(true);
-        mChart.setDrawBarShadow(false);
-        mChart.getDescription().setEnabled(false);
-        mChart.setPinchZoom(false);
-        mChart.setDrawGridBackground(false);
-        XAxis xAxis = mChart.getXAxis();
+        barChart.setFitBars(true);
+
+        barChart.setHighlightPerTapEnabled(true);
+        barChart.setDrawBarShadow(false);
+        barChart.getDescription().setEnabled(false);
+        barChart.setPinchZoom(false);
+        barChart.setDrawGridBackground(false);
+        XAxis xAxis = barChart.getXAxis();
         xAxis.setCenterAxisLabels(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
@@ -63,7 +72,7 @@ public class PeriodBarChart implements OnChartValueSelectedListener {
         xAxis.setAxisMinimum(1f);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(chartLabels));
 
-        YAxis leftAxis = mChart.getAxisLeft();
+        YAxis leftAxis = barChart.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
         leftAxis.setTextSize(12);
         leftAxis.setAxisLineColor(Color.WHITE);
@@ -73,8 +82,8 @@ public class PeriodBarChart implements OnChartValueSelectedListener {
         leftAxis.setAxisMinimum(0);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
 
-        mChart.getAxisRight().setEnabled(false);
-        mChart.getLegend().setEnabled(false);
+        barChart.getAxisRight().setEnabled(false);
+        barChart.getLegend().setEnabled(false);
 
         ArrayList<BarEntry> loss = new ArrayList<>();
         ArrayList<BarEntry> income = new ArrayList<>();
@@ -101,40 +110,29 @@ public class PeriodBarChart implements OnChartValueSelectedListener {
         float barWidth = 0.3f;
         data.setBarWidth(barWidth);
         xAxis.setAxisMaximum(chartLabels.size() - 1.1f);
-        mChart.setData(data);
-        mChart.setExtraBottomOffset(10);
-        mChart.setScaleEnabled(false);
-        mChart.setVisibleXRangeMaximum(4f);
-        mChart.moveViewToX(chartLabels.size());
-        mChart.groupBars(1f, groupSpace, barSpace);
-        mChart.invalidate();
-        mChart.setOnChartValueSelectedListener(this);
+        barChart.setData(data);
+        barChart.setExtraBottomOffset(10);
+        barChart.setScaleEnabled(false);
+        barChart.setVisibleXRangeMaximum(4f);
+        barChart.moveViewToX(chartLabels.size());
+        barChart.groupBars(1f, groupSpace, barSpace);
+        barChart.invalidate();
+        barChart.setOnChartValueSelectedListener(this);
+        chartLayout.addView(barChart);
     }
 
     public void setData(PeriodSummary[] periodSummary) {
         this.periodSummary = periodSummary;
     }
 
-    public void setChartStats() {
-        PeriodSummary selectedPeriodSummary = periodSummary[selectedValue];
-        binding.allTransactionNumber.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactions()));
-        binding.numberOfTransactionsExecutedAfterTheTime.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactionsExecutedAfterTheTime()));
-        binding.numberOfRemainingTransaction.setText(String.valueOf(selectedPeriodSummary.getNumberOfRemainingTransactions()));
-    }
-
-    public void setSelectedValue(int selectedValue) {
-        this.selectedValue = selectedValue;
-    }
-
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        selectedValue = (int) (e.getX() - 1);
-        setChartStats();
+        int selectedPos = (int) (e.getX() - 1);
+        this.onValueSelected.onValueSelected(selectedPos);
     }
 
     public void notifyDataChanged() {
         drawChart();
-        setChartStats();
     }
 
     public void setYearsAsLabels(int[] years) {
@@ -153,6 +151,14 @@ public class PeriodBarChart implements OnChartValueSelectedListener {
         chartLabels.add("Chart is skipping this line, but it have to be here");
         Collections.addAll(chartLabels, labels);
         chartLabels.add("Chart is skipping this line, but it have to be here");
+    }
+
+    public void setOnValueSelected(OnValueSelected listener) {
+        this.onValueSelected = listener;
+    }
+
+    public interface OnValueSelected {
+        void onValueSelected(int pos);
     }
 
     @Override
