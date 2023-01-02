@@ -32,13 +32,7 @@ import java.util.List;
 
 public class StatisticsFragment extends Fragment {
 
-    public static final int WINTER = 0;
-    public static final int SPRING = 1;
-    public static final int SUMMER = 2;
-    public static final int AUTUMN = 3;
-    private StatisticsViewModel statisticsViewModel;
     private StatisticsFragmentBinding binding;
-    private ComingViewModel comingViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,65 +43,12 @@ public class StatisticsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        comingViewModel =
-                new ViewModelProvider(this).get(ComingViewModel.class);
 
-        statisticsViewModel =
-                new ViewModelProvider(this).get(StatisticsViewModel.class);
+        binding.periodStatistics.setOnClickListener(v -> Navigation.findNavController(view).navigate(
+                R.id.action_navigation_statistics_to_periodStatisticsFragment));
 
-
-        binding.periodSummary.setOnClickListener(v -> Navigation.findNavController(view).navigate(
-                R.id.action_navigation_statistics_to_monthStatistics));
-        setMonthCardView();
-    }
-
-    private void setMonthCardView() {
-        Calendar currentDate = Calendar.getInstance();
-        int currentMonthNumber = currentDate.get(Calendar.MONTH);
-
-        List<ComingAndTransaction> allComingFromCurrentMonth =
-                comingViewModel.getAllComingByYear(currentMonthNumber);
-
-        String currentMonthName =
-                DateProcessor.parseDate(currentDate.getTimeInMillis(), FULL_MONTH_NAME_ONLY);
-        String currentMonthNameCapitalized =
-                currentMonthName.substring(0, 1).toUpperCase() + currentMonthName.substring(1);
-
-        int season = getSeason(currentMonthNumber);
-
-        Drawable drawable = ResourcesCompat.getDrawable(getResources(), getMonthIconRes(season), null);
-        binding.monthIcon.setImageDrawable(drawable);
-        binding.monthName.setText(currentMonthNameCapitalized);
-    }
-
-    private String getAmountWithCurrency(String amount) {
-        String currency = getResources().getString(R.string.polish_currency);
-        return String.format(getResources().getString(R.string.amount_with_currency), amount, currency);
-    }
-
-    private int getSeason(int monthNumber) {
-        if (monthNumber >= Calendar.MARCH && monthNumber <= Calendar.MAY) {
-            return SPRING;
-        } else if (monthNumber >= Calendar.JUNE && monthNumber <= Calendar.OCTOBER) {
-            return SUMMER;
-        } else if (monthNumber >= Calendar.SEPTEMBER && monthNumber <= Calendar.NOVEMBER) {
-            return AUTUMN;
-        } else {
-            return WINTER;
-        }
-    }
-
-    private int getMonthIconRes(int season) {
-        if (season == WINTER) {
-            return R.drawable.snowflake;
-        } else if (season == SPRING) {
-            return R.drawable.butterflies;
-        } else if (season == SUMMER) {
-            return R.drawable.sun;
-        } else if (season == AUTUMN) {
-            return R.drawable.leaves;
-        }
-        return R.drawable.ic_outline_icon_not_found_24;
+        binding.periodComparator.setOnClickListener(v -> Navigation.findNavController(view).navigate(
+                R.id.action_navigation_statistics_to_periodComparatorFragment));
     }
 
     @Override

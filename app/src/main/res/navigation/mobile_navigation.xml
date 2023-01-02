@@ -11,8 +11,11 @@
         android:label="@string/title_statistics"
         tools:layout="@layout/statistics_fragment" >
         <action
-            android:id="@+id/action_navigation_statistics_to_monthStatistics"
-            app:destination="@id/monthStatistics" />
+            android:id="@+id/action_navigation_statistics_to_periodComparatorFragment"
+            app:destination="@id/periodComparatorFragment" />
+        <action
+            android:id="@+id/action_navigation_statistics_to_periodStatisticsFragment"
+            app:destination="@id/periodStatisticsFragment" />
     </fragment>
 
     <fragment
@@ -77,8 +80,12 @@
         android:label="fragment_category_element_details"
         tools:layout="@layout/category_element_details" />
     <fragment
-        android:id="@+id/monthStatistics"
-        android:name="com.example.budgetmanagement.ui.statistics.MonthStatisticsFragment"
-        android:label="month_statistics"
-        tools:layout="@layout/month_statistics" />
+        android:id="@+id/periodComparatorFragment"
+        android:name="com.example.budgetmanagement.ui.statistics.PeriodComparatorFragment"
+        android:label="fragment_period_comparator"
+        tools:layout="@layout/fragment_period_comparator" />
+    <fragment
+        android:id="@+id/periodStatisticsFragment"
+        android:name="com.example.budgetmanagement.ui.statistics.PeriodStatisticsFragment"
+        android:label="PeriodStatisticsFragment" />
 </navigation>

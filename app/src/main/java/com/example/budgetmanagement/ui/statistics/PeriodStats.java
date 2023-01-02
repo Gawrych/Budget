@@ -1,15 +1,13 @@
 package com.example.budgetmanagement.ui.statistics;
 
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
-import com.example.budgetmanagement.databinding.MonthStatisticsBinding;
-import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.example.budgetmanagement.databinding.FragmentPeriodComparatorBinding;
 
-import java.util.Calendar;
 import java.util.HashMap;
 
 public class PeriodStats {
 
-    private final MonthStatisticsBinding binding;
+    private final FragmentPeriodComparatorBinding binding;
     private ComingViewModel comingViewModel;
     private PeriodSummary[] startPeriodSummary;
     private PeriodSummary[] endPeriodSummary;
@@ -18,13 +16,9 @@ public class PeriodStats {
     private int endPeriodMonth;
     private int endPeriodYear;
 
-    public PeriodStats(MonthStatisticsBinding binding, ComingViewModel comingViewModel) {
+    public PeriodStats(FragmentPeriodComparatorBinding binding, ComingViewModel comingViewModel) {
         this.binding = binding;
         this.comingViewModel = comingViewModel;
-    }
-
-    public void currentMonthIsJanuary() {
-
     }
 
     public void setData(int firstYear, int firstMonth, int secondYear, int secondMonth) {

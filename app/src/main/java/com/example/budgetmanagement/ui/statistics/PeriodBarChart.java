@@ -4,9 +4,7 @@ import android.graphics.Color;
 import android.widget.LinearLayout;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
-import com.example.budgetmanagement.databinding.MonthStatisticsBinding;
-import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.example.budgetmanagement.databinding.FragmentPeriodStatisticsBinding;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -27,11 +25,11 @@ public class PeriodBarChart implements OnChartValueSelectedListener {
 
     private BarChart barChart;
     private PeriodSummary[] periodSummary;
-    private final MonthStatisticsBinding binding;
+    private final FragmentPeriodStatisticsBinding binding;
     private ArrayList<String> chartLabels = new ArrayList<>();
     private OnValueSelected onValueSelected;
 
-    public PeriodBarChart(MonthStatisticsBinding binding, BarChart barChart) {
+    public PeriodBarChart(FragmentPeriodStatisticsBinding binding, BarChart barChart) {
         this.binding = binding;
         this.barChart = barChart;
     }

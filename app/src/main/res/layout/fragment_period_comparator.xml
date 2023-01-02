@@ -1,179 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:id="@+id/mainLayout"
-    tools:context=".ui.statistics.MonthStatisticsFragment">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/waveBackground"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/first_color_theme"
-        android:elevation="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RadioGroup
-            android:id="@+id/periodOfTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:padding="5dp"
-            android:orientation="horizontal"
-            android:background="@drawable/buttons_background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/yearPicker"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <RadioButton
-                android:id="@+id/yearButton"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/button_selector"
-                android:button="@android:color/transparent"
-                android:gravity="center"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="Rok"
-                android:textSize="16sp" />
-
-            <RadioButton
-                android:id="@+id/monthsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:background="@drawable/button_selector"
-                android:button="@android:color/transparent"
-                android:checked="true"
-                android:gravity="center"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="Miesiąc"
-                android:textSize="16sp" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/yearPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="30dp"
-            android:drawablePadding="10dp"
-            android:gravity="center"
-            android:text="2022"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_down_24"
-            app:drawableTint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/periodOfTime"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:id="@+id/chartLayout"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="vertical">
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/periodStatsLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:elevation="20dp">
-
-    <TextView
-        android:id="@+id/allTransactionNumberLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:ellipsize="end"
-        android:labelFor="@+id/allTransactionNumber"
-        android:maxLines="1"
-        android:text="Transakcji"
-        android:textColor="@color/dark_grey"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/numberOfTransactionsExecutedAfterTheTimeLabel"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/allTransactionNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="15"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/allTransactionNumberLabel"
-        app:layout_constraintTop_toBottomOf="@+id/allTransactionNumberLabel" />
-
-    <TextView
-        android:id="@+id/numberOfTransactionsExecutedAfterTheTimeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:labelFor="@+id/outstandingTransactionNumber"
-        android:maxLines="1"
-        android:text="Po terminie"
-        android:textColor="@color/dark_grey"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/numberOfRemainingTransactionLabel"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/allTransactionNumberLabel"
-        app:layout_constraintTop_toTopOf="@+id/allTransactionNumberLabel" />
-
-    <TextView
-        android:id="@+id/numberOfTransactionsExecutedAfterTheTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="10"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/numberOfTransactionsExecutedAfterTheTimeLabel"
-        app:layout_constraintTop_toBottomOf="@+id/numberOfTransactionsExecutedAfterTheTimeLabel" />
-
-    <TextView
-        android:id="@+id/numberOfRemainingTransactionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:ellipsize="end"
-        android:labelFor="@+id/executedTransactionNumber"
-        android:maxLines="1"
-        android:text="Pozostało"
-        android:textColor="@color/dark_grey"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/numberOfTransactionsExecutedAfterTheTimeLabel"
-        app:layout_constraintTop_toTopOf="@+id/allTransactionNumberLabel" />
-
-    <TextView
-        android:id="@+id/numberOfRemainingTransaction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="5"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/numberOfRemainingTransactionLabel"
-        app:layout_constraintTop_toBottomOf="@+id/numberOfRemainingTransactionLabel" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    tools:context=".ui.statistics.PeriodComparatorFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/monthsSelector"
@@ -181,9 +13,7 @@
         android:layout_height="110dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/right_corner_radius"
-        android:elevation="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/allTransactionNumber">
+        android:elevation="20dp" >
 
         <TextView
             android:id="@+id/firstDate"
@@ -222,7 +52,7 @@
             android:id="@+id/changeDates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Statystyki z przedziału"
+            android:text="Porównanie dat"
             android:layout_marginTop="15dp"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -237,14 +67,15 @@
         android:id="@+id/periodsStatsCompareLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:elevation="20dp">
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:layout_marginTop="40dp">
 
         <TextView
             android:id="@+id/incomeIncreaseLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginTop="50dp"
             android:ellipsize="end"
             android:labelFor="@+id/executedTransactionNumber"
             android:maxLines="1"
@@ -255,7 +86,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/allTransactionNumber" />
 
         <TextView
             android:id="@+id/incomeIncrease"
@@ -323,7 +154,6 @@
             android:id="@+id/lossIncreaseLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
             android:ellipsize="end"
             android:labelFor="@+id/executedTransactionNumber"
             android:maxLines="1"
@@ -362,7 +192,6 @@
             android:id="@+id/averageTimeAfterTheDeadlineLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
             android:layout_marginTop="50dp"
             android:ellipsize="end"
             android:labelFor="@+id/executedTransactionNumber"
@@ -374,7 +203,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/incomeIncrease" />
+            app:layout_constraintTop_toBottomOf="@+id/amountOfIncomeIncrease" />
 
         <TextView
             android:id="@+id/averageTimeAfterTheDeadline"
@@ -402,7 +231,6 @@
             android:id="@+id/payOnTimeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
             android:ellipsize="end"
             android:labelFor="@+id/executedTransactionNumber"
             android:maxLines="1"
@@ -436,6 +264,84 @@
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/averagePercentPayOnTime"
             app:layout_constraintTop_toBottomOf="@+id/averagePercentPayOnTime" />
+
+        <TextView
+            android:id="@+id/allTransactionNumberLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:labelFor="@+id/allTransactionNumber"
+            android:maxLines="1"
+            android:text="Transakcji"
+            android:textColor="@color/dark_grey"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/numberOfTransactionsExecutedAfterTheTimeLabel"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/allTransactionNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15%"
+            app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_up_24"
+            app:drawableTint="@color/mat_green"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/allTransactionNumberLabel"
+            app:layout_constraintTop_toBottomOf="@+id/allTransactionNumberLabel" />
+
+        <TextView
+            android:id="@+id/numberOfTransactionsExecutedAfterTheTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:labelFor="@+id/outstandingTransactionNumber"
+            android:maxLines="1"
+            android:text="Po terminie"
+            android:textColor="@color/dark_grey"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/numberOfRemainingTransactionLabel"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/allTransactionNumberLabel"
+            app:layout_constraintTop_toTopOf="@+id/allTransactionNumberLabel" />
+
+        <TextView
+            android:id="@+id/numberOfTransactionsExecutedAfterTheTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10%"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/numberOfTransactionsExecutedAfterTheTimeLabel"
+            app:layout_constraintTop_toBottomOf="@+id/numberOfTransactionsExecutedAfterTheTimeLabel" />
+
+        <TextView
+            android:id="@+id/numberOfRemainingTransactionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:labelFor="@+id/executedTransactionNumber"
+            android:maxLines="1"
+            android:text="Pozostało"
+            android:textColor="@color/dark_grey"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/numberOfTransactionsExecutedAfterTheTimeLabel"
+            app:layout_constraintTop_toTopOf="@+id/allTransactionNumberLabel" />
+
+        <TextView
+            android:id="@+id/numberOfRemainingTransaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5%"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/numberOfRemainingTransactionLabel"
+            app:layout_constraintTop_toBottomOf="@+id/numberOfRemainingTransactionLabel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
