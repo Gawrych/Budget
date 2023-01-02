@@ -73,6 +73,8 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
         saveValues();
 
 //        TODO: Reset radio button to first when showing
+//        TODO: Add swap button
+//        TODO: Add "only year" button
 
         adapter = new BottomMonthSelectorAdapter(this, this.firstMonth, this.mode);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(),4);

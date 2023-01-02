@@ -86,10 +86,7 @@ public class PeriodComparatorFragment extends Fragment {
             periodStats.setYearsSummaryStats();
         }
 
-        binding.firstDate.setOnClickListener(v ->
-                datesPicker.show(getParentFragmentManager(), MONTH_YEAR_PICKER_TAG));
-
-        binding.secondDate.setOnClickListener(v ->
+        binding.selectDate.setOnClickListener(v ->
                 datesPicker.show(getParentFragmentManager(), MONTH_YEAR_PICKER_TAG));
     }
 
@@ -98,15 +95,19 @@ public class PeriodComparatorFragment extends Fragment {
                 .newInstance(MONTHS_AND_YEAR_MODE, currentYear, currentMonth, secondYear, secondMonth);
         datesPicker.setCancelable(false);
 
-        String[] shortMonths = DateProcessor.getShortMonths();
+        String[] shortMonths = DateProcessor.getMonths();
 
-        binding.firstDate.setText(this.currentYear + " " + shortMonths[this.currentMonth]);
-        binding.secondDate.setText(this.secondYear + " " + shortMonths[this.secondMonth]);
+        binding.firstDateYear.setText(String.valueOf(this.currentYear));
+        binding.secondDateYear.setText(String.valueOf(this.secondYear));
+        binding.firstDateMonth.setText(shortMonths[this.currentMonth]);
+        binding.secondDateMonth.setText(shortMonths[this.secondMonth]);
         datesPicker.setOnDateSelectedListener((firstYear, firstMonth, secondYear, secondMonth) -> {
             periodStats.setData(firstYear, firstMonth, secondYear, secondMonth);
             periodStats.setMonthsSummaryStats();
-            binding.firstDate.setText(firstYear + " " + shortMonths[firstMonth]);
-            binding.secondDate.setText(secondYear + " " + shortMonths[secondMonth]);
+            binding.firstDateYear.setText(String.valueOf(firstYear));
+            binding.secondDateYear.setText(String.valueOf(secondYear));
+            binding.firstDateMonth.setText(shortMonths[firstMonth]);
+            binding.secondDateMonth.setText(shortMonths[secondMonth]);
         });
     }
 
@@ -118,8 +119,8 @@ public class PeriodComparatorFragment extends Fragment {
         datesPicker.setOnDateSelectedListener((firstYear, firstMonth, secondYear, secondMonth) -> {
             periodStats.setData(firstYear, firstMonth, secondYear, secondMonth);
             periodStats.setYearsSummaryStats();
-            binding.firstDate.setText(String.valueOf(firstYear));
-            binding.secondDate.setText(String.valueOf(secondYear));
+            binding.firstDateYear.setText(String.valueOf(firstYear));
+            binding.secondDateYear.setText(String.valueOf(secondYear));
         });
     }
 }

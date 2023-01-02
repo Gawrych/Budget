@@ -43,4 +43,12 @@ public class DateProcessor {
     public static String[] getShortMonths() {
         return new DateFormatSymbols(Locale.getDefault()).getShortMonths();
     }
+
+    public static String[] getMonths() {
+        String[] months = new DateFormatSymbols(Locale.getDefault()).getMonths();
+        for (int i=0; i < months.length; i++) {
+            months[i] = months[i].substring(0, 1).toUpperCase() + months[i].substring(1);
+        }
+        return months;
+    }
 }

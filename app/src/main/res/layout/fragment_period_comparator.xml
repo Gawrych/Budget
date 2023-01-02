@@ -10,56 +10,115 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/monthsSelector"
         android:layout_width="270dp"
-        android:layout_height="110dp"
+        android:layout_height="130dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/right_corner_radius"
-        android:elevation="20dp" >
+        android:elevation="20dp">
 
-        <TextView
-            android:id="@+id/firstDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/text_bottom_line"
-            android:paddingBottom="10dp"
-            android:text="2022 gru"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:drawableTint="@color/white"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/firstDateLabel"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:background="@drawable/bottom_line"
+            android:elevation="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/firstDateMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Grudzień"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:drawableTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/firstDateYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="2022"
+                android:textColor="@color/grey"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:drawableTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/icon"
+            android:layout_width="270dp"
+            android:layout_height="110dp"
+            android:elevation="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/secondDate"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/changeDates" />
-
-        <TextView
-            android:id="@+id/secondDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/text_bottom_line"
-            android:paddingBottom="10dp"
-            android:text="2022 gru"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:drawableTint="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/firstDate"
-            app:layout_constraintTop_toTopOf="@+id/firstDate" />
-
-        <TextView
-            android:id="@+id/changeDates"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Porównanie dat"
-            android:layout_marginTop="15dp"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/selectDate"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="6dp"
+                android:src="@drawable/ic_baseline_calendar_month_24"
+                android:background="@drawable/image_view_background"
+                app:tint="@color/first_color_theme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/secondDateLabel"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:elevation="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/secondDateMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Grudzień"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:drawableTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/secondDateYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="2022"
+                android:textColor="@color/grey"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:drawableTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
