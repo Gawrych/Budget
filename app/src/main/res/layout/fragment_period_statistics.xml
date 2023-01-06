@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/mainLayout"
-    tools:context=".ui.statistics.PeriodComparatorStatisticsFragment">
+    tools:context=".ui.statistics.PeriodStatisticsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/waveBackground"
@@ -198,20 +198,8 @@
             android:text="3 dni"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_down_24"
-            app:drawableTint="@color/mat_green"
             app:layout_constraintStart_toStartOf="@+id/averageTimeAfterTheDeadlineLabel"
             app:layout_constraintTop_toBottomOf="@+id/averageTimeAfterTheDeadlineLabel" />
-
-        <TextView
-            android:id="@+id/globalAverageTimeAfterTheDeadline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5 dni"
-            android:textColor="@color/dark_grey"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/averageTimeAfterTheDeadlineLabel"
-            app:layout_constraintTop_toBottomOf="@+id/averageTimeAfterTheDeadline" />
 
         <TextView
             android:id="@+id/payOnTimeLabel"
@@ -234,23 +222,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="22%"
-            android:textColor="@color/mat_green"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_up_24"
-            app:drawableTint="@color/mat_green"
             app:layout_constraintStart_toStartOf="@+id/payOnTimeLabel"
             app:layout_constraintTop_toBottomOf="@+id/payOnTimeLabel" />
-
-        <TextView
-            android:id="@+id/globalAveragePercentPayOnTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="18%"
-            android:textColor="@color/dark_grey"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/averagePercentPayOnTime"
-            app:layout_constraintTop_toBottomOf="@+id/averagePercentPayOnTime" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

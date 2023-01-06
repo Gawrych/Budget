@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.FragmentPeriodStatisticsBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
-import com.github.mikephil.charting.charts.BarChart;
 
 import java.util.Calendar;
 
@@ -26,8 +25,7 @@ public class PeriodStatisticsFragment extends Fragment {
     private ComingViewModel comingViewModel;
     private DatePickerDialog datePickerDialog;
     private int selectedYear;
-    private PeriodBarChart barChart;
-    private PeriodStats periodStats;
+    private PeriodStatisticsBarChart barChart;
     private Calendar currentDate;
     private int selectedChartBar;
     private BottomSheetMonthYearPicker datesPicker;
@@ -85,29 +83,25 @@ public class PeriodStatisticsFragment extends Fragment {
     }
 
     private void setChartToMonthPeriod() {
-        BarChart chartView = new BarChart(requireContext());
-        barChart = new PeriodBarChart(binding, chartView);
-
-        barChart.setOnValueSelected(selectedPos -> this.selectedChartBar = selectedPos);
-
         MonthsStatsCollector monthsStatsCollector = new MonthsStatsCollector(comingViewModel);
         periodSummary = monthsStatsCollector.getStats(this.selectedYear);
+
+        barChart = new PeriodStatisticsBarChart(binding);
         barChart.setMonthsAsLabels(DateProcessor.getShortMonths());
         barChart.setData(periodSummary);
-        barChart.notifyDataChanged();
+        barChart.drawChart();
 
         barChart.setOnValueSelected(this::showStatsFromSelectedChartBar);
     }
 
     private void setChartToYearPeriod() {
-        BarChart chartView = new BarChart(requireContext());
-        barChart = new PeriodBarChart(binding, chartView);
-
         YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(comingViewModel);
-        periodSummary = yearsStatsCollector.getStats().values().toArray(new PeriodSummary[0]);
+        periodSummary = yearsStatsCollector.getStats().values().toArray(new PeriodSummary[0]); // TODO: Fix this
+
+        barChart = new PeriodStatisticsBarChart(binding);
         barChart.setYearsAsLabels(yearsStatsCollector.getYears());
         barChart.setData(periodSummary);
-        barChart.notifyDataChanged();
+        barChart.drawChart();
 
         barChart.setOnValueSelected(this::showStatsFromSelectedChartBar);
     }

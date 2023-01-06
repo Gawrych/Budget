@@ -86,6 +86,7 @@
         android:layout_marginStart="30dp"
         android:padding="5dp"
         android:src="@drawable/ic_baseline_keyboard_arrow_left_24"
+        android:background="@drawable/press_feedback_background"
         app:layout_constraintBottom_toBottomOf="@+id/year"
         app:layout_constraintEnd_toStartOf="@+id/year"
         app:layout_constraintHorizontal_bias="0.5"

@@ -7,10 +7,10 @@ import java.util.concurrent.TimeUnit;
 
 public class PeriodSummary {
 
-    private BigDecimal profitBalance = new BigDecimal(0);
+    private BigDecimal incomeBalance = new BigDecimal(0);
     private BigDecimal lossBalance = new BigDecimal(0);
     private int numberOfTransactions;
-    private int numberOfTransactionsExecutedAfterTheTime ;
+    private int numberOfTransactionsExecutedAfterTheTime;
     private int numberOfExecutedTransactions;
     private long averageTransactionExecutedDelay;
 
@@ -21,7 +21,7 @@ public class PeriodSummary {
 
         BigDecimal amount = new BigDecimal(item.transaction.getAmount());
         if (amount.signum() == 1) {
-            profitBalance = profitBalance.add(amount);
+            incomeBalance = incomeBalance.add(amount);
         } else {
             lossBalance = lossBalance.add(amount);
         }
@@ -44,7 +44,11 @@ public class PeriodSummary {
     }
 
     public float getIncome() {
-        return profitBalance.abs().intValue();
+        return incomeBalance.abs().intValue();
+    }
+
+    public float getProfit() {
+        return getIncome() - getLoss();
     }
 
     public int getNumberOfTransactions() {

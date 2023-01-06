@@ -71,12 +71,14 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
         getDataFromBundle();
         setDatesInButtons();
         saveValues();
-
-//        TODO: Reset radio button to first when showing
 //        TODO: Add swap button
-//        TODO: Add "only year" button
 
-        adapter = new BottomMonthSelectorAdapter(this, this.firstMonth, this.mode);
+        int monthToCheck = this.firstMonth;
+        if (this.period == SECOND_PERIOD) {
+            monthToCheck = this.secondMonth;
+        }
+
+        adapter = new BottomMonthSelectorAdapter(this, monthToCheck, this.mode);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(),4);
         RecyclerView recyclerView = binding.monthsItems;
         recyclerView.setAdapter(adapter);
@@ -128,8 +130,8 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
             this.mode = getArguments() != null ? getArguments().getInt(PICKER_MODE) : MONTHS_AND_YEAR_MODE;
             this.firstYear = getArguments() != null ? getArguments().getInt(BUNDLE_FIRST_YEAR) : 0;
             this.firstMonth = getArguments() != null ? getArguments().getInt(BUNDLE_FIRST_MONTH) : 0;
-            this.secondYear = getArguments() != null ? getArguments().getInt(BUNDLE_FIRST_YEAR) : 0;
-            this.secondMonth = getArguments() != null ? getArguments().getInt(BUNDLE_FIRST_MONTH) : 0;
+            this.secondYear = getArguments() != null ? getArguments().getInt(BUNDLE_SECOND_YEAR) : 0;
+            this.secondMonth = getArguments() != null ? getArguments().getInt(BUNDLE_SECOND_MONTH) : 0;
         }
     }
 

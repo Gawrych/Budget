@@ -45,4 +45,12 @@ public class PeriodStatsComparator {
         }
         return (int) (obtained * 100 / total);
     }
+
+    public PeriodSummary getFirstMonth() {
+        return firstMonth;
+    }
+
+    public PeriodSummary getSecondMonth() {
+        return secondMonth;
+    }
 }
