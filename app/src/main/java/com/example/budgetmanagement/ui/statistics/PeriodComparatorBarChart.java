@@ -1,33 +1,25 @@
 package com.example.budgetmanagement.ui.statistics;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.widget.LinearLayout;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.databinding.FragmentPeriodComparatorBinding;
-import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
-public class PeriodComparatorBarChart implements OnChartValueSelectedListener {
+public class PeriodComparatorBarChart {
 
     private final Context context;
     private PeriodStatsComparator periodStatsComparator;
     private final FragmentPeriodComparatorBinding binding;
     private ArrayList<String> chartLabels = new ArrayList<>();
-    private OnValueSelected onValueSelected;
 
     public PeriodComparatorBarChart(FragmentPeriodComparatorBinding binding) {
         this.binding = binding;
@@ -63,13 +55,16 @@ public class PeriodComparatorBarChart implements OnChartValueSelectedListener {
         ArrayList<BarEntry> income = new ArrayList<>();
         ArrayList<BarEntry> profit = new ArrayList<>();
 
-        loss.add(new BarEntry(1, periodStatsComparator.getSecondMonth().getLoss()));
-        income.add(new BarEntry(1, periodStatsComparator.getSecondMonth().getIncome()));
-        profit.add(new BarEntry(1, periodStatsComparator.getSecondMonth().getProfit()));
+        PeriodSummary firstPeriod = periodStatsComparator.getFirstPeriod();
+        PeriodSummary secondPeriod = periodStatsComparator.getSecondPeriod();
 
-        loss.add(new BarEntry(0, periodStatsComparator.getFirstMonth().getLoss()));
-        income.add(new BarEntry(0, periodStatsComparator.getFirstMonth().getIncome()));
-        profit.add(new BarEntry(0, periodStatsComparator.getFirstMonth().getProfit()));
+        loss.add(new BarEntry(1, secondPeriod.getLoss()));
+        income.add(new BarEntry(1, secondPeriod.getIncome()));
+        profit.add(new BarEntry(1, secondPeriod.getProfit()));
+
+        loss.add(new BarEntry(0, firstPeriod.getLoss()));
+        income.add(new BarEntry(0, firstPeriod.getIncome()));
+        profit.add(new BarEntry(0, firstPeriod.getProfit()));
 
         String lossLegendTag = context.getResources().getString(R.string.loss);
         BarDataSet set1 = new BarDataSet(loss, lossLegendTag);
@@ -104,21 +99,4 @@ public class PeriodComparatorBarChart implements OnChartValueSelectedListener {
         Collections.addAll(chartLabels, labels);
         chartLabels.add("Chart is skipping this label, but it have to be here");
     }
-
-    @Override
-    public void onValueSelected(Entry e, Highlight h) {
-        int selectedPos = (int) (e.getX() - 1);
-        this.onValueSelected.onValueSelected(selectedPos);
-    }
-
-    public void setOnValueSelected(OnValueSelected listener) {
-        this.onValueSelected = listener;
-    }
-
-    public interface OnValueSelected {
-        void onValueSelected(int pos);
-    }
-
-    @Override
-    public void onNothingSelected() {}
 }

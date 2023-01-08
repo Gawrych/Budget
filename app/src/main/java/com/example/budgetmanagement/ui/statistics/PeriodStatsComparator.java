@@ -2,39 +2,39 @@ package com.example.budgetmanagement.ui.statistics;
 
 public class PeriodStatsComparator {
 
-    private final PeriodSummary firstMonth;
-    private final PeriodSummary secondMonth;
+    private final PeriodSummary firstPeriod;
+    private final PeriodSummary secondPeriod;
 
-    public PeriodStatsComparator(PeriodSummary firstMonth, PeriodSummary secondMonth) {
-        this.firstMonth = firstMonth;
-        this.secondMonth = secondMonth;
+    public PeriodStatsComparator(PeriodSummary firstPeriod, PeriodSummary secondPeriod) {
+        this.firstPeriod = firstPeriod;
+        this.secondPeriod = secondPeriod;
     }
 
     public int getPercentIncome() {
-        return percentGrowth(getObtainedIncome(), secondMonth.getIncome());
+        return percentGrowth(getObtainedIncome(), secondPeriod.getIncome());
     }
 
     public int getPercentProfit() {
-        float secondProfit = secondMonth.getIncome() - secondMonth.getLoss();
+        float secondProfit = secondPeriod.getIncome() - secondPeriod.getLoss();
         return percentGrowth(getObtainedProfit(), secondProfit);
     }
 
     public int getPercentLoss() {
-        return percentGrowth(getObtainedLoss(), secondMonth.getLoss());
+        return percentGrowth(getObtainedLoss(), secondPeriod.getLoss());
     }
 
     public int getObtainedIncome() {
-        return (int) (firstMonth.getIncome() - secondMonth.getIncome());
+        return (int) (firstPeriod.getIncome() - secondPeriod.getIncome());
     }
 
     public int getObtainedProfit() {
-        float firstProfit = firstMonth.getIncome() - firstMonth.getLoss();
-        float secondProfit = secondMonth.getIncome() - secondMonth.getLoss();
+        float firstProfit = firstPeriod.getIncome() - firstPeriod.getLoss();
+        float secondProfit = secondPeriod.getIncome() - secondPeriod.getLoss();
         return (int) (firstProfit - secondProfit);
     }
 
     public int getObtainedLoss() {
-        return (int) (firstMonth.getLoss() - secondMonth.getLoss());
+        return (int) (firstPeriod.getLoss() - secondPeriod.getLoss());
     }
 
     private int percentGrowth(float obtained, float total) {
@@ -46,11 +46,11 @@ public class PeriodStatsComparator {
         return (int) (obtained * 100 / total);
     }
 
-    public PeriodSummary getFirstMonth() {
-        return firstMonth;
+    public PeriodSummary getFirstPeriod() {
+        return firstPeriod;
     }
 
-    public PeriodSummary getSecondMonth() {
-        return secondMonth;
+    public PeriodSummary getSecondPeriod() {
+        return secondPeriod;
     }
 }

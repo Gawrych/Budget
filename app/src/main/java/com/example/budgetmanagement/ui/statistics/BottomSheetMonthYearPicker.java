@@ -73,12 +73,7 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
         saveValues();
 //        TODO: Add swap button
 
-        int monthToCheck = this.firstMonth;
-        if (this.period == SECOND_PERIOD) {
-            monthToCheck = this.secondMonth;
-        }
-
-        adapter = new BottomMonthSelectorAdapter(this, monthToCheck, this.mode);
+        adapter = new BottomMonthSelectorAdapter(this, getMonthToSelect(), this.mode);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(),4);
         RecyclerView recyclerView = binding.monthsItems;
         recyclerView.setAdapter(adapter);
@@ -108,6 +103,14 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
             restoreValues();
             dismiss();
         });
+    }
+
+    private int getMonthToSelect() {
+        int selectedPeriodToLetUserChangeMonthOrYear = this.firstMonth;
+        if (this.period == SECOND_PERIOD) {
+            selectedPeriodToLetUserChangeMonthOrYear = this.secondMonth;
+        }
+        return selectedPeriodToLetUserChangeMonthOrYear;
     }
 
     private void saveValues() {
@@ -199,5 +202,9 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
 
     public interface OnMonthAndYearSelectedListener {
         void onMonthAndYearSelected(int firstYear, int firstMonth, int secondYear, int secondMonth);
+    }
+
+    public void changeMode(int mode) {
+        this.mode = mode;
     }
 }
