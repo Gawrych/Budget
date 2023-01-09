@@ -123,14 +123,20 @@ public class PeriodComparatorFragment extends Fragment {
                 .setText(getAmountWithCurrency(statsComparator.getObtainedLoss()));
 
         binding.incomeIncrease
-                .setText(getAmountWithCurrency(statsComparator.getPercentIncome()));
+                .setText(getAmountWithPercentage(statsComparator.getPercentIncome()));
         binding.profitIncrease
-                .setText(getAmountWithCurrency(statsComparator.getPercentProfit()));
+                .setText(getAmountWithPercentage(statsComparator.getPercentProfit()));
         binding.lossIncrease
-                .setText(getAmountWithCurrency(statsComparator.getPercentLoss()));
+                .setText(getAmountWithPercentage(statsComparator.getPercentLoss()));
     }
 
-    private String getAmountWithCurrency(int amount) {
+    private String getAmountWithCurrency(float amount) {
+        String currency = getResources().getString(R.string.currency);
+        String amountInString = String.valueOf(amount);
+        return getString(R.string.amount_with_currency, amountInString, currency);
+    }
+
+    private String getAmountWithPercentage(int amount) {
         return getString(R.string.amount_with_percent, amount);
     }
 }

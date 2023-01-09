@@ -41,7 +41,6 @@ public class PeriodComparatorBarChart {
         barChartCreator.setChartDimensions(groupSpace, barSpace, barWidth);
         barChartCreator.create(chartLabels, getDataForBarChart());
 
-        barChartView.getLegend().setEnabled(true);
         barChartView.setHighlightPerTapEnabled(false);
         barChartView.setVisibleXRangeMaximum(6f);
 
