@@ -1,16 +1,22 @@
 package com.example.budgetmanagement.ui.statistics;
 
 import android.app.DatePickerDialog;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.FragmentPeriodStatisticsBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
@@ -138,10 +144,25 @@ public class PeriodStatisticsFragment extends Fragment {
     }
 
     private void showYearPicker() {
-        binding.yearPicker.setVisibility(View.VISIBLE);
+        TextView yearPicker = binding.yearPicker;
+        yearPicker.setClickable(true);
+        yearPicker.setTextColor(getResources().getColor(R.color.white, null));
+        setTextViewDrawableColor(yearPicker, R.color.white);
     }
 
     private void hideYearPicker() {
-        binding.yearPicker.setVisibility(View.INVISIBLE);
+        TextView yearPicker = binding.yearPicker;
+        yearPicker.setClickable(false);
+        yearPicker.setTextColor(getResources().getColor(R.color.white_30, null));
+        setTextViewDrawableColor(yearPicker, R.color.white_30);
+    }
+
+    private void setTextViewDrawableColor(TextView textView, int color) {
+        for (Drawable drawable : textView.getCompoundDrawables()) {
+            if (drawable != null) {
+                drawable.setColorFilter(new PorterDuffColorFilter(ContextCompat
+                        .getColor(textView.getContext(), color), PorterDuff.Mode.SRC_IN));
+            }
+        }
     }
 }

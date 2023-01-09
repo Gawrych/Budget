@@ -118,4 +118,5 @@
     <string name="loss">Zobowiązania</string>
     <string name="profit">Dochód</string>
     <string name="currency">zł</string>
+    <string name="transaction_icon_desc">Transaction for transaction amount</string>
 </resources>
