@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/navigation_coming"
-        android:icon="@drawable/ic_outline_event_repeat_24"
+        android:icon="@drawable/ic_baseline_insert_invitation_24"
         android:title="@string/title_coming" />
 
     <item
