@@ -28,6 +28,31 @@
         <item name="android:background">@drawable/bottom_sheet_round_top</item>
     </style>
 
+<!--    Global -->
+
+    <style name="scrollView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/first_color_theme</item>
+    </style>
+
+    <style name="topBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@color/first_color_theme</item>
+    </style>
+
+    <style name="topBarIcon">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginEnd">15dp</item>
+        <item name="android:background">@drawable/image_view_pressed_background</item>
+        <item name="tint">@color/white</item>
+        <item name="buttonTint">@color/white</item>
+    </style>
+
+    <!--    transaction form fragment/add new transactions -->
+
     <style name="addButton">
         <item name="android:layout_width">200dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -140,4 +165,71 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">18sp</item>
     </style>
+
+<!--    Fragment period comparator -->
+
+    <style name="chartLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+    </style>
+
+    <style name="chartDetailsLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:background">@drawable/rounded_top_left_corner_white</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingTop">40dp</item>
+        <item name="android:paddingStart">30dp</item>
+        <item name="android:paddingEnd">30dp</item>
+    </style>
+
+    <style name="detailsItemLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:background">@drawable/round_all_corners</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+    </style>
+
+
+    <style name="detailsItemIcon">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:background">@drawable/icon_background</item>
+        <item name="android:backgroundTint">@color/mat_green</item>
+        <item name="tint">@color/indigo</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="detailsItemLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/dark_accent</item>
+    </style>
+
+    <style name="detailsItemData">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/dark_accent</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="detailsItemExtraData">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

@@ -121,4 +121,8 @@
     <string name="transaction_icon_desc">Transaction for transaction amount</string>
     <string name="selectDateToCompare">Edit dates in period to edit</string>
     <string name="date_example">2022 lisopad</string>
+    <string name="incomes">Przychody</string>
+    <string name="profits">Dochody</string>
+    <string name="average_after_deadline">Średnio po terminie</string>
+    <string name="paid_on_time">Zapłacone w terminie</string>
 </resources>

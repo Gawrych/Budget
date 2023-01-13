@@ -47,4 +47,5 @@
     <color name="second_color_theme">#36338C</color>
     <color name="lighter_accent">#4A45B0</color>
     <color name="darker_accent">#312E76</color>
+    <color name="dark_accent">#2c2f42</color>
 </resources>
