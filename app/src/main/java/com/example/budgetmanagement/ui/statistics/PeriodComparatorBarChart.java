@@ -33,9 +33,9 @@ public class PeriodComparatorBarChart {
         barChartView.setId(R.id.periodBarChart);
 
         // (barSpace + barWidth) * 3 + groupSpace = 1
-        float groupSpace = 0.31f;
+        float groupSpace = 0.16f;
         float barSpace = 0.08f;
-        float barWidth = 0.15f;
+        float barWidth = 0.20f;
 
         BarChartCreator barChartCreator = new BarChartCreator(barChartView);
         barChartCreator.setChartDimensions(groupSpace, barSpace, barWidth);

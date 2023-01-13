@@ -47,7 +47,6 @@ public class PeriodComparatorFragment extends Fragment {
         periodElementsCreator =
                 new PeriodComparatorElementsCreator(binding, comingViewModel);
 
-        setDatePickerValues();
         setMonthsMode();
 
         binding.selectDate.setOnClickListener(v -> periodElementsCreator.getDatesPicker()
@@ -57,7 +56,6 @@ public class PeriodComparatorFragment extends Fragment {
                 .setOnDateSelectedListener((firstYear, firstMonth, secondYear, secondMonth) -> {
             periodElementsCreator.setNewDates(firstYear, firstMonth, secondYear, secondMonth);
             updateData();
-            setDatePickerValues();
         });
 
         binding.onlyYearCheckBox.setOnClickListener(v -> {
@@ -67,37 +65,23 @@ public class PeriodComparatorFragment extends Fragment {
                 setMonthsMode();
             }
         });
-    }
 
-    private void setDatePickerValues() {
-        binding.firstDateYear.setText(periodElementsCreator.getFirstYear());
-        binding.secondDateYear.setText(periodElementsCreator.getSecondYear());
-        binding.firstDateMonth.setText(periodElementsCreator.getFirstMonth());
-        binding.secondDateMonth.setText(periodElementsCreator.getSecondMonth());
+        binding.swapPeriods.setOnClickListener(v -> {
+            periodElementsCreator.swapDates();
+            updateData();
+        });
     }
 
     private void setMonthsMode() {
         this.mode = MONTHS_STATS_MODE;
         periodElementsCreator.getDatesPicker().changeMode(MONTHS_AND_YEAR_MODE);
         updateData();
-        showMonths();
     }
 
     private void setYearsMode() {
         this.mode = YEARS_STATS_MODE;
         periodElementsCreator.getDatesPicker().changeMode(ONLY_YEAR_MODE);
         updateData();
-        hideMonths();
-    }
-
-    private void hideMonths() {
-        binding.firstDateMonth.setTextColor(getResources().getColor(R.color.white_30, null));
-        binding.secondDateMonth.setTextColor(getResources().getColor(R.color.white_30, null));
-    }
-
-    private void showMonths() {
-        binding.firstDateMonth.setTextColor(getResources().getColor(R.color.white, null));
-        binding.secondDateMonth.setTextColor(getResources().getColor(R.color.white, null));
     }
 
     private void updateData() {
@@ -110,10 +94,10 @@ public class PeriodComparatorFragment extends Fragment {
         }
 
         periodElementsCreator.createBarChart();
-        setValuesInTextFields();
+        setValuesInDetailsSection();
     }
 
-    private void setValuesInTextFields() {
+    private void setValuesInDetailsSection() {
         PeriodStatsComparator statsComparator = periodElementsCreator.getStatsComparator();
         binding.amountOfIncomeIncrease
                 .setText(getAmountWithCurrency(statsComparator.getObtainedIncome()));

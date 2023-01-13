@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainLayout"
     android:orientation="vertical"
-    android:background="@color/first_color_theme"
     tools:context=".ui.coming.ComingFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,7 +56,7 @@
             android:id="@+id/addButton"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="15dp"
             android:contentDescription="@string/add_button_content_desc"
             android:background="@drawable/press_feedback_background"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -72,7 +71,7 @@
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_bottom_corner"
+        android:background="@drawable/rounded_top_left_corner_blue_white"
         android:groupIndicator="@null"
         android:divider="@null">
     </ExpandableListView>

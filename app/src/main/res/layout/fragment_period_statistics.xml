@@ -110,7 +110,7 @@
                 android:layout_height="60dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:background="@drawable/round_all_corners" >
+                android:background="@drawable/round_all_corners">
 
                 <ImageView
                     android:id="@+id/transactionStatisticIcon"

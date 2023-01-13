@@ -119,4 +119,6 @@
     <string name="profit">Dochód</string>
     <string name="currency">zł</string>
     <string name="transaction_icon_desc">Transaction for transaction amount</string>
+    <string name="selectDateToCompare">Edit dates in period to edit</string>
+    <string name="date_example">2022 lisopad</string>
 </resources>

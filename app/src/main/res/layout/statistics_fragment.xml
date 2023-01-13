@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.coming.AddNewComingElement"
     android:layout_width="match_parent"
@@ -10,17 +11,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
+        android:background="#f7f8fa"
         tools:context=".ui.statistics.StatisticsFragment">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/title_bar"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:background="@color/first_color_theme">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -31,7 +24,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/generalStats"
             android:layout_width="match_parent"
-            android:layout_height="330dp">
+            android:layout_height="300dp"
+            android:background="#f7f8fa">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/nextIncomeLayout"
@@ -97,7 +91,7 @@
                 android:id="@+id/nextIncomeCheckLayout"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="#F3F3F5"
+                android:background="@color/white"
                 android:elevation="5dp"
                 android:paddingStart="15dp"
                 android:paddingTop="15dp"
@@ -190,7 +184,7 @@
                 android:id="@+id/paymentsAfterDeadlineCheckLayout"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="#F3F3F5"
+                android:background="@color/white"
                 android:elevation="5dp"
                 android:paddingStart="15dp"
                 android:paddingTop="15dp"
@@ -276,13 +270,13 @@
                     app:layout_constraintTop_toTopOf="@+id/nextPaymentDate" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <!--android:background="#F3F3F5" -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/nextPaymentCheckLayout"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="#F3F3F5"
                 android:elevation="5dp"
+                android:background="@color/white"
                 android:paddingStart="15dp"
                 android:paddingTop="15dp"
                 android:paddingEnd="15dp"
@@ -316,27 +310,38 @@
             android:layout_marginTop="30dp"
             android:clickable="false"
             android:layout_gravity="center_horizontal"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="15dp">
+            app:cardCornerRadius="15dp"
+            app:cardElevation="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/gradient"
+                android:background="@color/white"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp">
 
                 <TextView
                     android:id="@+id/monthName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
-                    android:text="Statystyki ze stycznia"
-                    android:textColor="@color/white"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Statystyki okresowe"
+                    android:textColor="#2c2f42"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/chartImage"
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:background="@drawable/icon_background"
+                    android:contentDescription="@string/transaction_icon_desc"
+                    android:src="@drawable/bar_chart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -349,27 +354,40 @@
             android:layout_height="160dp"
             android:layout_marginTop="30dp"
             android:clickable="false"
+            android:layout_marginBottom="50dp"
             android:layout_gravity="center_horizontal"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="15dp">
+            app:cardCornerRadius="15dp"
+            app:cardElevation="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/gradient"
+                android:background="@color/white"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp">
 
                 <TextView
-                    android:id="@+id/categoryBalanceTitle"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/periodComparatorCardView"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="Porównanie dwóch okresów"
-                    android:textColor="@color/white"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Porównanie okresów"
+                    android:textColor="#2c2f42"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/pieChartImage"
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:background="@drawable/icon_background"
+                    android:contentDescription="@string/transaction_icon_desc"
+                    android:src="@drawable/pie_chart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

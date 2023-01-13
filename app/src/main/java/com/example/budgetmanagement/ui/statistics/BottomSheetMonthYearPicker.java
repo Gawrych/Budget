@@ -31,7 +31,7 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
     private static final int SECOND_PERIOD = 1;
     private MonthYearPickerBottomSheetBinding binding;
     private OnMonthAndYearSelectedListener monthAndYearListener;
-    private String[] shortMonths = DateProcessor.getShortMonths();
+    private final String[] shortMonths = DateProcessor.getShortMonths();
     private int mode = -1;
     private int firstYear = -1;
     private int firstMonth = -1;
@@ -71,7 +71,6 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
         getDataFromBundle();
         setDatesInButtons();
         saveValues();
-//        TODO: Add swap button
 
         adapter = new BottomMonthSelectorAdapter(this, getMonthToSelect(), this.mode);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(),4);
@@ -128,9 +127,12 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
     }
 
     private void getDataFromBundle() {
-        if (this.mode == -1 || this.firstYear == -1 || this.firstMonth == -1 ||
-                this.secondYear == -1 || this.secondMonth == -1) {
+        if (this.mode == -1) {
             this.mode = getArguments() != null ? getArguments().getInt(PICKER_MODE) : MONTHS_AND_YEAR_MODE;
+        }
+
+        if (this.firstYear == -1 || this.firstMonth == -1 ||
+                this.secondYear == -1 || this.secondMonth == -1) {
             this.firstYear = getArguments() != null ? getArguments().getInt(BUNDLE_FIRST_YEAR) : 0;
             this.firstMonth = getArguments() != null ? getArguments().getInt(BUNDLE_FIRST_MONTH) : 0;
             this.secondYear = getArguments() != null ? getArguments().getInt(BUNDLE_SECOND_YEAR) : 0;
@@ -202,6 +204,17 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
 
     public interface OnMonthAndYearSelectedListener {
         void onMonthAndYearSelected(int firstYear, int firstMonth, int secondYear, int secondMonth);
+    }
+
+    public void swapDates() {
+        int firstYearBeforeChanged = this.firstYear;
+        int firstMonthBeforeChanged = this.firstMonth;
+        int secondYearBeforeChanged = this.secondYear;
+        int secondMonthBeforeChanged = this.secondMonth;
+        this.firstYear = secondYearBeforeChanged;
+        this.firstMonth = secondMonthBeforeChanged;
+        this.secondYear = firstYearBeforeChanged;
+        this.secondMonth = firstMonthBeforeChanged;
     }
 
     public void changeMode(int mode) {

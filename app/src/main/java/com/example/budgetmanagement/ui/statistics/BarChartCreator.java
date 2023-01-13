@@ -42,7 +42,7 @@ public class BarChartCreator {
         leftAxis.setTextColor(Color.BLACK);
         leftAxis.setTextSize(12);
         leftAxis.setAxisLineColor(Color.WHITE);
-        leftAxis.setDrawGridLines(false);
+        leftAxis.setDrawGridLines(true);
         leftAxis.setGranularity(2);
         leftAxis.setLabelCount(4, false);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);

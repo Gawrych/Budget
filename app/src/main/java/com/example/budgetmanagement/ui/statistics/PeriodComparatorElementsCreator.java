@@ -1,6 +1,7 @@
 package com.example.budgetmanagement.ui.statistics;
 
 import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPicker.MONTHS_AND_YEAR_MODE;
+import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPicker.ONLY_YEAR_MODE;
 
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.FragmentPeriodComparatorBinding;
@@ -11,7 +12,6 @@ import java.util.HashMap;
 
 public class PeriodComparatorElementsCreator {
 
-    private final String[] shortMonths = DateProcessor.getMonths();
     private final FragmentPeriodComparatorBinding binding;
     private final ComingViewModel comingViewModel;
     private int firstMonth;
@@ -100,27 +100,16 @@ public class PeriodComparatorElementsCreator {
         this.secondYear = secondYear;
     }
 
+    public void swapDates() {
+        setNewDates(secondYear, secondMonth, firstYear, firstMonth);
+        datesPicker.swapDates();
+    }
+
     public PeriodStatsComparator getStatsComparator() {
         return statsComparator;
     }
 
     public BottomSheetMonthYearPicker getDatesPicker() {
         return datesPicker;
-    }
-
-    public String getFirstMonth() {
-        return shortMonths[firstMonth];
-    }
-
-    public String getFirstYear() {
-        return String.valueOf(firstYear);
-    }
-
-    public String getSecondMonth() {
-        return shortMonths[secondMonth];
-    }
-
-    public String getSecondYear() {
-        return String.valueOf(secondYear);
     }
 }
