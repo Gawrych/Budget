@@ -21,7 +21,10 @@ import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.FragmentPeriodStatisticsBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class PeriodStatisticsFragment extends Fragment {
 
@@ -67,6 +70,8 @@ public class PeriodStatisticsFragment extends Fragment {
             }
         });
 
+        showStatsFromSelectedChartBar(currentDate.get(Calendar.MONTH));
+
         binding.yearPicker.setOnClickListener(v -> changeYearForChartMonths());
     }
 
@@ -89,6 +94,7 @@ public class PeriodStatisticsFragment extends Fragment {
         barChart = new PeriodStatisticsBarChart(binding);
         barChart.setMonthsAsLabels(DateProcessor.getShortMonths());
         barChart.setData(periodSummary);
+        barChart.setPositionToMoveView(currentDate.get(Calendar.MONTH));
         barChart.drawChart();
 
         barChart.setOnValueSelected(this::showStatsFromSelectedChartBar);
@@ -96,7 +102,7 @@ public class PeriodStatisticsFragment extends Fragment {
 
     private void setChartToYearPeriod() {
         YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(comingViewModel);
-        periodSummary = yearsStatsCollector.getStats().values().toArray(new PeriodSummary[0]); // TODO: Fix this
+        periodSummary = yearsStatsCollector.getStats().values().toArray(new PeriodSummary[0]);
 
         barChart = new PeriodStatisticsBarChart(binding);
         barChart.setYearsAsLabels(yearsStatsCollector.getYears());
@@ -109,8 +115,18 @@ public class PeriodStatisticsFragment extends Fragment {
     private void showStatsFromSelectedChartBar(int selectedValue) {
         PeriodSummary selectedPeriodSummary = periodSummary[selectedValue];
         binding.allTransactionNumber.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactions()));
-        binding.numberOfTransactionsExecutedAfterTheTime.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactionsExecutedAfterTheTime()));
+        binding.numberOfTransactionsAfterTheTime.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactionsAfterTheTime()));
         binding.numberOfRemainingTransaction.setText(String.valueOf(selectedPeriodSummary.getNumberOfRemainingTransactions()));
+        binding.averageTimeAfterTheDeadline.setText(getAmountWithDayLabel(selectedPeriodSummary.getAverageTimeAfterTheDeadlineInDays()));
+        binding.averagePercentPayOnTime.setText(getAmountWithPercentage(selectedPeriodSummary.getPercentOfTransactionsExecutedOnTime()));
+    }
+
+    private String getAmountWithDayLabel(int amount) {
+        return getString(R.string.amount_with_day_label, amount);
+    }
+
+    private String getAmountWithPercentage(int amount) {
+        return getString(R.string.amount_with_percent, amount);
     }
 
     private void changeYearForChartMonths() {

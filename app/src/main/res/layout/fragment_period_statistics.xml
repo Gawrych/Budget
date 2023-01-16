@@ -81,7 +81,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
+<!--TODO Change ids-->
                     <TextView
                         android:id="@+id/incomeIncreaseLabel"
                         style="@style/detailsItemLabel"
@@ -128,7 +128,7 @@
                         app:layout_constraintVertical_chainStyle="packed" />
 
                     <TextView
-                        android:id="@+id/numberOfTransactionsExecutedAfterTheTime"
+                        android:id="@+id/numberOfTransactionsAfterTheTime"
                         style="@style/detailsItemData"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"

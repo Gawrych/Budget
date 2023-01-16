@@ -113,6 +113,7 @@
     <string name="month_icon">month icon</string>
     <string name="amount_with_currency">%1$s %2$s</string>
     <string name="amount_with_percent">%1$d%%</string>
+    <string name="amount_with_day_label">%1$d dni</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loss">Zobowiązania</string>
     <string name="profit">Dochód</string>

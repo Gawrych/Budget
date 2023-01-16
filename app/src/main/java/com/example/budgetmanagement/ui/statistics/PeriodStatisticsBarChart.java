@@ -17,6 +17,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 
 public class PeriodStatisticsBarChart implements OnChartValueSelectedListener {
@@ -24,8 +25,9 @@ public class PeriodStatisticsBarChart implements OnChartValueSelectedListener {
     private final Context context;
     private PeriodSummary[] periodSummary;
     private final FragmentPeriodStatisticsBinding binding;
-    private ArrayList<String> chartLabels = new ArrayList<>();
+    private final ArrayList<String> chartLabels = new ArrayList<>();
     private OnValueSelected onValueSelected;
+    private int positionToMoveView = 0;
 
     public PeriodStatisticsBarChart(FragmentPeriodStatisticsBinding binding) {
         this.binding = binding;
@@ -42,6 +44,7 @@ public class PeriodStatisticsBarChart implements OnChartValueSelectedListener {
         barChartCreator.create(chartLabels, getDataForBarChart());
 
         barChartView.setOnChartValueSelectedListener(this);
+        barChartView.moveViewToX(positionToMoveView);
 
         LinearLayout chartLayout = binding.chartLayout;
         chartLayout.removeAllViews();
@@ -74,6 +77,10 @@ public class PeriodStatisticsBarChart implements OnChartValueSelectedListener {
 
     public void setData(PeriodSummary[] periodSummary) {
         this.periodSummary = periodSummary;
+    }
+
+    public void setPositionToMoveView(int position) {
+        this.positionToMoveView = position;
     }
 
     @Override

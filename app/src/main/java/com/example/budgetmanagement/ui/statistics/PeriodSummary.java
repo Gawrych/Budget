@@ -3,6 +3,7 @@ package com.example.budgetmanagement.ui.statistics;
 import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 public class PeriodSummary {
@@ -11,8 +12,9 @@ public class PeriodSummary {
     private BigDecimal lossBalance = new BigDecimal(0);
     private int numberOfTransactions;
     private int numberOfTransactionsExecutedAfterTheTime;
+    private int numberOfTransactionsAfterTheTime;
     private int numberOfExecutedTransactions;
-    private long averageTransactionExecutedDelay;
+    private long averageTransactionDelay;
 
     public PeriodSummary() {}
 
@@ -31,10 +33,18 @@ public class PeriodSummary {
             numberOfExecutedTransactions++;
         }
 
-        float millisAfterTheTime = item.coming.getExecutedDate() - item.coming.getExpireDate();
-        boolean executedAfterTheTime = millisAfterTheTime > 0;
-        if (isExecuted && executedAfterTheTime) {
-            averageTransactionExecutedDelay += millisAfterTheTime;
+        Calendar today = Calendar.getInstance();
+        float millisOfTransactionAfterTheTime = today.getTimeInMillis() - item.coming.getExpireDate();
+        boolean isTransactionAfterTheTime = millisOfTransactionAfterTheTime > 0;
+        if(!isExecuted && isTransactionAfterTheTime) {
+            averageTransactionDelay += millisOfTransactionAfterTheTime;
+            numberOfTransactionsAfterTheTime++;
+        }
+
+        float millisOfTransactionExecutedAfterTheTime = item.coming.getExecutedDate() - item.coming.getExpireDate();
+        boolean isTransactionExecutedAfterTheTime = millisOfTransactionExecutedAfterTheTime > 0;
+        if (isExecuted && isTransactionExecutedAfterTheTime) {
+            averageTransactionDelay += millisOfTransactionExecutedAfterTheTime;
             numberOfTransactionsExecutedAfterTheTime++;
         }
     }
@@ -55,16 +65,29 @@ public class PeriodSummary {
         return numberOfTransactions;
     }
 
-    public int getNumberOfTransactionsExecutedAfterTheTime() {
-        return numberOfTransactionsExecutedAfterTheTime;
+    public int getNumberOfTransactionsAfterTheTime() {
+        return numberOfTransactionsAfterTheTime;
     }
 
     public int getNumberOfRemainingTransactions() {
         return numberOfTransactions - numberOfExecutedTransactions;
     }
 
-    public int getAverageTransactionExecutedDelayInDays() {
-        return (int) TimeUnit.MILLISECONDS.toDays(averageTransactionExecutedDelay);
+    public int getAverageTimeAfterTheDeadlineInDays() {
+        if (numberOfTransactionsExecutedAfterTheTime > 0) {
+            return (int) TimeUnit.MILLISECONDS.toDays(averageTransactionDelay / (numberOfTransactionsExecutedAfterTheTime+numberOfTransactionsAfterTheTime));
+        }
+        return 0;
     }
 
+    public int getPercentOfTransactionsExecutedOnTime() {
+        return percentOfTotal(numberOfTransactions - (numberOfTransactionsExecutedAfterTheTime+numberOfTransactionsAfterTheTime), numberOfTransactions);
+    }
+
+    private int percentOfTotal(float value, float total) {
+        if (value == 0 || total == 0) {
+            return 0;
+        }
+        return (int) ((value / total) * 100); // TODO: round instead of cast
+    }
 }
