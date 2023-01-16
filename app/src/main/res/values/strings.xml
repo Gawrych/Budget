@@ -113,7 +113,6 @@
     <string name="month_icon">month icon</string>
     <string name="amount_with_currency">%1$s %2$s</string>
     <string name="amount_with_percent">%1$d%%</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loss">Zobowiązania</string>
     <string name="profit">Dochód</string>
@@ -125,4 +124,7 @@
     <string name="profits">Dochody</string>
     <string name="average_after_deadline">Średnio po terminie</string>
     <string name="paid_on_time">Zapłacone w terminie</string>
+    <string name="transactions">Transakcji</string>
+    <string name="default_year">2023</string>
+
 </resources>

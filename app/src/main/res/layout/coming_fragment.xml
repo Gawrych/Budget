@@ -10,16 +10,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_bar_for_item_list"
-        android:layout_width="match_parent"
-        android:background="@color/first_color_theme"
-        android:layout_height="50dp"
-        android:layout_gravity="end">
+        style="@style/topBar">
 
         <TextView
             android:id="@+id/pickedYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Domyślny rok"
+            android:text="@string/default_year"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/categoriesButton"

@@ -185,7 +185,7 @@
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:background">@drawable/rounded_top_left_corner_white</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:paddingTop">40dp</item>
+        <item name="android:paddingTop">30dp</item>
         <item name="android:paddingStart">30dp</item>
         <item name="android:paddingEnd">30dp</item>
     </style>
@@ -205,7 +205,7 @@
         <item name="android:background">@drawable/icon_background</item>
         <item name="android:backgroundTint">@color/mat_green</item>
         <item name="tint">@color/indigo</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:padding">7dp</item>
     </style>
 
     <style name="detailsItemLabel">

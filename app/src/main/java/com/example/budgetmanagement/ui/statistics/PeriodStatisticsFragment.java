@@ -33,10 +33,6 @@ public class PeriodStatisticsFragment extends Fragment {
     private int selectedYear;
     private PeriodStatisticsBarChart barChart;
     private Calendar currentDate;
-    private int selectedChartBar;
-    private BottomSheetMonthYearPicker datesPicker;
-    private int currentMonth;
-    private int currentYear;
     private PeriodSummary[] periodSummary;
 
 
@@ -58,19 +54,17 @@ public class PeriodStatisticsFragment extends Fragment {
         comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
 
         currentDate = Calendar.getInstance();
-        this.currentMonth = currentDate.get(Calendar.MONTH);
-        this.currentYear = currentDate.get(Calendar.YEAR);
 
         setCurrentYearAsStartValueToChartAndStats();
 
         setMode(MONTHS_STATS_MODE);
 
-        binding.monthsButton.setOnClickListener(v -> {
-            setMode(MONTHS_STATS_MODE);
-        });
-
-        binding.yearButton.setOnClickListener(v -> {
-            setMode(YEARS_STATS_MODE);
+        binding.onlyYearCheckBox.setOnClickListener(v -> {
+            if (binding.onlyYearCheckBox.isChecked()) {
+                setMode(YEARS_STATS_MODE);
+            } else {
+                setMode(MONTHS_STATS_MODE);
+            }
         });
 
         binding.yearPicker.setOnClickListener(v -> changeYearForChartMonths());
