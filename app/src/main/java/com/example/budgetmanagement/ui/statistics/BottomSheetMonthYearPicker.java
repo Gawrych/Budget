@@ -39,10 +39,10 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
     private int secondMonth = -1;
     private int period = FIRST_PERIOD;
     private BottomMonthSelectorAdapter adapter;
-    private int firstYearToRestoreIfCancel;
-    private int firstMonthToRestoreIfCancel;
-    private int secondYearToRestoreIfCancel;
-    private int secondMonthToRestoreIfCancel;
+    private int firstYearToRestoreIfCanceled;
+    private int firstMonthToRestoreIfCanceled;
+    private int secondYearToRestoreIfCanceled;
+    private int secondMonthToRestoreIfCanceled;
 
 
     public static BottomSheetMonthYearPicker newInstance(int mode, int firstYear, int firstMonth,
@@ -70,7 +70,7 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
         super.onViewCreated(view, savedInstanceState);
         getDataFromBundle();
         setDatesInButtons();
-        saveValues();
+        saveValuesToRestoreIfCanceled();
 
         adapter = new BottomMonthSelectorAdapter(this, getMonthToSelect(), this.mode);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(),4);
@@ -112,18 +112,18 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
         return selectedPeriodToLetUserChangeMonthOrYear;
     }
 
-    private void saveValues() {
-        firstYearToRestoreIfCancel = firstYear;
-        firstMonthToRestoreIfCancel = firstMonth;
-        secondYearToRestoreIfCancel = secondYear;
-        secondMonthToRestoreIfCancel = secondMonth;
+    private void saveValuesToRestoreIfCanceled() {
+        firstYearToRestoreIfCanceled = firstYear;
+        firstMonthToRestoreIfCanceled = firstMonth;
+        secondYearToRestoreIfCanceled = secondYear;
+        secondMonthToRestoreIfCanceled = secondMonth;
     }
 
     private void restoreValues() {
-        firstYear = firstYearToRestoreIfCancel;
-        firstMonth = firstMonthToRestoreIfCancel;
-        secondYear = secondYearToRestoreIfCancel;
-        secondMonth = secondMonthToRestoreIfCancel;
+        firstYear = firstYearToRestoreIfCanceled;
+        firstMonth = firstMonthToRestoreIfCanceled;
+        secondYear = secondYearToRestoreIfCanceled;
+        secondMonth = secondMonthToRestoreIfCanceled;
     }
 
     private void getDataFromBundle() {
