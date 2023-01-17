@@ -74,20 +74,22 @@ public class PeriodSummary {
     }
 
     public int getAverageTimeAfterTheDeadlineInDays() {
-        if (numberOfTransactionsExecutedAfterTheTime > 0) {
-            return (int) TimeUnit.MILLISECONDS.toDays(averageTransactionDelay / (numberOfTransactionsExecutedAfterTheTime+numberOfTransactionsAfterTheTime));
+        int sumNumberOfTransactionsAfterTheTime = numberOfTransactionsExecutedAfterTheTime+numberOfTransactionsAfterTheTime;
+        if (sumNumberOfTransactionsAfterTheTime > 0) {
+            return (int) TimeUnit.MILLISECONDS.toDays(averageTransactionDelay / sumNumberOfTransactionsAfterTheTime);
         }
         return 0;
     }
 
-    public int getPercentOfTransactionsExecutedOnTime() {
-        return percentOfTotal(numberOfTransactions - (numberOfTransactionsExecutedAfterTheTime+numberOfTransactionsAfterTheTime), numberOfTransactions);
+    public int getPercentageOfTransactionsExecutedOnTime() {
+        int sumNumberOfTransactionsAfterTheTime = numberOfTransactionsExecutedAfterTheTime+numberOfTransactionsAfterTheTime;
+        return percentageOfTotal(numberOfTransactions - sumNumberOfTransactionsAfterTheTime, numberOfTransactions);
     }
 
-    private int percentOfTotal(float value, float total) {
+    private int percentageOfTotal(float value, float total) {
         if (value == 0 || total == 0) {
             return 0;
         }
-        return (int) ((value / total) * 100); // TODO: round instead of cast
+        return Math.round((value / total) * 100);
     }
 }

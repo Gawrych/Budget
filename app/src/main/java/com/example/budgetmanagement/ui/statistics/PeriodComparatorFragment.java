@@ -105,6 +105,14 @@ public class PeriodComparatorFragment extends Fragment {
                 .setText(getAmountWithCurrency(statsComparator.getObtainedProfit()));
         binding.amountOfLossIncrease
                 .setText(getAmountWithCurrency(statsComparator.getObtainedLoss()));
+        binding.averageTimeAfterTheDeadlineFirstPeriod
+                .setText(getAmountWithDayLabel(statsComparator.getFirstPeriod().getAverageTimeAfterTheDeadlineInDays()));
+        binding.averageTimeAfterTheDeadlineSecondPeriod
+                .setText(getAmountWithDayLabel(statsComparator.getSecondPeriod().getAverageTimeAfterTheDeadlineInDays()));
+        binding.payOnTimeInPercentageFirstPeriod
+                .setText(getAmountWithPercentage(statsComparator.getFirstPeriod().getPercentageOfTransactionsExecutedOnTime()));
+        binding.payOnTimeInPercentageSecondPeriod
+                .setText(getAmountWithPercentage(statsComparator.getSecondPeriod().getPercentageOfTransactionsExecutedOnTime()));
 
         binding.incomeIncrease
                 .setText(getAmountWithPercentage(statsComparator.getPercentIncome()));
@@ -112,6 +120,10 @@ public class PeriodComparatorFragment extends Fragment {
                 .setText(getAmountWithPercentage(statsComparator.getPercentProfit()));
         binding.lossIncrease
                 .setText(getAmountWithPercentage(statsComparator.getPercentLoss()));
+        binding.averageGrowthTimeAfterTheDeadline
+                .setText(getAmountWithDayLabel(statsComparator.getGrowthAverageTimeAfterTheDeadlineInDays()));
+        binding.growthPayOnTimeInPercentagePoints
+                .setText(getAmountWithPercentagePoints(statsComparator.getGrowthOfPercentOfTransactionsExecutedOnTime()));
     }
 
     private String getAmountWithCurrency(float amount) {
@@ -122,5 +134,13 @@ public class PeriodComparatorFragment extends Fragment {
 
     private String getAmountWithPercentage(int amount) {
         return getString(R.string.amount_with_percent, amount);
+    }
+
+    private String getAmountWithDayLabel(int amount) {
+        return getString(R.string.amount_with_day_label, amount);
+    }
+
+    private String getAmountWithPercentagePoints(int amount) {
+        return getString(R.string.amount_with_percentage_points, amount);
     }
 }

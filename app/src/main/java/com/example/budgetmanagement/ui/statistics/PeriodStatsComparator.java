@@ -37,6 +37,14 @@ public class PeriodStatsComparator {
         return (int) (firstPeriod.getLoss() - secondPeriod.getLoss());
     }
 
+    public int getGrowthAverageTimeAfterTheDeadlineInDays() {
+        return firstPeriod.getAverageTimeAfterTheDeadlineInDays() - secondPeriod.getAverageTimeAfterTheDeadlineInDays();
+    }
+
+    public int getGrowthOfPercentOfTransactionsExecutedOnTime() {
+        return firstPeriod.getPercentageOfTransactionsExecutedOnTime() - secondPeriod.getPercentageOfTransactionsExecutedOnTime();
+    }
+
     private int percentGrowth(float obtained, float total) {
         if (obtained == 0 && total == 0) {
             return 0;

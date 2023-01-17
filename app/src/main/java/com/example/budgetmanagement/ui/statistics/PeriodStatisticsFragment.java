@@ -21,10 +21,7 @@ import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.FragmentPeriodStatisticsBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public class PeriodStatisticsFragment extends Fragment {
 
@@ -114,11 +111,11 @@ public class PeriodStatisticsFragment extends Fragment {
 
     private void showStatsFromSelectedChartBar(int selectedValue) {
         PeriodSummary selectedPeriodSummary = periodSummary[selectedValue];
-        binding.allTransactionNumber.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactions()));
+        binding.allTransactionsNumber.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactions()));
         binding.numberOfTransactionsAfterTheTime.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactionsAfterTheTime()));
         binding.numberOfRemainingTransaction.setText(String.valueOf(selectedPeriodSummary.getNumberOfRemainingTransactions()));
         binding.averageTimeAfterTheDeadline.setText(getAmountWithDayLabel(selectedPeriodSummary.getAverageTimeAfterTheDeadlineInDays()));
-        binding.averagePercentPayOnTime.setText(getAmountWithPercentage(selectedPeriodSummary.getPercentOfTransactionsExecutedOnTime()));
+        binding.averagePercentPayOnTime.setText(getAmountWithPercentage(selectedPeriodSummary.getPercentageOfTransactionsExecutedOnTime()));
     }
 
     private String getAmountWithDayLabel(int amount) {

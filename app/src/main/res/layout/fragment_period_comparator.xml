@@ -55,7 +55,7 @@
             <LinearLayout
                 android:id="@+id/chartLayout"
                 style="@style/chartLayout"
-                android:layout_height="230dp"
+                android:layout_height="240dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -215,21 +215,29 @@
                         style="@style/detailsItemLabel"
                         android:labelFor="@+id/allTransactionNumber"
                         android:text="@string/average_after_deadline"
-                        app:layout_constraintBottom_toTopOf="@+id/globalAverageTimeAfterTheDeadline"
+                        app:layout_constraintBottom_toTopOf="@+id/averageTimeAfterTheDeadlineSecondPeriod"
                         app:layout_constraintStart_toEndOf="@+id/averageTimeAfterTheDeadlineIcon"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="packed" />
 
                     <TextView
-                        android:id="@+id/globalAverageTimeAfterTheDeadline"
-                        style="@style/detailsItemExtraData"
+                        android:id="@+id/averageTimeAfterTheDeadlineSecondPeriod"
+                        style="@style/detailsItemExtraDataWithIcon"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/averageTimeAfterTheDeadlineLabel"
                         app:layout_constraintTop_toBottomOf="@+id/averageTimeAfterTheDeadlineLabel" />
 
                     <TextView
-                        android:id="@+id/averageTimeAfterTheDeadline"
+                        android:id="@+id/averageTimeAfterTheDeadlineFirstPeriod"
+                        style="@style/detailsItemExtraData"
+                        android:text="@string/no_data"
+                        app:layout_constraintBottom_toBottomOf="@+id/averageTimeAfterTheDeadlineSecondPeriod"
+                        app:layout_constraintStart_toEndOf="@+id/averageTimeAfterTheDeadlineSecondPeriod"
+                        app:layout_constraintTop_toTopOf="@+id/averageTimeAfterTheDeadlineSecondPeriod" />
+
+                    <TextView
+                        android:id="@+id/averageGrowthTimeAfterTheDeadline"
                         style="@style/detailsItemData"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -242,7 +250,7 @@
                     style="@style/detailsItemLayout">
 
                     <ImageView
-                        android:id="@+id/payOnTimeIcon"
+                        android:id="@+id/payOnTimeLabelIcon"
                         style="@style/detailsItemIcon"
                         android:backgroundTint="@color/mat_green"
                         android:contentDescription="@string/transaction_icon_desc"
@@ -256,21 +264,29 @@
                         style="@style/detailsItemLabel"
                         android:text="@string/paid_on_time"
                         android:labelFor="@+id/allTransactionNumber"
-                        app:layout_constraintBottom_toTopOf="@+id/globalAveragePercentPayOnTime"
-                        app:layout_constraintStart_toEndOf="@+id/payOnTimeIcon"
+                        app:layout_constraintBottom_toTopOf="@+id/payOnTimeInPercentageSecondPeriod"
+                        app:layout_constraintStart_toEndOf="@+id/payOnTimeLabelIcon"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="packed" />
 
                     <TextView
-                        android:id="@+id/globalAveragePercentPayOnTime"
-                        style="@style/detailsItemExtraData"
+                        android:id="@+id/payOnTimeInPercentageSecondPeriod"
+                        style="@style/detailsItemExtraDataWithIcon"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/payOnTimeLabel"
                         app:layout_constraintTop_toBottomOf="@+id/payOnTimeLabel" />
 
                     <TextView
-                        android:id="@+id/averagePercentPayOnTime"
+                        android:id="@+id/payOnTimeInPercentageFirstPeriod"
+                        style="@style/detailsItemExtraData"
+                        android:text="@string/no_data"
+                        app:layout_constraintBottom_toBottomOf="@+id/payOnTimeInPercentageSecondPeriod"
+                        app:layout_constraintStart_toEndOf="@+id/payOnTimeInPercentageSecondPeriod"
+                        app:layout_constraintTop_toTopOf="@+id/payOnTimeInPercentageSecondPeriod" />
+
+                    <TextView
+                        android:id="@+id/growthPayOnTimeInPercentagePoints"
                         style="@style/detailsItemData"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"

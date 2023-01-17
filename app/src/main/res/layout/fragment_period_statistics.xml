@@ -73,7 +73,7 @@
                     style="@style/detailsItemLayout">
 
                     <ImageView
-                        android:id="@+id/incomeIncreaseLabelIcon"
+                        android:id="@+id/allTransactionsNumberLabelIcon"
                         style="@style/detailsItemIcon"
                         android:padding="5dp"
                         android:contentDescription="@string/transaction_icon_desc"
@@ -81,20 +81,20 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-<!--TODO Change ids-->
+
                     <TextView
-                        android:id="@+id/incomeIncreaseLabel"
+                        android:id="@+id/allTransactionsNumberLabel"
                         style="@style/detailsItemLabel"
-                        android:labelFor="@+id/allTransactionNumber"
+                        android:labelFor="@+id/allTransactionsNumber"
                         android:text="@string/transactions"
                         android:textColor="@color/mat_green"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/incomeIncreaseLabelIcon"
+                        app:layout_constraintStart_toEndOf="@+id/allTransactionsNumberLabelIcon"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="packed" />
 
                     <TextView
-                        android:id="@+id/allTransactionNumber"
+                        android:id="@+id/allTransactionsNumber"
                         style="@style/detailsItemData"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -107,7 +107,7 @@
                     style="@style/detailsItemLayout">
 
                     <ImageView
-                        android:id="@+id/numberOfRemainingTransactionIcon"
+                        android:id="@+id/numberOfTransactionsAfterTheTimeLabelIcon"
                         style="@style/detailsItemIcon"
                         android:backgroundTint="@color/mat_red"
                         android:contentDescription="@string/transaction_icon_desc"
@@ -117,13 +117,13 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/lossIncreaseLabel"
+                        android:id="@+id/numberOfTransactionsAfterTheTimeLabel"
                         style="@style/detailsItemLabel"
                         android:labelFor="@+id/allTransactionNumber"
                         android:text="@string/after_the_deadline"
                         android:textColor="@color/mat_red"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/numberOfRemainingTransactionIcon"
+                        app:layout_constraintStart_toEndOf="@+id/numberOfTransactionsAfterTheTimeLabelIcon"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="packed" />
 
@@ -141,7 +141,7 @@
                     style="@style/detailsItemLayout">
 
                     <ImageView
-                        android:id="@+id/profitIncreaseIcon"
+                        android:id="@+id/numberOfRemainingTransactionLabelIcon"
                         style="@style/detailsItemIcon"
                         android:backgroundTint="@color/mat_blue"
                         android:contentDescription="@string/transaction_icon_desc"
@@ -151,13 +151,13 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/profitIncreaseLabel"
+                        android:id="@+id/numberOfRemainingTransactionLabel"
                         style="@style/detailsItemLabel"
                         android:labelFor="@+id/allTransactionNumber"
                         android:text="@string/left"
                         android:textColor="@color/mat_blue"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/profitIncreaseIcon"
+                        app:layout_constraintStart_toEndOf="@+id/numberOfRemainingTransactionLabelIcon"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="packed" />
 
@@ -208,7 +208,7 @@
                     style="@style/detailsItemLayout">
 
                     <ImageView
-                        android:id="@+id/payOnTimeIcon"
+                        android:id="@+id/payOnTimeLabelIcon"
                         style="@style/detailsItemIcon"
                         android:backgroundTint="@color/mat_green"
                         android:contentDescription="@string/transaction_icon_desc"
@@ -223,7 +223,7 @@
                         android:labelFor="@+id/allTransactionNumber"
                         android:text="@string/paid_on_time"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/payOnTimeIcon"
+                        app:layout_constraintStart_toEndOf="@+id/payOnTimeLabelIcon"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="packed" />
 
