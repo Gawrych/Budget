@@ -49,12 +49,13 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
     private NewCategoryDataCollector newCategoryDataCollector;
     private MaterialButton acceptButton;
     private SwitchMaterial profitSwitch;
-    private int iconId = 0; // TODO Change this to global static variable
+    private int iconId = 0;
     private CategoryViewModel categoryViewModel;
     private int categoryId;
     private Category category;
     private boolean isEdit;
     private IconPack iconPack;
+    private int color = R.color.mat_blue;
 
     public static AddNewCategoryElement newInstance(int categoryId, boolean isEdit) {
         Bundle bundle = new Bundle();
@@ -213,13 +214,18 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
         iconPickerLayout.setHint(selectedIcon.getTags().get(0));
     }
 
+    private void setIconId(int id) {
+        this.iconId = id;
+    }
+
     @Override
     public int getIconId() {
         return this.iconId;
     }
 
-    private void setIconId(int id) {
-        this.iconId = id;
+    @Override
+    public int getColor() {
+        return color;
     }
 
     @Override

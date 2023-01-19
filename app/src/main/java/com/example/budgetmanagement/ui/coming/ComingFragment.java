@@ -77,7 +77,7 @@ public class ComingFragment extends Fragment {
                         -> openDetailsFragment(groupPosition, childPosition, view));
 
         binding.expandableListView.setOnItemLongClickListener
-                ((parent, v, flatPosition, id) -> showBottomSheetMenu(parent, flatPosition));
+                ((parent, v, flatPosition, id) -> showItemBottomSheetMenu(parent, flatPosition));
 
         binding.addButton.setOnClickListener(root -> Navigation.findNavController(root)
                 .navigate(R.id.action_navigation_incoming_to_addNewComingElement));
@@ -112,7 +112,7 @@ public class ComingFragment extends Fragment {
         return true;
     }
 
-    private boolean showBottomSheetMenu(AdapterView<?> parent, int flatPosition) {
+    private boolean showItemBottomSheetMenu(AdapterView<?> parent, int flatPosition) {
         long packedPosition = ((ExpandableListView) parent).getExpandableListPosition(flatPosition);
         if (ExpandableListView.getPackedPositionType(packedPosition)
                 == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {

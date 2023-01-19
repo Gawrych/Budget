@@ -8,11 +8,13 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.budgetmanagement.R;
+
 import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class}, version = 138, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class}, version = 141, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -46,9 +48,9 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
             super.onOpen(db);
             databaseWriteExecutor.execute(() -> {
                 CategoryDao categoryDao = INSTANCE.categoryDao();
-                Category category = new Category(1, "Różne", 955, "0", LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
-                Category category2 = new Category(2, "Spożywcze", 255, "0", LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
-                Category category3 = new Category(3, "Pensje", 256, "1500", LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category = new Category(1, "Różne", 955, R.color.mat_green, "0", LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category2 = new Category(2, "Spożywcze", 255, R.color.mat_blue, "0", LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category3 = new Category(3, "Pensje", 256, R.color.mat_red, "1500", LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
                 categoryDao.insert(category);
                 categoryDao.insert(category2);
                 categoryDao.insert(category3);

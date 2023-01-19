@@ -128,5 +128,6 @@
     <string name="paid_on_time">Zapłacone w terminie</string>
     <string name="transactions">Transakcji</string>
     <string name="default_year">2023</string>
+    <string name="details">Szczegóły</string>
 
 </resources>

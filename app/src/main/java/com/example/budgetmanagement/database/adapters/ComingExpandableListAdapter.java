@@ -5,6 +5,7 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DAT
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -31,14 +35,14 @@ import org.joda.time.Days;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
     private final Context context;
     private final IconPack iconPack;
     private ArrayList<Section> items;
-    private ImageView outOfDateIcon;
-    private CategoryViewModel categoryViewModel;
+    private final CategoryViewModel categoryViewModel;
 
     public ComingExpandableListAdapter(Context context, ArrayList<Section> items, ViewModelStoreOwner owner, IconPack iconPack) {
         this.context = context;
@@ -88,18 +92,6 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
             view = inflater.inflate(R.layout.coming_group_view, viewGroup, false);
         }
         TextView sectionName = view.findViewById(R.id.sectionName);
-        TextView balance = view.findViewById(R.id.balance);
-        TextView currency = view.findViewById(R.id.currency);
-        balance.setText(section.getBalance());
-
-        if (section.isBalanceNegative()) {
-            balance.setTextColor(context.getColor(R.color.black));
-            currency.setTextColor(context.getColor(R.color.black));
-        } else {
-            balance.setTextColor(context.getColor(R.color.mat_green));
-            currency.setTextColor(context.getColor(R.color.mat_green));
-        }
-
         sectionName.setText(sectionTitle);
         return view;
     }
@@ -122,8 +114,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         final TextView remainingDays = view.findViewById(R.id.remainingDays);
         final TextView daysText = view.findViewById(R.id.daysText);
         final TextView dateInfo = view.findViewById(R.id.info);
-        outOfDateIcon = view.findViewById(R.id.outOfDateIcon);
-
+        final ImageView mainIcon = view.findViewById(R.id.outOfDateIcon);
 
         ComingAndTransaction item = getChild(i, i1);
         String amount = item.transaction.getAmount();
@@ -151,8 +142,16 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         Category category = categoryViewModel.getCategoryById(categoryId);
 
         int iconId = category.getIcon();
-        Drawable icon = iconPack.getIcon(iconId).getDrawable();
-        outOfDateIcon.setImageDrawable(icon);
+        Drawable icon = Objects.requireNonNull(iconPack.getIcon(iconId)).getDrawable();
+        mainIcon.setImageDrawable(icon);
+
+        int color = category.getColor();
+        Drawable ovalWithColorBackground =
+                getDrawableWithColor(R.drawable.icon_background_oval, color);
+
+        if (ovalWithColorBackground != null) {
+            mainIcon.setBackground(ovalWithColorBackground);
+        }
 
         boolean afterDeadline = otherDate.before(todayDate);
         remainingDays.setText(String.valueOf(Math.abs(days)));
@@ -186,6 +185,19 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         return view;
+    }
+
+    private Drawable getDrawableWithColor(int drawableId, int colorId) {
+        int color = ContextCompat.getColor(context, colorId);
+        Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), drawableId, null);
+
+        if (drawable != null) {
+            Drawable drawableWrapped = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(drawableWrapped, color);
+            return drawableWrapped;
+        }
+
+        return null;
     }
 
     @Override

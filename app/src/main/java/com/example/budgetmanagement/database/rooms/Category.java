@@ -19,6 +19,9 @@ public class Category {
     @ColumnInfo(name = "icon")
     private final int icon;
 
+    @ColumnInfo(name = "color")
+    private final int color;
+
     @ColumnInfo(name = "budget")
     private final String budget;
 
@@ -28,10 +31,11 @@ public class Category {
     @ColumnInfo(name = "modifiedDate")
     private final long modifiedDate;
 
-    public Category(int categoryId, @NonNull String name, int icon, @NonNull String budget, long addDate, long modifiedDate) {
+    public Category(int categoryId, @NonNull String name, int icon, int color, @NonNull String budget, long addDate, long modifiedDate) {
         this.categoryId = categoryId;
         this.name = name;
         this.icon = icon;
+        this.color = color;
         this.budget = budget;
         this.addDate = addDate;
         this.modifiedDate = modifiedDate;
@@ -50,6 +54,10 @@ public class Category {
         return icon;
     }
 
+    public int getColor() {
+        return color;
+    }
+
     public String getBudget() {
         return budget;
     }
@@ -61,5 +69,4 @@ public class Category {
     public long getModifiedDate() {
         return modifiedDate;
     }
-
 }

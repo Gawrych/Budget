@@ -7,5 +7,7 @@ public interface NewCategoryFields extends BasicFormFields {
 
     int getIconId();
 
+    int getColor();
+
     TextInputLayout getIconPickerLayout();
 }
