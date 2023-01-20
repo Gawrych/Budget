@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.rooms.TransactionRepository;
 
-
 public class TransactionViewModel extends AndroidViewModel {
 
     private TransactionRepository transactionRepository;
@@ -23,5 +22,9 @@ public class TransactionViewModel extends AndroidViewModel {
 
     public void update(Transaction transaction) {
         transactionRepository.update(transaction);
+    }
+
+    public void changeAllFromDeletedCategoryToDefault(int categoryIdToRemoveFromTransactions) {
+        transactionRepository.changeAllFromDeletedCategoryToDefault(categoryIdToRemoveFromTransactions);
     }
 }

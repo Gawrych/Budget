@@ -31,8 +31,6 @@ public interface CategoryDao {
     @Query("SELECT * FROM categories WHERE categoryId = :id")
     Category getCategoryById(int id);
 
-    // getAllCategory() must have the same sorting as getCategoryList() to correct works bottom sheet
-    // category selector
     @Query("SELECT * FROM categories")
     LiveData<List<Category>> getAllCategory();
 

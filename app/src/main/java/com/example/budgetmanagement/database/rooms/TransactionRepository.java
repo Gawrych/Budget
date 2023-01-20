@@ -27,4 +27,10 @@ public class TransactionRepository {
             transactionDao.delete(transaction);
         });
     }
+
+    public void changeAllFromDeletedCategoryToDefault(int categoryIdToRemoveFromTransactions) {
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> {
+            transactionDao.changeAllFromDeletedCategoryToDefault(categoryIdToRemoveFromTransactions);
+        });
+    }
 }

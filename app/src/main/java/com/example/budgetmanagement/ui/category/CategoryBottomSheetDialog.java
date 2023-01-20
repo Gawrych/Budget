@@ -15,6 +15,7 @@ import androidx.navigation.Navigation;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
+import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.CategoryBottomSheetDialogBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -22,6 +23,7 @@ public class CategoryBottomSheetDialog extends BottomSheetDialogFragment {
 
     private CategoryBottomSheetDialogBinding binding;
     private static final String BUNDLE_CATEGORY_VALUE = "coming_value";
+    private TransactionViewModel transactionViewModel;
     private CategoryViewModel categoryViewModel;
     private int categoryId;
 
@@ -44,6 +46,7 @@ public class CategoryBottomSheetDialog extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        this.transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         this.categoryId = getArguments() != null ? getArguments().getInt(BUNDLE_CATEGORY_VALUE, -1) : -1;
 
         if (categoryId == -1) {
@@ -69,6 +72,7 @@ public class CategoryBottomSheetDialog extends BottomSheetDialogFragment {
     }
 
     private void removeFromDatabase() {
+        transactionViewModel.changeAllFromDeletedCategoryToDefault(this.categoryId);
         categoryViewModel.delete(this.categoryId);
     }
 
