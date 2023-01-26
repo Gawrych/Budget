@@ -3,17 +3,12 @@ package com.example.budgetmanagement;
 import android.app.Application;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,12 +17,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.budgetmanagement.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Objects;
-
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
     public static Resources resources;
     static Application applicationInstance;
 
@@ -37,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         applicationInstance = this.getApplication();
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        com.example.budgetmanagement.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         resources = getResources();
 
@@ -60,34 +52,34 @@ public class MainActivity extends AppCompatActivity {
             int destination = navDestination.getId();
             if(destination == R.id.addNewComing) {
                 navBar.setVisibility(View.GONE);
-                fragmentName.setText(R.string.add_new_transaction);
+                fragmentName.setText(R.string.fragment_name_new_transactions);
             } else if (destination == R.id.editComingElement) {
                 navBar.setVisibility(View.GONE);
-                fragmentName.setText("Edycja");
+                fragmentName.setText(R.string.fragment_name_edit);
             } else if (destination == R.id.addNewCategoryElement) {
                 navBar.setVisibility(View.GONE);
-                fragmentName.setText("Nowa kategoria");
+                fragmentName.setText(R.string.fragment_name_new_category);
             } else if (destination == R.id.comingElementDetails) {
                 navBar.setVisibility(View.GONE);
-                fragmentName.setText("Szczegóły");
+                fragmentName.setText(R.string.details);
             } else if (destination == R.id.navigation_settings) {
                 navBar.setVisibility(View.VISIBLE);
-                fragmentName.setText("Ustawienia");
+                fragmentName.setText(R.string.fragment_name_settings);
             } else if (destination == R.id.periodComparatorFragment) {
                 navBar.setVisibility(View.GONE);
-                fragmentName.setText("Statystyki");
+                fragmentName.setText(R.string.fragment_name_statistics);
             } else if (destination == R.id.periodStatisticsFragment) {
                 navBar.setVisibility(View.GONE);
-                fragmentName.setText("Statystyki");
+                fragmentName.setText(R.string.fragment_name_statistics);
             } else if (destination == R.id.navigation_statistics) {
                 navBar.setVisibility(View.VISIBLE);
-                fragmentName.setText("Statystyki");
+                fragmentName.setText(R.string.fragment_name_statistics);
             } else if (destination == R.id.navigation_coming) {
                 navBar.setVisibility(View.VISIBLE);
-                fragmentName.setText("Transakcje");
+                fragmentName.setText(R.string.fragment_name_transactions);
             } else if (destination == R.id.navigation_category) {
                 navBar.setVisibility(View.VISIBLE);
-                fragmentName.setText("Kategorie");
+                fragmentName.setText(R.string.fragment_name_categories);
             } else {
                 navBar.setVisibility(View.VISIBLE);
             }

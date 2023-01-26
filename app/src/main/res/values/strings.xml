@@ -132,5 +132,12 @@
     <string name="add_button_desc">Button to add new category</string>
     <string name="color">Kolor</string>
     <string name="select_color">Wybierz kolor</string>
-    <string name="add_new_transaction">Nowa transakcja</string>
+    <string name="fragment_name_new_category">Nowa kategoria</string>
+    <string name="fragment_name_new_transactions">Nowa transakcja</string>
+    <string name="fragment_name_edit">Edycja</string>
+    <string name="fragment_name_details">Szczegóły</string>
+    <string name="fragment_name_settings">Ustawienia</string>
+    <string name="fragment_name_statistics">Statystyki</string>
+    <string name="fragment_name_transactions">Transakcje</string>
+    <string name="fragment_name_categories">Kategorie</string>
 </resources>
