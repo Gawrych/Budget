@@ -57,7 +57,7 @@ public class ComingFragment extends Fragment {
                 (requireContext(), this.currentSectionList, this, iconPack);
 
         binding.expandableListView.setAdapter(expandableListAdapter);
-        binding.pickedYear.setText(String.valueOf(selectedYear));
+        binding.yearPicker.setText(String.valueOf(selectedYear));
 
         ComingViewModel comingViewModel =
                 new ViewModelProvider(this).get(ComingViewModel.class);
@@ -82,12 +82,9 @@ public class ComingFragment extends Fragment {
         binding.addButton.setOnClickListener(root -> Navigation.findNavController(root)
                 .navigate(R.id.action_navigation_incoming_to_addNewComingElement));
 
-        binding.categoriesButton.setOnClickListener(root -> Navigation.findNavController(root)
-                .navigate(R.id.action_navigation_incoming_to_categoryList));
-
         binding.expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
 
-        binding.yearSelector.setOnClickListener(v -> {
+        binding.yearPicker.setOnClickListener(v -> {
             prepareYearPicker();
         });
     }
@@ -141,7 +138,7 @@ public class ComingFragment extends Fragment {
         datePickerDialog.getDatePicker()
                 .setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
                     this.selectedYear = year;
-                    binding.pickedYear.setText(String.valueOf(year));
+                    binding.yearPicker.setText(String.valueOf(year));
                     sectionMaker.changeYear(year);
                     this.currentSectionList = sectionMaker.prepareSections();
                     notifyUpdatedList();

@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="BudgetManagement" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="BudgetManagement" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
 
         <item name="colorPrimary">@color/first_color_theme</item>

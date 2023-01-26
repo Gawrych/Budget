@@ -73,7 +73,7 @@
     <string name="settings">Settings</string>
     <string name="today">Dziś</string>
     <string name="category_icon">category icon</string>
-    <string name="add_new_category">Dodaj nową</string>
+    <string name="add_new_category">Dodaj nową kategorię</string>
     <string name="month_budget_planning">Planowany miesięczny budżet</string>
     <string name="Icon">Ikonka</string>
     <string name="cyclical_transaction">Transakcja cykliczna</string>
@@ -132,4 +132,5 @@
     <string name="add_button_desc">Button to add new category</string>
     <string name="color">Kolor</string>
     <string name="select_color">Wybierz kolor</string>
+    <string name="add_new_transaction">Nowa transakcja</string>
 </resources>

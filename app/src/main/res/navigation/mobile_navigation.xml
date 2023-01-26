@@ -36,15 +36,12 @@
             android:id="@+id/action_navigation_incoming_to_editComingElement"
             app:destination="@id/editComingElement" />
         <action
-            android:id="@+id/action_navigation_incoming_to_categoryList"
-            app:destination="@id/categoryList" />
-        <action
             android:id="@+id/action_navigation_coming_to_comingElementDetails"
             app:destination="@id/comingElementDetails" />
     </fragment>
 
     <fragment
-        android:id="@+id/categoryList"
+        android:id="@+id/navigation_category"
         android:name="com.example.budgetmanagement.ui.category.CategoryFragment"
         android:label="@string/title_category"
         tools:layout="@layout/category_fragment" >

@@ -13,30 +13,17 @@
         style="@style/topBar">
 
         <TextView
-            android:id="@+id/pickedYear"
+            android:id="@+id/yearPicker"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:drawablePadding="10dp"
+            android:gravity="center"
             android:text="@string/default_year"
+            android:layout_marginEnd="15dp"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/categoriesButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/categoriesButton"
-            style="@style/topBarIcon"
-            app:srcCompat="@drawable/ic_outline_widgets_24"
-            android:contentDescription="@string/icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/yearSelector"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/yearSelector"
-            style="@style/topBarIcon"
-            app:srcCompat="@drawable/ic_baseline_calendar_month_24"
-            android:contentDescription="@string/icon"
+            android:textSize="16sp"
+            app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_down_24"
+            app:drawableTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/addButton"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,13 +39,23 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ExpandableListView
-        android:id="@+id/expandableListView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/rounded_top_left_corner_blue_white"
-        android:groupIndicator="@null"
-        android:divider="@null">
-    </ExpandableListView>
+        android:id="@+id/expandableListLayout">
+
+        <ExpandableListView
+            android:id="@+id/expandableListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:groupIndicator="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
