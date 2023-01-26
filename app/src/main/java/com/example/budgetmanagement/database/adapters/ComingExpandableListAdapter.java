@@ -5,7 +5,6 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DAT
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -86,7 +84,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         Section section = items.get(i);
-        String sectionTitle = getStringFromResId(section.getLabelId());
+        String sectionTitle = section.getLabel();
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.coming_group_view, viewGroup, false);
@@ -147,7 +145,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
         int color = category.getColor();
         Drawable ovalWithColorBackground =
-                getDrawableWithColor(R.drawable.icon_background_oval, color);
+                getDrawableWithColor(R.drawable.background_oval, color);
 
         if (ovalWithColorBackground != null) {
             mainIcon.setBackground(ovalWithColorBackground);
@@ -188,12 +186,11 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     private Drawable getDrawableWithColor(int drawableId, int colorId) {
-        int color = ContextCompat.getColor(context, colorId);
         Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), drawableId, null);
 
         if (drawable != null) {
             Drawable drawableWrapped = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawableWrapped, color);
+            DrawableCompat.setTint(drawableWrapped, colorId);
             return drawableWrapped;
         }
 

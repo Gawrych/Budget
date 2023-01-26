@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.statistics.BottomSheetMonthYearPicker">
+
+    <CheckBox
+        android:id="@+id/color"
+        android:layout_width="@dimen/color_picker_item"
+        android:layout_height="@dimen/color_picker_item"
+        android:layout_gravity="center"
+        android:clickable="false"
+        android:background="@drawable/color_oval_item"
+        android:button="@android:color/transparent"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/colorStroke"
+        android:layout_width="@dimen/color_picker_item"
+        android:layout_height="@dimen/color_picker_item"
+        android:layout_gravity="center"
+        android:background="@drawable/color_item_selector"
+        android:checked="false"
+        android:clickable="false"
+        android:button="@android:color/transparent"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

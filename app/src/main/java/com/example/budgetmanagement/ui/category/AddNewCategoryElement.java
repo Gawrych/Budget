@@ -1,6 +1,9 @@
 package com.example.budgetmanagement.ui.category;
 
+import static com.example.budgetmanagement.ui.category.BottomSheetColorPicker.BOTTOM_SHEET_COLOR_TAG;
+
 import android.app.AlertDialog;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +16,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -53,9 +57,13 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
     private CategoryViewModel categoryViewModel;
     private int categoryId;
     private Category category;
-    private boolean isEdit;
+    private boolean isEditMode;
     private IconPack iconPack;
-    private int color = R.color.mat_blue;
+    private int color;
+    private AutoCompleteTextView colorPicker;
+    private TextInputLayout colorPickerLayout;
+    private int colorPosition = 0;
+
 
     public static AddNewCategoryElement newInstance(int categoryId, boolean isEdit) {
         Bundle bundle = new Bundle();
@@ -74,13 +82,15 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_add_new_category_element, container, false);
+        return inflater.inflate(R.layout.add_new_category_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        int[] colors = getResources().getIntArray(R.array.colors);
 
+//        TODO: Migrate to binding
         title = view.findViewById(R.id.title);
         titleLayout = view.findViewById(R.id.titleLayout);
         amount = view.findViewById(R.id.amount);
@@ -88,13 +98,15 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
         iconPicker = view.findViewById(R.id.iconPicker);
         iconPickerLayout = view.findViewById(R.id.iconPickerLayout);
         profitSwitch = view.findViewById(R.id.profitSwitch);
-
+        colorPicker = view.findViewById(R.id.colorPicker);
+        colorPickerLayout = view.findViewById(R.id.colorPickerLayout);
         iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
+        category = getCategoryByIdFromBundle();
 
-        this.category = getCategoryByIdFromBundle();
+        this.color = getDefaultColor(colors);
 
-        boolean editElement = category != null && isEdit;
-        if (editElement) {
+        boolean editModeElement = category != null && isEditMode;
+        if (editModeElement) {
             fillFields(category);
             int categoryWithBanOnChangingTitle = 1;
             if (category.getCategoryId() == categoryWithBanOnChangingTitle) {
@@ -102,7 +114,9 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
             }
         }
 
-        boolean shouldEditButWithoutData = category == null && isEdit;
+        setEndDrawableIconAsOvalWithColor(colorPickerLayout, this.color);
+
+        boolean shouldEditButWithoutData = category == null && isEditMode;
         if (shouldEditButWithoutData) {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
             builder.setMessage(R.string.error_element_with_this_id_was_not_found)
@@ -124,6 +138,17 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
         IconDialog iconDialog = (IconDialog) requireActivity().getSupportFragmentManager().findFragmentByTag(ICON_DIALOG_TAG);
         this.iconDialog = iconDialog != null ? iconDialog : IconDialog.newInstance(settings.build());
 
+
+        colorPicker.setOnClickListener(v -> {
+            BottomSheetColorPicker bottomSheetColorPicker = BottomSheetColorPicker.newInstance(colorPosition);
+            bottomSheetColorPicker.setOnDateSelectedListener(colorPos -> {
+                this.colorPosition = colorPos;
+                this.color = colors[colorPos];
+                setEndDrawableIconAsOvalWithColor(colorPickerLayout, this.color);
+            });
+            bottomSheetColorPicker.show(getParentFragmentManager(), BOTTOM_SHEET_COLOR_TAG);
+        });
+
         iconPicker.setOnClickListener(v -> {
             this.iconDialog.show(getChildFragmentManager(), ICON_DIALOG_TAG);
             iconPickerLayout.setError(null);
@@ -137,7 +162,24 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
         });
     }
 
+    private int getDefaultColor(int[] colors) {
+        return colors[0];
+    }
+
+    private void setEndDrawableIconAsOvalWithColor(TextInputLayout field, int colorRes) {
+        Drawable drawableOval = ResourcesCompat
+                .getDrawable(getResources(), R.drawable.end_icon_oval_color, null);
+
+        if (drawableOval != null) {
+            field.setEndIconDrawable(drawableOval);
+        }
+
+        field.setEndIconTintList(ColorStateList.valueOf(colorRes));
+    }
+
     private void fillFields(Category category) {
+        this.color = category.getColor();
+
         this.title.setText(category.getName());
 
         BigDecimal budget = new BigDecimal(category.getBudget());
@@ -157,7 +199,7 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
 
     private Category getCategoryByIdFromBundle() {
         this.categoryId = getArguments() != null ? getArguments().getInt(CATEGORY_ID_KEY, -1) : -1;
-        this.isEdit = getArguments() != null && getArguments().getBoolean(EDIT_CATEGORY_KEY, false);
+        this.isEditMode = getArguments() != null && getArguments().getBoolean(EDIT_CATEGORY_KEY, false);
         this.categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         return categoryViewModel.getCategoryById(categoryId);
     }
@@ -183,7 +225,7 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
 
     private void submitToDatabase() {
         CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-        if (isEdit) {
+        if (isEditMode) {
             Category newCategoryData = newCategoryDataCollector.getCategoryWithId(category.getCategoryId());
             categoryViewModel.update(newCategoryData);
         } else {
@@ -225,12 +267,12 @@ public class AddNewCategoryElement extends Fragment implements IconDialog.Callba
 
     @Override
     public int getColor() {
-        return color;
+        return this.color;
     }
 
     @Override
     public TextInputLayout getIconPickerLayout() {
-        return iconPickerLayout;
+        return this.iconPickerLayout;
     }
 
     @Override

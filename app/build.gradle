@@ -89,9 +89,9 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-plus:17.0.0'
     // Room components
-    implementation "androidx.room:room-runtime:2.4.3"
-    annotationProcessor "androidx.room:room-compiler:2.4.3"
-    androidTestImplementation "androidx.room:room-testing:2.4.3"
+    implementation "androidx.room:room-runtime:2.5.0"
+    annotationProcessor "androidx.room:room-compiler:2.5.0"
+    androidTestImplementation "androidx.room:room-testing:2.5.0"
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.1"

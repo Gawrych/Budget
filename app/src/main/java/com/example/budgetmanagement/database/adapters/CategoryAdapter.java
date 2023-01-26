@@ -1,11 +1,16 @@
 package com.example.budgetmanagement.database.adapters;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.ColorUtils;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
@@ -14,15 +19,19 @@ import com.example.budgetmanagement.database.viewholders.CategoryViewHolder;
 import com.example.budgetmanagement.database.rooms.Category;
 import com.maltaisn.icondialog.pack.IconPack;
 
+import java.math.BigDecimal;
+
 public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
 
     private CategoryViewHolder.OnNoteListener mOnNoteListener;
     private IconPack iconPack;
     private View view;
+    private Context context;
 
-    public CategoryAdapter(@NonNull DiffUtil.ItemCallback<Category> diffCallback, IconPack iconPack, CategoryViewHolder.OnNoteListener onNoteListener) {
+    public CategoryAdapter(@NonNull DiffUtil.ItemCallback<Category> diffCallback, IconPack iconPack, CategoryViewHolder.OnNoteListener onNoteListener, Context context) {
         super(diffCallback);
         this.iconPack = iconPack;
+        this.context = context;
         this.mOnNoteListener = onNoteListener;
     }
 
@@ -37,12 +46,48 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
         Category current = getItem(position);
         int iconId = current.getIcon();
         Drawable icon = iconPack.getIcon(iconId).getDrawable();
-        holder.bind(icon, current.getName(), current.getBudget());
+
+        int color = current.getColor();
+        Drawable coloredBackground =
+                getDrawableWithColor(R.drawable.icon_background, color);
+
+        int backgroundColor = ColorUtils.setAlphaComponent(color, 51);
+
+        holder.bind(icon, coloredBackground, backgroundColor, current.getName(), current.getBudget(), getAmountIconDependOfValue(current.getBudget()));
+    }
+
+    public Drawable getAmountIconDependOfValue(String value) {
+        BigDecimal bigDecimal = new BigDecimal(value);
+        if (isNegative(bigDecimal)) {
+            return getDrawableWithColor(R.drawable.ic_baseline_arrow_drop_down_24, getColorFromRes(R.color.mat_red));
+        } else {
+            return getDrawableWithColor(R.drawable.ic_baseline_arrow_drop_up_24, getColorFromRes(R.color.mat_green));
+        }
+    }
+
+    private boolean isNegative(BigDecimal bigDecimal) {
+        return bigDecimal.signum() == -1;
+    }
+
+    private Drawable getDrawableWithColor(int drawableId, int colorId) {
+        Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), drawableId, null);
+
+        if (drawable != null) {
+            Drawable drawableWrapped = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(drawableWrapped, colorId);
+            return drawableWrapped;
+        }
+
+        return null;
+    }
+
+    private int getColorFromRes(int colorId) {
+        return ContextCompat.getColor(context, colorId);
     }
 
     public CategoryViewHolder create(ViewGroup parent) {
         view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.category_recycler_view, parent, false);
+                .inflate(R.layout.category_child_view, parent, false);
         return new CategoryViewHolder(view, mOnNoteListener);
     }
 

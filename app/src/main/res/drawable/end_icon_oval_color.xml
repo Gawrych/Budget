@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:drawable="@drawable/color_oval_item"
+        android:width="@dimen/color_picker_end_icon_width"
+        android:height="@dimen/color_picker_end_icon_height" />
+
+</layer-list >

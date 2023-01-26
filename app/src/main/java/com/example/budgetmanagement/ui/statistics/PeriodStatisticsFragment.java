@@ -22,6 +22,7 @@ import com.example.budgetmanagement.databinding.FragmentPeriodStatisticsBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class PeriodStatisticsFragment extends Fragment {
 

@@ -1,49 +1,24 @@
 package com.example.budgetmanagement.ui.coming;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
-import com.example.budgetmanagement.ui.utils.DecimalPrecision;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class Section {
 
-    private final int labelId;
+    private final String label;
     private final List<ComingAndTransaction> comingAndTransactionList;
-    private BigDecimal balance = new BigDecimal("0.00");
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public Section(int labelId, List<ComingAndTransaction> comingAndTransactionList) {
-        this.labelId = labelId;
+    public Section(String label, List<ComingAndTransaction> comingAndTransactionList) {
+        this.label = label;
         this.comingAndTransactionList = comingAndTransactionList;
-        prepareBalance();
     }
 
-    public int getLabelId() {
-        return labelId;
+    public String getLabel() {
+        return label;
     }
 
     public List<ComingAndTransaction> getComingAndTransactionList() {
         return comingAndTransactionList;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void prepareBalance() {
-        comingAndTransactionList.forEach(item -> {
-            BigDecimal bigDecimal = new DecimalPrecision(item.transaction.getAmount()).getParsedContent();
-            balance = balance.add(bigDecimal);
-        });
-    }
-
-    public String getBalance() {
-        return balance.toString();
-    }
-
-    public boolean isBalanceNegative() {
-        return balance.signum() < 0;
     }
 }

@@ -129,5 +129,7 @@
     <string name="transactions">Transakcji</string>
     <string name="default_year">2023</string>
     <string name="details">Szczegóły</string>
-
+    <string name="add_button_desc">Button to add new category</string>
+    <string name="color">Kolor</string>
+    <string name="select_color">Wybierz kolor</string>
 </resources>

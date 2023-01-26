@@ -49,7 +49,7 @@ public class CategoryFragment extends Fragment implements CategoryViewHolder.OnN
         IconPack iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
 
         final CategoryAdapter adapter =
-                new CategoryAdapter(new CategoryAdapter.CategoryDiff(), iconPack, this);
+                new CategoryAdapter(new CategoryAdapter.CategoryDiff(), iconPack, this, requireContext());
         recyclerView.setAdapter(adapter);
 
         CategoryViewModel categoryViewModel =

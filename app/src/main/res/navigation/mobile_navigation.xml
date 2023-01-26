@@ -60,6 +60,9 @@
         android:id="@+id/addNewCategoryElement"
         android:name="com.example.budgetmanagement.ui.category.AddNewCategoryElement"
         android:label="AddNewCategoryElement" >
+        <action
+            android:id="@+id/action_addNewCategoryElement_to_bottomSheetColorPicker"
+            app:destination="@id/bottomSheetColorPicker" />
     </fragment>
 
     <fragment
@@ -88,4 +91,9 @@
         android:id="@+id/periodStatisticsFragment"
         android:name="com.example.budgetmanagement.ui.statistics.PeriodStatisticsFragment"
         android:label="PeriodStatisticsFragment" />
+    <dialog
+        android:id="@+id/bottomSheetColorPicker"
+        android:name="com.example.budgetmanagement.ui.category.BottomSheetColorPicker"
+        android:label="color_picker_bottom_sheet"
+        tools:layout="@layout/color_picker_bottom_sheet" />
 </navigation>

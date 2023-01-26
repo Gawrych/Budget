@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/transaction_form" />
+        <include layout="@layout/add_new_form" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/cyclicalSwitch"

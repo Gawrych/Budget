@@ -62,10 +62,10 @@ public class ComingFragment extends Fragment {
         ComingViewModel comingViewModel =
                 new ViewModelProvider(this).get(ComingViewModel.class);
 
-        sectionMaker = new SectionMaker(comingViewModel, selectedYear);
+        sectionMaker = new SectionMaker(comingViewModel, requireContext(), selectedYear);
 
         comingViewModel.getAllComingAndTransactionByYear(selectedYear).observe(getViewLifecycleOwner(), list -> {
-            this.currentSectionList = sectionMaker.prepareSections(true);
+            this.currentSectionList = sectionMaker.prepareSections();
             notifyUpdatedList();
         });
 
@@ -143,7 +143,7 @@ public class ComingFragment extends Fragment {
                     this.selectedYear = year;
                     binding.pickedYear.setText(String.valueOf(year));
                     sectionMaker.changeYear(year);
-                    this.currentSectionList = sectionMaker.prepareSections(false);
+                    this.currentSectionList = sectionMaker.prepareSections();
                     notifyUpdatedList();
                     datePickerDialog.cancel();
         });

@@ -30,11 +30,6 @@ public class DateProcessor {
         return dateTimeFormatter.format(date);
     }
 
-    public static String getTodayDate() {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
-        return dateTimeFormatter.format(LocalDate.now());
-    }
-
     public static String getTodayDate(String dateFormat) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat);
         return dateTimeFormatter.format(LocalDate.now());
@@ -42,13 +37,5 @@ public class DateProcessor {
 
     public static String[] getShortMonths() {
         return new DateFormatSymbols(Locale.getDefault()).getShortMonths();
-    }
-
-    public static String[] getMonths() {
-        String[] months = new DateFormatSymbols(Locale.getDefault()).getMonths();
-        for (int i=0; i < months.length; i++) {
-            months[i] = months[i].substring(0, 1).toUpperCase() + months[i].substring(1);
-        }
-        return months;
     }
 }

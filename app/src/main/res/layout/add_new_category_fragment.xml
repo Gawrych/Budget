@@ -33,6 +33,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/colorPickerLayout"
+        style="@style/LayoutExposedDropMenuCustomView">
+
+        <AutoCompleteTextView
+            android:id="@+id/colorPicker"
+            android:hint="@string/color"
+            style="@style/AutoCompleteCustomView" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/amountLayout"
         style="@style/TextInputLayoutCustomView"
         app:endIconDrawable="@drawable/dollar_coin_smaller_icon">

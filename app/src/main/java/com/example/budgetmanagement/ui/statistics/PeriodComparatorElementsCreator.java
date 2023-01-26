@@ -3,6 +3,9 @@ package com.example.budgetmanagement.ui.statistics;
 import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPicker.MONTHS_AND_YEAR_MODE;
 import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPicker.ONLY_YEAR_MODE;
 
+import android.content.Context;
+
+import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.FragmentPeriodComparatorBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
@@ -12,6 +15,7 @@ import java.util.HashMap;
 
 public class PeriodComparatorElementsCreator {
 
+    private Context context;
     private final FragmentPeriodComparatorBinding binding;
     private final ComingViewModel comingViewModel;
     private int firstMonth;
@@ -22,7 +26,8 @@ public class PeriodComparatorElementsCreator {
     private PeriodStatsComparator statsComparator;
     private BottomSheetMonthYearPicker datesPicker;
 
-    public PeriodComparatorElementsCreator(FragmentPeriodComparatorBinding binding, ComingViewModel comingViewModel) {
+    public PeriodComparatorElementsCreator(Context context, FragmentPeriodComparatorBinding binding, ComingViewModel comingViewModel) {
+        this.context = context;
         this.binding = binding;
         this.comingViewModel = comingViewModel;
         setDefaultDates();
@@ -48,9 +53,9 @@ public class PeriodComparatorElementsCreator {
 
     public void setMonthsModeLabelsForChart() {
         String[] labels = new String[2];
-        String[] months = DateProcessor.getMonths();
-        labels[1] = months[firstMonth] + " " + firstYear;
-        labels[0] = months[secondMonth] + " " + secondYear;
+        String[] monthsNames = context.getResources().getStringArray(R.array.months);
+        labels[1] = monthsNames[firstMonth] + " " + firstYear;
+        labels[0] = monthsNames[secondMonth] + " " + secondYear;
         this.labels = labels;
     }
 

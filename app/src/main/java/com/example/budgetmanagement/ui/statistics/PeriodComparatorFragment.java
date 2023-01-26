@@ -45,7 +45,7 @@ public class PeriodComparatorFragment extends Fragment {
         ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
 
         periodElementsCreator =
-                new PeriodComparatorElementsCreator(binding, comingViewModel);
+                new PeriodComparatorElementsCreator(requireContext(), binding, comingViewModel);
 
         setMonthsMode();
 

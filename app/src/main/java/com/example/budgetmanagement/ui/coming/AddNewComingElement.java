@@ -67,7 +67,7 @@ public class AddNewComingElement extends TransactionFormService implements Comin
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.coming_form_fragment, container, false);
+        return inflater.inflate(R.layout.add_new_coming_fragment, container, false);
     }
 
     @Override

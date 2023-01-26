@@ -5,27 +5,35 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
 
 public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
     private TextView text;
-    private ImageView imageView;
+    private ImageView categoryIcon;
+    private ImageView budgetIcon;
+    private ConstraintLayout cardLayout;
     private OnNoteListener onNoteListener;
 
     public CategoryViewHolder(View itemView, OnNoteListener onNoteListener) {
         super(itemView);
         text = itemView.findViewById(R.id.textView);
-        imageView = itemView.findViewById(R.id.categoryIcon);
+        categoryIcon = itemView.findViewById(R.id.categoryIcon);
+        cardLayout = itemView.findViewById(R.id.cardLayout);
+        budgetIcon = itemView.findViewById(R.id.budgetIcon);
         this.onNoteListener = onNoteListener;
         itemView.setOnClickListener(this);
         itemView.setOnLongClickListener(this);
     }
 
-    public void bind(Drawable icon, String title, String budget) {
+    public void bind(Drawable icon, Drawable coloredBackground, int backgroundColor, String title, String budget, Drawable budgetIconWithColor) {
         text.setText(title);
-        imageView.setImageDrawable(icon);
+        categoryIcon.setImageDrawable(icon);
+        categoryIcon.setBackground(coloredBackground);
+        budgetIcon.setImageDrawable(budgetIconWithColor);
+        cardLayout.setBackgroundColor(backgroundColor);
     }
 
     @Override

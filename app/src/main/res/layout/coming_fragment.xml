@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/default_year"
-            android:textColor="@color/grey"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/categoriesButton"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,42 +25,30 @@
 
         <ImageButton
             android:id="@+id/categoriesButton"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/press_feedback_background"
+            style="@style/topBarIcon"
+            app:srcCompat="@drawable/ic_outline_widgets_24"
             android:contentDescription="@string/icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/yearSelector"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_outline_widgets_24"
-            app:tint="@color/grey" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/yearSelector"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/press_feedback_background"
+            style="@style/topBarIcon"
+            app:srcCompat="@drawable/ic_baseline_calendar_month_24"
             android:contentDescription="@string/icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/addButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_calendar_month_24"
-            app:tint="@color/grey" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/addButton"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="15dp"
+            style="@style/topBarIcon"
+            app:srcCompat="@drawable/ic_baseline_add_24"
             android:contentDescription="@string/add_button_content_desc"
-            android:background="@drawable/press_feedback_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_add_24"
-            app:tint="@color/grey" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

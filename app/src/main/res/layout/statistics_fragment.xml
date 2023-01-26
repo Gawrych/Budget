@@ -226,13 +226,13 @@
 
                 <ImageView
                     android:id="@+id/expenseIcon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:src="@drawable/ic_baseline_arrow_drop_down_24"
+                    app:tint="@color/mat_red"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/mat_red" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/nextPaymentLabel"
@@ -338,6 +338,7 @@
                     android:layout_width="100dp"
                     android:layout_height="120dp"
                     android:background="@drawable/icon_background"
+                    android:backgroundTint="@color/white"
                     android:contentDescription="@string/transaction_icon_desc"
                     android:src="@drawable/bar_chart"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -384,6 +385,7 @@
                     android:layout_width="100dp"
                     android:layout_height="120dp"
                     android:background="@drawable/icon_background"
+                    android:backgroundTint="@color/white"
                     android:contentDescription="@string/transaction_icon_desc"
                     android:src="@drawable/pie_chart"
                     app:layout_constraintBottom_toBottomOf="parent"
