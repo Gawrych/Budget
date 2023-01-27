@@ -181,8 +181,7 @@
 
     <style name="chartDetailsLayout">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:background">@drawable/rounded_top_left_corner_white</item>
         <item name="android:orientation">vertical</item>
         <item name="android:paddingTop">10dp</item>
@@ -193,14 +192,15 @@
     <style name="detailsItemLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">80dp</item>
-        <item name="android:background">@drawable/round_all_corners</item>
         <item name="android:paddingStart">20dp</item>
         <item name="android:paddingEnd">20dp</item>
+        <item name="android:background">@drawable/bottom_line</item>
+        <item name="android:backgroundTint">@color/grey</item>
     </style>
 
     <style name="detailsItemIcon">
-        <item name="android:layout_width">35dp</item>
-        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
         <item name="android:background">@drawable/icon_background</item>
         <item name="android:backgroundTint">@color/mat_green</item>
         <item name="tint">@color/indigo</item>

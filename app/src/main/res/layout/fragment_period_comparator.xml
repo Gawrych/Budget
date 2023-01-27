@@ -70,6 +70,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     style="@style/detailsItemLayout"
+                    android:background="@null"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp">
 

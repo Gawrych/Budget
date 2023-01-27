@@ -2,15 +2,16 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/indigo"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/mainLayout"
-        android:background="#f8f8fa"
+        android:background="@color/indigo"
         tools:context=".ui.statistics.PeriodStatisticsFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,228 +49,231 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@drawable/rounded_top_left_corner_blue_white"
-            app:layout_constraintTop_toBottomOf="@+id/tobBar">
+            android:orientation="vertical"
+            android:paddingBottom="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/waveBackground">
 
             <LinearLayout
                 android:id="@+id/chartLayout"
                 style="@style/chartLayout"
-                android:layout_height="200dp">
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/periodStatsLayout"
-                style="@style/chartDetailsLayout"
+                android:layout_height="200dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chartLayout">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/detailsItemLayout"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="0dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/details"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/infoIcon"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:padding="4dp"
-                        android:contentDescription="@string/transaction_icon_desc"
-                        android:src="@drawable/ic_outline_info_24"
-                        app:tint="@color/dark_accent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/detailsItemLayout">
-
-                    <ImageView
-                        android:id="@+id/allTransactionsNumberLabelIcon"
-                        style="@style/detailsItemIcon"
-                        android:padding="5dp"
-                        android:contentDescription="@string/transaction_icon_desc"
-                        android:src="@drawable/transaction"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/allTransactionsNumberLabel"
-                        style="@style/detailsItemLabel"
-                        android:labelFor="@+id/allTransactionsNumber"
-                        android:text="@string/transactions"
-                        android:textColor="@color/mat_green"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/allTransactionsNumberLabelIcon"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="packed" />
-
-                    <TextView
-                        android:id="@+id/allTransactionsNumber"
-                        style="@style/detailsItemData"
-                        android:text="@string/no_data"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/detailsItemLayout">
-
-                    <ImageView
-                        android:id="@+id/numberOfTransactionsAfterTheTimeLabelIcon"
-                        style="@style/detailsItemIcon"
-                        android:backgroundTint="@color/mat_red"
-                        android:contentDescription="@string/transaction_icon_desc"
-                        android:src="@drawable/ic_baseline_hourglass_bottom_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/numberOfTransactionsAfterTheTimeLabel"
-                        style="@style/detailsItemLabel"
-                        android:labelFor="@+id/allTransactionNumber"
-                        android:text="@string/after_the_deadline"
-                        android:textColor="@color/mat_red"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/numberOfTransactionsAfterTheTimeLabelIcon"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="packed" />
-
-                    <TextView
-                        android:id="@+id/numberOfTransactionsAfterTheTime"
-                        style="@style/detailsItemData"
-                        android:text="@string/no_data"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/detailsItemLayout">
-
-                    <ImageView
-                        android:id="@+id/numberOfRemainingTransactionLabelIcon"
-                        style="@style/detailsItemIcon"
-                        android:backgroundTint="@color/mat_blue"
-                        android:contentDescription="@string/transaction_icon_desc"
-                        android:src="@drawable/ic_baseline_clear_all_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/numberOfRemainingTransactionLabel"
-                        style="@style/detailsItemLabel"
-                        android:labelFor="@+id/allTransactionNumber"
-                        android:text="@string/left"
-                        android:textColor="@color/mat_blue"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/numberOfRemainingTransactionLabelIcon"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="packed" />
-
-                    <TextView
-                        android:id="@+id/numberOfRemainingTransaction"
-                        style="@style/detailsItemData"
-                        android:text="@string/no_data"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/detailsItemLayout">
-
-                    <ImageView
-                        android:id="@+id/averageTimeAfterTheDeadlineIcon"
-                        style="@style/detailsItemIcon"
-                        android:backgroundTint="#ffb300"
-                        android:contentDescription="@string/transaction_icon_desc"
-                        android:src="@drawable/ic_baseline_access_time_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/averageTimeAfterTheDeadlineLabel"
-                        style="@style/detailsItemLabel"
-                        android:labelFor="@+id/allTransactionNumber"
-                        android:text="@string/average_after_deadline"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/averageTimeAfterTheDeadlineIcon"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="packed" />
-
-                    <TextView
-                        android:id="@+id/averageTimeAfterTheDeadline"
-                        style="@style/detailsItemData"
-                        android:text="@string/no_data"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/detailsItemLayout">
-
-                    <ImageView
-                        android:id="@+id/payOnTimeLabelIcon"
-                        style="@style/detailsItemIcon"
-                        android:backgroundTint="@color/mat_green"
-                        android:contentDescription="@string/transaction_icon_desc"
-                        android:src="@drawable/ic_baseline_done_all_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/payOnTimeLabel"
-                        style="@style/detailsItemLabel"
-                        android:labelFor="@+id/allTransactionNumber"
-                        android:text="@string/paid_on_time"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/payOnTimeLabelIcon"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="packed" />
-
-                    <TextView
-                        android:id="@+id/averagePercentPayOnTime"
-                        style="@style/detailsItemData"
-                        android:text="@string/no_data"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toTopOf="parent">
 
             </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/periodStatsLayout"
+            style="@style/chartDetailsLayout"
+            android:layout_gravity="bottom|center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contentLayout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/detailsItemLayout"
+                android:background="@null"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/details"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/infoIcon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:contentDescription="@string/transaction_icon_desc"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_outline_info_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/dark_accent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/detailsItemLayout">
+
+                <ImageView
+                    android:id="@+id/allTransactionsNumberLabelIcon"
+                    style="@style/detailsItemIcon"
+                    android:contentDescription="@string/transaction_icon_desc"
+                    android:padding="5dp"
+                    android:src="@drawable/transaction"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/allTransactionsNumberLabel"
+                    style="@style/detailsItemLabel"
+                    android:labelFor="@+id/allTransactionsNumber"
+                    android:text="@string/transactions"
+                    android:textColor="@color/mat_green"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/allTransactionsNumberLabelIcon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/allTransactionsNumber"
+                    style="@style/detailsItemData"
+                    android:text="@string/no_data"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/detailsItemLayout">
+
+                <ImageView
+                    android:id="@+id/numberOfTransactionsAfterTheTimeLabelIcon"
+                    style="@style/detailsItemIcon"
+                    android:backgroundTint="@color/mat_red"
+                    android:contentDescription="@string/transaction_icon_desc"
+                    android:src="@drawable/ic_baseline_hourglass_bottom_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/numberOfTransactionsAfterTheTimeLabel"
+                    style="@style/detailsItemLabel"
+                    android:labelFor="@+id/allTransactionNumber"
+                    android:text="@string/after_the_deadline"
+                    android:textColor="@color/mat_red"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/numberOfTransactionsAfterTheTimeLabelIcon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/numberOfTransactionsAfterTheTime"
+                    style="@style/detailsItemData"
+                    android:text="@string/no_data"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/detailsItemLayout">
+
+                <ImageView
+                    android:id="@+id/numberOfRemainingTransactionLabelIcon"
+                    style="@style/detailsItemIcon"
+                    android:backgroundTint="@color/mat_blue"
+                    android:contentDescription="@string/transaction_icon_desc"
+                    android:src="@drawable/ic_baseline_clear_all_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/numberOfRemainingTransactionLabel"
+                    style="@style/detailsItemLabel"
+                    android:labelFor="@+id/allTransactionNumber"
+                    android:text="@string/left"
+                    android:textColor="@color/mat_blue"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/numberOfRemainingTransactionLabelIcon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/numberOfRemainingTransaction"
+                    style="@style/detailsItemData"
+                    android:text="@string/no_data"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/detailsItemLayout">
+
+                <ImageView
+                    android:id="@+id/averageTimeAfterTheDeadlineIcon"
+                    style="@style/detailsItemIcon"
+                    android:backgroundTint="#ffb300"
+                    android:contentDescription="@string/transaction_icon_desc"
+                    android:src="@drawable/ic_baseline_access_time_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/averageTimeAfterTheDeadlineLabel"
+                    style="@style/detailsItemLabel"
+                    android:labelFor="@+id/allTransactionNumber"
+                    android:text="@string/average_after_deadline"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/averageTimeAfterTheDeadlineIcon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/averageTimeAfterTheDeadline"
+                    style="@style/detailsItemData"
+                    android:text="@string/no_data"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/detailsItemLayout">
+
+                <ImageView
+                    android:id="@+id/payOnTimeLabelIcon"
+                    style="@style/detailsItemIcon"
+                    android:backgroundTint="@color/mat_green"
+                    android:contentDescription="@string/transaction_icon_desc"
+                    android:src="@drawable/ic_baseline_done_all_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/payOnTimeLabel"
+                    style="@style/detailsItemLabel"
+                    android:labelFor="@+id/allTransactionNumber"
+                    android:text="@string/paid_on_time"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/payOnTimeLabelIcon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/averagePercentPayOnTime"
+                    style="@style/detailsItemData"
+                    android:text="@string/no_data"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
