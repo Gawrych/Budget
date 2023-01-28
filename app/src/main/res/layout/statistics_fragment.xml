@@ -5,14 +5,13 @@
     tools:context=".ui.coming.AddNewComingElement"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f8f8fa"
     android:theme="@style/Theme.MaterialComponents.Light">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#f7f8fa"
+        android:background="@color/background"
         tools:context=".ui.statistics.StatisticsFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,282 +21,244 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/generalStats"
+            android:id="@+id/generalStatsNew"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="#f7f8fa">
+            android:layout_height="wrap_content"
+            android:background="@color/background">
+
+<!--            Set data variable to bind all on fragment start -->
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nextIncomeLayout"
-                android:layout_width="230dp"
-                android:layout_height="80dp"
-                android:background="@drawable/left_corner_radius_right_border"
+                android:id="@+id/allTransactionNumberLayout2"
+                style="@style/globalStatsSmallTile"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/statistics_global_stats_round_corners"
                 android:elevation="5dp"
-                android:paddingStart="15dp"
-                android:paddingTop="15dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="15dp"
-                app:layout_constraintEnd_toStartOf="@+id/nextPaymentCheckLayout"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/nearestLoss"
+                app:layout_constraintStart_toStartOf="@+id/nearestLoss"
+                app:layout_constraintTop_toBottomOf="@+id/nearestLoss">
+
+                <TextView
+                    android:id="@+id/transactionAfterDeadlineAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_all_corners"
+                    android:backgroundTint="@color/mat_red_05"
+                    android:padding="5dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:text="7"
+                    android:textColor="@color/mat_red"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/transactionAfterDeadlineLabel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/transactionAfterDeadlineLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:labelFor="@+id/afterTimeTransactionNumber"
+                    android:text="Po terminie"
+                    android:textColor="@color/font_default"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/transactionAfterDeadlineAmount" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/nearestProfit"
+                style="@style/globalStatsTile"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/statistics_global_stats_round_corners"
+                android:elevation="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/allTransactionNumberLayout"
+                app:layout_constraintStart_toStartOf="@+id/allTransactionNumberLayout"
+                app:layout_constraintTop_toBottomOf="@+id/allTransactionNumberLayout">
 
                 <ImageView
                     android:id="@+id/nextIncomeIcon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/icon_background"
+                    android:backgroundTint="@color/mat_green_30"
                     android:src="@drawable/ic_baseline_arrow_drop_up_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/mat_green" />
 
                 <TextView
+                    android:id="@+id/nextIncomeDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="za 12 dni"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/nextIncomeAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_all_corners"
+                    android:backgroundTint="@color/mat_green_05"
+                    android:padding="5dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:text="+1543 zł"
+                    android:textColor="@color/mat_green"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/nextIncomeLabel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nextIncomeIcon" />
+
+                <TextView
                     android:id="@+id/nextIncomeLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="20dp"
                     android:labelFor="@+id/afterTimeTransactionNumber"
                     android:text="Najbliższy zysk"
                     android:textColor="@color/font_default"
                     android:textSize="13sp"
-                    app:layout_constraintStart_toEndOf="@+id/nextIncomeIcon"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/nextIncomeDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Za 13 dni"
-                    android:textSize="16sp"
                     android:textStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
-                    app:drawableTint="@color/font_default"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/nextIncomeLabel" />
-
-                <TextView
-                    android:id="@+id/nextIncomeSum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1543 zł"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/nextIncomeDate"
-                    app:layout_constraintStart_toEndOf="@+id/nextIncomeDate"
-                    app:layout_constraintTop_toTopOf="@+id/nextIncomeDate" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nextIncomeCheckLayout"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="@color/white"
-                android:elevation="5dp"
-                android:paddingStart="15dp"
-                android:paddingTop="15dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="15dp"
-                app:layout_constraintBottom_toBottomOf="@+id/nextIncomeLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/nextIncomeLayout">
-
-                <ImageView
-                    android:id="@+id/nextIncomeCheck"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/image_view_pressed_background"
-                    android:clickable="true"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_baseline_arrow_forward_ios_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/first_color_theme" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/paymentsAfterDeadline"
-                android:layout_width="230dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/left_corner_radius_right_border"
+                android:id="@+id/nearestLoss"
+                style="@style/globalStatsTile"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/statistics_global_stats_round_corners"
                 android:elevation="5dp"
-                android:paddingStart="15dp"
-                android:paddingTop="15dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="15dp"
-                app:layout_constraintEnd_toStartOf="@+id/nextPaymentCheckLayout"
-                app:layout_constraintTop_toBottomOf="@+id/nextIncomeLayout">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/allTransactionNumberLayout"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/paymentsAfterDeadlineIcon"
+                    android:id="@+id/nextPaymentIcon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_baseline_access_time_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/icon_background"
+                    android:backgroundTint="@color/mat_red_30"
+                    android:src="@drawable/ic_baseline_arrow_drop_down_24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/mat_red" />
 
                 <TextView
-                    android:id="@+id/paymentsAfterDeadlineLabel"
+                    android:id="@+id/nextPaymentDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:labelFor="@+id/afterTimeTransactionNumber"
-                    android:text="Po terminie"
-                    android:textColor="@color/font_default"
-                    android:textSize="13sp"
-                    app:layout_constraintStart_toEndOf="@+id/paymentsAfterDeadlineIcon"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="za 33 dni"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/paymentsAfterDeadlineAmount"
+                    android:id="@+id/nextPaymentAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:text="22 płatności"
-                    android:textSize="14sp"
+                    android:background="@drawable/round_all_corners"
+                    android:backgroundTint="@color/mat_red_05"
+                    android:padding="5dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:text="-543 zł"
+                    android:textColor="@color/mat_red"
+                    android:textSize="20sp"
                     android:textStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
-                    app:drawableTint="@color/font_default"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/paymentsAfterDeadlineIcon" />
-
-                <TextView
-                    android:id="@+id/paymentsAfterDeadlineSum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2345 zł"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/paymentsAfterDeadlineAmount"
-                    app:layout_constraintStart_toEndOf="@+id/paymentsAfterDeadlineAmount"
-                    app:layout_constraintTop_toTopOf="@+id/paymentsAfterDeadlineAmount" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/paymentsAfterDeadlineCheckLayout"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="@color/white"
-                android:elevation="5dp"
-                android:paddingStart="15dp"
-                android:paddingTop="15dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="15dp"
-                app:layout_constraintBottom_toBottomOf="@+id/paymentsAfterDeadline"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/paymentsAfterDeadline">
-
-                <ImageView
-                    android:id="@+id/paymentsAfterDeadlineCheck"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/image_view_pressed_background"
-                    android:clickable="true"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/nextPaymentLabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/first_color_theme" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nextPaymentLayout"
-                android:layout_width="230dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/left_corner_radius_right_border"
-                android:elevation="5dp"
-                android:paddingStart="15dp"
-                android:paddingTop="15dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="15dp"
-                app:layout_constraintEnd_toStartOf="@+id/nextPaymentCheckLayout"
-                app:layout_constraintTop_toBottomOf="@+id/paymentsAfterDeadline">
-
-                <ImageView
-                    android:id="@+id/expenseIcon"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/ic_baseline_arrow_drop_down_24"
-                    app:tint="@color/mat_red"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/nextPaymentIcon" />
 
                 <TextView
                     android:id="@+id/nextPaymentLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="20dp"
                     android:labelFor="@+id/afterTimeTransactionNumber"
                     android:text="Najbliższy wydatek"
                     android:textColor="@color/font_default"
                     android:textSize="13sp"
-                    app:layout_constraintStart_toEndOf="@+id/expenseIcon"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/allTransactionNumberLayout"
+                style="@style/globalStatsSmallTile"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/statistics_global_stats_round_corners"
+                android:elevation="5dp"
+                app:layout_constraintEnd_toStartOf="@+id/nearestLoss"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/allTransactionNumberAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_all_corners"
+                    android:backgroundTint="@color/mat_green_05"
+                    android:padding="5dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:text="433"
+                    android:textColor="@color/mat_green"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/allTransactionNumberLabel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/nextPaymentDate"
+                    android:id="@+id/allTransactionNumberLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Za 30 dni"
-                    android:textSize="16sp"
+                    android:labelFor="@+id/afterTimeTransactionNumber"
+                    android:text="Transakcji"
+                    android:textColor="@color/font_default"
+                    android:textSize="15sp"
                     android:textStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
-                    app:drawableTint="@color/font_default"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/nextPaymentLabel" />
-
-                <TextView
-                    android:id="@+id/nextPaymentSum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2300 zł"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/nextPaymentDate"
-                    app:layout_constraintStart_toEndOf="@+id/nextPaymentDate"
-                    app:layout_constraintTop_toTopOf="@+id/nextPaymentDate" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <!--android:background="#F3F3F5" -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nextPaymentCheckLayout"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:elevation="5dp"
-                android:background="@color/white"
-                android:paddingStart="15dp"
-                android:paddingTop="15dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="15dp"
-                app:layout_constraintBottom_toBottomOf="@+id/nextPaymentLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/nextPaymentLayout">
-
-                <ImageView
-                    android:id="@+id/nextPaymentCheck"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/image_view_pressed_background"
-                    android:clickable="true"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_baseline_arrow_forward_ios_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/first_color_theme" />
+                    app:layout_constraintTop_toBottomOf="@+id/allTransactionNumberAmount" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -305,42 +266,54 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/periodStatistics"
-            android:layout_width="300dp"
-            android:layout_height="160dp"
-            android:layout_marginTop="30dp"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="40dp"
             android:clickable="false"
             android:layout_gravity="center_horizontal"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="10dp">
+            app:cardCornerRadius="30dp"
+            app:cardElevation="5dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp">
+                android:paddingStart="30dp"
+                android:paddingEnd="10dp">
 
                 <TextView
                     android:id="@+id/monthName"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="30dp"
                     android:text="Statystyki okresowe"
                     android:textColor="#2c2f42"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/chartImage"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/chartImage"
-                    android:layout_width="100dp"
-                    android:layout_height="120dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/oval_background"
+                    android:backgroundTint="@color/background"
+                    android:padding="10dp"
+                    android:contentDescription="@string/transaction_icon_desc"
+                    android:src="@drawable/bar_chart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:background="@drawable/icon_background"
                     android:backgroundTint="@color/white"
                     android:contentDescription="@string/transaction_icon_desc"
-                    android:src="@drawable/bar_chart"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -350,44 +323,116 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/periodComparator"
-            android:layout_width="300dp"
-            android:layout_height="160dp"
+            android:id="@+id/periodComparatorStatisticsCardView"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="30dp"
+            android:clickable="false"
+            android:layout_gravity="center_horizontal"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/periodComparatorStatisticsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:paddingStart="30dp"
+                android:paddingEnd="10dp">
+
+                <ImageView
+                    android:id="@+id/periodComparatorStatisticsIcon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/oval_background"
+                    android:backgroundTint="#f7f8fa"
+                    android:padding="10dp"
+                    android:contentDescription="@string/transaction_icon_desc"
+                    android:src="@drawable/pie_chart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/periodComparatorStatisticsLabel"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="Porównanie okresów"
+                    android:textColor="#2c2f42"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/periodComparatorStatisticsIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/icon_background"
+                    android:backgroundTint="@color/white"
+                    android:contentDescription="@string/transaction_icon_desc"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/categoryStatisticsCardView"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
             android:layout_marginTop="30dp"
             android:clickable="false"
             android:layout_marginBottom="50dp"
             android:layout_gravity="center_horizontal"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="10dp">
+            app:cardCornerRadius="30dp"
+            app:cardElevation="5dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/categoryStatisticsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp">
+                android:paddingStart="30dp"
+                android:paddingEnd="10dp">
 
-                <TextView
-                    android:id="@+id/periodComparatorCardView"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="20dp"
-                    android:text="Porównanie okresów"
-                    android:textColor="#2c2f42"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
+                <ImageView
+                    android:id="@+id/categoryStatisticsIcon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/oval_background"
+                    android:backgroundTint="@color/mat_red_30"
+                    android:padding="10dp"
+                    android:contentDescription="@string/transaction_icon_desc"
+                    android:src="@drawable/statistics_category_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/categoryStatisticsLabel"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="Podsumowanie kategorii"
+                    android:textColor="#2c2f42"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/categoryStatisticsIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <ImageView
-                    android:id="@+id/pieChartImage"
-                    android:layout_width="100dp"
-                    android:layout_height="120dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:background="@drawable/icon_background"
                     android:backgroundTint="@color/white"
                     android:contentDescription="@string/transaction_icon_desc"
-                    android:src="@drawable/pie_chart"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

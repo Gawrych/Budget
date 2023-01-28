@@ -46,9 +46,18 @@
     <color name="dark_accent">#2c2f42</color>
 
     <color name="mat_red">#E84855</color>
+    <color name="mat_red_30">#33E84855</color>
+    <color name="mat_red_10">#1AE84855</color>
+    <color name="mat_red_05">#0DE84855</color>
     <color name="mat_green">#3E885B</color>
     <color name="mat_green_30">#333E885B</color>
+    <color name="mat_green_10">#1A3E885B</color>
+    <color name="mat_green_05">#0D3E885B</color>
     <color name="mat_blue">#287cfa</color>
+    <color name="mat_blue_30">#33287cfa</color>
+    <color name="mat_blue_10">#1A287cfa</color>
+    <color name="mat_blue_05">#0D287cfa</color>
+    <color name="first_10">#1A3B378E</color>
 
     <color name="mindaro">#CBFF8C</color>
     <color name="straw">#E3E36A</color>

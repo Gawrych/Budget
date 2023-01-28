@@ -30,7 +30,7 @@ public class StatisticsFragment extends Fragment {
         binding.periodStatistics.setOnClickListener(v -> Navigation.findNavController(view).navigate(
                 R.id.action_navigation_statistics_to_periodStatisticsFragment));
 
-        binding.periodComparator.setOnClickListener(v -> Navigation.findNavController(view).navigate(
+        binding.periodComparatorStatisticsCardView.setOnClickListener(v -> Navigation.findNavController(view).navigate(
                 R.id.action_navigation_statistics_to_periodComparatorFragment));
     }
 

@@ -106,9 +106,8 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         final TextView titleField = view.findViewById(R.id.titleLayout);
-        final TextView amountField = view.findViewById(R.id.amountLayout);
+        final TextView amountField = view.findViewById(R.id.amount);
         final TextView dateField = view.findViewById(R.id.repeatDate);
-        final TextView currencyField = view.findViewById(R.id.currency);
         final TextView remainingDays = view.findViewById(R.id.remainingDays);
         final TextView daysText = view.findViewById(R.id.daysText);
         final TextView dateInfo = view.findViewById(R.id.info);
@@ -121,9 +120,11 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
         titleField.setText(item.transaction.getTitle());
 
-        AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(amountField, currencyField);
+        AmountFieldModifierToViewHolder amountFieldModifierToViewHolder =
+                new AmountFieldModifierToViewHolder(amountField);
         amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
-        amountField.setText(amount);
+        amountField.setText(getAmountWithCurrency(amount));
+
         dateField.setText(DateProcessor.parseDate(repeatDate, MONTH_NAME_DATE_FORMAT));
 
         Calendar todayDate = Calendar.getInstance();
@@ -134,7 +135,6 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         DateTime startDate = new DateTime(todayDate.getTimeInMillis(), defaultTimeZone);
         DateTime endDate = new DateTime(otherDate.getTimeInMillis(), defaultTimeZone);
         int days = Days.daysBetween(startDate.withTimeAtStartOfDay(), endDate.withTimeAtStartOfDay()).getDays();
-
 
         int categoryId = item.transaction.getCategoryId();
         Category category = categoryViewModel.getCategoryById(categoryId);
@@ -184,6 +184,12 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
         return view;
     }
+
+    private String getAmountWithCurrency(String amount) {
+        String currency = context.getString(R.string.polish_currency);
+        return context.getString(R.string.amount_with_currency, amount, currency);
+    }
+
 
     private Drawable getDrawableWithColor(int drawableId, int colorId) {
         Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), drawableId, null);
