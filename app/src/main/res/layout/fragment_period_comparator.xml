@@ -78,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/details"
-                        android:textSize="20sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -98,45 +98,45 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/detailsItemLayout">
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/detailsItemLayout">
 
                     <ImageView
                         android:id="@+id/incomeIncreaseLabelIcon"
                         style="@style/detailsItemIcon"
-                        android:padding="1dp"
+                        android:layout_marginEnd="10dp"
                         android:contentDescription="@string/transaction_icon_desc"
+                        android:padding="1dp"
                         android:src="@drawable/ic_baseline_arrow_drop_up_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/incomeIncreaseLabel" />
 
                     <TextView
                         android:id="@+id/incomeIncreaseLabel"
                         style="@style/detailsItemLabel"
-                        android:text="@string/incomes"
                         android:labelFor="@+id/allTransactionNumber"
+                        android:text="@string/incomes"
                         android:textColor="@color/mat_green"
-                        app:layout_constraintBottom_toTopOf="@+id/amountOfIncomeIncrease"
-                        app:layout_constraintStart_toEndOf="@+id/incomeIncreaseLabelIcon"
+                        app:layout_constraintBottom_toTopOf="@+id/incomeIncrease"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="packed" />
+                        app:layout_constraintVertical_chainStyle="spread" />
 
                     <TextView
                         android:id="@+id/amountOfIncomeIncrease"
                         style="@style/detailsItemExtraData"
                         android:text="@string/no_data"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/incomeIncreaseLabel"
-                        app:layout_constraintTop_toBottomOf="@+id/incomeIncreaseLabel" />
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
                         android:id="@+id/incomeIncrease"
                         style="@style/detailsItemData"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/incomeIncreaseLabel" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -146,124 +146,124 @@
                     <ImageView
                         android:id="@+id/numberOfRemainingTransactionIcon"
                         style="@style/detailsItemIcon"
+                        android:layout_marginEnd="10dp"
                         android:backgroundTint="@color/mat_red"
-                        android:padding="1dp"
                         android:contentDescription="@string/transaction_icon_desc"
+                        android:padding="1dp"
                         android:src="@drawable/ic_baseline_arrow_drop_down_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/lossIncreaseLabel" />
 
                     <TextView
                         android:id="@+id/lossIncreaseLabel"
                         style="@style/detailsItemLabel"
-                        android:text="@string/loss"
                         android:labelFor="@+id/allTransactionNumber"
+                        android:text="@string/loss"
                         android:textColor="@color/mat_red"
-                        app:layout_constraintBottom_toTopOf="@+id/amountOfLossIncrease"
-                        app:layout_constraintStart_toEndOf="@+id/numberOfRemainingTransactionIcon"
+                        app:layout_constraintBottom_toTopOf="@+id/lossIncrease"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.5"
-                        app:layout_constraintVertical_chainStyle="packed" />
+                        app:layout_constraintVertical_chainStyle="spread" />
 
                     <TextView
                         android:id="@+id/amountOfLossIncrease"
                         style="@style/detailsItemExtraData"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="10dp"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/lossIncreaseLabel"
-                        app:layout_constraintTop_toBottomOf="@+id/lossIncreaseLabel"
-                        app:layout_constraintVertical_bias="0.5" />
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
                         android:id="@+id/lossIncrease"
                         style="@style/detailsItemData"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/lossIncreaseLabel" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/detailsItemLayout">
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/detailsItemLayout">
 
                     <ImageView
                         android:id="@+id/profitIncreaseIcon"
                         style="@style/detailsItemIcon"
+                        android:layout_marginEnd="10dp"
                         android:backgroundTint="@color/mat_blue"
                         android:contentDescription="@string/transaction_icon_desc"
                         android:src="@drawable/ic_baseline_attach_money_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/profitIncreaseLabel" />
 
                     <TextView
                         android:id="@+id/profitIncreaseLabel"
                         style="@style/detailsItemLabel"
-                        android:text="@string/profits"
                         android:labelFor="@+id/allTransactionNumber"
+                        android:text="@string/profits"
                         android:textColor="@color/mat_blue"
-                        app:layout_constraintBottom_toTopOf="@+id/amountOfProfitIncrease"
-                        app:layout_constraintStart_toEndOf="@+id/profitIncreaseIcon"
+                        app:layout_constraintBottom_toTopOf="@+id/profitIncrease"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="packed" />
+                        app:layout_constraintVertical_chainStyle="spread" />
 
                     <TextView
                         android:id="@+id/amountOfProfitIncrease"
                         style="@style/detailsItemExtraData"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="10dp"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/profitIncreaseLabel"
-                        app:layout_constraintTop_toBottomOf="@+id/profitIncreaseLabel" />
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
                         android:id="@+id/profitIncrease"
                         style="@style/detailsItemData"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/profitIncreaseLabel" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/detailsItemLayout">
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/detailsItemLayout">
 
                     <ImageView
                         android:id="@+id/averageTimeAfterTheDeadlineIcon"
                         style="@style/detailsItemIcon"
                         android:backgroundTint="#ffb300"
+                        android:layout_marginEnd="10dp"
                         android:contentDescription="@string/transaction_icon_desc"
                         android:src="@drawable/ic_baseline_access_time_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/averageTimeAfterTheDeadlineLabel" />
 
                     <TextView
                         android:id="@+id/averageTimeAfterTheDeadlineLabel"
                         style="@style/detailsItemLabel"
                         android:labelFor="@+id/allTransactionNumber"
                         android:text="@string/average_after_deadline"
-                        app:layout_constraintBottom_toTopOf="@+id/averageTimeAfterTheDeadlineSecondPeriod"
-                        app:layout_constraintStart_toEndOf="@+id/averageTimeAfterTheDeadlineIcon"
+                        app:layout_constraintBottom_toTopOf="@+id/averageGrowthTimeAfterTheDeadline"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="packed" />
+                        app:layout_constraintVertical_chainStyle="spread" />
 
                     <TextView
                         android:id="@+id/averageTimeAfterTheDeadlineSecondPeriod"
                         style="@style/detailsItemExtraDataWithIcon"
+                        android:layout_marginBottom="10dp"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/averageTimeAfterTheDeadlineLabel"
-                        app:layout_constraintTop_toBottomOf="@+id/averageTimeAfterTheDeadlineLabel" />
+                        app:layout_constraintEnd_toStartOf="@+id/averageTimeAfterTheDeadlineFirstPeriod" />
 
                     <TextView
                         android:id="@+id/averageTimeAfterTheDeadlineFirstPeriod"
                         style="@style/detailsItemExtraData"
+                        android:layout_marginEnd="10dp"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="@+id/averageTimeAfterTheDeadlineSecondPeriod"
-                        app:layout_constraintStart_toEndOf="@+id/averageTimeAfterTheDeadlineSecondPeriod"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/averageTimeAfterTheDeadlineSecondPeriod" />
 
                     <TextView
@@ -271,48 +271,48 @@
                         style="@style/detailsItemData"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/averageTimeAfterTheDeadlineLabel" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/detailsItemLayout">
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/detailsItemLayout">
 
                     <ImageView
                         android:id="@+id/payOnTimeLabelIcon"
                         style="@style/detailsItemIcon"
                         android:backgroundTint="@color/mat_green"
+                        android:layout_marginEnd="10dp"
                         android:contentDescription="@string/transaction_icon_desc"
                         android:src="@drawable/ic_baseline_done_all_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/payOnTimeLabel" />
 
                     <TextView
                         android:id="@+id/payOnTimeLabel"
                         style="@style/detailsItemLabel"
-                        android:text="@string/paid_on_time"
                         android:labelFor="@+id/allTransactionNumber"
-                        app:layout_constraintBottom_toTopOf="@+id/payOnTimeInPercentageSecondPeriod"
-                        app:layout_constraintStart_toEndOf="@+id/payOnTimeLabelIcon"
+                        android:text="@string/paid_on_time"
+                        app:layout_constraintBottom_toTopOf="@+id/growthPayOnTimeInPercentagePoints"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_chainStyle="packed" />
+                        app:layout_constraintVertical_chainStyle="spread" />
 
                     <TextView
                         android:id="@+id/payOnTimeInPercentageSecondPeriod"
                         style="@style/detailsItemExtraDataWithIcon"
+                        android:layout_marginBottom="10dp"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/payOnTimeLabel"
-                        app:layout_constraintTop_toBottomOf="@+id/payOnTimeLabel" />
+                        app:layout_constraintEnd_toStartOf="@+id/payOnTimeInPercentageFirstPeriod" />
 
                     <TextView
                         android:id="@+id/payOnTimeInPercentageFirstPeriod"
                         style="@style/detailsItemExtraData"
+                        android:layout_marginEnd="10dp"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="@+id/payOnTimeInPercentageSecondPeriod"
-                        app:layout_constraintStart_toEndOf="@+id/payOnTimeInPercentageSecondPeriod"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/payOnTimeInPercentageSecondPeriod" />
 
                     <TextView
@@ -320,8 +320,8 @@
                         style="@style/detailsItemData"
                         android:text="@string/no_data"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/payOnTimeLabel" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
