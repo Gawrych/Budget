@@ -2,16 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="200dp"
+    android:minHeight="130dp"
     android:gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
-        android:layout_width="140dp"
-        android:layout_height="160dp"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        app:cardCornerRadius="7dp"
+        app:cardElevation="1dp"
         android:clickable="false"
         app:cardBackgroundColor="@color/white">
 
@@ -22,14 +24,14 @@
 
             <ImageView
                 android:id="@+id/categoryIcon"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
                 android:background="@drawable/icon_background"
                 android:contentDescription="@string/category_icon"
                 android:elevation="5dp"
                 android:padding="7dp"
+                app:layout_constraintBottom_toTopOf="@+id/textView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_shopping_basket_24"
@@ -53,15 +55,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:gravity="center"
                 android:text="Example name"
                 android:textColor="@color/dark_accent"
-                android:textSize="18sp"
+                android:textSize="16sp"
+                android:background="@drawable/round_all_corners"
+                android:backgroundTint="@color/white_30"
+                android:padding="5dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/categoryIcon" />
 

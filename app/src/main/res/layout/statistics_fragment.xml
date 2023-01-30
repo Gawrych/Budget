@@ -277,16 +277,19 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
-                android:paddingStart="30dp"
+                android:background="@color/mat_orange_30"
+                android:paddingStart="20dp"
                 android:paddingEnd="10dp">
 
                 <TextView
                     android:id="@+id/monthName"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="10dp"
                     android:text="Statystyki okresowe"
+                    android:background="@drawable/round_all_corners"
+                    android:backgroundTint="@color/white_30"
+                    android:padding="7dp"
                     android:textColor="#2c2f42"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -296,11 +299,11 @@
 
                 <ImageView
                     android:id="@+id/chartImage"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:background="@drawable/oval_background"
                     android:backgroundTint="@color/background"
-                    android:padding="10dp"
+                    android:padding="12dp"
                     android:contentDescription="@string/transaction_icon_desc"
                     android:src="@drawable/bar_chart"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -336,8 +339,8 @@
                 android:id="@+id/periodComparatorStatisticsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
-                android:paddingStart="30dp"
+                android:background="@color/mat_green_30"
+                android:paddingStart="20dp"
                 android:paddingEnd="10dp">
 
                 <ImageView
@@ -355,10 +358,13 @@
 
                 <TextView
                     android:id="@+id/periodComparatorStatisticsLabel"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="10dp"
                     android:text="Porównanie okresów"
+                    android:background="@drawable/round_all_corners"
+                    android:backgroundTint="@color/white_30"
+                    android:padding="7dp"
                     android:textColor="#2c2f42"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -397,7 +403,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:paddingStart="30dp"
+                android:paddingStart="20dp"
                 android:paddingEnd="10dp">
 
                 <ImageView

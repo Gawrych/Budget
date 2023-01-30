@@ -140,4 +140,5 @@
     <string name="fragment_name_statistics">Statystyki</string>
     <string name="fragment_name_transactions">Transakcje</string>
     <string name="fragment_name_categories">Kategorie</string>
+    <string name="add_category">Dodaj kategorię</string>
 </resources>

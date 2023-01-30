@@ -20,7 +20,6 @@
     <color name="very_light_gray">#e5e5e5</color>
     <color name="grey">#dde3ea</color>
     <color name="dark_grey">#AAAAAA</color>
-    <color name="light_red">#EF3E36</color>
 
     <color name="red">#f08080</color>
     <color name="blue">#00b4d8</color>
@@ -31,6 +30,7 @@
     <color name="light_blue">#E0E8F4</color>
     <color name="orange_lite">#F1BC93</color>
     <color name="white_30">#4Dffffff</color>
+    <color name="white_50">#80ffffff</color>
 
     <color name="first_color_theme_backup">#3B378E</color>
     <color name="second_color_theme_backup">#36338C</color>
@@ -57,9 +57,21 @@
     <color name="mat_blue_30">#33287cfa</color>
     <color name="mat_blue_10">#1A287cfa</color>
     <color name="mat_blue_05">#0D287cfa</color>
+    <color name="mat_orange_30">#33f79d65</color>
     <color name="first_10">#1A3B378E</color>
 
-    <color name="mindaro">#CBFF8C</color>
-    <color name="straw">#E3E36A</color>
     <color name="background">#f8f8fa</color>
+    <color name="straw">#E3E36A</color>
+    <color name="orange">#f79d65</color>
+    <color name="orange_30">#33f79d65</color>
+    <color name="violet">#8e94f2</color>
+    <color name="cyan">#00FFFF</color>
+    <color name="magenta">#FF00FF</color>
+    <color name="light_red">#e76f51</color>
+    <color name="pink">#FF4081</color>
+    <color name="brown">#6f4518</color>
+    <color name="purple">#7B1FA2</color>
+    <color name="teal">#009688</color>
+    <color name="amber">#FFC107</color>
+    <color name="lime">#CDDC39</color>
 </resources>

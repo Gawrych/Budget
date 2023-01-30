@@ -2,9 +2,17 @@
 <resources>
     <array name="colors">
         <item>@color/mat_green</item>
+        <item>@color/teal</item>
         <item>@color/mat_red</item>
         <item>@color/mat_blue</item>
-        <item>@color/yellow</item>
+        <item>@color/amber</item>
+        <item>@color/orange</item>
+        <item>@color/violet</item>
+        <item>@color/cyan</item>
+        <item>@color/magenta</item>
+        <item>@color/light_red</item>
+        <item>@color/pink</item>
+        <item>@color/brown</item>
     </array>
 
     <string-array name="months">

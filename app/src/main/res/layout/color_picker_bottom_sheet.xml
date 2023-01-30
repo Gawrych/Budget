@@ -24,7 +24,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:textColor="@color/mat_green"
-        android:backgroundTint="@color/white"
         android:text="Wybierz"
         style="?android:attr/borderlessButtonStyle"
         app:layout_constraintEnd_toEndOf="parent"
