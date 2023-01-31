@@ -19,6 +19,7 @@ public class PeriodSummary {
     public PeriodSummary() {}
 
     public void add(ComingAndTransaction item) {
+//        TODO: Change this to make for loop there, and get argument in List type
         numberOfTransactions++;
 
         BigDecimal amount = new BigDecimal(item.transaction.getAmount());
