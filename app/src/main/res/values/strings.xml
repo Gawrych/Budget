@@ -115,6 +115,9 @@
     <string name="amount_with_percent">%1$d%%</string>
     <string name="amount_with_day_label">%1$d dni</string>
     <string name="amount_with_percentage_points">%1$dpp</string>
+    <string name="in_number_days">za %1$d dni</string>
+    <string name="number_with_plus">+%1$s</string>
+    <string name="number_with_minus">-%1$s</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loss">Zobowiązania</string>
     <string name="profit">Dochód</string>

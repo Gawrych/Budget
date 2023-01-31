@@ -41,7 +41,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/nearestLoss">
 
                 <TextView
-                    android:id="@+id/transactionAfterDeadlineAmount"
+                    android:id="@+id/allTransactionsAfterTheTimeNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_all_corners"
@@ -72,7 +72,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/transactionAfterDeadlineAmount" />
+                    app:layout_constraintTop_toBottomOf="@+id/allTransactionsAfterTheTimeNumber" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -102,7 +102,7 @@
                     app:tint="@color/mat_green" />
 
                 <TextView
-                    android:id="@+id/nextIncomeDate"
+                    android:id="@+id/nextIncomeRemainingDays"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -171,7 +171,7 @@
                     app:tint="@color/mat_red" />
 
                 <TextView
-                    android:id="@+id/nextPaymentDate"
+                    android:id="@+id/nextPaymentRemainingDays"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -227,7 +227,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/allTransactionNumberAmount"
+                    android:id="@+id/allTransactionsNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_all_corners"
@@ -258,7 +258,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/allTransactionNumberAmount" />
+                    app:layout_constraintTop_toBottomOf="@+id/allTransactionsNumber" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
