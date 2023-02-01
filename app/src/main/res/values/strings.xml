@@ -144,4 +144,15 @@
     <string name="fragment_name_transactions">Transakcje</string>
     <string name="fragment_name_categories">Kategorie</string>
     <string name="add_category">Dodaj kategorię</string>
+    <string name="number_example">0</string>
+    <string name="remaining_days_example">za 0 dni</string>
+    <string name="period_statistic">Statystyki okresowe</string>
+    <string name="statistics_card_image">Image for statistics fragment card</string>
+    <string name="statistic_move_arrow">Right arrow to move to statistic fragment</string>
+    <string name="compare_periods">Porównanie okresów</string>
+    <string name="categories_statistics">Podsumowanie kategorii</string>
+    <string name="next_payment">Najbliższy wydatek</string>
+    <string name="global_statistics_negative_icon">Icon to show negative characteristic of card content</string>
+    <string name="next_income">Najbliższy zysk</string>
+    <string name="global_statistics_positive_icon">Icon to show positive characteristic of card content</string>
 </resources>

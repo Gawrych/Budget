@@ -26,53 +26,32 @@
             android:layout_height="wrap_content"
             android:background="@color/background">
 
-<!--            Set data variable to bind all on fragment start -->
-
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/allTransactionNumberLayout2"
+                android:id="@+id/allTransactionNumberLayout"
                 style="@style/globalStatsSmallTile"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/statistics_global_stats_round_corners"
-                android:elevation="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/nearestLoss"
-                app:layout_constraintStart_toStartOf="@+id/nearestLoss"
-                app:layout_constraintTop_toBottomOf="@+id/nearestLoss">
+                app:layout_constraintEnd_toStartOf="@+id/nearestLoss"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/allTransactionsAfterTheTimeNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/round_all_corners"
-                    android:backgroundTint="@color/mat_red_05"
-                    android:padding="5dp"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:text="7"
-                    android:textColor="@color/mat_red"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/transactionAfterDeadlineLabel"
+                    android:id="@+id/allTransactionsNumber"
+                    style="@style/globalStatsAmountPositive"
+                    app:layout_constraintBottom_toTopOf="@+id/allTransactionNumberLabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/transactionAfterDeadlineLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@+id/afterTimeTransactionNumber"
-                    android:text="Po terminie"
-                    android:textColor="@color/font_default"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
+                    android:id="@+id/allTransactionNumberLabel"
+                    style="@style/globalStatsLabel"
+                    android:text="@string/transactions"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/allTransactionsAfterTheTimeNumber" />
+                    app:layout_constraintTop_toBottomOf="@+id/allTransactionsNumber" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -81,8 +60,6 @@
                 style="@style/globalStatsTile"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/statistics_global_stats_round_corners"
-                android:elevation="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/allTransactionNumberLayout"
                 app:layout_constraintStart_toStartOf="@+id/allTransactionNumberLayout"
@@ -90,41 +67,21 @@
 
                 <ImageView
                     android:id="@+id/nextIncomeIcon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/icon_background"
-                    android:backgroundTint="@color/mat_green_30"
-                    android:src="@drawable/ic_baseline_arrow_drop_up_24"
+                    style="@style/globalStatsIconPositive"
+                    android:contentDescription="@string/global_statistics_positive_icon"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/mat_green" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/nextIncomeRemainingDays"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:text="za 12 dni"
-                    android:textStyle="bold"
+                    style="@style/globalStatsRemainingDays"
+                    android:text="@string/remaining_days_example"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/nextIncomeAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/round_all_corners"
-                    android:backgroundTint="@color/mat_green_05"
-                    android:padding="5dp"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:text="+1543 zł"
-                    android:textColor="@color/mat_green"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    style="@style/globalStatsAmountPositive"
                     app:layout_constraintBottom_toTopOf="@+id/nextIncomeLabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -132,14 +89,10 @@
 
                 <TextView
                     android:id="@+id/nextIncomeLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/globalStatsLabel"
                     android:layout_marginBottom="20dp"
+                    android:text="@string/next_income"
                     android:labelFor="@+id/afterTimeTransactionNumber"
-                    android:text="Najbliższy zysk"
-                    android:textColor="@color/font_default"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -149,9 +102,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/nearestLoss"
                 style="@style/globalStatsTile"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/statistics_global_stats_round_corners"
-                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/allTransactionNumberLayout"
@@ -159,41 +109,21 @@
 
                 <ImageView
                     android:id="@+id/nextPaymentIcon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/icon_background"
-                    android:backgroundTint="@color/mat_red_30"
-                    android:src="@drawable/ic_baseline_arrow_drop_down_24"
+                    style="@style/globalStatsIconNegative"
+                    android:contentDescription="@string/global_statistics_negative_icon"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/mat_red" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/nextPaymentRemainingDays"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:text="za 33 dni"
-                    android:textStyle="bold"
+                    style="@style/globalStatsRemainingDays"
+                    android:text="@string/remaining_days_example"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/nextPaymentAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/round_all_corners"
-                    android:backgroundTint="@color/mat_red_05"
-                    android:padding="5dp"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:text="-543 zł"
-                    android:textColor="@color/mat_red"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    style="@style/globalStatsAmountNegative"
                     app:layout_constraintBottom_toTopOf="@+id/nextPaymentLabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -201,14 +131,9 @@
 
                 <TextView
                     android:id="@+id/nextPaymentLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/globalStatsLabel"
+                    android:text="@string/next_payment"
                     android:layout_marginBottom="20dp"
-                    android:labelFor="@+id/afterTimeTransactionNumber"
-                    android:text="Najbliższy wydatek"
-                    android:textColor="@color/font_default"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -216,49 +141,33 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/allTransactionNumberLayout"
+                android:id="@+id/allTransactionNumberLayout2"
                 style="@style/globalStatsSmallTile"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/statistics_global_stats_round_corners"
-                android:elevation="5dp"
-                app:layout_constraintEnd_toStartOf="@+id/nearestLoss"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/nearestLoss"
+                app:layout_constraintStart_toStartOf="@+id/nearestLoss"
+                app:layout_constraintTop_toBottomOf="@+id/nearestLoss">
 
                 <TextView
-                    android:id="@+id/allTransactionsNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/round_all_corners"
-                    android:backgroundTint="@color/mat_green_05"
-                    android:padding="5dp"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:text="433"
-                    android:textColor="@color/mat_green"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/allTransactionNumberLabel"
+                    android:id="@+id/allTransactionsAfterTheTimeNumber"
+                    style="@style/globalStatsAmountNegative"
+                    app:layout_constraintBottom_toTopOf="@+id/transactionAfterDeadlineLabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/allTransactionNumberLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@+id/afterTimeTransactionNumber"
-                    android:text="Transakcji"
-                    android:textColor="@color/font_default"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
+                    android:id="@+id/transactionAfterDeadlineLabel"
+                    style="@style/globalStatsLabel"
+                    android:text="@string/after_the_deadline"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/allTransactionsNumber" />
+                    app:layout_constraintTop_toBottomOf="@+id/allTransactionsAfterTheTimeNumber" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -266,57 +175,33 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/periodStatistics"
-            android:layout_width="350dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="40dp"
-            android:clickable="false"
-            android:layout_gravity="center_horizontal"
-            app:cardCornerRadius="30dp"
-            app:cardElevation="5dp">
+            style="@style/statisticFragmentCard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/mat_orange_30"
-                android:paddingStart="20dp"
-                android:paddingEnd="10dp">
+                style="@style/statisticFragmentCardLayout">
 
                 <TextView
                     android:id="@+id/monthName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="Statystyki okresowe"
-                    android:background="@drawable/round_all_corners"
-                    android:backgroundTint="@color/white_30"
-                    android:padding="7dp"
-                    android:textColor="#2c2f42"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    style="@style/statisticFragmentCardLabel"
+                    android:text="@string/period_statistic"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/periodStatisticCardArrowIcon"
                     app:layout_constraintStart_toEndOf="@+id/chartImage"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/chartImage"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:background="@drawable/oval_background"
-                    android:backgroundTint="@color/background"
-                    android:padding="12dp"
-                    android:contentDescription="@string/transaction_icon_desc"
+                    style="@style/statisticFragmentCardIcon"
+                    android:contentDescription="@string/statistics_card_image"
                     android:src="@drawable/bar_chart"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/icon_background"
-                    android:backgroundTint="@color/white"
-                    android:contentDescription="@string/transaction_icon_desc"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    android:id="@+id/periodStatisticCardArrowIcon"
+                    style="@style/statisticFragmentCardCheckArrow"
+                    android:contentDescription="@string/statistic_move_arrow"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -327,30 +212,15 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/periodComparatorStatisticsCardView"
-            android:layout_width="350dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="30dp"
-            android:clickable="false"
-            android:layout_gravity="center_horizontal"
-            app:cardCornerRadius="30dp"
-            app:cardElevation="5dp">
+            style="@style/statisticFragmentCard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/periodComparatorStatisticsLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/mat_green_30"
-                android:paddingStart="20dp"
-                android:paddingEnd="10dp">
+                style="@style/statisticFragmentCardLayout">
 
                 <ImageView
                     android:id="@+id/periodComparatorStatisticsIcon"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:background="@drawable/oval_background"
-                    android:backgroundTint="#f7f8fa"
-                    android:padding="10dp"
-                    android:contentDescription="@string/transaction_icon_desc"
+                    style="@style/statisticFragmentCardIcon"
+                    android:contentDescription="@string/statistics_card_image"
                     android:src="@drawable/pie_chart"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -358,27 +228,17 @@
 
                 <TextView
                     android:id="@+id/periodComparatorStatisticsLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="Porównanie okresów"
-                    android:background="@drawable/round_all_corners"
-                    android:backgroundTint="@color/white_30"
-                    android:padding="7dp"
-                    android:textColor="#2c2f42"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    style="@style/statisticFragmentCardLabel"
+                    android:text="@string/compare_periods"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/periodComparatorCardArrowIcon"
                     app:layout_constraintStart_toEndOf="@+id/periodComparatorStatisticsIcon"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/icon_background"
-                    android:backgroundTint="@color/white"
-                    android:contentDescription="@string/transaction_icon_desc"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    android:id="@+id/periodComparatorCardArrowIcon"
+                    style="@style/statisticFragmentCardCheckArrow"
+                    android:contentDescription="@string/statistic_move_arrow"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -389,31 +249,16 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/categoryStatisticsCardView"
-            android:layout_width="350dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="30dp"
-            android:clickable="false"
             android:layout_marginBottom="50dp"
-            android:layout_gravity="center_horizontal"
-            app:cardCornerRadius="30dp"
-            app:cardElevation="5dp">
+            style="@style/statisticFragmentCard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/categoryStatisticsLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:paddingStart="20dp"
-                android:paddingEnd="10dp">
+                style="@style/statisticFragmentCardLayout">
 
                 <ImageView
                     android:id="@+id/categoryStatisticsIcon"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:background="@drawable/oval_background"
-                    android:backgroundTint="@color/mat_red_30"
-                    android:padding="10dp"
-                    android:contentDescription="@string/transaction_icon_desc"
+                    style="@style/statisticFragmentCardIcon"
+                    android:contentDescription="@string/statistics_card_image"
                     android:src="@drawable/statistics_category_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -421,24 +266,17 @@
 
                 <TextView
                     android:id="@+id/categoryStatisticsLabel"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:text="Podsumowanie kategorii"
-                    android:textColor="#2c2f42"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    style="@style/statisticFragmentCardLabel"
+                    android:text="@string/categories_statistics"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/categoryCardArrowIcon"
                     app:layout_constraintStart_toEndOf="@+id/categoryStatisticsIcon"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/icon_background"
-                    android:backgroundTint="@color/white"
-                    android:contentDescription="@string/transaction_icon_desc"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    android:id="@+id/categoryCardArrowIcon"
+                    style="@style/statisticFragmentCardCheckArrow"
+                    android:contentDescription="@string/statistic_move_arrow"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

@@ -248,10 +248,114 @@
     <style name="globalStatsTile">
         <item name="android:layout_width">170dp</item>
         <item name="android:layout_height">170dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:elevation">7dp</item>
+        <item name="android:background">@drawable/statistics_global_stats_round_corners</item>
     </style>
 
     <style name="globalStatsSmallTile" parent="globalStatsTile">
         <item name="android:layout_height">90dp</item>
     </style>
 
+    <style name="globalStatsAmount">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingEnd">6dp</item>
+        <item name="android:text">@string/number_example</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/round_all_corners</item>
+    </style>
+
+    <style name="globalStatsAmountPositive" parent="globalStatsAmount">
+        <item name="android:textColor">@color/mat_green</item>
+        <item name="android:backgroundTint">@color/mat_green_05</item>
+    </style>
+
+    <style name="globalStatsAmountNegative" parent="globalStatsAmount">
+        <item name="android:textColor">@color/mat_red</item>
+        <item name="android:backgroundTint">@color/mat_red_05</item>
+    </style>
+
+    <style name="globalStatsLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="globalStatsRemainingDays">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="globalStatsIcon">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:background">@drawable/icon_background</item>
+    </style>
+
+    <style name="globalStatsIconPositive" parent="globalStatsIcon">
+        <item name="tint">@color/mat_green</item>
+        <item name="android:src">@drawable/ic_baseline_arrow_drop_up_24</item>
+        <item name="android:backgroundTint">@color/mat_green_30</item>
+    </style>
+
+    <style name="globalStatsIconNegative" parent="globalStatsIcon">
+        <item name="tint">@color/mat_red</item>
+        <item name="android:src">@drawable/ic_baseline_arrow_drop_down_24</item>
+        <item name="android:backgroundTint">@color/mat_red_30</item>
+    </style>
+
+
+    <style name="statisticFragmentCard">
+        <item name="android:layout_width">350dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:clickable">false</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="cardCornerRadius">30dp</item>
+        <item name="cardElevation">5dp</item>
+    </style>
+
+    <style name="statisticFragmentCardLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+    </style>
+
+    <style name="statisticFragmentCardLabel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:padding">7dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/dark_accent</item>
+    </style>
+
+    <style name="statisticFragmentCardIcon">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:background">@drawable/oval_background</item>
+        <item name="android:backgroundTint">@color/background</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="statisticFragmentCardCheckArrow">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:background">@drawable/icon_background</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:src">@drawable/ic_baseline_keyboard_arrow_right_24</item>
+    </style>
 </resources>
