@@ -99,64 +99,45 @@ public class PeriodComparatorFragment extends Fragment {
 
     private void setValuesInDetailsSection() {
         PeriodStatsComparator statsComparator = periodElementsCreator.getStatsComparator();
+        String currency = getResources().getString(R.string.currency);
+
         binding.percentageOfIncomeIncrease
-                .setText(getAmountWithPercentage(getNumberWithSign(statsComparator.getPercentIncome())));
+                .setText(getFormattedAmount(R.string.amount_with_percent_string, getNumberWithSign(statsComparator.getPercentIncome())));
         binding.percentageOfProfitIncrease
-                .setText(getAmountWithPercentage(getNumberWithSign(statsComparator.getPercentProfit())));
+                .setText(getFormattedAmount(R.string.amount_with_percent_string, getNumberWithSign(statsComparator.getPercentProfit())));
         binding.percentageOfLossIncrease
-                .setText(getAmountWithPercentage(getNumberWithSign(statsComparator.getPercentLoss())));
+                .setText(getFormattedAmount(R.string.amount_with_percent_string, getNumberWithSign(statsComparator.getPercentLoss())));
 
         binding.averageTimeAfterTheDeadlineFirstPeriod
-                .setText(getAmountWithDayLabel(String.valueOf(statsComparator.getFirstPeriod().getAverageTimeAfterTheDeadlineInDays())));
+                .setText(getFormattedAmount(R.string.amount_with_day_label, String.valueOf(statsComparator.getFirstPeriod().getAverageTimeAfterTheDeadlineInDays())));
         binding.averageTimeAfterTheDeadlineSecondPeriod
-                .setText(getAmountWithDayLabel(String.valueOf(statsComparator.getSecondPeriod().getAverageTimeAfterTheDeadlineInDays())));
+                .setText(getFormattedAmount(R.string.amount_with_day_label, String.valueOf(statsComparator.getSecondPeriod().getAverageTimeAfterTheDeadlineInDays())));
         binding.payOnTimeInPercentageFirstPeriod
-                .setText(getAmountWithPercentage(statsComparator.getFirstPeriod().getPercentageOfTransactionsExecutedOnTime()));
+                .setText(getFormattedAmount(R.string.amount_with_percent, statsComparator.getFirstPeriod().getPercentageOfTransactionsExecutedOnTime()));
         binding.payOnTimeInPercentageSecondPeriod
-                .setText(getAmountWithPercentage(statsComparator.getSecondPeriod().getPercentageOfTransactionsExecutedOnTime()));
+                .setText(getFormattedAmount(R.string.amount_with_percent, statsComparator.getSecondPeriod().getPercentageOfTransactionsExecutedOnTime()));
 
         binding.amountOfIncomeIncrease
-                .setText(getAmountWithCurrency(getNumberWithSign(statsComparator.getObtainedIncome())));
+                .setText(getFormattedAmount(R.string.amount_with_currency, getNumberWithSign(statsComparator.getObtainedIncome()), currency));
         binding.amountOfProfitIncrease
-                .setText(getAmountWithCurrency(getNumberWithSign(statsComparator.getObtainedProfit())));
+                .setText(getFormattedAmount(R.string.amount_with_currency, getNumberWithSign(statsComparator.getObtainedProfit()), currency));
         binding.amountOfLossIncrease
-                .setText(getAmountWithCurrency(getNumberWithSign(statsComparator.getObtainedLoss())));
+                .setText(getFormattedAmount(R.string.amount_with_currency, getNumberWithSign(statsComparator.getObtainedLoss()), currency));
         binding.averageGrowthTimeAfterTheDeadline
-                .setText(getAmountWithDayLabel(getNumberWithSign(statsComparator.getGrowthAverageTimeAfterTheDeadlineInDays())));
+                .setText(getFormattedAmount(R.string.amount_with_day_label, getNumberWithSign(statsComparator.getGrowthAverageTimeAfterTheDeadlineInDays())));
         binding.growthPayOnTimeInPercentagePoints
-                .setText(getAmountWithPercentagePoints(getNumberWithSign(statsComparator.getGrowthOfPercentOfTransactionsExecutedOnTime())));
+                .setText(getFormattedAmount(R.string.amount_with_percentage_points, getNumberWithSign(statsComparator.getGrowthOfPercentOfTransactionsExecutedOnTime())));
+    }
+
+    private String getFormattedAmount(int formatResId, Object... args) {
+        return getString(formatResId, args);
     }
 
     private String getNumberWithSign(float number) {
         String numberInString = String.valueOf(Math.round(number));
         if (number > 0) {
-            return getAmountWithPlus(numberInString);
+            return getFormattedAmount(R.string.number_with_plus, numberInString);
         }
         return numberInString;
-    }
-
-    private String getAmountWithPlus(String amount) {
-        return getString(R.string.number_with_plus, amount);
-    }
-
-    private String getAmountWithCurrency(String amount) {
-        String currency = getResources().getString(R.string.currency);
-        return getString(R.string.amount_with_currency, amount, currency);
-    }
-
-    private String getAmountWithPercentage(String amount) {
-        return getString(R.string.amount_with_percent_string, amount);
-    }
-
-    private String getAmountWithPercentage(int amount) {
-        return getString(R.string.amount_with_percent, amount);
-    }
-
-    private String getAmountWithDayLabel(String amount) {
-        return getString(R.string.amount_with_day_label, amount);
-    }
-
-    private String getAmountWithPercentagePoints(String amount) {
-        return getString(R.string.amount_with_percentage_points, amount);
     }
 }

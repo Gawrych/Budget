@@ -117,6 +117,7 @@
     <string name="amount_with_day_label">%1$s dni</string>
     <string name="amount_with_percentage_points">%1$spp</string>
     <string name="in_number_days">za %1$d dni</string>
+    <string name="for_number_days">od %1$d dni</string>
     <string name="number_with_plus">+%1$s</string>
     <string name="number_with_minus">-%1$s</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -156,4 +157,5 @@
     <string name="global_statistics_negative_icon">Icon to show negative characteristic of card content</string>
     <string name="next_income">Najbliższy zysk</string>
     <string name="global_statistics_positive_icon">Icon to show positive characteristic of card content</string>
+    <string name="date_in_day_month_pattern_example">1 jan</string>
 </resources>

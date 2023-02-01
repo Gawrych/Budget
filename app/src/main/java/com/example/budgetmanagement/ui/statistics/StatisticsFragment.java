@@ -4,32 +4,30 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.rooms.Coming;
 import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.StatisticsFragmentBinding;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
-
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.List;
 
 public class StatisticsFragment extends Fragment {
 
     private StatisticsFragmentBinding binding;
-    private ComingViewModel comingViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -40,7 +38,7 @@ public class StatisticsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
+        ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
 
         comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), this::setGlobalStats);
 
@@ -60,38 +58,27 @@ public class StatisticsFragment extends Fragment {
         ComingAndTransaction nextIncome = globalStats.getNextIncomeTransaction();
         ComingAndTransaction nextPayment = globalStats.getNextPaymentTransaction();
 
-        int nextIncomeRemainingDays = 0;
-        String nextIncomeAmount = "0";
-        if (nextIncome != null) {
-            nextIncomeAmount = getAmountWithPlus(getAmountWithCurrency(removeTrailingZeros(nextIncome.transaction.getAmount())));
-            nextIncomeRemainingDays = getRemainingDays(nextIncome.coming.getExpireDate());
-        }
-
-        int nextPaymentRemainingDays = 0;
-        String nextPaymentAmount = "0";
-        if (nextPayment != null) {
-            nextPaymentAmount = getAmountWithMinus(getAmountWithCurrency(removeTrailingZeros(nextPayment.transaction.getAmount())));
-            nextPaymentRemainingDays = getRemainingDays(nextPayment.coming.getExpireDate());
-        }
-
-        binding.nextIncomeAmount.setText(nextIncomeAmount);
-        binding.nextPaymentAmount.setText(nextPaymentAmount);
-
-        binding.nextIncomeRemainingDays.setText(getDaysAmountWithRemainingDaysLabel(nextIncomeRemainingDays));
-        binding.nextPaymentRemainingDays.setText(getDaysAmountWithRemainingDaysLabel(nextPaymentRemainingDays));
+        setNextTransactionData(binding.nextIncomeAmount, binding.nextIncomeRemainingDays, nextIncome, true);
+        setNextTransactionData(binding.nextPaymentAmount, binding.nextPaymentRemainingDays, nextPayment, false);
     }
+
+    private void setNextTransactionData(TextView amountView, TextView daysView, ComingAndTransaction transaction, boolean isIncome) {
+        if (transaction == null) {
+            amountView.setText("0");
+            daysView.setText("");
+            return;
+        }
+
+        String amount = (isIncome ? "+" : "-") + getAmountWithCurrency(removeTrailingZeros(transaction.transaction.getAmount()));
+        amountView.setText(amount);
+
+        int remainingDays = getRemainingDays(transaction.coming.getExpireDate());
+        daysView.setText(getDaysAmountWithRemainingDaysLabel(remainingDays));
+    }
+
 
     private String removeTrailingZeros(String amount) {
-        BigDecimal bigDecimal = new BigDecimal(amount);
-        return bigDecimal.abs().stripTrailingZeros().toPlainString();
-    }
-
-    private String getAmountWithPlus(String amount) {
-        return getString(R.string.number_with_plus, amount);
-    }
-
-    private String getAmountWithMinus(String amount) {
-        return getString(R.string.number_with_minus, amount);
+        return new BigDecimal(amount).setScale(0, RoundingMode.HALF_UP).abs().toPlainString();
     }
 
     private String getDaysAmountWithRemainingDaysLabel(int daysNumber) {
@@ -104,14 +91,13 @@ public class StatisticsFragment extends Fragment {
     }
 
     private int getRemainingDays(long finalDate) {
-        Calendar todayDate = Calendar.getInstance();
         Calendar otherDate = Calendar.getInstance();
         otherDate.setTimeInMillis(finalDate);
 
-        DateTimeZone defaultTimeZone = DateTimeZone.getDefault();
-        DateTime startDate = new DateTime(todayDate.getTimeInMillis(), defaultTimeZone);
-        DateTime endDate = new DateTime(otherDate.getTimeInMillis(), defaultTimeZone);
-        return Days.daysBetween(startDate.withTimeAtStartOfDay(), endDate.withTimeAtStartOfDay()).getDays();
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = otherDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return (int) ChronoUnit.DAYS.between(startDate, endDate);
     }
 
 
