@@ -54,6 +54,8 @@ public class PeriodStatisticsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
 
+//        TODO: Add info icon
+
         currentDate = Calendar.getInstance();
 
         setCurrentYearAsStartValueToChartAndStats();
@@ -120,7 +122,7 @@ public class PeriodStatisticsFragment extends Fragment {
     }
 
     private String getAmountWithDayLabel(int amount) {
-        return getString(R.string.amount_with_day_label, amount);
+        return getString(R.string.amount_with_day_label, String.valueOf(amount));
     }
 
     private String getAmountWithPercentage(int amount) {

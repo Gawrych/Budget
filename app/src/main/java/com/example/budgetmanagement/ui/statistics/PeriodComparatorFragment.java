@@ -100,47 +100,62 @@ public class PeriodComparatorFragment extends Fragment {
     private void setValuesInDetailsSection() {
         PeriodStatsComparator statsComparator = periodElementsCreator.getStatsComparator();
         binding.amountOfIncomeIncrease
-                .setText(getAmountWithCurrency(statsComparator.getObtainedIncome()));
+                .setText(getAmountWithCurrency(getNumberWithSign(statsComparator.getObtainedIncome())));
         binding.amountOfProfitIncrease
-                .setText(getAmountWithCurrency(statsComparator.getObtainedProfit()));
+                .setText(getAmountWithCurrency(getNumberWithSign(statsComparator.getObtainedProfit())));
         binding.amountOfLossIncrease
-                .setText(getAmountWithCurrency(statsComparator.getObtainedLoss()));
+                .setText(getAmountWithCurrency(getNumberWithSign(statsComparator.getObtainedLoss())));
         binding.averageTimeAfterTheDeadlineFirstPeriod
-                .setText(getAmountWithDayLabel(statsComparator.getFirstPeriod().getAverageTimeAfterTheDeadlineInDays()));
+                .setText(getAmountWithDayLabel(String.valueOf(statsComparator.getFirstPeriod().getAverageTimeAfterTheDeadlineInDays())));
         binding.averageTimeAfterTheDeadlineSecondPeriod
-                .setText(getAmountWithDayLabel(statsComparator.getSecondPeriod().getAverageTimeAfterTheDeadlineInDays()));
+                .setText(getAmountWithDayLabel(String.valueOf(statsComparator.getSecondPeriod().getAverageTimeAfterTheDeadlineInDays())));
         binding.payOnTimeInPercentageFirstPeriod
                 .setText(getAmountWithPercentage(statsComparator.getFirstPeriod().getPercentageOfTransactionsExecutedOnTime()));
         binding.payOnTimeInPercentageSecondPeriod
                 .setText(getAmountWithPercentage(statsComparator.getSecondPeriod().getPercentageOfTransactionsExecutedOnTime()));
 
         binding.incomeIncrease
-                .setText(getAmountWithPercentage(statsComparator.getPercentIncome()));
+                .setText(getAmountWithPercentage(getNumberWithSign(statsComparator.getPercentIncome())));
         binding.profitIncrease
-                .setText(getAmountWithPercentage(statsComparator.getPercentProfit()));
+                .setText(getAmountWithPercentage(getNumberWithSign(statsComparator.getPercentProfit())));
         binding.lossIncrease
-                .setText(getAmountWithPercentage(statsComparator.getPercentLoss()));
+                .setText(getAmountWithPercentage(getNumberWithSign(statsComparator.getPercentLoss())));
         binding.averageGrowthTimeAfterTheDeadline
-                .setText(getAmountWithDayLabel(statsComparator.getGrowthAverageTimeAfterTheDeadlineInDays()));
+                .setText(getAmountWithDayLabel(getNumberWithSign(statsComparator.getGrowthAverageTimeAfterTheDeadlineInDays())));
         binding.growthPayOnTimeInPercentagePoints
-                .setText(getAmountWithPercentagePoints(statsComparator.getGrowthOfPercentOfTransactionsExecutedOnTime()));
+                .setText(getAmountWithPercentagePoints(getNumberWithSign(statsComparator.getGrowthOfPercentOfTransactionsExecutedOnTime())));
     }
 
-    private String getAmountWithCurrency(float amount) {
+    private String getNumberWithSign(float number) {
+        String numberInString = String.valueOf(Math.round(number));
+        if (number > 0) {
+            return getAmountWithPlus(numberInString);
+        }
+        return numberInString;
+    }
+
+    private String getAmountWithPlus(String amount) {
+        return getString(R.string.number_with_plus, amount);
+    }
+
+    private String getAmountWithCurrency(String amount) {
         String currency = getResources().getString(R.string.currency);
-        String amountInString = String.valueOf(amount);
-        return getString(R.string.amount_with_currency, amountInString, currency);
+        return getString(R.string.amount_with_currency, amount, currency);
+    }
+
+    private String getAmountWithPercentage(String amount) {
+        return getString(R.string.amount_with_percent_string, amount);
     }
 
     private String getAmountWithPercentage(int amount) {
         return getString(R.string.amount_with_percent, amount);
     }
 
-    private String getAmountWithDayLabel(int amount) {
+    private String getAmountWithDayLabel(String amount) {
         return getString(R.string.amount_with_day_label, amount);
     }
 
-    private String getAmountWithPercentagePoints(int amount) {
+    private String getAmountWithPercentagePoints(String amount) {
         return getString(R.string.amount_with_percentage_points, amount);
     }
 }

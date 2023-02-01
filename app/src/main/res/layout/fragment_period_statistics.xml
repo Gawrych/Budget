@@ -21,8 +21,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-<!--         TODO: Add info icon -->
-
             <CheckBox
                 android:id="@+id/onlyYearCheckBox"
                 style="@style/topBarIcon"
@@ -269,6 +267,7 @@
                     style="@style/detailsItemData"
                     android:text="@string/no_data"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/payOnTimeLabel" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
