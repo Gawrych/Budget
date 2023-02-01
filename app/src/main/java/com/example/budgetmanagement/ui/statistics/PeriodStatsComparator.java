@@ -16,15 +16,13 @@ public class PeriodStatsComparator {
 
     public int getPercentProfit() {
         float secondProfit = secondPeriod.getIncome() - secondPeriod.getLoss();
-        return percentGrowth(getObtainedProfit(), secondProfit);
+        int obtainedProfit = getObtainedProfit();
 
-//         TODO: Think about it
-//        float secondProfit = secondPeriod.getIncome() - secondPeriod.getLoss();
-//        int obtainedProfit = getObtainedProfit();
-//        if (obtainedProfit < 0) {   // don't calculate profit if base is below zero
-//            return percentageGrowth(0, secondProfit);
-//        }
-//        return percentageGrowth(obtainedProfit, secondProfit);
+        if (secondProfit < 0) {
+            secondProfit = 0;
+        }
+
+        return percentGrowth(obtainedProfit, secondProfit);
     }
 
     public int getPercentLoss() {
