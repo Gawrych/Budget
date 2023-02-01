@@ -97,7 +97,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
-
+    @Override
     public View getChildView(final int i, final int i1, boolean b, View view, ViewGroup viewGroup) {
         if (view == null){
             view = getInflatedView(viewGroup);
@@ -107,8 +107,6 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         TextView amountField = view.findViewById(R.id.amount);
         TextView dateField = view.findViewById(R.id.repeatDate);
         TextView remainingDaysField = view.findViewById(R.id.remainingDays);
-        TextView daysTextField = view.findViewById(R.id.daysText);
-        TextView dateInfoField = view.findViewById(R.id.info);
         ImageView mainIconField = view.findViewById(R.id.outOfDateIcon);
 
         ComingAndTransaction item = getChild(i, i1);
@@ -118,8 +116,8 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
         setTitleField(titleField, item.transaction.getTitle());
         setAmountField(amountField, amount);
-        setDateField(dateField, repeatDate, MONTH_NAME_DATE_FORMAT);
-        setRemainingDays(view, remainingDaysField, daysTextField, dateInfoField, repeatDate, isExecuted);
+        setDateField(dateField, repeatDate);
+        setRemainingDays(remainingDaysField, repeatDate, isExecuted);
         setMainIcon(mainIconField, item.transaction.getCategoryId());
 
         return view;
@@ -140,8 +138,41 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         amountField.setText(getAmountWithCurrency(amount));
     }
 
-    private void setDateField(TextView dateField, long repeatDate, String format) {
-        dateField.setText(DateProcessor.parseDate(repeatDate, format));
+    private String getAmountWithCurrency(String amount) {
+        String currency = context.getString(R.string.polish_currency);
+        return context.getString(R.string.amount_with_currency, amount, currency);
+    }
+
+    private void setDateField(TextView dateField, long repeatDate) {
+        dateField.setText(DateProcessor.parseDate(repeatDate, MONTH_NAME_DATE_FORMAT));
+    }
+
+    private void setRemainingDays(TextView remainingDays, long deadline, boolean isExecuted) {
+        int days = getRemainingDays(deadline);
+        boolean afterDeadline = days >= 0;
+        int textColor = R.color.font_default;
+        String remainingDaysText = context.getString(R.string.in_number_days, Math.abs(days));
+
+        if (isExecuted) {
+            remainingDaysText = context.getString(R.string.realized);
+            textColor = R.color.mat_green;
+        } else if (afterDeadline) {
+            remainingDaysText = context.getString(R.string.for_number_days, Math.abs(days));
+            textColor = R.color.mat_red;
+        }
+
+        remainingDays.setText(remainingDaysText);
+        remainingDays.setTextColor(context.getColor(textColor));
+    }
+
+    private int getRemainingDays(long finalDate) {
+        Calendar otherDate = Calendar.getInstance();
+        otherDate.setTimeInMillis(finalDate);
+
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = otherDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return (int) ChronoUnit.DAYS.between(startDate, endDate);
     }
 
     private void setMainIcon(ImageView mainIcon, int categoryId) {
@@ -157,104 +188,6 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
             mainIcon.setBackground(ovalWithColorBackground);
         }
     }
-
-    @Override
-    public View getChildView(final int i, final int i1, boolean b, View view, ViewGroup viewGroup) {
-        if (view == null){
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.coming_child_view, viewGroup, false);
-        }
-
-        final TextView titleField = view.findViewById(R.id.titleLayout);
-        final TextView amountField = view.findViewById(R.id.amount);
-        final TextView dateField = view.findViewById(R.id.repeatDate);
-        final TextView remainingDays = view.findViewById(R.id.remainingDays);
-        final ImageView mainIcon = view.findViewById(R.id.outOfDateIcon);
-
-        ComingAndTransaction item = getChild(i, i1);
-        String amount = item.transaction.getAmount();
-        long repeatDate = item.coming.getExpireDate();
-        boolean isExecuted = item.coming.isExecuted();
-
-        titleField.setText(item.transaction.getTitle());
-
-        AmountFieldModifierToViewHolder amountFieldModifierToViewHolder =
-                new AmountFieldModifierToViewHolder(amountField);
-        amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
-        amountField.setText(getAmountWithCurrency(amount));
-
-        dateField.setText(DateProcessor.parseDate(repeatDate, MONTH_NAME_DATE_FORMAT));
-
-
-
-
-
-
-
-
-
-
-//      NEW BY ME
-        int days = getRemainingDays(repeatDate);
-        remainingDays.setText(String.valueOf(Math.abs(days)));
-
-
-        boolean afterDeadline = days >= 0;
-        int textColor = afterDeadline ? R.color.mat_red : R.color.font_default;
-
-        remainingDays.setText(String.valueOf(Math.abs(days)));
-        remainingDays.setTextColor(view.getContext().getColor(textColor));
-
-        daysText.setText("dni");
-        daysText.setTextColor(view.getContext().getColor(textColor));
-
-
-        String dateText;
-        if (afterDeadline && !isExecuted) {
-            dateText = days == 0 ? "Today" : "For Days";
-        } else if (isExecuted) {
-            dateText = "Realized";
-            dateInfo.setTextColor(view.getContext().getColor(R.color.main_green));
-        } else {
-            dateText = "In Days";
-        }
-
-//          MY OLD
-        if (afterDeadline && !isExecuted) {
-            remainingDays.setTextColor(view.getContext().getColor(R.color.mat_red));
-
-            if (days == 0) {
-                remainingDays.setText(R.string.today);
-            }
-
-        } else {
-            remainingDays.setText(R.string.in_number_days);
-            remainingDays.setTextColor(view.getContext().getColor(R.color.font_default));
-        }
-
-        if (isExecuted) {
-            remainingDays.setText(R.string.realized);
-            remainingDays.setTextColor(view.getContext().getColor(R.color.main_green));
-        }
-
-        return view;
-    }
-
-    private int getRemainingDays(long finalDate) {
-        Calendar otherDate = Calendar.getInstance();
-        otherDate.setTimeInMillis(finalDate);
-
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = otherDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        return (int) ChronoUnit.DAYS.between(startDate, endDate);
-    }
-
-    private String getAmountWithCurrency(String amount) {
-        String currency = context.getString(R.string.polish_currency);
-        return context.getString(R.string.amount_with_currency, amount, currency);
-    }
-
 
     private Drawable getDrawableWithColor(int drawableId, int colorId) {
         Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), drawableId, null);
