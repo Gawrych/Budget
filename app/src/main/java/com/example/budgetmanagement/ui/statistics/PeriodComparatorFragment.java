@@ -99,12 +99,13 @@ public class PeriodComparatorFragment extends Fragment {
 
     private void setValuesInDetailsSection() {
         PeriodStatsComparator statsComparator = periodElementsCreator.getStatsComparator();
-        binding.amountOfIncomeIncrease
-                .setText(getAmountWithCurrency(getNumberWithSign(statsComparator.getObtainedIncome())));
-        binding.amountOfProfitIncrease
-                .setText(getAmountWithCurrency(getNumberWithSign(statsComparator.getObtainedProfit())));
-        binding.amountOfLossIncrease
-                .setText(getAmountWithCurrency(getNumberWithSign(statsComparator.getObtainedLoss())));
+        binding.percentageOfIncomeIncrease
+                .setText(getAmountWithPercentage(getNumberWithSign(statsComparator.getPercentIncome())));
+        binding.percentageOfProfitIncrease
+                .setText(getAmountWithPercentage(getNumberWithSign(statsComparator.getPercentProfit())));
+        binding.percentageOfLossIncrease
+                .setText(getAmountWithPercentage(getNumberWithSign(statsComparator.getPercentLoss())));
+
         binding.averageTimeAfterTheDeadlineFirstPeriod
                 .setText(getAmountWithDayLabel(String.valueOf(statsComparator.getFirstPeriod().getAverageTimeAfterTheDeadlineInDays())));
         binding.averageTimeAfterTheDeadlineSecondPeriod
@@ -114,12 +115,12 @@ public class PeriodComparatorFragment extends Fragment {
         binding.payOnTimeInPercentageSecondPeriod
                 .setText(getAmountWithPercentage(statsComparator.getSecondPeriod().getPercentageOfTransactionsExecutedOnTime()));
 
-        binding.incomeIncrease
-                .setText(getAmountWithPercentage(getNumberWithSign(statsComparator.getPercentIncome())));
-        binding.profitIncrease
-                .setText(getAmountWithPercentage(getNumberWithSign(statsComparator.getPercentProfit())));
-        binding.lossIncrease
-                .setText(getAmountWithPercentage(getNumberWithSign(statsComparator.getPercentLoss())));
+        binding.amountOfIncomeIncrease
+                .setText(getAmountWithCurrency(getNumberWithSign(statsComparator.getObtainedIncome())));
+        binding.amountOfProfitIncrease
+                .setText(getAmountWithCurrency(getNumberWithSign(statsComparator.getObtainedProfit())));
+        binding.amountOfLossIncrease
+                .setText(getAmountWithCurrency(getNumberWithSign(statsComparator.getObtainedLoss())));
         binding.averageGrowthTimeAfterTheDeadline
                 .setText(getAmountWithDayLabel(getNumberWithSign(statsComparator.getGrowthAverageTimeAfterTheDeadlineInDays())));
         binding.growthPayOnTimeInPercentagePoints
