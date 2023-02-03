@@ -1,22 +1,19 @@
 package com.example.budgetmanagement.ui.statistics;
 
 import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPicker.MONTHS_AND_YEAR_MODE;
-import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPicker.ONLY_YEAR_MODE;
 
 import android.content.Context;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
-import com.example.budgetmanagement.databinding.FragmentPeriodComparatorBinding;
-import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.github.mikephil.charting.charts.BarChart;
 
 import java.util.Calendar;
 import java.util.HashMap;
 
 public class PeriodComparatorElementsCreator {
 
-    private Context context;
-    private final FragmentPeriodComparatorBinding binding;
+    private final Context context;
     private final ComingViewModel comingViewModel;
     private int firstMonth;
     private int firstYear;
@@ -26,9 +23,8 @@ public class PeriodComparatorElementsCreator {
     private PeriodStatsComparator statsComparator;
     private BottomSheetMonthYearPicker datesPicker;
 
-    public PeriodComparatorElementsCreator(Context context, FragmentPeriodComparatorBinding binding, ComingViewModel comingViewModel) {
+    public PeriodComparatorElementsCreator(Context context, ComingViewModel comingViewModel) {
         this.context = context;
-        this.binding = binding;
         this.comingViewModel = comingViewModel;
         setDefaultDates();
         initializePeriodPicker();
@@ -39,15 +35,15 @@ public class PeriodComparatorElementsCreator {
         this.firstMonth = currentDate.get(Calendar.MONTH);
         this.firstYear = currentDate.get(Calendar.YEAR);
 
-        Calendar secondDate = Calendar.getInstance();
-        secondDate.add(Calendar.MONTH, -1);
-        this.secondMonth = secondDate.get(Calendar.MONTH);
-        this.secondYear = secondDate.get(Calendar.YEAR);
+        currentDate.add(Calendar.MONTH, -1);
+        this.secondMonth = currentDate.get(Calendar.MONTH);
+        this.secondYear = currentDate.get(Calendar.YEAR);
     }
 
     private void initializePeriodPicker() {
         datesPicker = BottomSheetMonthYearPicker
                 .newInstance(MONTHS_AND_YEAR_MODE, firstYear, firstMonth, secondYear, secondMonth);
+        datesPicker.setDatesFromBundle();
         datesPicker.setCancelable(false);
     }
 
@@ -77,25 +73,17 @@ public class PeriodComparatorElementsCreator {
         YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(comingViewModel);
         HashMap<Integer, PeriodSummary> yearsSummary = yearsStatsCollector.getStats();
 
-        PeriodSummary firstPeriod = yearsSummary.get(firstYear);
-        PeriodSummary secondPeriod = yearsSummary.get(secondYear);
-
-        if (firstPeriod == null) {
-            firstPeriod = new PeriodSummary();
-        }
-
-        if (secondPeriod == null) {
-            secondPeriod = new PeriodSummary();
-        }
+        PeriodSummary firstPeriod = yearsSummary.getOrDefault(firstYear, new PeriodSummary());
+        PeriodSummary secondPeriod = yearsSummary.getOrDefault(secondYear, new PeriodSummary());
 
         this.statsComparator = new PeriodStatsComparator(firstPeriod, secondPeriod);
     }
 
-    public void createBarChart() {
-        PeriodComparatorBarChart barChart = new PeriodComparatorBarChart(binding);
+    public BarChart createBarChart() {
+        PeriodComparatorBarChart barChart = new PeriodComparatorBarChart(context);
         barChart.setLabels(this.labels);
         barChart.setData(this.statsComparator);
-        barChart.drawChart();
+        return barChart.drawChart();
     }
 
     public void setNewDates(int firstYear, int firstMonth, int secondYear, int secondMonth) {

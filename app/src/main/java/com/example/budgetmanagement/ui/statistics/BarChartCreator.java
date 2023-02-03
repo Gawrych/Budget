@@ -27,6 +27,7 @@ public class BarChartCreator {
         barChart.setPinchZoom(false);
         barChart.setScaleEnabled(false);
         barChart.setDrawGridBackground(false);
+
         XAxis xAxis = barChart.getXAxis();
         xAxis.setCenterAxisLabels(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);

@@ -68,7 +68,8 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getDataFromBundle();
+        setModeFromBundle();
+        setDatesFromBundle();
         setDatesInButtons();
         saveValuesToRestoreIfCanceled();
 
@@ -126,11 +127,13 @@ public class BottomSheetMonthYearPicker extends BottomSheetDialogFragment
         secondMonth = secondMonthToRestoreIfCanceled;
     }
 
-    private void getDataFromBundle() {
+    public void setModeFromBundle() {
         if (this.mode == -1) {
             this.mode = getArguments() != null ? getArguments().getInt(PICKER_MODE) : MONTHS_AND_YEAR_MODE;
         }
+    }
 
+    public void setDatesFromBundle() {
         if (this.firstYear == -1 || this.firstMonth == -1 ||
                 this.secondYear == -1 || this.secondMonth == -1) {
             this.firstYear = getArguments() != null ? getArguments().getInt(BUNDLE_FIRST_YEAR) : 0;

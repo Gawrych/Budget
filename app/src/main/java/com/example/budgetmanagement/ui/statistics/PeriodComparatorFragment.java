@@ -14,10 +14,12 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.FragmentPeriodComparatorBinding;
+import com.github.mikephil.charting.charts.BarChart;
 
 public class PeriodComparatorFragment extends Fragment {
 
@@ -26,6 +28,7 @@ public class PeriodComparatorFragment extends Fragment {
     private int mode;
     private FragmentPeriodComparatorBinding binding;
     private PeriodComparatorElementsCreator periodElementsCreator;
+    private LinearLayout chartLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,9 +46,10 @@ public class PeriodComparatorFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
+        chartLayout = binding.chartLayout;
 
         periodElementsCreator =
-                new PeriodComparatorElementsCreator(requireContext(), binding, comingViewModel);
+                new PeriodComparatorElementsCreator(requireContext(), comingViewModel);
 
         setMonthsMode();
 
@@ -85,59 +89,36 @@ public class PeriodComparatorFragment extends Fragment {
     }
 
     private void updateData() {
+        setSummaryStats();
+        setModeLabelsForChart();
+
+        BarChart barChart = periodElementsCreator.createBarChart();
+
+        chartLayout.removeAllViews();
+        chartLayout.addView(barChart);
+
+        setValuesInDetailsSection();
+    }
+
+    private void setSummaryStats() {
         if (mode == MONTHS_STATS_MODE) {
             periodElementsCreator.setMonthsSummaryStats();
-            periodElementsCreator.setMonthsModeLabelsForChart();
         } else {
             periodElementsCreator.setYearsSummaryStats();
+        }
+    }
+
+    private void setModeLabelsForChart() {
+        if (mode == MONTHS_STATS_MODE) {
+            periodElementsCreator.setMonthsModeLabelsForChart();
+        } else {
             periodElementsCreator.setYearsModeLabelsForChart();
         }
-
-        periodElementsCreator.createBarChart();
-        setValuesInDetailsSection();
     }
 
     private void setValuesInDetailsSection() {
         PeriodStatsComparator statsComparator = periodElementsCreator.getStatsComparator();
-
-        String currency = getResources().getString(R.string.currency);
-        binding.percentageOfIncomeIncrease
-                .setText(getFormattedAmount(R.string.amount_with_percent_string, getNumberWithSign(statsComparator.getPercentIncome())));
-        binding.percentageOfProfitIncrease
-                .setText(getFormattedAmount(R.string.amount_with_percent_string, getNumberWithSign(statsComparator.getPercentProfit())));
-        binding.percentageOfLossIncrease
-                .setText(getFormattedAmount(R.string.amount_with_percent_string, getNumberWithSign(statsComparator.getPercentLoss())));
-
-        binding.averageTimeAfterTheDeadlineFirstPeriod
-                .setText(getFormattedAmount(R.string.amount_with_day_label, String.valueOf(statsComparator.getFirstPeriod().getAverageTimeAfterTheDeadlineInDays())));
-        binding.averageTimeAfterTheDeadlineSecondPeriod
-                .setText(getFormattedAmount(R.string.amount_with_day_label, String.valueOf(statsComparator.getSecondPeriod().getAverageTimeAfterTheDeadlineInDays())));
-        binding.payOnTimeInPercentageFirstPeriod
-                .setText(getFormattedAmount(R.string.amount_with_percent, statsComparator.getFirstPeriod().getPercentageOfTransactionsExecutedOnTime()));
-        binding.payOnTimeInPercentageSecondPeriod
-                .setText(getFormattedAmount(R.string.amount_with_percent, statsComparator.getSecondPeriod().getPercentageOfTransactionsExecutedOnTime()));
-
-        binding.amountOfIncomeIncrease
-                .setText(getFormattedAmount(R.string.amount_with_currency, getNumberWithSign(statsComparator.getObtainedIncome()), currency));
-        binding.amountOfProfitIncrease
-                .setText(getFormattedAmount(R.string.amount_with_currency, getNumberWithSign(statsComparator.getObtainedProfit()), currency));
-        binding.amountOfLossIncrease
-                .setText(getFormattedAmount(R.string.amount_with_currency, getNumberWithSign(statsComparator.getObtainedLoss()), currency));
-        binding.averageGrowthTimeAfterTheDeadline
-                .setText(getFormattedAmount(R.string.amount_with_day_label, getNumberWithSign(statsComparator.getGrowthAverageTimeAfterTheDeadlineInDays())));
-        binding.growthPayOnTimeInPercentagePoints
-                .setText(getFormattedAmount(R.string.amount_with_percentage_points, getNumberWithSign(statsComparator.getGrowthOfPercentOfTransactionsExecutedOnTime())));
-    }
-
-    private String getFormattedAmount(int formatResId, Object... args) {
-        return getString(formatResId, args);
-    }
-
-    private String getNumberWithSign(float number) {
-        String numberInString = String.valueOf(Math.round(number));
-        if (number > 0) {
-            return getFormattedAmount(R.string.number_with_plus, numberInString);
-        }
-        return numberInString;
+        PeriodComparatorValues values = new PeriodComparatorValues(requireContext(), statsComparator);
+        binding.setPeriodComparatorValues(values);
     }
 }

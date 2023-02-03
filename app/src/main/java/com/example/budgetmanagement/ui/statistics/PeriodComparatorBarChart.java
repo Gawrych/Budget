@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.LinearLayout;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.databinding.FragmentPeriodComparatorBinding;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -18,15 +17,15 @@ public class PeriodComparatorBarChart {
 
     private final Context context;
     private PeriodStatsComparator periodStatsComparator;
-    private final FragmentPeriodComparatorBinding binding;
-    private ArrayList<String> chartLabels = new ArrayList<>();
+    private final ArrayList<String> chartLabels = new ArrayList<>();
+    private PeriodSummary firstPeriod;
+    private PeriodSummary secondPeriod;
 
-    public PeriodComparatorBarChart(FragmentPeriodComparatorBinding binding) {
-        this.binding = binding;
-        this.context = binding.getRoot().getContext();
+    public PeriodComparatorBarChart(Context context) {
+        this.context = context;
     }
 
-    public void drawChart() {
+    public BarChart drawChart() {
         BarChart barChartView = new BarChart(context);
         barChartView.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
@@ -39,53 +38,75 @@ public class PeriodComparatorBarChart {
 
         BarChartCreator barChartCreator = new BarChartCreator(barChartView);
         barChartCreator.setChartDimensions(groupSpace, barSpace, barWidth);
-        barChartCreator.create(chartLabels, getDataForBarChart());
+        barChartCreator.create(chartLabels, getBarData());
 
         barChartView.setHighlightPerTapEnabled(false);
         barChartView.setVisibleXRangeMaximum(6f);
 
-        LinearLayout chartLayout = binding.chartLayout;
-        chartLayout.removeAllViews();
-        chartLayout.addView(barChartCreator.getBarChart());
+        return barChartCreator.getBarChart();
     }
 
-    private BarData getDataForBarChart() {
-        ArrayList<BarEntry> loss = new ArrayList<>();
-        ArrayList<BarEntry> income = new ArrayList<>();
-        ArrayList<BarEntry> profit = new ArrayList<>();
-
-        PeriodSummary firstPeriod = periodStatsComparator.getFirstPeriod();
-        PeriodSummary secondPeriod = periodStatsComparator.getSecondPeriod();
-
-        loss.add(new BarEntry(1, secondPeriod.getLoss()));
-        income.add(new BarEntry(1, secondPeriod.getIncome()));
-        profit.add(new BarEntry(1, secondPeriod.getProfit()));
-
-        loss.add(new BarEntry(0, firstPeriod.getLoss()));
-        income.add(new BarEntry(0, firstPeriod.getIncome()));
-        profit.add(new BarEntry(0, firstPeriod.getProfit()));
-
-        String lossLegendTag = context.getResources().getString(R.string.loss);
-        BarDataSet set1 = new BarDataSet(loss, lossLegendTag);
-        set1.setHighlightEnabled(false);
-        set1.setColors(new int[]{R.color.mat_red}, context);
-
-        String incomeLegendTag = context.getResources().getString(R.string.income);
-        BarDataSet set2 = new BarDataSet(income, incomeLegendTag);
-        set2.setHighlightEnabled(false);
-        set2.setColors(new int[]{R.color.mat_green}, context);
-
-        String profitLegendTag = context.getResources().getString(R.string.profit);
-        BarDataSet set3 = new BarDataSet(profit, profitLegendTag);
-        set3.setHighlightEnabled(false);
-        set3.setColors(new int[]{R.color.mat_blue}, context);
+    private BarData getBarData() {
+        firstPeriod = periodStatsComparator.getFirstPeriod();
+        secondPeriod = periodStatsComparator.getSecondPeriod();
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
-        dataSets.add(set2);
-        dataSets.add(set3);
+        dataSets.add(createLossDataSet());
+        dataSets.add(createIncomeDataSet());
+        dataSets.add(createProfitDataSet());
 
         return new BarData(dataSets);
+    }
+
+    private BarDataSet createLossDataSet() {
+        String lossLegendTag = this.context.getString(R.string.loss);
+        BarDataSet set1 = new BarDataSet(createLossData(), lossLegendTag);
+        set1.setHighlightEnabled(false);
+        set1.setColors(new int[]{R.color.mat_red}, this.context);
+        return set1;
+    }
+
+    private ArrayList<BarEntry> createLossData() {
+        ArrayList<BarEntry> loss = new ArrayList<>();
+
+        loss.add(new BarEntry(1, secondPeriod.getLoss()));
+        loss.add(new BarEntry(0, firstPeriod.getLoss()));
+
+        return loss;
+    }
+
+    private BarDataSet createIncomeDataSet() {
+        String incomeLegendTag = this.context.getString(R.string.income);
+        BarDataSet set2 = new BarDataSet(createIncomeData(), incomeLegendTag);
+        set2.setHighlightEnabled(false);
+        set2.setColors(new int[]{R.color.mat_green}, this.context);
+        return set2;
+    }
+
+    private ArrayList<BarEntry> createIncomeData() {
+        ArrayList<BarEntry> income = new ArrayList<>();
+
+        income.add(new BarEntry(1, secondPeriod.getIncome()));
+        income.add(new BarEntry(0, firstPeriod.getIncome()));
+
+        return income;
+    }
+
+    private BarDataSet createProfitDataSet() {
+        String profitLegendTag = this.context.getString(R.string.profit);
+        BarDataSet set3 = new BarDataSet(createProfitData(), profitLegendTag);
+        set3.setHighlightEnabled(false);
+        set3.setColors(new int[]{R.color.mat_blue}, this.context);
+        return set3;
+    }
+
+    private ArrayList<BarEntry> createProfitData() {
+        ArrayList<BarEntry> profit = new ArrayList<>();
+
+        profit.add(new BarEntry(1, secondPeriod.getProfit()));
+        profit.add(new BarEntry(0, firstPeriod.getProfit()));
+
+        return profit;
     }
 
     public void setData(PeriodStatsComparator periodStatsComparator) {
