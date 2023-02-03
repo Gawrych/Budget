@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         applicationInstance = this.getApplication();
 
-        com.example.budgetmanagement.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         resources = getResources();
 

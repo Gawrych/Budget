@@ -55,7 +55,7 @@ public class CategoryViewModel extends AndroidViewModel {
     }
 
     public Category getCategory(int position) {
-        return Objects.requireNonNull(allCategory.getValue()).get(position);
+        return categoryRepository.getCategoryById(position);
     }
 
     public LiveData<List<Category>> getAllCategories() {

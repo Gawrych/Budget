@@ -99,8 +99,8 @@ public class PeriodComparatorFragment extends Fragment {
 
     private void setValuesInDetailsSection() {
         PeriodStatsComparator statsComparator = periodElementsCreator.getStatsComparator();
-        String currency = getResources().getString(R.string.currency);
 
+        String currency = getResources().getString(R.string.currency);
         binding.percentageOfIncomeIncrease
                 .setText(getFormattedAmount(R.string.amount_with_percent_string, getNumberWithSign(statsComparator.getPercentIncome())));
         binding.percentageOfProfitIncrease

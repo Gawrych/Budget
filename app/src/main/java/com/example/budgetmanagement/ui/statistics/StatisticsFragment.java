@@ -100,7 +100,6 @@ public class StatisticsFragment extends Fragment {
         return (int) ChronoUnit.DAYS.between(startDate, endDate);
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

@@ -5,6 +5,7 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DAT
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -22,14 +24,11 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Category;
 import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
+import com.example.budgetmanagement.databinding.ComingChildViewBinding;
 import com.example.budgetmanagement.ui.coming.Section;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.maltaisn.icondialog.pack.IconPack;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -148,24 +147,29 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     private void setRemainingDays(TextView remainingDays, long deadline, boolean isExecuted) {
-        int days = getRemainingDays(deadline);
-        boolean afterDeadline = days >= 0;
-        int textColor = R.color.font_default;
-        String remainingDaysText = context.getString(R.string.in_number_days, Math.abs(days));
+        int days = getRemainingDaysNumber(deadline);
+        int textColor;
+        String remainingDaysText;
 
         if (isExecuted) {
             remainingDaysText = context.getString(R.string.realized);
             textColor = R.color.mat_green;
-        } else if (afterDeadline) {
+        } else if (days == 0) {
+            remainingDaysText = context.getString(R.string.today);
+            textColor = R.color.mat_red;
+        } else if (days < 0) {
             remainingDaysText = context.getString(R.string.for_number_days, Math.abs(days));
             textColor = R.color.mat_red;
+        } else {
+            remainingDaysText = context.getString(R.string.in_number_days, days);
+            textColor = R.color.font_default;
         }
 
         remainingDays.setText(remainingDaysText);
         remainingDays.setTextColor(context.getColor(textColor));
     }
 
-    private int getRemainingDays(long finalDate) {
+    private int getRemainingDaysNumber(long finalDate) {
         Calendar otherDate = Calendar.getInstance();
         otherDate.setTimeInMillis(finalDate);
 
@@ -188,7 +192,6 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
             mainIcon.setBackground(ovalWithColorBackground);
         }
     }
-
     private Drawable getDrawableWithColor(int drawableId, int colorId) {
         Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), drawableId, null);
 
