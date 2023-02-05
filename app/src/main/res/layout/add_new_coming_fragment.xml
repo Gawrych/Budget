@@ -12,9 +12,13 @@
         android:id="@+id/layoutInScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/background"
         android:orientation="vertical">
 
         <include layout="@layout/add_new_form" />
+
+        <LinearLayout
+            style="@style/cyclicalTransactionLayout">
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/cyclicalSwitch"
@@ -24,7 +28,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/timeBetweenPayLayout"
-            android:visibility="gone"
+            android:enabled="false"
             style="@style/LayoutExposedDropMenuCustomView">
 
             <AutoCompleteTextView
@@ -37,7 +41,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/endDateLayout"
             style="@style/LayoutExposedDropMenuCustomView"
-            android:visibility="gone"
+            android:enabled="false"
             app:endIconDrawable="@drawable/calendar_smaller_icon">
 
             <AutoCompleteTextView
@@ -59,9 +63,11 @@
             android:visibility="gone"
             android:textColor="@color/second_color_theme" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/acceptButton"
             style="@style/addButton" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

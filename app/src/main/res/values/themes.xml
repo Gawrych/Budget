@@ -54,20 +54,25 @@
     <!--    transaction form fragment/add new transactions -->
 
     <style name="addButton">
-        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">40dp</item>
-        <item name="android:layout_marginBottom">70dp</item>
+        <item name="android:layout_marginTop">50dp</item>
         <item name="android:textColor">@color/grey</item>
-        <item name="android:backgroundTint">@color/first_color_theme</item>
-        <item name="android:padding">10dp</item>
+        <item name="android:background">@color/second_color_theme</item>
+        <item name="backgroundTint">@color/second_color_theme</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:layout_gravity">bottom|center</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:text">@string/add</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="cornerRadius">12dp</item>
-        <item name="iconGravity">start</item>
-        <item name="iconTint">@color/grey</item>
+    </style>
+
+    <style name="cyclicalTransactionLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/black_10</item>
     </style>
 
     <style name="TextInputLayoutCustomView"
