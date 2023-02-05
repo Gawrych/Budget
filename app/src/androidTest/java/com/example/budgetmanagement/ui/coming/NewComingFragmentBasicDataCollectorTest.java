@@ -87,7 +87,7 @@ public class NewComingFragmentBasicDataCollectorTest extends TestCase {
     @Test
     public void When_SelectDateInEndDatePicker_Expect_EndDatePickerHasSelectedDate() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
-        onView(withId(R.id.timeBetweenPay)).perform(click());
+        onView(withId(R.id.periodPicker)).perform(click());
         onData(equalTo(resources.getString(R.string.each_day))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
         long newDateInMillis = getTomorrow().getTimeInMillis();
@@ -101,15 +101,15 @@ public class NewComingFragmentBasicDataCollectorTest extends TestCase {
     @Test
     public void When_SelectedTimeBetween_Expect_ChangeValueToSelected() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
-        onView(withId(R.id.timeBetweenPay)).perform(click());
+        onView(withId(R.id.periodPicker)).perform(click());
         onData(equalTo(resources.getString(R.string.each_year))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
-        onView(withId(R.id.timeBetweenPay)).check(matches(withText("Co rok")));
+        onView(withId(R.id.periodPicker)).check(matches(withText("Co rok")));
     }
 
     @Test
     public void When_SetDayCyclical_Expect_CorrectlyCollectedNextDates() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
-        onView(withId(R.id.timeBetweenPay)).perform(click());
+        onView(withId(R.id.periodPicker)).perform(click());
         onData(equalTo(resources.getString(R.string.each_day))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
         long startDateInMillis = getStartDate().getTimeInMillis();
@@ -136,7 +136,7 @@ public class NewComingFragmentBasicDataCollectorTest extends TestCase {
     @Test
     public void When_SetMonthCyclical_Expect_CorrectlyCollectedNextDates() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
-        onView(withId(R.id.timeBetweenPay)).perform(click());
+        onView(withId(R.id.periodPicker)).perform(click());
         onData(equalTo(resources.getString(R.string.each_month))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
         long startDateInMillis = getStartDate().getTimeInMillis();
@@ -161,7 +161,7 @@ public class NewComingFragmentBasicDataCollectorTest extends TestCase {
     @Test
     public void When_SetWeekCyclical_Expect_CorrectlyCollectedNextDates() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
-        onView(withId(R.id.timeBetweenPay)).perform(click());
+        onView(withId(R.id.periodPicker)).perform(click());
         onData(equalTo(resources.getString(R.string.each_week))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
         long startDateInMillis = getStartDate().getTimeInMillis();
@@ -190,7 +190,7 @@ public class NewComingFragmentBasicDataCollectorTest extends TestCase {
     @Test
     public void When_SetQuarterCyclical_Expect_CorrectlyCollectedNextDates() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
-        onView(withId(R.id.timeBetweenPay)).perform(click());
+        onView(withId(R.id.periodPicker)).perform(click());
         onData(equalTo(resources.getString(R.string.each_quarter))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
         long startDateInMillis = getStartDate().getTimeInMillis();
@@ -215,7 +215,7 @@ public class NewComingFragmentBasicDataCollectorTest extends TestCase {
     @Test
     public void When_SetYearCyclical_Expect_CorrectlyCollectedNextDates() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
-        onView(withId(R.id.timeBetweenPay)).perform(click());
+        onView(withId(R.id.periodPicker)).perform(click());
         onData(equalTo(resources.getString(R.string.each_year))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
         long startDateInMillis = getStartDate().getTimeInMillis();
@@ -241,7 +241,7 @@ public class NewComingFragmentBasicDataCollectorTest extends TestCase {
     @Test
     public void When_CollectDataWithEmptyEndDate_Expect_CollectedDataFailed() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
-        onView(withId(R.id.timeBetweenPay)).perform(click());
+        onView(withId(R.id.periodPicker)).perform(click());
         onData(equalTo(resources.getString(R.string.each_year))).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
         String titleValue = "Hello World!";

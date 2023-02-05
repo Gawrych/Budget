@@ -15,7 +15,62 @@
         android:background="@color/background"
         android:orientation="vertical">
 
-        <include layout="@layout/add_new_form" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/titleLayout"
+            style="@style/TextInputLayoutCustomView"
+            android:hint="@string/title"
+            app:endIconDrawable="@drawable/block_smaller_icon">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/title"
+                style="@style/TextInputEditTextCustomView"
+                android:inputType="textCapSentences" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/amountLayout"
+            style="@style/TextInputLayoutCustomView"
+            android:hint="@string/amount"
+            app:endIconDrawable="@drawable/dollar_coin_smaller_icon">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/amount"
+                style="@style/TextInputEditTextCustomView"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/categorySelectorLayout"
+            style="@style/LayoutExposedDropMenuCustomView"
+            app:endIconDrawable="@drawable/ic_baseline_category_24">
+
+            <AutoCompleteTextView
+                android:id="@+id/categorySelector"
+                style="@style/AutoCompleteCustomView"
+                android:hint="@string/category" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/startDateLayout"
+            style="@style/LayoutExposedDropMenuCustomView"
+            app:endIconDrawable="@drawable/calendar_smaller_icon">
+
+            <AutoCompleteTextView
+                android:id="@+id/startDate"
+                style="@style/AutoCompleteCustomView"
+                android:hint="@string/first_deadline" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/profitSwitch"
+            android:theme="@style/SwitchMaterialTheme"
+            style="@style/SwitchMaterialCustomView"
+            android:layout_marginBottom="20dp"
+            android:text="@string/income" />
 
         <LinearLayout
             style="@style/cyclicalTransactionLayout">
@@ -27,12 +82,12 @@
             android:text="@string/cyclical_transaction" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/timeBetweenPayLayout"
+            android:id="@+id/periodPickerLayout"
             android:enabled="false"
             style="@style/LayoutExposedDropMenuCustomView">
 
             <AutoCompleteTextView
-                android:id="@+id/timeBetweenPay"
+                android:id="@+id/periodPicker"
                 style="@style/AutoCompleteCustomView"
                 android:hint="@string/period_of_time"/>
 

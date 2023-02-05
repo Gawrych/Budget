@@ -30,5 +30,12 @@
         <item>@string/december</item>
     </string-array>
 
+    <string-array name="periods">
+        <item>@string/each_day</item>
+        <item>@string/each_week</item>
+        <item>@string/each_month</item>
+        <item>@string/each_year</item>
+    </string-array>
+
 
 </resources>

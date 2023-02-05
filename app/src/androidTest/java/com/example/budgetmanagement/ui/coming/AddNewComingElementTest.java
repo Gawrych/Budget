@@ -36,9 +36,9 @@ public class AddNewComingElementTest extends TestCase {
 
     @Test
     public void When_LoadFragment_Expect_CyclicalFieldsAreGone() {
-        onView(withId(R.id.timeBetweenPayLayout)).check(matches(not(isCompletelyDisplayed())));
+        onView(withId(R.id.periodPickerLayout)).check(matches(not(isCompletelyDisplayed())));
         onView(withId(R.id.endDateLayout)).check(matches(not(isCompletelyDisplayed())));
-        onView(withId(R.id.timeBetweenPay)).check(matches(not(isCompletelyDisplayed())));
+        onView(withId(R.id.periodPicker)).check(matches(not(isCompletelyDisplayed())));
         onView(withId(R.id.endDate)).check(matches(not(isCompletelyDisplayed())));
     }
 
@@ -67,9 +67,9 @@ public class AddNewComingElementTest extends TestCase {
     @Test
     public void When_ClickToShowCyclicalFields_Expect_CyclicalFieldsAreVisible() {
         onView(withId(R.id.cyclicalSwitch)).perform(click());
-        onView(withId(R.id.timeBetweenPayLayout)).check(matches(isCompletelyDisplayed()));
+        onView(withId(R.id.periodPickerLayout)).check(matches(isCompletelyDisplayed()));
         onView(withId(R.id.endDateLayout)).check(matches(isCompletelyDisplayed()));
-        onView(withId(R.id.timeBetweenPay)).check(matches(isCompletelyDisplayed()));
+        onView(withId(R.id.periodPicker)).check(matches(isCompletelyDisplayed()));
         onView(withId(R.id.endDate)).check(matches(isCompletelyDisplayed()));
     }
 }
