@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class}, version = 150, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class, Coming.class}, version = 151, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();

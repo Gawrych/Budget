@@ -2,35 +2,59 @@ package com.example.budgetmanagement.database.rooms;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
+import java.util.List;
+
 public class TransactionRepository {
 
-    private BudgetRoomDatabase database;
-    private TransactionDao transactionDao;
+    private final TransactionDao transactionDao;
+    private final LiveData<List<Transaction>> allTransaction;
 
     public TransactionRepository(Application app) {
-        database = BudgetRoomDatabase.getDatabase(app);
+        BudgetRoomDatabase database = BudgetRoomDatabase.getDatabase(app);
         transactionDao = database.transactionDao();
+        allTransaction = transactionDao.getAllTransactions();
     }
 
     public long insert(Transaction transaction) {
-       return transactionDao.insert(transaction);
+        return transactionDao.insert(transaction);
     }
 
     public void update(Transaction transaction) {
-        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> {
-            transactionDao.update(transaction);
-        });
+        transactionDao.update(transaction);
     }
 
     public void delete(Transaction transaction) {
-        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> {
-            transactionDao.delete(transaction);
-        });
+        transactionDao.delete(transaction);
     }
 
     public void changeAllFromDeletedCategoryToDefault(int categoryIdToRemoveFromTransactions) {
         BudgetRoomDatabase.databaseWriteExecutor.execute(() -> {
             transactionDao.changeAllFromDeletedCategoryToDefault(categoryIdToRemoveFromTransactions);
         });
+    }
+
+    public LiveData<List<Transaction>> getAllTransaction() {
+        return allTransaction;
+    }
+
+    public Transaction getTransactionById(int comingId) {
+        return transactionDao.getTransaction(comingId);
+    }
+
+    public List<Transaction> getAllTransactionsByYearInList(int year) {
+        return transactionDao.getAllTransactionsByYearInList(year);
+    }
+
+    public LiveData<List<Transaction>> getAllTransactionsByYear(int year) {
+        return transactionDao.getAllTransactionsByYear(year);
+    }
+    public int[] getAllYears() {
+        return transactionDao.getAllYears();
+    }
+
+    public void delete(int transactionId) {
+        BudgetRoomDatabase.databaseWriteExecutor.execute(() -> transactionDao.delete(transactionId));
     }
 }

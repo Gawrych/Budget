@@ -8,40 +8,51 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "transactions")
 public class Transaction {
 
-//    Convert to long
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "transactionId")
-    private int transactionId;
+    private final int transactionId;
 
     @ColumnInfo(name = "categoryId")
-    private int categoryId;
+    private final int categoryId;
 
     @NonNull
     @ColumnInfo(name = "title")
-    private String title;
+    private final String title;
 
     @ColumnInfo(name="amount")
-    private String amount;
+    private final String amount;
 
-    // TODO: Change addDate name to some more relevant
+    @ColumnInfo(name = "executed")
+    private final boolean executed;
+
+    @ColumnInfo(name = "executedDate")
+    private final long executedDate;
+
+    @ColumnInfo(name = "deadline")
+    private final long deadline;
+
+    @ColumnInfo(name = "deadlineYear")
+    private final int deadlineYear;
+
     @ColumnInfo(name="addDate")
-    private long addDate;
+    private final long addDate;
 
-    @ColumnInfo(name="lastModifiedData")
-    private long lastModifiedData;
+    @ColumnInfo(name = "lastEditDate")
+    private final long lastEditDate;
 
-    // Better efficiency with profit value than process amount to check if value is negative?
-    @ColumnInfo(name="profit")
-    private boolean profit;
-
-    public Transaction(int transactionId, int categoryId, @NonNull String title, String amount, long addDate, long lastModifiedData, boolean profit) {
+    public Transaction(int transactionId, int categoryId, @NonNull String title, String amount,
+                       long addDate, long lastEditDate, boolean executed, long deadline,
+                       int deadlineYear, long executedDate) {
         this.transactionId = transactionId;
         this.categoryId = categoryId;
         this.title = title;
         this.amount = amount;
+        this.executed = executed;
+        this.deadline = deadline;
+        this.deadlineYear = deadlineYear;
+        this.lastEditDate = lastEditDate;
         this.addDate = addDate;
-        this.lastModifiedData = lastModifiedData;
-        this.profit = profit;
+        this.executedDate = executedDate;
     }
 
     public int getTransactionId() {
@@ -65,11 +76,23 @@ public class Transaction {
         return addDate;
     }
 
-    public long getLastModifiedData() {
-        return lastModifiedData;
+    public long getLastEditDate() {
+        return this.lastEditDate;
     }
 
-    public boolean getProfit() {
-        return profit;
+    public boolean isExecuted() {
+        return executed;
+    }
+
+    public long getExecutedDate() {
+        return executedDate;
+    }
+
+    public long getDeadline() {
+        return deadline;
+    }
+
+    public int getDeadlineYear() {
+        return deadlineYear;
     }
 }

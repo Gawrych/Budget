@@ -4,6 +4,10 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import com.example.budgetmanagement.database.rooms.Coming;
+import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.rooms.TransactionRepository;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -11,15 +15,10 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 public class TransactionViewModel extends AndroidViewModel {
 
-    public static final String TITLE_FIELD_TAG = "title";
-    public static final String AMOUNT_FIELD_TAG = "amount";
-    public static final String CATEGORY_FIELD_TAG = "category";
-    public static final String START_DATE_FIELD_TAG = "startDate";
-    public static final String END_DATE_FIELD_TAG = "endDate";
-    public static final String PERIOD_FIELD_TAG = "period";
     private TransactionRepository transactionRepository;
 
     public TransactionViewModel(@NonNull Application app) {
@@ -89,5 +88,29 @@ public class TransactionViewModel extends AndroidViewModel {
 
     public void changeAllFromDeletedCategoryToDefault(int categoryIdToRemoveFromTransactions) {
         transactionRepository.changeAllFromDeletedCategoryToDefault(categoryIdToRemoveFromTransactions);
+    }
+
+    public void delete(Transaction transaction) {
+        transactionRepository.delete(transaction);
+    }
+
+    public void delete(int transactionId) {
+        transactionRepository.delete(transactionId);
+    }
+
+    public List<Transaction> getAllTransactionByYear(int year) {
+        return transactionRepository.getAllTransactionsByYearInList(year);
+    }
+
+    public LiveData<List<Transaction>> getAllTransactionsByYear(int year) {
+        return transactionRepository.getAllTransactionsByYear(year);
+    }
+
+    public Transaction getTransactionById(int transactionId) {
+        return transactionRepository.getTransactionById(transactionId);
+    }
+
+    public int[] getAllYears() {
+        return transactionRepository.getAllYears();
     }
 }
