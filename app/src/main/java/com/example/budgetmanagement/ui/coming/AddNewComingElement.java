@@ -1,5 +1,12 @@
 package com.example.budgetmanagement.ui.coming;
 
+import static com.example.budgetmanagement.database.viewmodels.TransactionViewModel.AMOUNT_FIELD_TAG;
+import static com.example.budgetmanagement.database.viewmodels.TransactionViewModel.CATEGORY_FIELD_TAG;
+import static com.example.budgetmanagement.database.viewmodels.TransactionViewModel.END_DATE_FIELD_TAG;
+import static com.example.budgetmanagement.database.viewmodels.TransactionViewModel.PERIOD_FIELD_TAG;
+import static com.example.budgetmanagement.database.viewmodels.TransactionViewModel.START_DATE_FIELD_TAG;
+import static com.example.budgetmanagement.database.viewmodels.TransactionViewModel.TITLE_FIELD_TAG;
+
 import android.app.DatePickerDialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -34,6 +41,7 @@ import com.maltaisn.icondialog.pack.IconPack;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class AddNewComingElement extends Fragment {
 
@@ -43,17 +51,13 @@ public class AddNewComingElement extends Fragment {
     private final Calendar selectedStartDate = Calendar.getInstance();
     private final Calendar selectedEndDate = Calendar.getInstance();
     private CategoryBottomSheetSelector categoryPicker;
-    private int categoryId;
+    private long categoryId;
     private IconPack iconPack;
-
-    private boolean successCollectedData = true;
     private String title;
     private String amount;
-    private String category;
-    private String startDate;
     private String period;
-    private String endDate;
 
+    //    Remove this
     public static AddNewComingElement newInstance(int comingId) {
         Bundle bundle = new Bundle();
         bundle.putInt(BUNDLE_COMING_ID, comingId);
@@ -77,27 +81,29 @@ public class AddNewComingElement extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        TransactionViewModel transactionViewModel =
+                new ViewModelProvider(this).get(TransactionViewModel.class);
+
         binding.cyclicalSwitch.setOnCheckedChangeListener((button, isChecked) ->
                 disableOrEnabledCyclicalFields(isChecked));
         categoryPicker = new CategoryBottomSheetSelector(this);
         iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
         prepareFields();
 
+        TransactionCollector collector = new TransactionCollector(requireContext());
+
         binding.acceptButton.setOnClickListener(v -> {
-            this.title = collect(binding.titleLayout);
-            this.amount = collect(binding.amountLayout);
-            this.category = collect(binding.categorySelectorLayout);
-            this.startDate = collect(binding.startDateLayout);
-
-            if (binding.cyclicalSwitch.isChecked()) {
-                this.period = collect(binding.periodPickerLayout);
-                this.endDate = collect(binding.endDateLayout);
+            collectData(collector);
+            if (collector.isCorrect()) {
+                if (binding.cyclicalSwitch.isChecked()) {
+//                    transactionViewModel.insertCyclical();
+                } else {
+//                    transactionViewModel.insert(this.title, this.amount,this.categoryId,
+//                            this.selectedStartDate.getTimeInMillis());
+                }
+                close();
             }
-
-            if (successCollectedData) {
-
-            }
-            successCollectedData = true;
+            collector.reset();
         });
     }
 
@@ -121,7 +127,9 @@ public class AddNewComingElement extends Fragment {
         return new DatePickerDialog(requireContext(),
                 (view, year, monthOfYear, dayOfMonth) -> {
                     selectedField.set(year, monthOfYear, dayOfMonth);
-                    field.setText(DateProcessor.parseDate((selectedField.getTimeInMillis()), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
+                    field.setText(DateProcessor.parseDate((
+                            selectedField.getTimeInMillis()),
+                            DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
                 }, mYear, mMonth, mDay);
     }
 
@@ -147,7 +155,7 @@ public class AddNewComingElement extends Fragment {
     }
 
     private Drawable getDrawableIconFromIconPack(int categoryIconId) {
-        Icon icon = iconPack.getIcon(categoryIconId);
+        Icon icon = this.iconPack.getIcon(categoryIconId);
         return icon != null ? icon.getDrawable() : ResourcesCompat.
                 getDrawable(getResources(), R.drawable.ic_outline_icon_not_found_24, null);
     }
@@ -163,22 +171,21 @@ public class AddNewComingElement extends Fragment {
         DatePickerDialog datePickerDialog = setDatePickerDialog(field, selectedField);
         field.setOnClickListener(v -> datePickerDialog.show());
     }
-// to New class
-    private String collect(TextInputLayout inputLayout) {
-        EditText editText = inputLayout.getEditText();
-        String value = editText == null ? "" : editText.getText().toString();
 
-        if (value.isEmpty()) {
-            setErrorMessage(inputLayout);
-            successCollectedData = false;
+    private void collectData(TransactionCollector collector) {
+        this.title = collector.collect(binding.titleLayout);
+        this.amount = collector.collect(binding.amountLayout);
+        collector.collect(binding.categorySelectorLayout);
+        collector.collect(binding.startDateLayout);
+
+        if (binding.cyclicalSwitch.isChecked()) {
+            this.period = collector.collect(binding.periodPickerLayout);
+            collector.collect(binding.endDateLayout);
         }
-
-        return value;
     }
 
-
-    private void setErrorMessage(TextInputLayout inputLayout) {
-        inputLayout.setError(getString(R.string.empty_field));
+    private void close() {
+        requireActivity().onBackPressed();
     }
 
 //    public ArrayList<Long> getNextDates() {

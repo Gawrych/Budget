@@ -109,22 +109,15 @@ public class NewComingDataCollector extends NewTransactionDataCollector {
         long nextDate = calendar.getTimeInMillis();
 
         if (cyclicalSwitch.isChecked()) {
-            int howMuchAddToCreateNextDate = 1;
-
             Integer valueFromTimeBetweenMap = timeBetweenValues.get(timeBetweenExecutePicker.getText().toString());
             assert valueFromTimeBetweenMap != null;
             int timeBetween = valueFromTimeBetweenMap;
-
-            if (timeBetween == QUARTER_OF_YEAR) {
-                howMuchAddToCreateNextDate = 3;
-                timeBetween = Calendar.MONTH;
-            }
 
             long endDate = getEndDate();
 
             while(nextDate <= endDate) {
                 allDatesToCreateNewComing.add(nextDate);
-                calendar.add(timeBetween, howMuchAddToCreateNextDate);
+                calendar.add(timeBetween, 1);
                 nextDate = calendar.getTimeInMillis();
             }
         } else {

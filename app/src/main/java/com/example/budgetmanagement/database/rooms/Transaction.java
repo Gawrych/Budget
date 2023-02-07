@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "transactions")
 public class Transaction {
 
+//    Convert to long
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "transactionId")
     private int transactionId;
