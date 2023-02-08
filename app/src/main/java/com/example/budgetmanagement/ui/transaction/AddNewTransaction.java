@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
-import com.example.budgetmanagement.databinding.AddNewComingFragmentBinding;
+import com.example.budgetmanagement.databinding.AddNewTransactionFragmentBinding;
 import com.example.budgetmanagement.ui.utils.AppIconPack;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
@@ -27,10 +27,10 @@ import com.maltaisn.icondialog.pack.IconPack;
 
 import java.util.Calendar;
 
-public class AddNewComingElement extends Fragment {
+public class AddNewTransaction extends Fragment {
 
     public static final String BUNDLE_COMING_ID = "comingId";
-    private AddNewComingFragmentBinding binding;
+    private AddNewTransactionFragmentBinding binding;
     private ArrayAdapter<String> adapter;
     private final Calendar selectedStartDate = Calendar.getInstance();
     private final Calendar selectedEndDate = Calendar.getInstance();
@@ -42,12 +42,12 @@ public class AddNewComingElement extends Fragment {
     private String period;
 
     //    Remove this
-    public static AddNewComingElement newInstance(int comingId) {
+    public static AddNewTransaction newInstance(int comingId) {
         Bundle bundle = new Bundle();
         bundle.putInt(BUNDLE_COMING_ID, comingId);
-        AddNewComingElement addNewComingElement = new AddNewComingElement();
-        addNewComingElement.setArguments(bundle);
-        return addNewComingElement;
+        AddNewTransaction addNewTransaction = new AddNewTransaction();
+        addNewTransaction.setArguments(bundle);
+        return addNewTransaction;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class AddNewComingElement extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = AddNewComingFragmentBinding.inflate(inflater, container, false);
+        binding = AddNewTransactionFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

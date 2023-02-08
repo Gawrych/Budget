@@ -18,20 +18,20 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.adapters.ComingExpandableListAdapter;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
-import com.example.budgetmanagement.databinding.ComingFragmentBinding;
+import com.example.budgetmanagement.databinding.TransactionFragmentBinding;
 import com.example.budgetmanagement.ui.utils.AppIconPack;
 import com.maltaisn.icondialog.pack.IconPack;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ComingFragment extends Fragment {
+public class TransactionFragment extends Fragment {
 
     public static final String COMING_BOTTOM_SHEET_TAG = "coming_bottom_sheet";
     private ArrayList<Section> currentSectionList = new ArrayList<>();
     private ComingExpandableListAdapter expandableListAdapter;
     private DatePickerDialog datePickerDialog;
-    private ComingFragmentBinding binding;
+    private TransactionFragmentBinding binding;
     private SectionMaker sectionMaker;
     private int selectedYear;
 
@@ -44,7 +44,7 @@ public class ComingFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        binding = ComingFragmentBinding.inflate(inflater, container, false);
+        binding = TransactionFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -101,11 +101,11 @@ public class ComingFragment extends Fragment {
     private boolean openDetailsFragment(int groupPosition, int childPosition, View view) {
         Transaction transaction =
                 expandableListAdapter.getChild(groupPosition, childPosition);
-        ComingElementDetails comingElementDetails =
-                ComingElementDetails.newInstance(transaction.getTransactionId());
+        TransactionDetails transactionDetails =
+                TransactionDetails.newInstance(transaction.getTransactionId());
         Navigation.findNavController(view).navigate(
                 R.id.action_navigation_coming_to_comingElementDetails,
-                comingElementDetails.getArguments());
+                transactionDetails.getArguments());
         return true;
     }
 
@@ -118,8 +118,8 @@ public class ComingFragment extends Fragment {
 
             Transaction transaction =
                     expandableListAdapter.getChild(groupPosition, childPosition);
-            BottomSheetDialogComing bottomSheet =
-                    BottomSheetDialogComing.newInstance(transaction.getTransactionId());
+            ActionTransactionHandler bottomSheet =
+                    ActionTransactionHandler.newInstance(transaction.getTransactionId());
             bottomSheet.show(getParentFragmentManager(), COMING_BOTTOM_SHEET_TAG);
             return true;
         }

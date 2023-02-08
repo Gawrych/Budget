@@ -1,30 +1,8 @@
 package com.example.budgetmanagement.ui.transaction;
 
-import android.app.AlertDialog;
-import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-
-import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.rooms.Transaction;
-import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
-import com.example.budgetmanagement.ui.utils.NewTransactionDataCollector;
-import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
-import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.example.budgetmanagement.ui.utils.TransactionFormService;
-import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.google.android.material.textfield.TextInputEditText;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
-
-public class EditComingElement extends TransactionFormService {
+public class EditTransaction extends TransactionFormService {
 
 //    public static final String BUNDLE_COMING_ID = "comingId";
 //    private ComingViewModel comingViewModel;

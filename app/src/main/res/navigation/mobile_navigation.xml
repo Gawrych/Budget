@@ -25,19 +25,19 @@
         tools:layout="@layout/fragment_settings" />
 
     <fragment
-        android:id="@+id/navigation_coming"
-        android:name="com.example.budgetmanagement.ui.transaction.ComingFragment"
+        android:id="@+id/navigation_transaction"
+        android:name="com.example.budgetmanagement.ui.transaction.TransactionFragment"
         android:label="@string/title_coming"
-        tools:layout="@layout/coming_fragment" >
+        tools:layout="@layout/transaction_fragment" >
         <action
             android:id="@+id/action_navigation_incoming_to_addNewComingElement"
-            app:destination="@id/addNewComing" />
+            app:destination="@id/addNewTransaction" />
         <action
             android:id="@+id/action_navigation_incoming_to_editComingElement"
-            app:destination="@id/editComingElement" />
+            app:destination="@id/editTransaction" />
         <action
             android:id="@+id/action_navigation_coming_to_comingElementDetails"
-            app:destination="@id/comingElementDetails" />
+            app:destination="@id/transactionDetails" />
     </fragment>
 
     <fragment
@@ -63,16 +63,16 @@
     </fragment>
 
     <fragment
-        android:id="@+id/addNewComing"
-        android:name="com.example.budgetmanagement.ui.transaction.AddNewComingElement"
+        android:id="@+id/addNewTransaction"
+        android:name="com.example.budgetmanagement.ui.transaction.AddNewTransaction"
         android:label="AddNewComingElement" />
     <fragment
-        android:id="@+id/editComingElement"
-        android:name="com.example.budgetmanagement.ui.transaction.EditComingElement"
+        android:id="@+id/editTransaction"
+        android:name="com.example.budgetmanagement.ui.transaction.EditTransaction"
         android:label="EditComingElement" />
     <fragment
-        android:id="@+id/comingElementDetails"
-        android:name="com.example.budgetmanagement.ui.transaction.ComingElementDetails"
+        android:id="@+id/transactionDetails"
+        android:name="com.example.budgetmanagement.ui.transaction.TransactionDetails"
         android:label="ComingElementDetails" />
     <fragment
         android:id="@+id/categoryElementDetails"

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_statistics, R.id.navigation_coming, R.id.navigation_category, R.id.navigation_settings)
+                R.id.navigation_statistics, R.id.navigation_transaction, R.id.navigation_category, R.id.navigation_settings)
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
@@ -50,16 +50,16 @@ public class MainActivity extends AppCompatActivity {
 
         navController.addOnDestinationChangedListener((navController1, navDestination, bundle) -> {
             int destination = navDestination.getId();
-            if(destination == R.id.addNewComing) {
+            if(destination == R.id.addNewTransaction) {
                 navBar.setVisibility(View.GONE);
                 fragmentName.setText(R.string.fragment_name_new_transactions);
-            } else if (destination == R.id.editComingElement) {
+            } else if (destination == R.id.editTransaction) {
                 navBar.setVisibility(View.GONE);
                 fragmentName.setText(R.string.fragment_name_edit);
             } else if (destination == R.id.addNewCategoryElement) {
                 navBar.setVisibility(View.GONE);
                 fragmentName.setText(R.string.fragment_name_new_category);
-            } else if (destination == R.id.comingElementDetails) {
+            } else if (destination == R.id.transactionDetails) {
                 navBar.setVisibility(View.GONE);
                 fragmentName.setText(R.string.details);
             } else if (destination == R.id.navigation_settings) {
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (destination == R.id.navigation_statistics) {
                 navBar.setVisibility(View.VISIBLE);
                 fragmentName.setText(R.string.fragment_name_statistics);
-            } else if (destination == R.id.navigation_coming) {
+            } else if (destination == R.id.navigation_transaction) {
                 navBar.setVisibility(View.VISIBLE);
                 fragmentName.setText(R.string.fragment_name_transactions);
             } else if (destination == R.id.navigation_category) {

@@ -7,7 +7,7 @@
         android:title="@string/title_statistics" />
 
     <item
-        android:id="@+id/navigation_coming"
+        android:id="@+id/navigation_transaction"
         android:icon="@drawable/ic_baseline_insert_invitation_24"
         android:title="@string/title_coming" />
 

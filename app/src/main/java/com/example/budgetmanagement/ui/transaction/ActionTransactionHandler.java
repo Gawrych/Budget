@@ -17,22 +17,22 @@ import android.widget.Toast;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
-import com.example.budgetmanagement.databinding.ComingBottomSheetDialogBinding;
+import com.example.budgetmanagement.databinding.ActionTransactionHandlerBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.Calendar;
 
-public class BottomSheetDialogComing extends BottomSheetDialogFragment {
+public class ActionTransactionHandler extends BottomSheetDialogFragment {
 
-    private ComingBottomSheetDialogBinding binding;
+    private ActionTransactionHandlerBottomSheetBinding binding;
     private static final String BUNDLE_COMING_VALUE = "coming_value";
     private TransactionViewModel transactionViewModel;
     private Transaction transaction;
 
-    public static BottomSheetDialogComing newInstance(int comingId) {
+    public static ActionTransactionHandler newInstance(int comingId) {
         Bundle bundle = new Bundle();
         bundle.putInt(BUNDLE_COMING_VALUE, comingId);
-        BottomSheetDialogComing bottomComing = new BottomSheetDialogComing();
+        ActionTransactionHandler bottomComing = new ActionTransactionHandler();
         bottomComing.setArguments(bundle);
         return bottomComing;
     }
@@ -40,7 +40,7 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = ComingBottomSheetDialogBinding.inflate(inflater, container, false);
+        binding = ActionTransactionHandlerBottomSheetBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -135,8 +135,8 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
             return;
         }
 
-        AddNewComingElement addNewComingElement = AddNewComingElement.newInstance(transaction.getTransactionId());
-        Bundle bundle = addNewComingElement.getArguments();
+        AddNewTransaction addNewTransaction = AddNewTransaction.newInstance(transaction.getTransactionId());
+        Bundle bundle = addNewTransaction.getArguments();
 
         Navigation.findNavController(rootView)
                 .navigate(R.id.action_navigation_incoming_to_addNewComingElement, bundle);

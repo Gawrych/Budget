@@ -42,7 +42,7 @@ public class CategoryBottomSheetAdapter extends ListAdapter<Category, CategoryBo
     public CategoryBottomSheetViewHolder create(ViewGroup parent) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.category_bottom_sheet_child, parent, false);
+                .inflate(R.layout.action_category_bottom_sheet_child, parent, false);
 
         return new CategoryBottomSheetViewHolder(view, mOnNoteListener);
     }

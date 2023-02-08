@@ -86,7 +86,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         String sectionTitle = section.getLabel();
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.coming_group_view, viewGroup, false);
+            view = inflater.inflate(R.layout.transaction_group_view, viewGroup, false);
         }
         TextView sectionName = view.findViewById(R.id.sectionName);
         sectionName.setText(sectionTitle);
@@ -121,7 +121,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
 
     private View getInflatedView(ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        return inflater.inflate(R.layout.coming_child_view, viewGroup, false);
+        return inflater.inflate(R.layout.transaction_child_view, viewGroup, false);
     }
 
     private void setTitleField(TextView titleField, String title) {

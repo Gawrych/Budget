@@ -16,12 +16,12 @@ import androidx.navigation.Navigation;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
-import com.example.budgetmanagement.databinding.CategoryBottomSheetDialogBinding;
+import com.example.budgetmanagement.databinding.ActionCategoryHandlerBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class CategoryBottomSheetDialog extends BottomSheetDialogFragment {
 
-    private CategoryBottomSheetDialogBinding binding;
+    private ActionCategoryHandlerBottomSheetBinding binding;
     private static final String BUNDLE_CATEGORY_VALUE = "coming_value";
     private TransactionViewModel transactionViewModel;
     private CategoryViewModel categoryViewModel;
@@ -38,7 +38,7 @@ public class CategoryBottomSheetDialog extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = CategoryBottomSheetDialogBinding.inflate(inflater, container, false);
+        binding = ActionCategoryHandlerBottomSheetBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
