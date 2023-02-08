@@ -8,15 +8,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Category;
-import com.example.budgetmanagement.database.rooms.Coming;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
-import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
+import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 import java.util.Calendar;
 
-public class ComingDetails extends DetailsUtils {
+public class TransactionDetails extends DetailsUtils {
 
     public static final int MODE_AFTER_DEADLINE = -1;
     public static final int MODE_NORMAL = 0;
@@ -36,31 +35,28 @@ public class ComingDetails extends DetailsUtils {
     public int textRes;
     private final Fragment fragment;
 
-    public ComingDetails(int comingId, @NonNull Fragment fragment, int mode) {
+    public TransactionDetails(int transactionId, @NonNull Fragment fragment, int mode) {
         this.fragment = fragment;
         this.mode = mode;
 
-        ComingViewModel comingViewModel = new ViewModelProvider(fragment).get(ComingViewModel.class);
+        TransactionViewModel transactionViewModel = new ViewModelProvider(fragment).get(TransactionViewModel.class);
         CategoryViewModel categoryViewModel = new ViewModelProvider(fragment).get(CategoryViewModel.class);
 
-        Transaction comingAndTransaction = comingViewModel.getComingAndTransactionById(comingId);
-        Transaction transaction = comingAndTransaction.transaction;
-        Coming coming = comingAndTransaction.coming;
-
+        Transaction transaction = transactionViewModel.getTransactionById(transactionId);
         Category category = categoryViewModel.getCategoryById(transaction.getCategoryId());
 
         this.title = transaction.getTitle();
         this.amount = transaction.getAmount();
         this.categoryName = category.getName();
         this.icon = getCategoryIcon(category);
-        this.addDate = DateProcessor.parseDate(coming.getAddDate());
-        this.lastEditDate = getValueFromModifiedDate(coming.getLastEditDate());
-        this.remainingDate = DateProcessor.parseDate(coming.getExpireDate());
+        this.addDate = DateProcessor.parseDate(transaction.getAddDate());
+        this.lastEditDate = getValueFromModifiedDate(transaction.getLastEditDate());
+        this.remainingDate = DateProcessor.parseDate(transaction.getDeadline());
 
-        int remainingDays = getRemainingDays(coming.getExpireDate());
+        int remainingDays = getRemainingDays(transaction.getDeadline());
         this.remainingDayAmount = String.valueOf(Math.abs(remainingDays));
         this.amountIcon = getAmountIconDependOfValue(transaction.getAmount());
-        this.executedDate = DateProcessor.parseDate(coming.getExecutedDate());
+        this.executedDate = DateProcessor.parseDate(transaction.getExecutedDate());
         this.setFieldAttributesByMode(mode);
     }
 

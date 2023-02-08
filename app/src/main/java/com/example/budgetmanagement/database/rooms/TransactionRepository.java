@@ -9,12 +9,12 @@ import java.util.List;
 public class TransactionRepository {
 
     private final TransactionDao transactionDao;
-    private final LiveData<List<Transaction>> allTransaction;
+    private final LiveData<List<Transaction>> allTransactions;
 
     public TransactionRepository(Application app) {
         BudgetRoomDatabase database = BudgetRoomDatabase.getDatabase(app);
         transactionDao = database.transactionDao();
-        allTransaction = transactionDao.getAllTransactions();
+        allTransactions = transactionDao.getAllTransactions();
     }
 
     public long insert(Transaction transaction) {
@@ -35,8 +35,8 @@ public class TransactionRepository {
         });
     }
 
-    public LiveData<List<Transaction>> getAllTransaction() {
-        return allTransaction;
+    public LiveData<List<Transaction>> getAllTransactions() {
+        return allTransactions;
     }
 
     public Transaction getTransactionById(int comingId) {

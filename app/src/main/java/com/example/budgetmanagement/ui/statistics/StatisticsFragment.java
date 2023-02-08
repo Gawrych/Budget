@@ -14,7 +14,7 @@ import androidx.navigation.Navigation;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Transaction;
-import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
+import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.StatisticsFragmentBinding;
 
 import java.math.BigDecimal;
@@ -38,9 +38,9 @@ public class StatisticsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
+        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
 
-        comingViewModel.getAllComingAndTransaction().observe(getViewLifecycleOwner(), this::setGlobalStats);
+        transactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), this::setGlobalStats);
 
         binding.periodStatistics.setOnClickListener(v -> Navigation.findNavController(view).navigate(
                 R.id.action_navigation_statistics_to_periodStatisticsFragment));
@@ -69,10 +69,10 @@ public class StatisticsFragment extends Fragment {
             return;
         }
 
-        String amount = (isIncome ? "+" : "-") + getAmountWithCurrency(removeTrailingZeros(transaction.transaction.getAmount()));
+        String amount = (isIncome ? "+" : "-") + getAmountWithCurrency(removeTrailingZeros(transaction.getAmount()));
         amountView.setText(amount);
 
-        int remainingDays = getRemainingDays(transaction.coming.getExpireDate());
+        int remainingDays = getRemainingDays(transaction.getDeadline());
         daysView.setText(getDaysAmountWithRemainingDaysLabel(remainingDays));
     }
 

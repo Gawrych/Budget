@@ -1,8 +1,9 @@
-package com.example.budgetmanagement.ui.coming;
+package com.example.budgetmanagement.ui.transaction;
 
 import android.content.Context;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 
 import java.util.ArrayList;

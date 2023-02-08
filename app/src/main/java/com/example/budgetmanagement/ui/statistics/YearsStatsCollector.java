@@ -1,7 +1,7 @@
 package com.example.budgetmanagement.ui.statistics;
 
 import com.example.budgetmanagement.database.rooms.Transaction;
-import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
+import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -9,19 +9,19 @@ import java.util.List;
 
 public class YearsStatsCollector {
 
-    private final ComingViewModel comingViewModel;
+    private final TransactionViewModel transactionViewModel;
     private int[] allYears;
 
-    public YearsStatsCollector(ComingViewModel comingViewModel) {
-        this.comingViewModel = comingViewModel;
+    public YearsStatsCollector(TransactionViewModel transactionViewModel) {
+        this.transactionViewModel = transactionViewModel;
     }
 
     public LinkedHashMap<Integer, PeriodSummary> getStats() {
-        allYears = comingViewModel.getAllYears();
+        allYears = transactionViewModel.getAllYears();
         List<List<Transaction>> yearsTransaction = new ArrayList<>();
 
         for (int allYear : allYears) {
-            yearsTransaction.add(comingViewModel.getAllComingByYear(allYear));
+            yearsTransaction.add(transactionViewModel.getAllTransactionsByYearInList(allYear));
         }
 
         LinkedHashMap<Integer, PeriodSummary> yearsSummary = new LinkedHashMap<>(allYears.length);

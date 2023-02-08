@@ -22,7 +22,7 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Category;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
-import com.example.budgetmanagement.ui.coming.Section;
+import com.example.budgetmanagement.ui.transaction.Section;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.maltaisn.icondialog.pack.IconPack;
@@ -106,15 +106,15 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         ImageView mainIconField = view.findViewById(R.id.outOfDateIcon);
 
         Transaction item = getChild(i, i1);
-        String amount = item.transaction.getAmount();
-        long repeatDate = item.coming.getExpireDate();
-        boolean isExecuted = item.coming.isExecuted();
+        String amount = item.getAmount();
+        long repeatDate = item.getDeadline();
+        boolean isExecuted = item.isExecuted();
 
-        setTitleField(titleField, item.transaction.getTitle());
+        setTitleField(titleField, item.getTitle());
         setAmountField(amountField, amount);
         setDateField(dateField, repeatDate);
         setRemainingDays(remainingDaysField, repeatDate, isExecuted);
-        setMainIcon(mainIconField, item.transaction.getCategoryId());
+        setMainIcon(mainIconField, item.getCategoryId());
 
         return view;
     }

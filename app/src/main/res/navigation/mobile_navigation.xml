@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/navigation_coming"
-        android:name="com.example.budgetmanagement.ui.coming.ComingFragment"
+        android:name="com.example.budgetmanagement.ui.transaction.ComingFragment"
         android:label="@string/title_coming"
         tools:layout="@layout/coming_fragment" >
         <action
@@ -64,15 +64,15 @@
 
     <fragment
         android:id="@+id/addNewComing"
-        android:name="com.example.budgetmanagement.ui.coming.AddNewComingElement"
+        android:name="com.example.budgetmanagement.ui.transaction.AddNewComingElement"
         android:label="AddNewComingElement" />
     <fragment
         android:id="@+id/editComingElement"
-        android:name="com.example.budgetmanagement.ui.coming.EditComingElement"
+        android:name="com.example.budgetmanagement.ui.transaction.EditComingElement"
         android:label="EditComingElement" />
     <fragment
         android:id="@+id/comingElementDetails"
-        android:name="com.example.budgetmanagement.ui.coming.ComingElementDetails"
+        android:name="com.example.budgetmanagement.ui.transaction.ComingElementDetails"
         android:label="ComingElementDetails" />
     <fragment
         android:id="@+id/categoryElementDetails"

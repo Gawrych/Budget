@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainLayout"
     android:orientation="vertical"
-    tools:context=".ui.coming.ComingFragment">
+    tools:context=".ui.transaction.ComingFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_bar_for_item_list"

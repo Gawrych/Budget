@@ -17,28 +17,28 @@ public class Transaction {
 
     @NonNull
     @ColumnInfo(name = "title")
-    private final String title;
+    private String title;
 
     @ColumnInfo(name="amount")
-    private final String amount;
+    private String amount;
 
     @ColumnInfo(name = "executed")
-    private final boolean executed;
+    private boolean executed;
 
     @ColumnInfo(name = "executedDate")
-    private final long executedDate;
+    private long executedDate;
 
     @ColumnInfo(name = "deadline")
-    private final long deadline;
+    private long deadline;
 
     @ColumnInfo(name = "deadlineYear")
-    private final int deadlineYear;
+    private int deadlineYear;
 
     @ColumnInfo(name="addDate")
     private final long addDate;
 
     @ColumnInfo(name = "lastEditDate")
-    private final long lastEditDate;
+    private long lastEditDate;
 
     public Transaction(int transactionId, int categoryId, @NonNull String title, String amount,
                        long addDate, long lastEditDate, boolean executed, long deadline,
@@ -94,5 +94,33 @@ public class Transaction {
 
     public int getDeadlineYear() {
         return deadlineYear;
+    }
+
+    public void setTitle(@NonNull String title) {
+        this.title = title;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public void setExecuted(boolean executed) {
+        this.executed = executed;
+    }
+
+    public void setExecutedDate(long executedDate) {
+        this.executedDate = executedDate;
+    }
+
+    public void setDeadline(long deadline) {
+        this.deadline = deadline;
+    }
+
+    public void setDeadlineYear(int deadlineYear) {
+        this.deadlineYear = deadlineYear;
+    }
+
+    public void setLastEditDate(long lastEditDate) {
+        this.lastEditDate = lastEditDate;
     }
 }

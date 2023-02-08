@@ -29,8 +29,8 @@ public class GlobalStatsSummary {
 
         numberOfTransactionsAfterTheTime = (int) allTransactions
                 .stream()
-                .filter(item -> !item.coming.isExecuted())
-                .filter(item -> todayInMillis - item.coming.getExpireDate() > 0) // millisOfTransactionAfterTheTime
+                .filter(item -> !item.isExecuted())
+                .filter(item -> todayInMillis - item.getDeadline() > 0) // millisOfTransactionAfterTheTime
                 .count();
 
         DateTimeZone defaultTimeZone = DateTimeZone.getDefault();
@@ -38,25 +38,25 @@ public class GlobalStatsSummary {
 
         List<Transaction> allTransactionsWithExpireDateAboveTodayDate = allTransactions
                 .stream()
-                .filter(item -> item.coming.getExpireDate() >= firstMillisTodayDay)
-                .filter(item -> !item.coming.isExecuted())
+                .filter(item -> item.getDeadline() >= firstMillisTodayDay)
+                .filter(item -> !item.isExecuted())
                 .collect(Collectors.toList());
 
         Optional<Transaction> nextPaymentOptional = allTransactionsWithExpireDateAboveTodayDate.stream()
                 .filter(item -> {
-                    BigDecimal amount = new BigDecimal(item.transaction.getAmount());
+                    BigDecimal amount = new BigDecimal(item.getAmount());
                     return amount.signum() != 1;
                 })
-                .min(Comparator.comparingLong(item -> Math.abs(item.coming.getExpireDate() - todayInMillis)));
+                .min(Comparator.comparingLong(item -> Math.abs(item.getDeadline() - todayInMillis)));
 
         nextPaymentOptional.ifPresent(comingAndTransaction -> nextPaymentTransaction = comingAndTransaction);
 
         Optional<Transaction> nextIncomeOptional = allTransactionsWithExpireDateAboveTodayDate.stream()
                 .filter(item -> {
-                    BigDecimal amount = new BigDecimal(item.transaction.getAmount());
+                    BigDecimal amount = new BigDecimal(item.getAmount());
                     return amount.signum() == 1;
                 })
-                .min(Comparator.comparingLong(item -> Math.abs(item.coming.getExpireDate() - todayInMillis)));
+                .min(Comparator.comparingLong(item -> Math.abs(item.getDeadline() - todayInMillis)));
 
         nextIncomeOptional.ifPresent(comingAndTransaction -> nextIncomeTransaction = comingAndTransaction);
     }

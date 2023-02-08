@@ -22,27 +22,27 @@ public class PeriodSummary {
 //        TODO: Change this to make for loop there, and get argument in List type
         numberOfTransactions++;
 
-        BigDecimal amount = new BigDecimal(item.transaction.getAmount());
+        BigDecimal amount = new BigDecimal(item.getAmount());
         if (amount.signum() == 1) {
             incomeBalance = incomeBalance.add(amount);
         } else {
             lossBalance = lossBalance.add(amount);
         }
 
-        boolean isExecuted = item.coming.isExecuted();
+        boolean isExecuted = item.isExecuted();
         if (isExecuted) {
             numberOfExecutedTransactions++;
         }
 
         Calendar today = Calendar.getInstance();
-        float millisOfTransactionAfterTheTime = today.getTimeInMillis() - item.coming.getExpireDate();
+        float millisOfTransactionAfterTheTime = today.getTimeInMillis() - item.getDeadline();
         boolean isTransactionAfterTheTime = millisOfTransactionAfterTheTime > 0;
         if(!isExecuted && isTransactionAfterTheTime) {
             averageTransactionDelay += millisOfTransactionAfterTheTime;
             numberOfTransactionsAfterTheTime++;
         }
 
-        float millisOfTransactionExecutedAfterTheTime = item.coming.getExecutedDate() - item.coming.getExpireDate();
+        float millisOfTransactionExecutedAfterTheTime = item.getExecutedDate() - item.getDeadline();
         boolean isTransactionExecutedAfterTheTime = millisOfTransactionExecutedAfterTheTime > 0;
         if (isExecuted && isTransactionExecutedAfterTheTime) {
             averageTransactionDelay += millisOfTransactionExecutedAfterTheTime;

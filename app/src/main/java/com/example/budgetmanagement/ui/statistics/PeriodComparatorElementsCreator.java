@@ -5,7 +5,7 @@ import static com.example.budgetmanagement.ui.statistics.BottomSheetMonthYearPic
 import android.content.Context;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
+import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.github.mikephil.charting.charts.BarChart;
 
 import java.util.Calendar;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class PeriodComparatorElementsCreator {
 
     private final Context context;
-    private final ComingViewModel comingViewModel;
+    private final TransactionViewModel transactionViewModel;
     private int firstMonth;
     private int firstYear;
     private int secondMonth;
@@ -23,9 +23,9 @@ public class PeriodComparatorElementsCreator {
     private PeriodStatsComparator statsComparator;
     private BottomSheetMonthYearPicker datesPicker;
 
-    public PeriodComparatorElementsCreator(Context context, ComingViewModel comingViewModel) {
+    public PeriodComparatorElementsCreator(Context context, TransactionViewModel comingViewModel) {
         this.context = context;
-        this.comingViewModel = comingViewModel;
+        this.transactionViewModel = comingViewModel;
         setDefaultDates();
         initializePeriodPicker();
     }
@@ -63,14 +63,14 @@ public class PeriodComparatorElementsCreator {
     }
 
     public void setMonthsSummaryStats() {
-        MonthsStatsCollector monthsStatsCollector = new MonthsStatsCollector(comingViewModel);
+        MonthsStatsCollector monthsStatsCollector = new MonthsStatsCollector(transactionViewModel);
         PeriodSummary[] firstPeriodSummary = monthsStatsCollector.getStats(firstYear);
         PeriodSummary[] secondPeriodSummary = monthsStatsCollector.getStats(secondYear);
         this.statsComparator = new PeriodStatsComparator(firstPeriodSummary[firstMonth], secondPeriodSummary[secondMonth]);
     }
 
     public void setYearsSummaryStats() {
-        YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(comingViewModel);
+        YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(transactionViewModel);
         HashMap<Integer, PeriodSummary> yearsSummary = yearsStatsCollector.getStats();
 
         PeriodSummary firstPeriod = yearsSummary.getOrDefault(firstYear, new PeriodSummary());

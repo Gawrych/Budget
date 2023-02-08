@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.rooms.TransactionRepository;
 
 import java.util.Calendar;
@@ -103,6 +104,10 @@ public class TransactionViewModel extends AndroidViewModel {
 
     public Transaction getTransactionById(int transactionId) {
         return transactionRepository.getTransactionById(transactionId);
+    }
+
+    public LiveData<List<Transaction>> getAllTransactions() {
+        return transactionRepository.getAllTransactions();
     }
 
     public int[] getAllYears() {

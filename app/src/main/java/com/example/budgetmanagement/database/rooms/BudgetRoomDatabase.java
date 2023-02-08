@@ -8,19 +8,16 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.example.budgetmanagement.R;
-
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class, Coming.class}, version = 151, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class}, version = 156, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
     public abstract CategoryDao categoryDao();
-    public abstract ComingDao comingDao();
 
     private static volatile BudgetRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -63,7 +60,7 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 for (int i=0; i<5; i++) {
                     Transaction transaction = new Transaction(0, 1,
                             "Samochód", "-200", 1,
-                            0, true, calendar.getTimeInMillis(), calendar.get(Calendar.YEAR), 1241155550L);
+                            0, false, calendar.getTimeInMillis(), calendar.get(Calendar.YEAR), 1241155550L);
                     transactionDao.insert(transaction);
                     calendar.add(Calendar.DAY_OF_MONTH, 12);
                 }

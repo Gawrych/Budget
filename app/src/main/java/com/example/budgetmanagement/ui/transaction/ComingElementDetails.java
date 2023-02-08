@@ -1,8 +1,8 @@
-package com.example.budgetmanagement.ui.coming;
+package com.example.budgetmanagement.ui.transaction;
 
-import static com.example.budgetmanagement.ui.details.ComingDetails.MODE_AFTER_DEADLINE;
-import static com.example.budgetmanagement.ui.details.ComingDetails.MODE_NORMAL;
-import static com.example.budgetmanagement.ui.details.ComingDetails.MODE_REALIZED;
+import static com.example.budgetmanagement.ui.details.TransactionDetails.MODE_AFTER_DEADLINE;
+import static com.example.budgetmanagement.ui.details.TransactionDetails.MODE_NORMAL;
+import static com.example.budgetmanagement.ui.details.TransactionDetails.MODE_REALIZED;
 
 import android.os.Bundle;
 
@@ -18,23 +18,23 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.rooms.Coming;
-import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
+import com.example.budgetmanagement.database.rooms.Transaction;
+import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.ComingElementDetailsBinding;
-import com.example.budgetmanagement.ui.details.ComingDetails;
+import com.example.budgetmanagement.ui.details.TransactionDetails;
 
 import java.util.Calendar;
 
 public class ComingElementDetails extends Fragment {
 
-    public static final String COMING_ID_ARG = "comingId";
+    public static final String TRANSACTION_ID_ARG = "transactionId";
     private ComingElementDetailsBinding binding;
-    private Coming coming;
+    private Transaction transaction;
 
     public static ComingElementDetails newInstance(int comingId) {
         ComingElementDetails fragment = new ComingElementDetails();
         Bundle args = new Bundle();
-        args.putInt(COMING_ID_ARG, comingId);
+        args.putInt(TRANSACTION_ID_ARG, comingId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,29 +49,29 @@ public class ComingElementDetails extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int comingId = getArguments() != null ? getArguments().getInt(COMING_ID_ARG, -1) : -1;
+        int transactionId = getArguments() != null ? getArguments().getInt(TRANSACTION_ID_ARG, -1) : -1;
 
-        if (comingId == -1) {
+        if (transactionId == -1) {
             Toast.makeText(requireContext(), R.string.not_found_id, Toast.LENGTH_SHORT).show();
             requireActivity().onBackPressed();
             return;
         }
 
-        ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
-        this.coming = comingViewModel.getComingById(comingId);
+        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        this.transaction = transactionViewModel.getTransactionById(transactionId);
 
         int mode = getMode();
-        ComingDetails comingDetails = new ComingDetails(comingId, this, mode);
-        binding.setComingDetails(comingDetails);
+        TransactionDetails transactionDetails = new TransactionDetails(transactionId, this, mode);
+        binding.setTransactionDetails(transactionDetails);
     }
 
     private int getMode() {
-        boolean isExecute = coming.isExecuted();
+        boolean isExecute = transaction.isExecuted();
         if (isExecute) {
             return MODE_REALIZED;
         }
 
-        boolean isBeforeDeadline = getRemainingDays(coming.getExpireDate()) > 0;
+        boolean isBeforeDeadline = getRemainingDays(transaction.getDeadline()) > 0;
         return isBeforeDeadline ? MODE_NORMAL : MODE_AFTER_DEADLINE;
     }
 

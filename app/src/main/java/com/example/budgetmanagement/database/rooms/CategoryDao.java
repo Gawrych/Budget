@@ -36,8 +36,4 @@ public interface CategoryDao {
 
     @Query("SELECT * FROM categories")
     List<Category> getCategoryList();
-
-    @androidx.room.Transaction
-    @Query("SELECT * FROM categories")
-    List<CategoryAndTransaction> getCategoryAndTransaction();
 }

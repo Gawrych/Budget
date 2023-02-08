@@ -45,6 +45,6 @@ public interface TransactionDao {
     @Query("SELECT * FROM transactions WHERE deadlineYear = :year ORDER BY deadline ASC")
     List<Transaction> getAllTransactionsByYearInList(int year);
 
-    @Query("SELECT DISTINCT expireYear FROM coming ORDER BY expireYear ASC")
+    @Query("SELECT DISTINCT deadlineYear FROM transactions ORDER BY deadlineYear ASC")
     int[] getAllYears();
 }

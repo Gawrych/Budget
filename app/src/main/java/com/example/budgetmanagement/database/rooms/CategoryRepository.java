@@ -21,10 +21,6 @@ public class CategoryRepository {
         categoryLiveData = categoryDao.getAllCategory();
     }
 
-    public List<CategoryAndTransaction> getCategoryAndTransaction() {
-        return categoryDao.getCategoryAndTransaction();
-    }
-
     public LiveData<List<Category>> getAllCategory() {
         return categoryLiveData;
     }

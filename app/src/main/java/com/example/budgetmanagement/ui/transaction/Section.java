@@ -1,4 +1,6 @@
-package com.example.budgetmanagement.ui.coming;
+package com.example.budgetmanagement.ui.transaction;
+
+import com.example.budgetmanagement.database.rooms.Transaction;
 
 import java.util.List;
 

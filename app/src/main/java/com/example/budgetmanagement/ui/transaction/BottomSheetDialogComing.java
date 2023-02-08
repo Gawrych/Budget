@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.ui.coming;
+package com.example.budgetmanagement.ui.transaction;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.rooms.Coming;
-import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
+import com.example.budgetmanagement.database.rooms.Transaction;
+import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.ComingBottomSheetDialogBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -26,8 +26,8 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
 
     private ComingBottomSheetDialogBinding binding;
     private static final String BUNDLE_COMING_VALUE = "coming_value";
-    private ComingViewModel comingViewModel;
-    private Coming coming;
+    private TransactionViewModel transactionViewModel;
+    private Transaction transaction;
 
     public static BottomSheetDialogComing newInstance(int comingId) {
         Bundle bundle = new Bundle();
@@ -47,25 +47,25 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
+        this.transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
 
-        int comingId = getArguments() != null ? getArguments().getInt(BUNDLE_COMING_VALUE, -1) : -1;
+        int transactionId = getArguments() != null ? getArguments().getInt(BUNDLE_COMING_VALUE, -1) : -1;
 
-        if (comingId == -1) {
+        if (transactionId == -1) {
             Toast.makeText(requireContext(), R.string.coming_id_not_found, Toast.LENGTH_SHORT).show();
             dismiss();
             return;
         }
 
-        this.coming = comingViewModel.getComingById(comingId);
+        this.transaction = transactionViewModel.getTransactionById(transactionId);
 
-        if (coming == null) {
-            Toast.makeText(requireContext(), R.string.coming_not_found+comingId, Toast.LENGTH_SHORT).show();
+        if (transaction == null) {
+            Toast.makeText(requireContext(), R.string.coming_not_found+transactionId, Toast.LENGTH_SHORT).show();
             dismiss();
             return;
         }
 
-        if (coming.isExecuted()) {
+        if (transaction.isExecuted()) {
             changeButtonText();
         }
 
@@ -83,9 +83,9 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
     }
 
     public void execute() {
-        boolean negateExecute = !this.coming.isExecuted();
-        this.coming.setExecuted(negateExecute);
-        this.coming.setExecutedDate(getTodayDate().getTimeInMillis());
+        boolean negateExecute = !this.transaction.isExecuted();
+        this.transaction.setExecuted(negateExecute);
+        this.transaction.setExecutedDate(getTodayDate().getTimeInMillis());
         updateComingInDatabase();
         dismiss();
     }
@@ -95,7 +95,7 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
     }
 
     private void updateComingInDatabase() {
-        comingViewModel.update(this.coming);
+        transactionViewModel.update(this.transaction);
     }
 
     private void delete() {
@@ -110,7 +110,7 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
     }
 
     private void removeFromDatabase() {
-        comingViewModel.delete(this.coming);
+        transactionViewModel.delete(this.transaction);
     }
 
     private void edit() {
@@ -120,11 +120,11 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
             return;
         }
 
-        EditComingElement editComingElement = EditComingElement.newInstance(coming.getComingId());
-        Bundle bundle = editComingElement.getArguments();
-
-        Navigation.findNavController(rootView)
-                .navigate(R.id.action_navigation_incoming_to_editComingElement, bundle);
+//        EditComingElement editComingElement = EditComingElement.newInstance(transaction.getComingId());
+//        Bundle bundle = editComingElement.getArguments();
+//
+//        Navigation.findNavController(rootView)
+//                .navigate(R.id.action_navigation_incoming_to_editComingElement, bundle);
         dismiss();
     }
 
@@ -135,7 +135,7 @@ public class BottomSheetDialogComing extends BottomSheetDialogFragment {
             return;
         }
 
-        AddNewComingElement addNewComingElement = AddNewComingElement.newInstance(coming.getComingId());
+        AddNewComingElement addNewComingElement = AddNewComingElement.newInstance(transaction.getTransactionId());
         Bundle bundle = addNewComingElement.getArguments();
 
         Navigation.findNavController(rootView)

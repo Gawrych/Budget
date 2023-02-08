@@ -17,19 +17,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
+import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.FragmentPeriodStatisticsBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 import java.util.Calendar;
-import java.util.HashMap;
 
 public class PeriodStatisticsFragment extends Fragment {
 
     private static final int MONTHS_STATS_MODE = 0;
     private static final int YEARS_STATS_MODE = 1;
     private FragmentPeriodStatisticsBinding binding;
-    private ComingViewModel comingViewModel;
+    private TransactionViewModel transactionViewModel;
     private DatePickerDialog datePickerDialog;
     private int selectedYear;
     private PeriodStatisticsBarChart barChart;
@@ -52,7 +51,7 @@ public class PeriodStatisticsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
+        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
 
 //        TODO: Add info icon
 
@@ -88,7 +87,7 @@ public class PeriodStatisticsFragment extends Fragment {
     }
 
     private void setChartToMonthPeriod() {
-        MonthsStatsCollector monthsStatsCollector = new MonthsStatsCollector(comingViewModel);
+        MonthsStatsCollector monthsStatsCollector = new MonthsStatsCollector(transactionViewModel);
         periodSummary = monthsStatsCollector.getStats(this.selectedYear);
 
         barChart = new PeriodStatisticsBarChart(binding);
@@ -101,7 +100,7 @@ public class PeriodStatisticsFragment extends Fragment {
     }
 
     private void setChartToYearPeriod() {
-        YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(comingViewModel);
+        YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(transactionViewModel);
         periodSummary = yearsStatsCollector.getStats().values().toArray(new PeriodSummary[0]);
 
         barChart = new PeriodStatisticsBarChart(binding);
