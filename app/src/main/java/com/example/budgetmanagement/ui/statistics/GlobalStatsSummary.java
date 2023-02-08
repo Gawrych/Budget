@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.ui.statistics;
 
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.rooms.Transaction;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class GlobalStatsSummary {
@@ -18,11 +17,11 @@ public class GlobalStatsSummary {
     private final int numberOfTransactions;
     private final int numberOfTransactionsAfterTheTime;
 
-    private ComingAndTransaction nextIncomeTransaction;
+    private Transaction nextIncomeTransaction;
 
-    private ComingAndTransaction nextPaymentTransaction;
+    private Transaction nextPaymentTransaction;
 
-    public GlobalStatsSummary(List<ComingAndTransaction> allTransactions) {
+    public GlobalStatsSummary(List<Transaction> allTransactions) {
 //        TODO: Change this to for loop
         Calendar today = Calendar.getInstance();
         long todayInMillis = today.getTimeInMillis();
@@ -37,13 +36,13 @@ public class GlobalStatsSummary {
         DateTimeZone defaultTimeZone = DateTimeZone.getDefault();
         long firstMillisTodayDay = new DateTime(todayInMillis, defaultTimeZone).withTimeAtStartOfDay().getMillis();
 
-        List<ComingAndTransaction> allTransactionsWithExpireDateAboveTodayDate = allTransactions
+        List<Transaction> allTransactionsWithExpireDateAboveTodayDate = allTransactions
                 .stream()
                 .filter(item -> item.coming.getExpireDate() >= firstMillisTodayDay)
                 .filter(item -> !item.coming.isExecuted())
                 .collect(Collectors.toList());
 
-        Optional<ComingAndTransaction> nextPaymentOptional = allTransactionsWithExpireDateAboveTodayDate.stream()
+        Optional<Transaction> nextPaymentOptional = allTransactionsWithExpireDateAboveTodayDate.stream()
                 .filter(item -> {
                     BigDecimal amount = new BigDecimal(item.transaction.getAmount());
                     return amount.signum() != 1;
@@ -52,7 +51,7 @@ public class GlobalStatsSummary {
 
         nextPaymentOptional.ifPresent(comingAndTransaction -> nextPaymentTransaction = comingAndTransaction);
 
-        Optional<ComingAndTransaction> nextIncomeOptional = allTransactionsWithExpireDateAboveTodayDate.stream()
+        Optional<Transaction> nextIncomeOptional = allTransactionsWithExpireDateAboveTodayDate.stream()
                 .filter(item -> {
                     BigDecimal amount = new BigDecimal(item.transaction.getAmount());
                     return amount.signum() == 1;
@@ -70,11 +69,11 @@ public class GlobalStatsSummary {
         return numberOfTransactionsAfterTheTime;
     }
 
-    public ComingAndTransaction getNextIncomeTransaction() {
+    public Transaction getNextIncomeTransaction() {
         return nextIncomeTransaction;
     }
 
-    public ComingAndTransaction getNextPaymentTransaction() {
+    public Transaction getNextPaymentTransaction() {
         return nextPaymentTransaction;
     }
 }

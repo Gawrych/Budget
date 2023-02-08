@@ -1,11 +1,9 @@
 package com.example.budgetmanagement.ui.statistics;
 
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 public class MonthsStatsCollector {
@@ -19,7 +17,7 @@ public class MonthsStatsCollector {
 
     public PeriodSummary[] getStats(int year) {
         PeriodSummary[] periodSummary = new PeriodSummary[NUMBER_OF_MONTHS];
-        List<ComingAndTransaction> allComingFromYear =
+        List<Transaction> allComingFromYear =
                 comingViewModel.getAllComingByYear(year);
 
         for (int i = 0; i < periodSummary.length; i++) {
@@ -27,7 +25,7 @@ public class MonthsStatsCollector {
         }
 
         Calendar calendar = Calendar.getInstance();
-        for (ComingAndTransaction element : allComingFromYear) {
+        for (Transaction element : allComingFromYear) {
             long expireDate = element.coming.getExpireDate();
             calendar.setTimeInMillis(expireDate);
             periodSummary[calendar.get(Calendar.MONTH)].add(element);

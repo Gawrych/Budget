@@ -1,11 +1,9 @@
 package com.example.budgetmanagement.ui.statistics;
 
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class YearsStatsCollector {
 
     public LinkedHashMap<Integer, PeriodSummary> getStats() {
         allYears = comingViewModel.getAllYears();
-        List<List<ComingAndTransaction>> yearsTransaction = new ArrayList<>();
+        List<List<Transaction>> yearsTransaction = new ArrayList<>();
 
         for (int allYear : allYears) {
             yearsTransaction.add(comingViewModel.getAllComingByYear(allYear));
@@ -33,7 +31,7 @@ public class YearsStatsCollector {
         }
 
         for (int i = 0; i < yearsTransaction.size(); i++) {
-            for (ComingAndTransaction element : yearsTransaction.get(i)) {
+            for (Transaction element : yearsTransaction.get(i)) {
                 PeriodSummary periodSummary = yearsSummary.get(allYears[i]);
                 if (periodSummary != null) {
                     periodSummary.add(element);

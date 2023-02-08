@@ -1,24 +1,22 @@
 package com.example.budgetmanagement.ui.coming;
 
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
-
 import java.util.List;
 
 public class Section {
 
     private final String label;
-    private final List<ComingAndTransaction> comingAndTransactionList;
+    private final List<Transaction> transactionList;
 
-    public Section(String label, List<ComingAndTransaction> comingAndTransactionList) {
+    public Section(String label, List<Transaction> transactionList) {
         this.label = label;
-        this.comingAndTransactionList = comingAndTransactionList;
+        this.transactionList = transactionList;
     }
 
     public String getLabel() {
         return label;
     }
 
-    public List<ComingAndTransaction> getComingAndTransactionList() {
-        return comingAndTransactionList;
+    public List<Transaction> getComingAndTransactionList() {
+        return transactionList;
     }
 }

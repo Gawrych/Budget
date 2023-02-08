@@ -3,13 +3,10 @@ package com.example.budgetmanagement.ui.coming;
 import android.content.Context;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
-import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
-import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,16 +14,16 @@ import java.util.Map;
 
 public class SectionMaker {
 
-    private final HashMap<Integer, ArrayList<ComingAndTransaction>> transactionsCollection = new HashMap<>();
-    private final ComingViewModel comingViewModel;
+    private final HashMap<Integer, ArrayList<Transaction>> transactionsCollection = new HashMap<>();
+    private final TransactionViewModel transactionViewModel;
     public final Map<String, Integer> months = new LinkedHashMap<>();
     private final ArrayList<Section> sectionList = new ArrayList<>();
     private Context context;
     private int year;
 
 
-    public SectionMaker(ComingViewModel comingViewModel, Context context, int year) {
-        this.comingViewModel = comingViewModel;
+    public SectionMaker(TransactionViewModel transactionViewModel, Context context, int year) {
+        this.transactionViewModel = transactionViewModel;
         this.context = context;
         this.year = year;
         prepareMonthsMap();
@@ -49,12 +46,12 @@ public class SectionMaker {
 
     private void collectTransactionByMonthId() {
         initializeEmptyTransactionsCollectionForEachMonth();
-        List<ComingAndTransaction> allComingFromSelectedYear =
-                comingViewModel.getAllComingByYear(year);
+        List<Transaction> allComingFromSelectedYear =
+                transactionViewModel.getAllTransactionsByYearInList(year);
 
         allComingFromSelectedYear.forEach(item -> {
-            int monthNumber = getMonthNumberFromDate(item.coming.getExpireDate());
-            ArrayList<ComingAndTransaction> currentList = transactionsCollection.get(monthNumber);
+            int monthNumber = getMonthNumberFromDate(item.getDeadline());
+            ArrayList<Transaction> currentList = transactionsCollection.get(monthNumber);
             assert currentList != null;
             currentList.add(item);
             transactionsCollection.put(monthNumber, currentList);

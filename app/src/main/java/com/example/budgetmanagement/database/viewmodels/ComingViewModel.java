@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.budgetmanagement.database.rooms.Coming;
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.rooms.ComingRepository;
 
 import java.util.List;
@@ -45,19 +45,19 @@ public class ComingViewModel extends AndroidViewModel {
         return comingRepository.getAllYears();
     }
 
-    public List<ComingAndTransaction> getAllComingByYear(int year) {
+    public List<Transaction> getAllComingByYear(int year) {
         return comingRepository.getAllComingByYear(year);
     }
 
-    public LiveData<List<ComingAndTransaction>> getAllComingAndTransaction() {
+    public LiveData<List<Transaction>> getAllComingAndTransaction() {
         return comingRepository.getAllComingAndTransaction();
     }
 
-    public LiveData<List<ComingAndTransaction>> getAllComingAndTransactionByYear(int year) {
+    public LiveData<List<Transaction>> getAllComingAndTransactionByYear(int year) {
         return comingRepository.getAllComingAndTransactionByYear(year);
     }
 
-    public ComingAndTransaction getComingAndTransactionById(int comingId) {
+    public Transaction getComingAndTransactionById(int comingId) {
         return comingRepository.getComingAndTransactionById(comingId);
     }
 }

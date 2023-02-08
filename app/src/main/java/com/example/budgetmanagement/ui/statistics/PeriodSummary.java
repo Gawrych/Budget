@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.ui.statistics;
 
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.rooms.Transaction;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -18,7 +18,7 @@ public class PeriodSummary {
 
     public PeriodSummary() {}
 
-    public void add(ComingAndTransaction item) {
+    public void add(Transaction item) {
 //        TODO: Change this to make for loop there, and get argument in List type
         numberOfTransactions++;
 

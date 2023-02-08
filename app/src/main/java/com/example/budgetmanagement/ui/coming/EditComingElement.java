@@ -13,7 +13,6 @@ import android.widget.Button;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Coming;
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
@@ -32,7 +31,7 @@ public class EditComingElement extends TransactionFormService {
     public static final String BUNDLE_COMING_ID = "comingId";
     private ComingViewModel comingViewModel;
     int comingId;
-    private ComingAndTransaction comingAndTransaction;
+    private Transaction transaction;
     private TransactionViewModel transactionViewModel;
 
     public static EditComingElement newInstance(int comingId) {
@@ -48,9 +47,9 @@ public class EditComingElement extends TransactionFormService {
         super.onViewCreated(rootView, savedInstanceState);
         this.comingId = getArguments() != null ? getArguments().getInt(BUNDLE_COMING_ID, -1) : -1;
         this.comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
-        comingAndTransaction = comingViewModel.getComingAndTransactionById(comingId);
+        transaction = comingViewModel.getComingAndTransactionById(comingId);
 
-        if (comingAndTransaction == null) {
+        if (transaction == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
             builder.setMessage(R.string.error_element_with_this_id_was_not_found)
                     .setPositiveButton("Ok", (dialog, id) -> {}).show();
@@ -80,10 +79,10 @@ public class EditComingElement extends TransactionFormService {
         SwitchMaterial profitSwitch = getProfitSwitch();
         AutoCompleteTextView dateField = getStartDateField();
 
-        Transaction transaction = comingAndTransaction.transaction;
+        Transaction transaction = this.transaction;
         title.setText(transaction.getTitle());
 
-        long repeatDate = comingAndTransaction.coming.getExpireDate();
+        long repeatDate = this.transaction.getDeadline();
         dateField.setText(DateProcessor.parseDate(repeatDate, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(repeatDate);
@@ -98,19 +97,19 @@ public class EditComingElement extends TransactionFormService {
         selectedCategory.setText(CategoryBottomSheetSelector.getCategoryName(transaction.getCategoryId(), this));
         setCategoryId(transaction.getCategoryId());
 
-        dateField.setText(DateProcessor.parseDate(comingAndTransaction.coming.getExpireDate(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
+        dateField.setText(DateProcessor.parseDate(this.transaction.getDeadline(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
     }
 
     public void submitToDatabase(NewTransactionDataCollector newItem) {
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        Coming coming = comingAndTransaction.coming;
+        Coming coming = transaction;
 
         boolean isFirstModification = coming.getLastEditDate() == 0;
         if (isFirstModification) {
             int transactionId = (int) createNewTransaction(newItem);
             assignNewTransaction(coming, transactionId);
         } else {
-            transactionViewModel.update(newItem.getTransaction(comingAndTransaction.transaction.getTransactionId()));
+            transactionViewModel.update(newItem.getTransaction(transaction.transaction.getTransactionId()));
         }
 
         long now = Calendar.getInstance().getTimeInMillis();

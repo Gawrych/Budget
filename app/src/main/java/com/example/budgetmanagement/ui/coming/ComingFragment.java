@@ -16,8 +16,8 @@ import androidx.navigation.Navigation;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.adapters.ComingExpandableListAdapter;
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
-import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
+import com.example.budgetmanagement.database.rooms.Transaction;
+import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.ComingFragmentBinding;
 import com.example.budgetmanagement.ui.utils.AppIconPack;
 import com.maltaisn.icondialog.pack.IconPack;
@@ -59,12 +59,12 @@ public class ComingFragment extends Fragment {
         binding.expandableListView.setAdapter(expandableListAdapter);
         binding.yearPicker.setText(String.valueOf(selectedYear));
 
-        ComingViewModel comingViewModel =
-                new ViewModelProvider(this).get(ComingViewModel.class);
+        TransactionViewModel transactionViewModel =
+                new ViewModelProvider(this).get(TransactionViewModel.class);
 
-        sectionMaker = new SectionMaker(comingViewModel, requireContext(), selectedYear);
+        sectionMaker = new SectionMaker(transactionViewModel, requireContext(), selectedYear);
 
-        comingViewModel.getAllComingAndTransactionByYear(selectedYear).observe(getViewLifecycleOwner(), list -> {
+        transactionViewModel.getAllTransactionsByYear(selectedYear).observe(getViewLifecycleOwner(), list -> {
             this.currentSectionList = sectionMaker.prepareSections();
             notifyUpdatedList();
         });
@@ -99,10 +99,10 @@ public class ComingFragment extends Fragment {
     }
 
     private boolean openDetailsFragment(int groupPosition, int childPosition, View view) {
-        ComingAndTransaction comingAndTransaction =
+        Transaction transaction =
                 expandableListAdapter.getChild(groupPosition, childPosition);
         ComingElementDetails comingElementDetails =
-                ComingElementDetails.newInstance(comingAndTransaction.coming.getComingId());
+                ComingElementDetails.newInstance(transaction.getTransactionId());
         Navigation.findNavController(view).navigate(
                 R.id.action_navigation_coming_to_comingElementDetails,
                 comingElementDetails.getArguments());
@@ -116,10 +116,10 @@ public class ComingFragment extends Fragment {
             int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
             int childPosition = ExpandableListView.getPackedPositionChild(packedPosition);
 
-            ComingAndTransaction comingAndTransaction =
+            Transaction transaction =
                     expandableListAdapter.getChild(groupPosition, childPosition);
             BottomSheetDialogComing bottomSheet =
-                    BottomSheetDialogComing.newInstance(comingAndTransaction.coming.getComingId());
+                    BottomSheetDialogComing.newInstance(transaction.getTransactionId());
             bottomSheet.show(getParentFragmentManager(), COMING_BOTTOM_SHEET_TAG);
             return true;
         }

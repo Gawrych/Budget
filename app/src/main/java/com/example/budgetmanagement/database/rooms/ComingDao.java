@@ -30,17 +30,17 @@ public interface ComingDao {
     Coming getComingById(int id);
 
     @Query("SELECT * FROM coming WHERE comingId = :comingId")
-    ComingAndTransaction getComingAndTransaction(int comingId);
+    Transaction getComingAndTransaction(int comingId);
 
     @androidx.room.Transaction
     @Query("SELECT * FROM coming ORDER BY expireDate ASC")
-    LiveData<List<ComingAndTransaction>> getAllComingAndTransaction();
+    LiveData<List<Transaction>> getAllComingAndTransaction();
 
     @Query("SELECT * FROM coming WHERE expireYear = :year ORDER BY expireDate ASC")
-    LiveData<List<ComingAndTransaction>> getAllComingAndTransactionByYear(int year);
+    LiveData<List<Transaction>> getAllComingAndTransactionByYear(int year);
 
     @Query("SELECT * FROM coming WHERE expireYear = :year ORDER BY expireDate ASC")
-    List<ComingAndTransaction> getAllComingByYear(int year);
+    List<Transaction> getAllComingByYear(int year);
 
     @Query("SELECT DISTINCT expireYear FROM coming ORDER BY expireYear ASC")
     int[] getAllYears();

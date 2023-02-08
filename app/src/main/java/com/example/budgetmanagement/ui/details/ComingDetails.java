@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Category;
 import com.example.budgetmanagement.database.rooms.Coming;
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
@@ -44,7 +43,7 @@ public class ComingDetails extends DetailsUtils {
         ComingViewModel comingViewModel = new ViewModelProvider(fragment).get(ComingViewModel.class);
         CategoryViewModel categoryViewModel = new ViewModelProvider(fragment).get(CategoryViewModel.class);
 
-        ComingAndTransaction comingAndTransaction = comingViewModel.getComingAndTransactionById(comingId);
+        Transaction comingAndTransaction = comingViewModel.getComingAndTransactionById(comingId);
         Transaction transaction = comingAndTransaction.transaction;
         Coming coming = comingAndTransaction.coming;
 

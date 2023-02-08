@@ -5,7 +5,6 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DAT
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +15,13 @@ import android.widget.TextView;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Category;
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
-import com.example.budgetmanagement.databinding.ComingChildViewBinding;
 import com.example.budgetmanagement.ui.coming.Section;
 import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
@@ -79,7 +76,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public ComingAndTransaction getChild(int i, int i1) {
+    public Transaction getChild(int i, int i1) {
         return items.get(i).getComingAndTransactionList().get(i1);
     }
 
@@ -108,7 +105,7 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
         TextView remainingDaysField = view.findViewById(R.id.remainingDays);
         ImageView mainIconField = view.findViewById(R.id.outOfDateIcon);
 
-        ComingAndTransaction item = getChild(i, i1);
+        Transaction item = getChild(i, i1);
         String amount = item.transaction.getAmount();
         long repeatDate = item.coming.getExpireDate();
         boolean isExecuted = item.coming.isExecuted();

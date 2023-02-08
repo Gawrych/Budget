@@ -9,7 +9,7 @@ import java.util.List;
 public class ComingRepository {
 
     private final ComingDao comingDao;
-    private final LiveData<List<ComingAndTransaction>> allComingAndTransaction;
+    private final LiveData<List<Transaction>> allComingAndTransaction;
 
     public ComingRepository(Application app) {
         BudgetRoomDatabase database = BudgetRoomDatabase.getDatabase(app);
@@ -17,11 +17,11 @@ public class ComingRepository {
         allComingAndTransaction = comingDao.getAllComingAndTransaction();
     }
 
-    public LiveData<List<ComingAndTransaction>> getAllComingAndTransaction() {
+    public LiveData<List<Transaction>> getAllComingAndTransaction() {
         return allComingAndTransaction;
     }
 
-    public ComingAndTransaction getComingAndTransactionById(int comingId) {
+    public Transaction getComingAndTransactionById(int comingId) {
         return comingDao.getComingAndTransaction(comingId);
     }
 
@@ -29,11 +29,11 @@ public class ComingRepository {
         return comingDao.getComingById(id);
     }
 
-    public List<ComingAndTransaction> getAllComingByYear(int year) {
+    public List<Transaction> getAllComingByYear(int year) {
         return comingDao.getAllComingByYear(year);
     }
 
-    public LiveData<List<ComingAndTransaction>> getAllComingAndTransactionByYear(int year) {
+    public LiveData<List<Transaction>> getAllComingAndTransactionByYear(int year) {
         return comingDao.getAllComingAndTransactionByYear(year);
     }
 

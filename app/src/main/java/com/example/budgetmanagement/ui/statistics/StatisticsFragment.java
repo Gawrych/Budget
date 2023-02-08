@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.databinding.StatisticsFragmentBinding;
 
@@ -49,20 +49,20 @@ public class StatisticsFragment extends Fragment {
                 R.id.action_navigation_statistics_to_periodComparatorFragment));
     }
 
-    private void setGlobalStats(List<ComingAndTransaction> allTransactions) {
+    private void setGlobalStats(List<Transaction> allTransactions) {
         GlobalStatsSummary globalStats = new GlobalStatsSummary(allTransactions);
 
         binding.allTransactionsNumber.setText(String.valueOf(globalStats.getNumberOfTransactions()));
         binding.allTransactionsAfterTheTimeNumber.setText(String.valueOf(globalStats.getNumberOfTransactionsAfterTheTime()));
 
-        ComingAndTransaction nextIncome = globalStats.getNextIncomeTransaction();
-        ComingAndTransaction nextPayment = globalStats.getNextPaymentTransaction();
+        Transaction nextIncome = globalStats.getNextIncomeTransaction();
+        Transaction nextPayment = globalStats.getNextPaymentTransaction();
 
         setNextTransactionData(binding.nextIncomeAmount, binding.nextIncomeRemainingDays, nextIncome, true);
         setNextTransactionData(binding.nextPaymentAmount, binding.nextPaymentRemainingDays, nextPayment, false);
     }
 
-    private void setNextTransactionData(TextView amountView, TextView daysView, ComingAndTransaction transaction, boolean isIncome) {
+    private void setNextTransactionData(TextView amountView, TextView daysView, Transaction transaction, boolean isIncome) {
         if (transaction == null) {
             amountView.setText("0");
             daysView.setText("");

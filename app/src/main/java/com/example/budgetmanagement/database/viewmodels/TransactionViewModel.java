@@ -6,15 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.budgetmanagement.database.rooms.Coming;
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
-import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.rooms.TransactionRepository;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 public class TransactionViewModel extends AndroidViewModel {
@@ -99,7 +93,7 @@ public class TransactionViewModel extends AndroidViewModel {
         transactionRepository.delete(transactionId);
     }
 
-    public List<Transaction> getAllTransactionByYear(int year) {
+    public List<Transaction> getAllTransactionsByYearInList(int year) {
         return transactionRepository.getAllTransactionsByYearInList(year);
     }
 

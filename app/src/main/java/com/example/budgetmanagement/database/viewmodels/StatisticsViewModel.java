@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.budgetmanagement.database.rooms.ComingAndTransaction;
+import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.rooms.ComingRepository;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class StatisticsViewModel extends AndroidViewModel {
         comingRepository = new ComingRepository(app);
     }
 
-    public List<ComingAndTransaction> getAllComingByMonth(int monthNumber) {
+    public List<Transaction> getAllComingByMonth(int monthNumber) {
         return comingRepository.getAllComingByYear(monthNumber);
     }
 

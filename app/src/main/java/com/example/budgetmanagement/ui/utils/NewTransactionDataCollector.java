@@ -5,8 +5,6 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEA
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
-import com.example.budgetmanagement.database.rooms.Transaction;
-
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
