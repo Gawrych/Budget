@@ -11,6 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.budgetmanagement.R;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -54,32 +55,18 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 categoryDao.insert(category);
                 categoryDao.insert(category2);
                 categoryDao.insert(category3);
-//
+
+
                 TransactionDao transactionDao = INSTANCE.transactionDao();
-                Transaction transaction = new Transaction(1, 1,
-                        "Samochód", "-200", 1,
-                         0, true);
-                Transaction transaction2 = new Transaction(2, 2,
-                        "Kawa", "100", 1,
-                        0, false);
-                Transaction transaction3 = new Transaction(3, 2,
-                        "Wypłata", "-300.00", LocalDate.now().toEpochDay(),
-                       0, false);
-                Transaction transaction4 = new Transaction(4, 1,
-                        "Wypłata", "1000.00", LocalDate.now().toEpochDay(),
-                        0, false);
-                Transaction transaction5 = new Transaction(5, 3,
-                        "Wypłata", "-500.00", LocalDate.now().toEpochDay(),
-                        0, false);
-                Transaction transaction6 = new Transaction(6, 3,
-                        "Wypłata", "500.00", LocalDate.now().toEpochDay(),
-                        0, false);
-                transactionDao.insert(transaction);
-                transactionDao.insert(transaction2);
-                transactionDao.insert(transaction3);
-                transactionDao.insert(transaction4);
-                transactionDao.insert(transaction5);
-                transactionDao.insert(transaction6);
+                Calendar calendar = Calendar.getInstance();
+
+                for (int i=0; i<5; i++) {
+                    Transaction transaction = new Transaction(0, 1,
+                            "Samochód", "-200", 1,
+                            0, true, calendar.getTimeInMillis(), calendar.get(Calendar.YEAR), 1241155550L);
+                    transactionDao.insert(transaction);
+                    calendar.add(Calendar.DAY_OF_MONTH, 12);
+                }
 //
 //                Transaction transaction4 = new Transaction(4, 2,
 //                        "Abonament na telefon", "99.00", LocalDate.now().toEpochDay(),
@@ -108,25 +95,25 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
 //
 //                byte validity = 2;
 //
-                ComingDao comingDao = INSTANCE.comingDao();
-                Coming coming = new Coming(1, 1, false,
-                        1670194800000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
-                Coming coming2 = new Coming(2, 2, false,
-                        1670281200000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
-                Coming coming3 = new Coming(3, 3, false,
-                        1667516400000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
-                Coming coming4 = new Coming(4, 4, false,
-                        1667602800000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
-                Coming coming5 = new Coming(5, 5, false,
-                        1664834400000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
-                Coming coming6 = new Coming(6, 6, false,
-                        1664920800000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
-                comingDao.insert(coming);
-                comingDao.insert(coming2);
-                comingDao.insert(coming3);
-                comingDao.insert(coming4);
-                comingDao.insert(coming5);
-                comingDao.insert(coming6);
+//                ComingDao comingDao = INSTANCE.comingDao();
+//                Coming coming = new Coming(1, 1, false,
+//                        1670194800000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
+//                Coming coming2 = new Coming(2, 2, false,
+//                        1670281200000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
+//                Coming coming3 = new Coming(3, 3, false,
+//                        1667516400000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
+//                Coming coming4 = new Coming(4, 4, false,
+//                        1667602800000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
+//                Coming coming5 = new Coming(5, 5, false,
+//                        1664834400000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
+//                Coming coming6 = new Coming(6, 6, false,
+//                        1664920800000L, 2022, 0, LocalDate.now().toEpochDay(), 0);
+//                comingDao.insert(coming);
+//                comingDao.insert(coming2);
+//                comingDao.insert(coming3);
+//                comingDao.insert(coming4);
+//                comingDao.insert(coming5);
+//                comingDao.insert(coming6);
 //
 //                byte element = 2;
 //

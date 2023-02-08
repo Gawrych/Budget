@@ -10,6 +10,7 @@ import com.example.budgetmanagement.database.rooms.Transaction;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 public class NewTransactionDataCollector extends BasicDataCollector {
 
@@ -47,12 +48,16 @@ public class NewTransactionDataCollector extends BasicDataCollector {
     }
 
     public Transaction getTransaction() {
-        return new Transaction(0, this.categoryId, getTitle(),
-                getAmount().toString(), date, 0, isProfit());
+        Calendar calendar = Calendar.getInstance();
+        return new Transaction(0, 1,
+                "Samochód", "-200", 1,
+                0, true, calendar.getTimeInMillis(), calendar.get(Calendar.YEAR), 1241155550L);
     }
 
     public Transaction getTransaction(int id) {
-        return new Transaction(id, this.categoryId, getTitle(),
-                getAmount().toString(), date, 0, isProfit());
+        Calendar calendar = Calendar.getInstance();
+        return new Transaction(0, 1,
+                "Samochód", "-200", 1,
+                0, true, calendar.getTimeInMillis(), calendar.get(Calendar.YEAR), 1241155550L);
     }
 }

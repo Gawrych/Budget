@@ -1,23 +1,13 @@
 package com.example.budgetmanagement.ui.coming;
 
-import static com.example.budgetmanagement.database.viewmodels.TransactionViewModel.AMOUNT_FIELD_TAG;
-import static com.example.budgetmanagement.database.viewmodels.TransactionViewModel.CATEGORY_FIELD_TAG;
-import static com.example.budgetmanagement.database.viewmodels.TransactionViewModel.END_DATE_FIELD_TAG;
-import static com.example.budgetmanagement.database.viewmodels.TransactionViewModel.PERIOD_FIELD_TAG;
-import static com.example.budgetmanagement.database.viewmodels.TransactionViewModel.START_DATE_FIELD_TAG;
-import static com.example.budgetmanagement.database.viewmodels.TransactionViewModel.TITLE_FIELD_TAG;
-
 import android.app.DatePickerDialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,22 +16,16 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.rooms.Transaction;
-import com.example.budgetmanagement.database.viewmodels.ComingViewModel;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.AddNewComingFragmentBinding;
 import com.example.budgetmanagement.ui.utils.AppIconPack;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
-import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.maltaisn.icondialog.data.Icon;
 import com.maltaisn.icondialog.pack.IconPack;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 
 public class AddNewComingElement extends Fragment {
 
@@ -95,12 +79,8 @@ public class AddNewComingElement extends Fragment {
         binding.acceptButton.setOnClickListener(v -> {
             collectData(collector);
             if (collector.isCorrect()) {
-                if (binding.cyclicalSwitch.isChecked()) {
-//                    transactionViewModel.insertCyclical();
-                } else {
-//                    transactionViewModel.insert(this.title, this.amount,this.categoryId,
-//                            this.selectedStartDate.getTimeInMillis());
-                }
+                transactionViewModel.insert(this.title, this.amount,this.categoryId,
+                        this.selectedStartDate);
                 close();
             }
             collector.reset();
