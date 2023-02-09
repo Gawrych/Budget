@@ -1,11 +1,14 @@
 package com.example.budgetmanagement.database.viewmodels;
 
 import android.app.Application;
+import android.content.Context;
+import android.util.ArrayMap;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.rooms.TransactionRepository;
 
@@ -32,21 +35,32 @@ public class TransactionViewModel extends AndroidViewModel {
         return transactionRepository.insert(transaction);
     }
 
-//        public long insertCyclical(String title, String amount, long categoryId, long startDate, long endDate, String period) {
-//            while (nextDate <= endDate) {
-//                allDatesToCreateNewComing.add(nextDate);
-//                calendar.add(timeBetween, 1);
-//                nextDate = calendar.getTimeInMillis();
-//            }
-//        Transaction transaction = new Transaction(0,
-//                transactionNumbers.get(CATEGORY_FIELD_TAG),
-//                transactionNames.get(TITLE_FIELD_TAG),
-//                transactionNames.get(AMOUNT_FIELD_TAG),
-//                System.currentTimeMillis(),
-//                0,
-//                true);
-//        return transactionRepository.insert(transaction);
-//    }
+    public void insertCyclical(Context context, String title, String amount, long categoryId, long startDate, long endDate, String periodName) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(startDate);
+        int period = getPeriodId(context, periodName);
+
+        while (calendar.getTimeInMillis() <= endDate) {
+            Transaction transaction = new Transaction(0, (int) categoryId, title, amount,
+                    System.currentTimeMillis(), 0, false,
+                    calendar.getTimeInMillis(), calendar.get(Calendar.YEAR), 0);
+            transactionRepository.insert(transaction);
+
+            calendar.add(period, 1);
+        }
+    }
+
+    private int getPeriodId(Context context, String period) {
+        ArrayMap<String, Integer> periodsWithIds = new ArrayMap<>();
+        periodsWithIds.put(context.getString(R.string.each_day), Calendar.DAY_OF_YEAR);
+        periodsWithIds.put(context.getString(R.string.each_week), Calendar.WEEK_OF_YEAR);
+        periodsWithIds.put(context.getString(R.string.each_month), Calendar.MONTH);
+        periodsWithIds.put(context.getString(R.string.each_year), Calendar.YEAR);
+
+        Integer selectedPeriod = periodsWithIds.get(period);
+
+        return  selectedPeriod == null ? Calendar.MONTH : selectedPeriod;
+    }
 
 //    public ArrayList<Long> getNextDates() {
 //        ArrayList<Long> allDatesToCreateNewComing = new ArrayList<>();

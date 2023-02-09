@@ -79,8 +79,13 @@ public class AddNewTransaction extends Fragment {
         binding.acceptButton.setOnClickListener(v -> {
             collectData(collector);
             if (collector.isCorrect()) {
-                transactionViewModel.insert(this.title, this.amount,this.categoryId,
-                        this.selectedStartDate);
+                if (binding.cyclicalSwitch.isChecked()) {
+                    transactionViewModel.insertCyclical(requireContext(), this.title, this.amount, this.categoryId,
+                            this.selectedStartDate.getTimeInMillis(), this.selectedEndDate.getTimeInMillis(), this.period);
+                } else {
+                    transactionViewModel.insert(this.title, this.amount, this.categoryId,
+                            this.selectedStartDate);
+                }
                 close();
             }
             collector.reset();
@@ -154,7 +159,7 @@ public class AddNewTransaction extends Fragment {
 
     private void collectData(TransactionCollector collector) {
         this.title = collector.collect(binding.titleLayout);
-        this.amount = collector.collect(binding.amountLayout);
+        this.amount = setSign(collector.collect(binding.amountLayout));
         collector.collect(binding.categorySelectorLayout);
         collector.collect(binding.startDateLayout);
 
@@ -164,62 +169,14 @@ public class AddNewTransaction extends Fragment {
         }
     }
 
+    private String setSign(String amount) {
+        if (!binding.profitSwitch.isChecked()) {
+            return "-" + amount;
+        }
+        return amount;
+    }
+
     private void close() {
         requireActivity().onBackPressed();
     }
-
-//    public ArrayList<Long> getNextDates() {
-//        ArrayList<Long> allDatesToCreateNewComing = new ArrayList<>();
-//        SwitchMaterial cyclicalSwitch = fieldsInterface.getCyclicalSwitch();
-//
-//        if (!cyclicalSwitch.isChecked()) {
-//            allDatesToCreateNewComing.add(getStartDate());
-//            return allDatesToCreateNewComing;
-//        }
-//
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(getStartDate());
-//        long nextDate = calendar.getTimeInMillis();
-//
-//        Integer valueFromTimeBetweenMap = timeBetweenValues.get(timeBetweenExecutePicker.getText().toString());
-//        if (valueFromTimeBetweenMap == null) {
-//            return allDatesToCreateNewComing;
-//        }
-//
-//        int timeBetween = valueFromTimeBetweenMap;
-//        long endDate = getEndDate();
-//
-//        while (nextDate <= endDate) {
-//            allDatesToCreateNewComing.add(nextDate);
-//            calendar.add(timeBetween, 1);
-//            nextDate = calendar.getTimeInMillis();
-//        }
-//
-//        return allDatesToCreateNewComing;
-//    }
-//
-//    private void submitCyclical(int amountOfNewDates) {
-//        int MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING = 2;
-//        if (amountOfNewDates < MIN_AMOUNT_OF_DATES_TO_CREATE_CYCLICAL_COMING) {
-//            endDateLayout.setError(getString(R.string.not_enough_to_generate_cyclical_change_endDate_or_timeBetween));
-//            return;
-//        }
-//
-//        submitNewComingItemToDatabase(newComingDataCollector, dates);
-//
-//        String howMuchAdded = "Dodano " + amountOfNewDates + " transakcje";
-//        Toast.makeText(requireContext(), howMuchAdded, Toast.LENGTH_SHORT).show();
-//    }
-//
-//    private void submitNewComingItemToDatabase(NewComingDataCollector newComing, ArrayList<Long> dates) {
-//        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-//        ComingViewModel comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
-//
-//        long transactionId = transactionViewModel.insert(newComing.getTransaction());
-//
-//        for (Long date : dates) {
-//            comingViewModel.insert(newComing.getComing(transactionId, date));
-//        }
-//        close();
-//    }
 }
