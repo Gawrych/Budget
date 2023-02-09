@@ -17,7 +17,7 @@ import java.util.List;
 
 public class TransactionViewModel extends AndroidViewModel {
 
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
     public TransactionViewModel(@NonNull Application app) {
         super(app);
@@ -28,24 +28,13 @@ public class TransactionViewModel extends AndroidViewModel {
        return transactionRepository.insert(transaction);
     }
 
-    public long insert(String title, String amount, long categoryId, Calendar startDate) {
-        Transaction transaction = new Transaction(0, (int) categoryId, title, amount,
-                System.currentTimeMillis(), 0, false,
-                startDate.getTimeInMillis(), startDate.get(Calendar.YEAR), 0);
-        return transactionRepository.insert(transaction);
-    }
-
-    public void insertCyclical(Context context, String title, String amount, long categoryId, long startDate, long endDate, String periodName) {
+    public void insertCyclical(Context context, Transaction transaction, long endDate, String periodName) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(startDate);
+        calendar.setTimeInMillis(transaction.getDeadline());
         int period = getPeriodId(context, periodName);
 
         while (calendar.getTimeInMillis() <= endDate) {
-            Transaction transaction = new Transaction(0, (int) categoryId, title, amount,
-                    System.currentTimeMillis(), 0, false,
-                    calendar.getTimeInMillis(), calendar.get(Calendar.YEAR), 0);
             transactionRepository.insert(transaction);
-
             calendar.add(period, 1);
         }
     }

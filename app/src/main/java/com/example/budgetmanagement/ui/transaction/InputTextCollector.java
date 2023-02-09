@@ -6,12 +6,12 @@ import android.widget.EditText;
 import com.example.budgetmanagement.R;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class TransactionCollector {
+public class InputTextCollector {
 
     private boolean successCollectedData = true;
     private final String emptyFieldErrorMessage;
 
-    public TransactionCollector(Context context) {
+    public InputTextCollector(Context context) {
         emptyFieldErrorMessage = context.getString(R.string.empty_field);
     }
 
@@ -31,11 +31,11 @@ public class TransactionCollector {
         inputLayout.setError(emptyFieldErrorMessage);
     }
 
-    public boolean isCorrect() {
+    public boolean areCorrectlyCollected() {
         return this.successCollectedData;
     }
 
-    public void reset() {
+    public void resetCollectedStatus() {
         this.successCollectedData = true;
     }
 }

@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.AddNewTransactionFragmentBinding;
 import com.example.budgetmanagement.ui.utils.AppIconPack;
@@ -29,9 +30,7 @@ import java.util.Calendar;
 
 public class AddNewTransaction extends Fragment {
 
-    public static final String BUNDLE_COMING_ID = "comingId";
     private AddNewTransactionFragmentBinding binding;
-    private ArrayAdapter<String> adapter;
     private final Calendar selectedStartDate = Calendar.getInstance();
     private final Calendar selectedEndDate = Calendar.getInstance();
     private CategoryBottomSheetSelector categoryPicker;
@@ -40,15 +39,6 @@ public class AddNewTransaction extends Fragment {
     private String title;
     private String amount;
     private String period;
-
-    //    Remove this
-    public static AddNewTransaction newInstance(int comingId) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(BUNDLE_COMING_ID, comingId);
-        AddNewTransaction addNewTransaction = new AddNewTransaction();
-        addNewTransaction.setArguments(bundle);
-        return addNewTransaction;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,22 +64,29 @@ public class AddNewTransaction extends Fragment {
         iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
         prepareFields();
 
-        TransactionCollector collector = new TransactionCollector(requireContext());
+        InputTextCollector collector = new InputTextCollector(requireContext());
 
         binding.acceptButton.setOnClickListener(v -> {
             collectData(collector);
-            if (collector.isCorrect()) {
-                if (binding.cyclicalSwitch.isChecked()) {
-                    transactionViewModel.insertCyclical(requireContext(), this.title, this.amount, this.categoryId,
-                            this.selectedStartDate.getTimeInMillis(), this.selectedEndDate.getTimeInMillis(), this.period);
-                } else {
-                    transactionViewModel.insert(this.title, this.amount, this.categoryId,
-                            this.selectedStartDate);
-                }
-                close();
+            if (collector.areCorrectlyCollected()) {
+                submitToDatabase(transactionViewModel);
             }
-            collector.reset();
+            collector.resetCollectedStatus();
         });
+    }
+
+    private void submitToDatabase(TransactionViewModel transactionViewModel) {
+        Transaction transaction = new Transaction(0, (int) categoryId, title, amount,
+                System.currentTimeMillis(), 0, false,
+                selectedStartDate.getTimeInMillis(), selectedStartDate.get(Calendar.YEAR), 0);
+
+        if (binding.cyclicalSwitch.isChecked()) {
+            transactionViewModel.insertCyclical(requireContext(), transaction,
+                    selectedEndDate.getTimeInMillis(), period);
+        } else {
+            transactionViewModel.insert(transaction);
+        }
+        closeFragment();
     }
 
     private void disableOrEnabledCyclicalFields(boolean enabled) {
@@ -147,7 +144,7 @@ public class AddNewTransaction extends Fragment {
 
     private void initializePeriodPicker(AutoCompleteTextView periodPicker) {
         String[] TIME_BETWEEN = getResources().getStringArray(R.array.periods);
-        adapter = new ArrayAdapter<>(getActivity(),
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_expandable_list_item_1, TIME_BETWEEN);
         periodPicker.setAdapter(adapter);
     }
@@ -157,7 +154,7 @@ public class AddNewTransaction extends Fragment {
         field.setOnClickListener(v -> datePickerDialog.show());
     }
 
-    private void collectData(TransactionCollector collector) {
+    private void collectData(InputTextCollector collector) {
         this.title = collector.collect(binding.titleLayout);
         this.amount = setSign(collector.collect(binding.amountLayout));
         collector.collect(binding.categorySelectorLayout);
@@ -176,7 +173,7 @@ public class AddNewTransaction extends Fragment {
         return amount;
     }
 
-    private void close() {
+    private void closeFragment() {
         requireActivity().onBackPressed();
     }
 }

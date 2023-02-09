@@ -135,11 +135,11 @@ public class ActionTransactionHandler extends BottomSheetDialogFragment {
             return;
         }
 
-        AddNewTransaction addNewTransaction = AddNewTransaction.newInstance(transaction.getTransactionId());
-        Bundle bundle = addNewTransaction.getArguments();
+//        AddNewTransaction addNewTransaction = AddNewTransaction.newInstance(transaction.getTransactionId());
+//        Bundle bundle = addNewTransaction.getArguments();
 
-        Navigation.findNavController(rootView)
-                .navigate(R.id.action_navigation_incoming_to_addNewComingElement, bundle);
+//        Navigation.findNavController(rootView)
+//                .navigate(R.id.action_navigation_incoming_to_addNewComingElement, bundle);
         dismiss();
     }
 
