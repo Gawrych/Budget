@@ -51,36 +51,6 @@ public class TransactionViewModel extends AndroidViewModel {
         return  selectedPeriod == null ? Calendar.MONTH : selectedPeriod;
     }
 
-//    public ArrayList<Long> getNextDates() {
-//        ArrayList<Long> allDatesToCreateNewComing = new ArrayList<>();
-//        SwitchMaterial cyclicalSwitch = fieldsInterface.getCyclicalSwitch();
-//
-//        if (!cyclicalSwitch.isChecked()) {
-//            allDatesToCreateNewComing.add(getStartDate());
-//            return allDatesToCreateNewComing;
-//        }
-//
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(getStartDate());
-//        long nextDate = calendar.getTimeInMillis();
-//
-//        Integer valueFromTimeBetweenMap = timeBetweenValues.get(timeBetweenExecutePicker.getText().toString());
-//        if (valueFromTimeBetweenMap == null) {
-//            return allDatesToCreateNewComing;
-//        }
-//
-//        int timeBetween = valueFromTimeBetweenMap;
-//        long endDate = getEndDate();
-//
-//        while (nextDate <= endDate) {
-//            allDatesToCreateNewComing.add(nextDate);
-//            calendar.add(timeBetween, 1);
-//            nextDate = calendar.getTimeInMillis();
-//        }
-//
-//        return allDatesToCreateNewComing;
-//    }
-
     public void update(Transaction transaction) {
         transactionRepository.update(transaction);
     }
