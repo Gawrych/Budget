@@ -46,10 +46,6 @@ public class CategoryViewModel extends AndroidViewModel {
         return categoryList;
     }
 
-    public Category getCategory(int position) {
-        return categoryRepository.getCategoryById(position);
-    }
-
     public LiveData<List<Category>> getAllCategories() {
         return allCategory;
     }
@@ -60,5 +56,9 @@ public class CategoryViewModel extends AndroidViewModel {
 
     public Category getCategoryById(int id) {
         return categoryRepository.getCategoryById(id);
+    }
+
+    public Category getCategoryByName(String name) {
+        return categoryRepository.getCategoryByName(name);
     }
 }

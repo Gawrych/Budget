@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class}, version = 156, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class}, version = 5, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -58,7 +58,7 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 Calendar calendar = Calendar.getInstance();
 
                 for (int i=0; i<5; i++) {
-                    Transaction transaction = new Transaction(0, 1,
+                    Transaction transaction = new Transaction(0, 2,
                             "Samochód", "-200", 1,
                             0, false, calendar.getTimeInMillis(), calendar.get(Calendar.YEAR), 1241155550L);
                     transactionDao.insert(transaction);

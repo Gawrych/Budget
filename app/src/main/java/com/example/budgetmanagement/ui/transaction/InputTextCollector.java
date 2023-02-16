@@ -4,7 +4,10 @@ import android.content.Context;
 import android.widget.EditText;
 
 import com.example.budgetmanagement.R;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.math.BigDecimal;
 
 public class InputTextCollector {
 
@@ -37,5 +40,14 @@ public class InputTextCollector {
 
     public void resetCollectedStatus() {
         this.successCollectedData = true;
+    }
+
+    public String collectBasedOnProfitSwitch(TextInputLayout amountLayout, SwitchMaterial profitSwitch) {
+        String amount = collect(amountLayout);
+        if (!profitSwitch.isChecked() && successCollectedData) {
+            BigDecimal bigDecimal = new BigDecimal(amount);
+            return bigDecimal.negate().toPlainString();
+        }
+        return amount;
     }
 }

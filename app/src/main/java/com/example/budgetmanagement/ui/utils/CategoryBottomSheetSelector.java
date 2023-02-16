@@ -16,14 +16,12 @@ import com.maltaisn.icondialog.pack.IconPack;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class CategoryBottomSheetSelector extends Fragment implements CategoryViewHolder.OnNoteListener {
 
     private BottomSheetDialog bottomSheetDialog;
     private LiveData<List<Category>> categoryLiveData;
     private final CategoryViewModel categoryViewModel;
-    private int selectedId = 0;
     private String selectedName = "";
     private int iconId = 995;
 
@@ -34,7 +32,7 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
 
         final CategoryBottomSheetAdapter categoryBottomSheetAdapter =
                 new CategoryBottomSheetAdapter(
-                        new CategoryBottomSheetAdapter.HistoryBottomSheetEntityDiff(),
+                        new CategoryBottomSheetAdapter.CategoryBottomSheetEntityDiff(),
                         iconPack,
                         this::onNoteClick);
 
@@ -52,7 +50,6 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
 
     public void show() {
         bottomSheetDialog.show();
-        resetSelectedId();
         resetSelectedName();
         resetIconId();
     }
@@ -60,10 +57,15 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
     @Override
     public void onNoteClick(int position) {
         List<Category> listOfEntity = categoryViewModel.getCategoryList();
-        this.selectedId = listOfEntity.get(position).getCategoryId();
         this.selectedName = listOfEntity.get(position).getName();
         this.iconId = listOfEntity.get(position).getIcon();
         bottomSheetDialog.cancel();
+    }
+
+    public void setCategory(int categoryId) {
+        Category categoryToSet = this.categoryViewModel.getCategoryById(categoryId);
+        this.selectedName = categoryToSet.getName();
+        this.iconId = categoryToSet.getIcon();
     }
 
     @Override
@@ -75,11 +77,7 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
         return this.bottomSheetDialog;
     }
 
-    public int getSelectedId() {
-        return selectedId;
-    }
-
-    public String getSelectedName() {
+    public String getSelectedCategoryName() {
         return selectedName;
     }
 
@@ -87,43 +85,8 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
         return iconId;
     }
 
-    public String getCategoryNameById(Integer id) {
-        if (id == null || id <= 0) {
-            return "";
-        }
-        List<Category> listOfEntity = categoryViewModel.getCategoryList();
-        Optional<Category> searchElement;
-
-        searchElement = listOfEntity
-                .stream()
-                .filter(e -> e.getCategoryId() == id)
-                .findFirst();
-
-        return searchElement.map(Category::getName).orElse("");
-    }
-
-    public static String getCategoryName(Integer id, Fragment rootFragment) {
-        if (id == null || id <= 0) {
-            return "";
-        }
-
-        List<Category> listOfEntity = new ViewModelProvider(rootFragment).get(CategoryViewModel.class).getCategoryList();
-        Optional<Category> searchElement;
-
-        searchElement = listOfEntity
-                .stream()
-                .filter(e -> e.getCategoryId() == id)
-                .findFirst();
-
-        return searchElement.map(Category::getName).orElse("");
-    }
-
     public void resetSelectedName() {
         this.selectedName = "Różne";
-    }
-
-    public void resetSelectedId() {
-        this.selectedId = 1;
     }
 
     public void resetIconId() {

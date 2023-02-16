@@ -120,11 +120,11 @@ public class ActionTransactionHandler extends BottomSheetDialogFragment {
             return;
         }
 
-//        EditComingElement editComingElement = EditComingElement.newInstance(transaction.getComingId());
-//        Bundle bundle = editComingElement.getArguments();
-//
-//        Navigation.findNavController(rootView)
-//                .navigate(R.id.action_navigation_incoming_to_editComingElement, bundle);
+        EditTransaction editTransaction = EditTransaction.newInstance(transaction.getTransactionId());
+        Bundle bundle = editTransaction.getArguments();
+
+        Navigation.findNavController(rootView)
+                .navigate(R.id.action_navigation_incoming_to_editTransaction, bundle);
         dismiss();
     }
 

@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.ui.utils;
 
-import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
+import static com.example.budgetmanagement.ui.utils.DateProcessor.DEFAULT_DATE_FORMAT;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -77,7 +77,7 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
         selectedCategory.setText(rootView.getResources().getString(R.string.category_example_various));
         selectedCategory.setOnClickListener(view -> selectCategory(selectedCategory));
 
-        dateField.setText(DateProcessor.getTodayDate(MONTH_NAME_YEAR_DATE_FORMAT));
+        dateField.setText(DateProcessor.getTodayDate(DEFAULT_DATE_FORMAT));
         dateField.setOnClickListener(view -> {
             serviceDatePickerDialog();
             datePickerDialog.show();
@@ -89,7 +89,7 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
         datePickerDialog.setOnDateSetListener((v, year, monthOfYear, dayOfMonth) -> {
             selectedDate.set(year, monthOfYear, dayOfMonth);
             dateField.setText(
-                    DateProcessor.parseDate((selectedDate.getTimeInMillis()), MONTH_NAME_YEAR_DATE_FORMAT));
+                    DateProcessor.parseDate((selectedDate.getTimeInMillis()), DEFAULT_DATE_FORMAT));
         });
     }
 
@@ -127,8 +127,8 @@ public class TransactionFormService extends Fragment implements GetViewTransacti
     private void selectCategory(EditText categoryEditText) {
         categoryBottomSheetSelector.show();
         categoryBottomSheetSelector.getBottomSheetDialog().setOnDismissListener(v -> {
-            categoryId = categoryBottomSheetSelector.getSelectedId();
-            categoryEditText.setText(categoryBottomSheetSelector.getSelectedName());
+            categoryId = 0;
+            categoryEditText.setText(categoryBottomSheetSelector.getSelectedCategoryName());
             categorySelectorLayout.setEndIconDrawable(getIcon(categoryBottomSheetSelector.getIconId()));
         });
     }

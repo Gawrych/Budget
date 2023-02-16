@@ -5,6 +5,7 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DAT
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -177,7 +178,8 @@ public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     private void setMainIcon(ImageView mainIcon, int categoryId) {
-        Category category = categoryViewModel.getCategory(categoryId);
+        Category category = categoryViewModel.getCategoryById(categoryId);
+
         int iconId = category.getIcon();
         Drawable icon = Objects.requireNonNull(iconPack.getIcon(iconId)).getDrawable();
         mainIcon.setImageDrawable(icon);

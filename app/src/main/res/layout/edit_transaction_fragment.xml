@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="transactionDataForUi"
+            type="com.example.budgetmanagement.ui.transaction.TransactionDataForUi" />
+    </data>
+
+    <ScrollView
+        tools:context=".ui.transaction.AddNewTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mainScrollView"
+        android:theme="@style/Theme.MaterialComponents.Light">
+
+        <LinearLayout
+            android:id="@+id/layoutInScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/titleLayout"
+                style="@style/TextInputLayoutCustomView"
+                android:hint="@string/title"
+                app:endIconDrawable="@drawable/block_smaller_icon">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/title"
+                    android:text="@{transactionDataForUi.title}"
+                    style="@style/TextInputEditTextCustomView"
+                    android:inputType="textCapSentences" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/amountLayout"
+                style="@style/TextInputLayoutCustomView"
+                android:hint="@string/amount"
+                app:endIconDrawable="@drawable/dollar_coin_smaller_icon">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/amount"
+                    android:text="@{transactionDataForUi.amount}"
+                    style="@style/TextInputEditTextCustomView"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/categorySelectorLayout"
+                style="@style/LayoutExposedDropMenuCustomView"
+                app:endIconDrawable="@drawable/ic_baseline_category_24">
+
+                <AutoCompleteTextView
+                    android:id="@+id/categorySelector"
+                    android:text="@{transactionDataForUi.categoryName}"
+                    style="@style/AutoCompleteCustomView"
+                    android:hint="@string/category" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/startDateLayout"
+                style="@style/LayoutExposedDropMenuCustomView"
+                app:endIconDrawable="@drawable/calendar_smaller_icon">
+
+                <AutoCompleteTextView
+                    android:id="@+id/startDate"
+                    android:text="@{transactionDataForUi.startDate}"
+                    style="@style/AutoCompleteCustomView"
+                    android:hint="@string/first_deadline" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/profitSwitch"
+                android:theme="@style/SwitchMaterialTheme"
+                style="@style/SwitchMaterialCustomView"
+                android:checked="@{transactionDataForUi.isProfit}"
+                android:layout_marginBottom="20dp"
+                android:text="@string/income" />
+
+            <Button
+                android:id="@+id/acceptButton"
+                style="@style/addButton" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

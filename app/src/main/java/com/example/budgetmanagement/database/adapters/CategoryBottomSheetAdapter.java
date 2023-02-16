@@ -47,7 +47,7 @@ public class CategoryBottomSheetAdapter extends ListAdapter<Category, CategoryBo
         return new CategoryBottomSheetViewHolder(view, mOnNoteListener);
     }
 
-    public static class HistoryBottomSheetEntityDiff extends DiffUtil.ItemCallback<Category> {
+    public static class CategoryBottomSheetEntityDiff extends DiffUtil.ItemCallback<Category> {
 
         @Override
         public boolean areItemsTheSame(@NonNull Category oldItem, @NonNull Category newItem) {

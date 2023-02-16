@@ -36,6 +36,7 @@ public class TransactionViewModel extends AndroidViewModel {
         while (calendar.getTimeInMillis() <= endDate) {
             transactionRepository.insert(transaction);
             calendar.add(period, 1);
+            transaction.setDeadline(calendar.getTimeInMillis());
         }
     }
 
@@ -47,7 +48,6 @@ public class TransactionViewModel extends AndroidViewModel {
         periodsWithIds.put(context.getString(R.string.each_year), Calendar.YEAR);
 
         Integer selectedPeriod = periodsWithIds.get(period);
-
         return  selectedPeriod == null ? Calendar.MONTH : selectedPeriod;
     }
 

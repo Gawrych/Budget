@@ -1,104 +1,170 @@
 package com.example.budgetmanagement.ui.transaction;
 
-import com.example.budgetmanagement.ui.utils.TransactionFormService;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 
-public class EditTransaction extends TransactionFormService {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-//    public static final String BUNDLE_COMING_ID = "comingId";
-//    private ComingViewModel comingViewModel;
-//    int comingId;
-//    private Transaction transaction;
-//    private TransactionViewModel transactionViewModel;
-//
-//    public static EditComingElement newInstance(int comingId) {
-//        Bundle bundle = new Bundle();
-//        bundle.putInt(BUNDLE_COMING_ID, comingId);
-//        EditComingElement editComingElement = new EditComingElement();
-//        editComingElement.setArguments(bundle);
-//        return editComingElement;
-//    }
-//
-//    @Override
-//    public void onViewCreated(@NonNull View rootView, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(rootView, savedInstanceState);
-//        this.comingId = getArguments() != null ? getArguments().getInt(BUNDLE_COMING_ID, -1) : -1;
-//        this.comingViewModel = new ViewModelProvider(this).get(ComingViewModel.class);
-//        transaction = comingViewModel.getComingAndTransactionById(comingId);
-//
-//        if (transaction == null) {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-//            builder.setMessage(R.string.error_element_with_this_id_was_not_found)
-//                    .setPositiveButton("Ok", (dialog, id) -> {}).show();
-//            requireActivity().onBackPressed();
-//            return;
-//        }
-//
-//        fillFields();
-//
-//        Button acceptButton = rootView.findViewById(R.id.acceptButton);
-//
-//        acceptButton.setText(R.string.edit);
-//        acceptButton.setOnClickListener(view -> {
-//            NewTransactionDataCollector newTransactionDataCollector = new NewTransactionDataCollector(this);
-//            boolean successfullyCollectedData = newTransactionDataCollector.collectData();
-//            if (successfullyCollectedData) {
-//                submitToDatabase(newTransactionDataCollector);
-//                requireActivity().onBackPressed();
-//            }
-//        });
-//    }
-//
-//    private void fillFields() {
-//        TextInputEditText title = getTitleField();
-//        TextInputEditText amount = getAmountField();
-//        AutoCompleteTextView selectedCategory = getSelectedCategory();
-//        SwitchMaterial profitSwitch = getProfitSwitch();
-//        AutoCompleteTextView dateField = getStartDateField();
-//
-//        Transaction transaction = this.transaction;
-//        title.setText(transaction.getTitle());
-//
-//        long repeatDate = this.transaction.getDeadline();
-//        dateField.setText(DateProcessor.parseDate(repeatDate, DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(repeatDate);
-//        setDatePickerDialog(calendar);
-//
-//        BigDecimal amountInBigDecimal = new BigDecimal(transaction.getAmount());
-//        profitSwitch.setChecked(amountInBigDecimal.signum() != -1);
-//
-//        String number = amountInBigDecimal.abs().stripTrailingZeros().toPlainString();
-//        amount.setText(number);
-//
-//        selectedCategory.setText(CategoryBottomSheetSelector.getCategoryName(transaction.getCategoryId(), this));
-//        setCategoryId(transaction.getCategoryId());
-//
-//        dateField.setText(DateProcessor.parseDate(this.transaction.getDeadline(), DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT));
-//    }
-//
-//    public void submitToDatabase(NewTransactionDataCollector newItem) {
-//        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-//        Transaction transaction = this.transaction;
-//
-//        boolean isFirstModification = transaction.getLastEditDate() == 0;
-//        if (isFirstModification) {
-//            int transactionId = (int) createNewTransaction(newItem);
-//            assignNewTransaction(transaction, transactionId);
-//        } else {
-////            transactionViewModel.update(newItem.getTransaction(this.transaction.transaction.getTransactionId()));
-//        }
-//
-//        long now = Calendar.getInstance().getTimeInMillis();
-////        transaction.setLastEditDate(now);
-////        transaction.setExpireDate(newItem.getTransaction().getAddDate());
-//        comingViewModel.update(transaction);
-//    }
-//
-//    private long createNewTransaction(NewTransactionDataCollector newItem) {
-//         return transactionViewModel.insert(newItem.getTransaction());
-//    }
-//
-//    private void assignNewTransaction(Transaction transaction, int transactionId) {
-////        transaction.setTransactionId(transactionId);
-//    }
+import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.rooms.Category;
+import com.example.budgetmanagement.database.rooms.Transaction;
+import com.example.budgetmanagement.database.rooms.TransactionQuery;
+import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
+import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
+import com.example.budgetmanagement.databinding.EditTransactionFragmentBinding;
+import com.example.budgetmanagement.ui.utils.AppIconPack;
+import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
+import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.math.BigDecimal;
+
+public class EditTransaction extends Fragment {
+
+    public static final String BUNDLE_TRANSACTION_ID = "transactionId";
+    private Transaction transactionToEdit;
+    private EditTransactionFragmentBinding binding;
+    private CategoryViewModel categoryViewModel;
+
+    private CategoryBottomSheetSelector categoryPicker;
+    private String title;
+    private String amount;
+    private String categoryName;
+    private String startDateInPattern;
+    private AppIconPack appIconPack;
+
+    public static EditTransaction newInstance(int transactionId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(BUNDLE_TRANSACTION_ID, transactionId);
+        EditTransaction editComingElement = new EditTransaction();
+        editComingElement.setArguments(bundle);
+        return editComingElement;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        this.binding = EditTransactionFragmentBinding.inflate(inflater, container, false);
+        return this.binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        int transactionId = getArguments() != null ? getArguments().getInt(BUNDLE_TRANSACTION_ID, -1) : -1;
+        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        this.categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+
+        transactionToEdit = transactionViewModel.getTransactionById(transactionId);
+
+        if (transactionToEdit == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+            builder.setMessage(R.string.error_element_with_this_id_was_not_found)
+                    .setPositiveButton("Ok", (dialog, id) -> {}).show();
+            backToPreviousFragment();
+            return;
+        }
+
+        this.categoryPicker = new CategoryBottomSheetSelector(this);
+        this.appIconPack = ((AppIconPack) requireActivity().getApplication());
+
+        fillTextInputFields(transactionToEdit);
+
+        prepareFields();
+
+        InputTextCollector collector = new InputTextCollector(requireContext());
+        binding.acceptButton.setOnClickListener(v -> {
+            collectData(collector);
+            if (collector.areCorrectlyCollected()) {
+                updateTransactionInDatabase();
+            }
+            collector.resetCollectedStatus();
+        });
+    }
+
+    private void prepareFields() {
+        initializeDatePicker(binding.startDate);
+        initializeCategoryPicker(binding.categorySelector, binding.categorySelectorLayout);
+    }
+
+    public void initializeDatePicker(AutoCompleteTextView field) {
+        DatePickerDialog datePickerDialog = DateProcessor.getDatePickerDialog(requireContext(), field, transactionToEdit.getDeadline());
+        field.setOnClickListener(v -> datePickerDialog.show());
+    }
+
+    private void fillTextInputFields(Transaction transaction) {
+        Category category = this.categoryViewModel.getCategoryById(transaction.getCategoryId());
+        String categoryName = category.getName();
+        String startDate = DateProcessor.parseDate(transaction.getDeadline());
+
+        BigDecimal amount = new BigDecimal(transaction.getAmount());
+        boolean isProfit = amount.signum() > 0;
+
+        this.categoryPicker.setCategory(transactionToEdit.getCategoryId());
+        setIconForField(
+                appIconPack.getDrawableIconFromPack(categoryPicker.getIconId()),
+                binding.categorySelectorLayout);
+
+        TransactionDataForUi dataForUi = new TransactionDataForUi(
+                transaction.getTitle(), amount.abs().toPlainString(), categoryName, startDate, isProfit);
+        binding.setTransactionDataForUi(dataForUi);
+    }
+
+    public void initializeCategoryPicker(AutoCompleteTextView categorySelector, TextInputLayout categorySelectorLayout) {
+        categoryPicker.getBottomSheetDialog().setOnDismissListener(v -> {
+            setTextForField(
+                    categoryPicker.getSelectedCategoryName(),
+                    categorySelector);
+            setIconForField(
+                    appIconPack.getDrawableIconFromPack(categoryPicker.getIconId()),
+                    categorySelectorLayout);
+        });
+        categorySelector.setOnClickListener(v -> categoryPicker.show());
+    }
+
+    private void setTextForField(String text, AutoCompleteTextView field) {
+        field.setText(text);
+    }
+
+    private void setIconForField(Drawable icon, TextInputLayout field) {
+        field.setEndIconDrawable(icon);
+    }
+
+    public void collectData(InputTextCollector collector) {
+        this.title = collector.collect(binding.titleLayout);
+        this.amount = collector.collectBasedOnProfitSwitch(binding.amountLayout, binding.profitSwitch);
+        this.categoryName = collector.collect(binding.categorySelectorLayout);
+        this.startDateInPattern = collector.collect(binding.startDateLayout);
+    }
+
+    public void updateTransactionInDatabase() {
+        TransactionQuery transactionQuery = new TransactionQuery(requireContext(), this);
+        transactionQuery.createTransactionToUpdate(
+                this.transactionToEdit,
+                this.title,
+                this.amount,
+                this.categoryName,
+                this.startDateInPattern);
+
+        transactionQuery.update();
+        backToPreviousFragment();
+    }
+
+    private void backToPreviousFragment() {
+        requireActivity().onBackPressed();
+    }
 }

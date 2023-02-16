@@ -33,7 +33,7 @@
             android:id="@+id/action_navigation_incoming_to_addNewComingElement"
             app:destination="@id/addNewTransaction" />
         <action
-            android:id="@+id/action_navigation_incoming_to_editComingElement"
+            android:id="@+id/action_navigation_incoming_to_editTransaction"
             app:destination="@id/editTransaction" />
         <action
             android:id="@+id/action_navigation_coming_to_comingElementDetails"
@@ -69,7 +69,7 @@
     <fragment
         android:id="@+id/editTransaction"
         android:name="com.example.budgetmanagement.ui.transaction.EditTransaction"
-        android:label="EditComingElement" />
+        android:label="EditTransaction" />
     <fragment
         android:id="@+id/transactionDetails"
         android:name="com.example.budgetmanagement.ui.transaction.TransactionDetails"

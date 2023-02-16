@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.ui.utils;
 
-import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_YEAR_DATE_FORMAT;
+import static com.example.budgetmanagement.ui.utils.DateProcessor.DEFAULT_DATE_FORMAT;
 
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -44,7 +44,7 @@ public class NewTransactionDataCollector extends BasicDataCollector {
     }
 
     private DateTimeFormatter getPattern() {
-        return DateTimeFormatter.ofPattern(MONTH_NAME_YEAR_DATE_FORMAT);
+        return DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
     }
 
     public Transaction getTransaction() {
