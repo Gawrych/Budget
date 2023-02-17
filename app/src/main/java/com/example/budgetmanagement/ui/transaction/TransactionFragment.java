@@ -80,13 +80,11 @@ public class TransactionFragment extends Fragment {
                 ((parent, v, flatPosition, id) -> showItemBottomSheetMenu(parent, flatPosition));
 
         binding.addButton.setOnClickListener(root -> Navigation.findNavController(root)
-                .navigate(R.id.action_navigation_incoming_to_addNewComingElement));
+                .navigate(R.id.action_navigation_transaction_to_addNewTransactionElement));
 
         binding.expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
 
-        binding.yearPicker.setOnClickListener(v -> {
-            prepareYearPicker();
-        });
+        binding.yearPicker.setOnClickListener(v -> prepareYearPicker());
     }
 
     private int getActualPositionToScroll() {
@@ -104,7 +102,7 @@ public class TransactionFragment extends Fragment {
         TransactionDetails transactionDetails =
                 TransactionDetails.newInstance(transaction.getTransactionId());
         Navigation.findNavController(view).navigate(
-                R.id.action_navigation_coming_to_comingElementDetails,
+                R.id.action_navigation_transaction_to_transactionElementDetails,
                 transactionDetails.getArguments());
         return true;
     }

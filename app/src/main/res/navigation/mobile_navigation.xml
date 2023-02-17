@@ -27,17 +27,20 @@
     <fragment
         android:id="@+id/navigation_transaction"
         android:name="com.example.budgetmanagement.ui.transaction.TransactionFragment"
-        android:label="@string/title_coming"
+        android:label="@string/title_transaction"
         tools:layout="@layout/transaction_fragment" >
         <action
-            android:id="@+id/action_navigation_incoming_to_addNewComingElement"
+            android:id="@+id/action_navigation_transaction_to_addNewTransactionElement"
             app:destination="@id/addNewTransaction" />
         <action
-            android:id="@+id/action_navigation_incoming_to_editTransaction"
+            android:id="@+id/action_navigation_transaction_to_editTransaction"
             app:destination="@id/editTransaction" />
         <action
-            android:id="@+id/action_navigation_coming_to_comingElementDetails"
+            android:id="@+id/action_navigation_transaction_to_transactionElementDetails"
             app:destination="@id/transactionDetails" />
+        <action
+            android:id="@+id/action_navigation_transaction_to_newTransactionBasedOnAnother"
+            app:destination="@id/addNewTransactionBasedOnAnother" />
     </fragment>
 
     <fragment
@@ -93,4 +96,8 @@
         android:name="com.example.budgetmanagement.ui.category.BottomSheetColorPicker"
         android:label="color_picker_bottom_sheet"
         tools:layout="@layout/color_picker_bottom_sheet" />
+    <fragment
+        android:id="@+id/addNewTransactionBasedOnAnother"
+        android:name="com.example.budgetmanagement.ui.transaction.AddNewTransactionBasedOnAnother"
+        android:label="NewTransactionBasedOnAnother" />
 </navigation>

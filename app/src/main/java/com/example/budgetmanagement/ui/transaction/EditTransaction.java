@@ -114,7 +114,7 @@ public class EditTransaction extends Fragment {
         BigDecimal amount = new BigDecimal(transaction.getAmount());
         boolean isProfit = amount.signum() > 0;
 
-        this.categoryPicker.setCategory(transactionToEdit.getCategoryId());
+        this.categoryPicker.setCategory(transaction.getCategoryId());
         setIconForField(
                 appIconPack.getDrawableIconFromPack(categoryPicker.getIconId()),
                 binding.categorySelectorLayout);

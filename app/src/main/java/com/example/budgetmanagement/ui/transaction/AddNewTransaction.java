@@ -41,7 +41,7 @@ public class AddNewTransaction extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = AddNewTransactionFragmentBinding.inflate(inflater, container, false);
+        this.binding = AddNewTransactionFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -89,11 +89,11 @@ public class AddNewTransaction extends Fragment {
         categorySelector.setOnClickListener(v -> categoryPicker.show());
     }
 
-    private void setTextForField(String text, AutoCompleteTextView field) {
+    public void setTextForField(String text, AutoCompleteTextView field) {
         field.setText(text);
     }
 
-    private void setIconForField(Drawable icon, TextInputLayout field) {
+    public void setIconForField(Drawable icon, TextInputLayout field) {
         field.setEndIconDrawable(icon);
     }
 
@@ -136,5 +136,9 @@ public class AddNewTransaction extends Fragment {
 
     private void backToPreviousFragment() {
         requireActivity().onBackPressed();
+    }
+
+    public AddNewTransactionFragmentBinding getBinding() {
+        return binding;
     }
 }

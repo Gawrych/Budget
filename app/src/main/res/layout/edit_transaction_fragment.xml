@@ -88,5 +88,7 @@
                 style="@style/addButton" />
 
         </LinearLayout>
+
     </ScrollView>
+
 </layout>

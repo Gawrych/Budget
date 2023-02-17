@@ -124,7 +124,7 @@ public class ActionTransactionHandler extends BottomSheetDialogFragment {
         Bundle bundle = editTransaction.getArguments();
 
         Navigation.findNavController(rootView)
-                .navigate(R.id.action_navigation_incoming_to_editTransaction, bundle);
+                .navigate(R.id.action_navigation_transaction_to_editTransaction, bundle);
         dismiss();
     }
 
@@ -135,11 +135,12 @@ public class ActionTransactionHandler extends BottomSheetDialogFragment {
             return;
         }
 
-//        AddNewTransaction addNewTransaction = AddNewTransaction.newInstance(transaction.getTransactionId());
-//        Bundle bundle = addNewTransaction.getArguments();
+        AddNewTransactionBasedOnAnother addNewTransactionBasedOnAnother =
+                AddNewTransactionBasedOnAnother.newInstance(transaction.getTransactionId());
+        Bundle bundle = addNewTransactionBasedOnAnother.getArguments();
 
-//        Navigation.findNavController(rootView)
-//                .navigate(R.id.action_navigation_incoming_to_addNewComingElement, bundle);
+        Navigation.findNavController(rootView)
+                .navigate(R.id.action_navigation_transaction_to_newTransactionBasedOnAnother, bundle);
         dismiss();
     }
 
