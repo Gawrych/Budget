@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class}, version = 254, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class}, version = 255, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -46,9 +46,9 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
             super.onOpen(db);
             databaseWriteExecutor.execute(() -> {
                 CategoryDao categoryDao = INSTANCE.categoryDao();
-                Category category = new Category(1, "Różne", 955, -12679077, "-1", LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
-                Category category2 = new Category(2, "Spożywcze", 255, -14123782, "-1", LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
-                Category category3 = new Category(3, "Pensje", 256, -1554347, "1", LocalDate.now().toEpochDay(), LocalDate.now().toEpochDay());
+                Category category = new Category(1, "Różne", 955, -12679077, "-1", System.currentTimeMillis(), 0);
+                Category category2 = new Category(2, "Spożywcze", 255, -14123782, "-1", System.currentTimeMillis(), 0);
+                Category category3 = new Category(3, "Pensje", 256, -1554347, "1", System.currentTimeMillis(), 0);
                 categoryDao.insert(category);
                 categoryDao.insert(category2);
                 categoryDao.insert(category3);
@@ -59,7 +59,7 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
 
                 for (int i=0; i<5; i++) {
                     Transaction transaction = new Transaction(0, 2,
-                            "Samochód", "-200", 1,
+                            "Samochód", "-200", System.currentTimeMillis(),
                             0, false, calendar.getTimeInMillis(), calendar.get(Calendar.YEAR), 1241155550L);
                     transactionDao.insert(transaction);
                     calendar.add(Calendar.DAY_OF_MONTH, 12);

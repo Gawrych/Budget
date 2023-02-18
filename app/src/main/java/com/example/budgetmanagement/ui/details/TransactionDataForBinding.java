@@ -58,11 +58,11 @@ public class TransactionDataForBinding extends DetailsUtils {
         this.categoryName = category.getName();
         this.icon = super.getCategoryIcon(category);
         this.addDate = DateProcessor.parseDate(transaction.getAddDate());
-        this.lastEditDate = super.getValueFromModifiedDate(transaction.getLastEditDate());
+        this.lastEditDate = super.getValueOrLabel(transaction.getLastEditDate(), transaction.getLastEditDate() != 0);
         this.remainingDate = DateProcessor.parseDate(transaction.getDeadline());
         this.isExecuted = transaction.isExecuted();
         this.isExecutedViewMode = this.isExecuted ? View.VISIBLE : View.INVISIBLE;
-        this.executedDate = this.isExecuted ? DateProcessor.parseDate(transaction.getExecutedDate()) : getContext().getString(R.string.never);
+        this.executedDate = super.getValueOrLabel(transaction.getExecutedDate(), this.isExecuted);
         setRemainingDaysWithPrefix(transaction);
     }
 

@@ -50,11 +50,8 @@ public abstract class DetailsUtils {
         return Objects.requireNonNull(iconPack.getIcon(category.getIcon())).getDrawable();
     }
 
-    public String getValueFromModifiedDate(long modifiedDate) {
-        if (modifiedDate != 0) {
-            return DateProcessor.parseDate(modifiedDate);
-        }
-        return getFragment().requireActivity().getApplicationContext().getString(R.string.never);
+    public String getValueOrLabel(long modifiedDate, boolean condition) {
+        return condition ? DateProcessor.parseDate(modifiedDate) : getFragment().getString(R.string.never);
     }
 
     public abstract Fragment getFragment();
