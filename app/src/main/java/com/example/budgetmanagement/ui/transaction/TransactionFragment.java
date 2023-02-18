@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.adapters.ComingExpandableListAdapter;
+import com.example.budgetmanagement.database.adapters.TransactionExpandableListAdapter;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.TransactionFragmentBinding;
@@ -29,7 +29,7 @@ public class TransactionFragment extends Fragment {
 
     public static final String COMING_BOTTOM_SHEET_TAG = "coming_bottom_sheet";
     private ArrayList<Section> currentSectionList = new ArrayList<>();
-    private ComingExpandableListAdapter expandableListAdapter;
+    private TransactionExpandableListAdapter expandableListAdapter;
     private DatePickerDialog datePickerDialog;
     private TransactionFragmentBinding binding;
     private SectionMaker sectionMaker;
@@ -53,7 +53,7 @@ public class TransactionFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         IconPack iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
-        expandableListAdapter = new ComingExpandableListAdapter
+        expandableListAdapter = new TransactionExpandableListAdapter
                 (requireContext(), this.currentSectionList, this, iconPack);
 
         binding.expandableListView.setAdapter(expandableListAdapter);

@@ -1,6 +1,6 @@
 package com.example.budgetmanagement.ui.transaction;
 
-public class TransactionDataForUi {
+public class TransactionSimpleDataForBinding {
 
     public String title;
     public String amount;
@@ -8,7 +8,7 @@ public class TransactionDataForUi {
     public String startDate;
     public boolean isProfit;
 
-    public TransactionDataForUi(String title, String amount, String categoryName, String startDate, boolean isProfit) {
+    public TransactionSimpleDataForBinding(String title, String amount, String categoryName, String startDate, boolean isProfit) {
         this.title = title;
         this.amount = amount;
         this.categoryName = categoryName;

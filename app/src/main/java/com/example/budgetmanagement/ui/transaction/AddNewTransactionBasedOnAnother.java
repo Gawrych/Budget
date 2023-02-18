@@ -88,10 +88,10 @@ public class AddNewTransactionBasedOnAnother extends AddNewTransaction {
         setIconForField(
                 appIconPack.getDrawableIconFromPack(categoryPicker.getIconId()),
                 super.getBinding().categorySelectorLayout);
-        TransactionDataForUi dataForUi = new TransactionDataForUi(
+        TransactionSimpleDataForBinding dataForUi = new TransactionSimpleDataForBinding(
                 transaction.getTitle(), amount.abs().toPlainString(), categoryName, startDate, isProfit);
 
-        super.getBinding().setTransactionDataForUi(dataForUi);
+        super.getBinding().setTransactionSimpleDataForBinding(dataForUi);
     }
 
     private void backToPreviousFragment() {

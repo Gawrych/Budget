@@ -76,7 +76,7 @@
     <fragment
         android:id="@+id/transactionDetails"
         android:name="com.example.budgetmanagement.ui.transaction.TransactionDetails"
-        android:label="ComingElementDetails" />
+        android:label="TransactionElementDetails" />
     <fragment
         android:id="@+id/categoryElementDetails"
         android:name="com.example.budgetmanagement.ui.category.CategoryElementDetails"

@@ -5,7 +5,6 @@ import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DAT
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,14 +34,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class ComingExpandableListAdapter extends BaseExpandableListAdapter {
+public class TransactionExpandableListAdapter extends BaseExpandableListAdapter {
 
     private final Context context;
     private final IconPack iconPack;
     private ArrayList<Section> items;
     private final CategoryViewModel categoryViewModel;
 
-    public ComingExpandableListAdapter(Context context, ArrayList<Section> items, ViewModelStoreOwner owner, IconPack iconPack) {
+    public TransactionExpandableListAdapter(Context context, ArrayList<Section> items, ViewModelStoreOwner owner, IconPack iconPack) {
         this.context = context;
         this.items = items;
         this.iconPack = iconPack;

@@ -123,6 +123,19 @@
         <item name="android:layout_marginEnd">40dp</item>
     </style>
 
+    <style name="ExecutedOutstanding">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/mat_green</item>
+        <item name="android:backgroundTint">@color/mat_green_10</item>
+        <item name="android:background">@drawable/icon_background</item>
+        <item name="android:text">@string/executed</item>
+    </style>
+
     <style name="DetailsLabelField">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

@@ -19,6 +19,8 @@ import java.util.Objects;
 
 public abstract class DetailsUtils {
 
+    public abstract void setValues();
+
     public Drawable getAmountIconDependOfValue(String value) {
         BigDecimal bigDecimal = new BigDecimal(value);
         if (isNegative(bigDecimal)) {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <import type="android.view.View" />
-        <variable name="transactionDetails" type="com.example.budgetmanagement.ui.details.TransactionDetails"/>
+        <variable name="transactionDataForBinding" type="com.example.budgetmanagement.ui.details.TransactionDataForBinding"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/detailsConstraintLayout"
@@ -15,8 +15,16 @@
         android:paddingEnd="30dp">
 
         <TextView
+            android:id="@+id/executedOutstanding"
+            style="@style/ExecutedOutstanding"
+            android:visibility="@{transactionDataForBinding.isExecutedViewMode}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/transactionTitleLabel"
             style="@style/DetailsLabelField"
+            android:layout_marginTop="40dp"
             android:labelFor="@+id/transactionName"
             android:text="@string/title"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +33,7 @@
         <TextView
             android:id="@+id/transactionName"
             style="@style/DetailsValueField"
-            android:text="@{transactionDetails.title}"
+            android:text="@{transactionDataForBinding.title}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/transactionTitleLabel" />
 
@@ -41,14 +49,14 @@
             android:id="@+id/amountIcon"
             style="@style/DetailsIconField"
             android:contentDescription="@string/amount_icon"
-            android:src="@{transactionDetails.amountIcon}"
+            android:src="@{transactionDataForBinding.amountIcon}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
 
         <TextView
             android:id="@+id/amount"
             style="@style/DetailsValueField"
-            android:text="@{transactionDetails.amount}"
+            android:text="@{transactionDataForBinding.amount}"
             android:layout_marginStart="5dp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/amountIcon"
@@ -84,7 +92,7 @@
         <ImageView
             android:id="@+id/categoryIcon"
             style="@style/DetailsIconField"
-            android:src="@{transactionDetails.icon}"
+            android:src="@{transactionDataForBinding.icon}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/categoryLabel"
             android:contentDescription="@string/category_icon" />
@@ -93,19 +101,12 @@
             android:id="@+id/categoryName"
             style="@style/DetailsValueField"
             android:layout_marginStart="10dp"
-            android:text="@{transactionDetails.categoryName}"
+            android:text="@{transactionDataForBinding.categoryName}"
             app:layout_constraintStart_toEndOf="@+id/categoryIcon"
             app:layout_constraintTop_toBottomOf="@+id/categoryLabel" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/deadlineGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="repeatDateLabel, remainingDate,
-            remainingDaysDecision, remainingDays, staticDaysText, dateWhenWasPaid" />
-
         <TextView
-            android:id="@+id/repeatDateLabel"
+            android:id="@+id/deadlineLabel"
             style="@style/DetailsLabelField"
             android:labelFor="@+id/remainingDate"
             android:text="@string/deadline"
@@ -115,47 +116,33 @@
         <TextView
             android:id="@+id/remainingDate"
             style="@style/DetailsValueField"
-            android:text="@{transactionDetails.remainingDate}"
-            android:textColor="@{context.getColor(transactionDetails.textColorRes)}"
+            android:text="@{transactionDataForBinding.remainingDate}"
+            android:textColor="@{transactionDataForBinding.remainingColor}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/repeatDateLabel" />
-
-        <TextView
-            android:id="@+id/remainingDaysDecision"
-            style="@style/DetailsLabelField"
-            android:labelFor="@+id/remainingDays"
-            android:text="@{transactionDetails.textRes}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/categoryIcon" />
+            app:layout_constraintTop_toBottomOf="@+id/deadlineLabel" />
 
         <TextView
             android:id="@+id/remainingDays"
             style="@style/DetailsValueField"
-            android:layout_marginEnd="5dp"
-            android:text="@{transactionDetails.remainingDayAmount}"
-            android:textColor="@{context.getColor(transactionDetails.textColorRes)}"
-            android:visibility="@{transactionDetails.mode == transactionDetails.MODE_REALIZED ? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintEnd_toStartOf="@+id/staticDaysText"
-            app:layout_constraintTop_toBottomOf="@+id/remainingDaysDecision" />
+            android:text="@{transactionDataForBinding.remainingDays}"
+            android:textColor="@{transactionDataForBinding.remainingColor}"
+            app:layout_constraintBottom_toBottomOf="@+id/remainingDate"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/staticDaysText"
-            style="@style/DetailsValueField"
-            android:text="@string/days"
-            android:layout_marginStart="5dp"
-            android:textColor="@{context.getColor(transactionDetails.textColorRes)}"
-            android:visibility="@{transactionDetails.mode == transactionDetails.MODE_REALIZED ? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/remainingDaysDecision" />
+            android:id="@+id/executeDateLabel"
+            style="@style/DetailsLabelField"
+            android:labelFor="@+id/executeDate"
+            android:text="@string/executedDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/remainingDays" />
 
         <TextView
-            android:id="@+id/dateWhenWasPaid"
+            android:id="@+id/executeDate"
             style="@style/DetailsValueField"
-            android:text="@{transactionDetails.executedDate}"
-            android:textColor="@{context.getColor(transactionDetails.textColorRes)}"
-            android:visibility="@{transactionDetails.mode == transactionDetails.MODE_REALIZED ? View.VISIBLE : View.GONE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/remainingDaysDecision" />
+            android:text="@{transactionDataForBinding.executedDate}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/executeDateLabel" />
 
         <TextView
             android:id="@+id/addDateLabel"
@@ -163,12 +150,12 @@
             android:labelFor="@+id/addDate"
             android:text="@string/created_date"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/remainingDate" />
+            app:layout_constraintTop_toBottomOf="@+id/executeDate" />
 
         <TextView
             android:id="@+id/addDate"
             style="@style/DetailsValueField"
-            android:text="@{transactionDetails.addDate}"
+            android:text="@{transactionDataForBinding.addDate}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addDateLabel" />
 
@@ -189,7 +176,7 @@
         <TextView
             android:id="@+id/lastEditDate"
             style="@style/DetailsValueField"
-            android:text="@{transactionDetails.lastEditDate}"
+            android:text="@{transactionDataForBinding.lastEditDate}"
             app:layout_constraintStart_toStartOf="@+id/lastEditDateLabel"
             app:layout_constraintTop_toBottomOf="@+id/lastEditDateLabel" />
 

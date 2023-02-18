@@ -2,7 +2,7 @@
     <string name="app_name">BudgetManagement</string>
     <string name="title_statistics">Statistics</string>
     <string name="title_history">History</string>
-    <string name="title_transaction">Coming</string>
+    <string name="title_transaction">Transaction</string>
     <string name="title_category">Category</string>
     <string name="default_item_title_value">This is title</string>
     <string name="default_amount_value">0.00</string>
@@ -91,7 +91,7 @@
     <string name="last_modification">Ostatnia modyfikacja</string>
     <string name="days">dni</string>
     <string name="left">Pozostało</string>
-    <string name="deadline">Data realizacji</string>
+    <string name="deadline">Deadline</string>
     <string name="default_amount">0</string>
     <string name="budget">Budżet</string>
     <string name="create_similar">Utwórz podobne</string>
@@ -158,4 +158,6 @@
     <string name="next_income">Najbliższy zysk</string>
     <string name="global_statistics_positive_icon">Icon to show positive characteristic of card content</string>
     <string name="date_in_day_month_pattern_example">1 jan</string>
+    <string name="executed">Zrealizowano</string>
+    <string name="executedDate">Data realizacji</string>
 </resources>

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="transactionDataForUi"
-            type="com.example.budgetmanagement.ui.transaction.TransactionDataForUi" />
+        <variable name="transactionSimpleDataForBinding"
+            type="com.example.budgetmanagement.ui.transaction.TransactionSimpleDataForBinding" />
     </data>
 
     <ScrollView
@@ -29,7 +29,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/title"
-                    android:text="@{transactionDataForUi.title}"
+                    android:text="@{transactionSimpleDataForBinding.title}"
                     style="@style/TextInputEditTextCustomView"
                     android:inputType="textCapSentences" />
 
@@ -43,7 +43,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/amount"
-                    android:text="@{transactionDataForUi.amount}"
+                    android:text="@{transactionSimpleDataForBinding.amount}"
                     style="@style/TextInputEditTextCustomView"
                     android:inputType="numberDecimal" />
 
@@ -56,7 +56,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/categorySelector"
-                    android:text="@{transactionDataForUi.categoryName}"
+                    android:text="@{transactionSimpleDataForBinding.categoryName}"
                     style="@style/AutoCompleteCustomView"
                     android:hint="@string/category" />
 
@@ -69,7 +69,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/startDate"
-                    android:text="@{transactionDataForUi.startDate}"
+                    android:text="@{transactionSimpleDataForBinding.startDate}"
                     style="@style/AutoCompleteCustomView"
                     android:hint="@string/first_deadline" />
 
@@ -79,7 +79,7 @@
                 android:id="@+id/profitSwitch"
                 android:theme="@style/SwitchMaterialTheme"
                 style="@style/SwitchMaterialCustomView"
-                android:checked="@{transactionDataForUi.isProfit}"
+                android:checked="@{transactionSimpleDataForBinding.isProfit}"
                 android:layout_marginBottom="20dp"
                 android:text="@string/income" />
 

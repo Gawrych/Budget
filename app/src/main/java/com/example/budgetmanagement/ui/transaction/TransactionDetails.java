@@ -1,9 +1,5 @@
 package com.example.budgetmanagement.ui.transaction;
 
-import static com.example.budgetmanagement.ui.details.TransactionDetails.MODE_AFTER_DEADLINE;
-import static com.example.budgetmanagement.ui.details.TransactionDetails.MODE_NORMAL;
-import static com.example.budgetmanagement.ui.details.TransactionDetails.MODE_REALIZED;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,14 +17,12 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.TransactionDetailsBinding;
-
-import java.util.Calendar;
+import com.example.budgetmanagement.ui.details.TransactionDataForBinding;
 
 public class TransactionDetails extends Fragment {
 
     public static final String TRANSACTION_ID_ARG = "transactionId";
     private TransactionDetailsBinding binding;
-    private Transaction transaction;
 
     public static TransactionDetails newInstance(int comingId) {
         TransactionDetails fragment = new TransactionDetails();
@@ -56,34 +50,8 @@ public class TransactionDetails extends Fragment {
             return;
         }
 
-        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        this.transaction = transactionViewModel.getTransactionById(transactionId);
-
-        int mode = getMode();
-        com.example.budgetmanagement.ui.details.TransactionDetails transactionDetails = new com.example.budgetmanagement.ui.details.TransactionDetails(transactionId, this, mode);
-        binding.setTransactionDetails(transactionDetails);
-    }
-
-    private int getMode() {
-        boolean isExecute = transaction.isExecuted();
-        if (isExecute) {
-            return MODE_REALIZED;
-        }
-
-        boolean isBeforeDeadline = getRemainingDays(transaction.getDeadline()) > 0;
-        return isBeforeDeadline ? MODE_NORMAL : MODE_AFTER_DEADLINE;
-    }
-
-    private int getRemainingDays(long repeatDate) {
-        Calendar todayDate = Calendar.getInstance();
-        Calendar deadlineDate = getCalendarWithValue(repeatDate);
-        return deadlineDate.get(Calendar.DAY_OF_YEAR) - todayDate.get(Calendar.DAY_OF_YEAR);
-    }
-
-    private Calendar getCalendarWithValue(long value) {
-        Calendar calendarInstance = Calendar.getInstance();
-        calendarInstance.setTimeInMillis(value);
-        return calendarInstance;
+        TransactionDataForBinding TransactionDataForBinding = new TransactionDataForBinding(transactionId, this);
+        binding.setTransactionDataForBinding(TransactionDataForBinding);
     }
 
     @Override

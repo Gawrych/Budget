@@ -119,9 +119,9 @@ public class EditTransaction extends Fragment {
                 appIconPack.getDrawableIconFromPack(categoryPicker.getIconId()),
                 binding.categorySelectorLayout);
 
-        TransactionDataForUi dataForUi = new TransactionDataForUi(
+        TransactionSimpleDataForBinding dataForUi = new TransactionSimpleDataForBinding(
                 transaction.getTitle(), amount.abs().toPlainString(), categoryName, startDate, isProfit);
-        binding.setTransactionDataForUi(dataForUi);
+        binding.setTransactionSimpleDataForBinding(dataForUi);
     }
 
     public void initializeCategoryPicker(AutoCompleteTextView categorySelector, TextInputLayout categorySelectorLayout) {

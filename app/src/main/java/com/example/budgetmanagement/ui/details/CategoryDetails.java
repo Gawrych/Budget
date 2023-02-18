@@ -12,20 +12,26 @@ import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 public class CategoryDetails extends DetailsUtils {
 
-    public final String name;
-    public final String budget;
-    public final Drawable budgetIcon;
-    public final Drawable categoryIcon;
-    public final String addDate;
-    public final String lastEditDate;
+    public String name;
+    public String budget;
+    public Drawable budgetIcon;
+    public Drawable categoryIcon;
+    public String addDate;
+    public String lastEditDate;
     private final Fragment fragment;
+    private final Category category;
 
     public CategoryDetails(int categoryId, @NonNull Fragment fragment) {
         this.fragment = fragment;
 
         CategoryViewModel categoryViewModel = new ViewModelProvider(fragment).get(CategoryViewModel.class);
-        Category category = categoryViewModel.getCategoryById(categoryId);
+        this.category = categoryViewModel.getCategoryById(categoryId);
 
+        setValues();
+    }
+
+    @Override
+    public void setValues() {
         name = category.getName();
         budget = category.getBudget();
         categoryIcon = getCategoryIcon(category);
