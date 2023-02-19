@@ -95,7 +95,7 @@ public class CategoryFragment extends Fragment implements CategoryViewHolder.OnN
     }
 
     private void showBottomSheetMenu(int categoryId) {
-        CategoryBottomSheetDialog bottomSheet = CategoryBottomSheetDialog.newInstance(categoryId);
+        ActionCategoryItemHandler bottomSheet = ActionCategoryItemHandler.newInstance(categoryId);
         bottomSheet.show(getParentFragmentManager(), TAG);
     }
 

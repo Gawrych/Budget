@@ -116,8 +116,8 @@ public class TransactionFragment extends Fragment {
 
             Transaction transaction =
                     expandableListAdapter.getChild(groupPosition, childPosition);
-            ActionTransactionHandler bottomSheet =
-                    ActionTransactionHandler.newInstance(transaction.getTransactionId());
+            ActionTransactionItemHandler bottomSheet =
+                    ActionTransactionItemHandler.newInstance(transaction.getTransactionId());
             bottomSheet.show(getParentFragmentManager(), COMING_BOTTOM_SHEET_TAG);
             return true;
         }

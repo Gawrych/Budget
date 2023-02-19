@@ -19,7 +19,7 @@ import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.ActionCategoryHandlerBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class CategoryBottomSheetDialog extends BottomSheetDialogFragment {
+public class ActionCategoryItemHandler extends BottomSheetDialogFragment {
 
     private ActionCategoryHandlerBottomSheetBinding binding;
     private static final String BUNDLE_CATEGORY_VALUE = "coming_value";
@@ -27,10 +27,10 @@ public class CategoryBottomSheetDialog extends BottomSheetDialogFragment {
     private CategoryViewModel categoryViewModel;
     private int categoryId;
 
-    public static CategoryBottomSheetDialog newInstance(int categoryId) {
+    public static ActionCategoryItemHandler newInstance(int categoryId) {
         Bundle bundle = new Bundle();
         bundle.putInt(BUNDLE_CATEGORY_VALUE, categoryId);
-        CategoryBottomSheetDialog bottomCategory = new CategoryBottomSheetDialog();
+        ActionCategoryItemHandler bottomCategory = new ActionCategoryItemHandler();
         bottomCategory.setArguments(bundle);
         return bottomCategory;
     }

@@ -22,17 +22,17 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.Calendar;
 
-public class ActionTransactionHandler extends BottomSheetDialogFragment {
+public class ActionTransactionItemHandler extends BottomSheetDialogFragment {
 
     private ActionTransactionHandlerBottomSheetBinding binding;
     private static final String BUNDLE_COMING_VALUE = "coming_value";
     private TransactionViewModel transactionViewModel;
     private Transaction transaction;
 
-    public static ActionTransactionHandler newInstance(int comingId) {
+    public static ActionTransactionItemHandler newInstance(int comingId) {
         Bundle bundle = new Bundle();
         bundle.putInt(BUNDLE_COMING_VALUE, comingId);
-        ActionTransactionHandler bottomComing = new ActionTransactionHandler();
+        ActionTransactionItemHandler bottomComing = new ActionTransactionItemHandler();
         bottomComing.setArguments(bundle);
         return bottomComing;
     }
