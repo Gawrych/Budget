@@ -1,69 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.category.AddNewCategoryElement">
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="categorySimpleDataForBinding"
+            type="com.example.budgetmanagement.ui.category.CategorySimpleDataForBinding" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        tools:context=".ui.category.AddNewCategory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/titleLayout"
-        style="@style/TextInputLayoutCustomView"
-        android:hint="@string/title"
-        app:endIconDrawable="@drawable/block_smaller_icon">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/title"
-            style="@style/TextInputEditTextCustomView"
-            android:inputType="textCapSentences" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/titleLayout"
+                style="@style/TextInputLayoutCustomView"
+                android:hint="@string/title"
+                app:endIconDrawable="@drawable/block_smaller_icon">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/title"
+                    style="@style/TextInputEditTextCustomView"
+                    android:text="@{categorySimpleDataForBinding.name}"
+                    android:inputType="textCapSentences" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/iconPickerLayout"
-        style="@style/LayoutExposedDropMenuCustomView"
-        app:endIconDrawable="@drawable/ic_outline_widgets_24">
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <AutoCompleteTextView
-            android:id="@+id/iconPicker"
-            android:hint="@string/Icon"
-            style="@style/AutoCompleteCustomView" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/amountLayout"
+                style="@style/TextInputLayoutCustomView"
+                app:endIconDrawable="@drawable/dollar_coin_smaller_icon">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/amount"
+                    style="@style/TextInputEditTextCustomView"
+                    android:text="@{categorySimpleDataForBinding.budget}"
+                    android:hint="@string/month_budget_planning"
+                    android:inputType="numberDecimal" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/colorPickerLayout"
-        style="@style/LayoutExposedDropMenuCustomView">
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <AutoCompleteTextView
-            android:id="@+id/colorPicker"
-            android:hint="@string/color"
-            style="@style/AutoCompleteCustomView" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/iconPickerLayout"
+                style="@style/LayoutExposedDropMenuCustomView">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <AutoCompleteTextView
+                    android:id="@+id/iconPicker"
+                    style="@style/AutoCompleteCustomView"
+                    android:hint="@string/Icon" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/amountLayout"
-        style="@style/TextInputLayoutCustomView"
-        app:endIconDrawable="@drawable/dollar_coin_smaller_icon">
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/amount"
-            style="@style/TextInputEditTextCustomView"
-            android:hint="@string/month_budget_planning"
-            android:inputType="numberDecimal" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/colorPickerLayout"
+                style="@style/LayoutExposedDropMenuCustomView">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <AutoCompleteTextView
+                    android:id="@+id/colorPicker"
+                    style="@style/AutoCompleteCustomView"
+                    android:hint="@string/color" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/profitSwitch"
-        android:theme="@style/SwitchMaterialTheme"
-        style="@style/SwitchMaterialCustomView"
-        android:text="@string/income" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/acceptButton"
-        style="@style/addButton" />
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/profitSwitch"
+                style="@style/SwitchMaterialCustomView"
+                android:text="@string/income"
+                android:checked="@{categorySimpleDataForBinding.isProfit}"
+                android:theme="@style/SwitchMaterialTheme" />
 
-</LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/acceptButton"
+            android:layout_width="match_parent"
+            style="@style/addButton"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

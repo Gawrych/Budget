@@ -3,6 +3,8 @@ package com.example.budgetmanagement.ui.transaction;
 import android.app.DatePickerDialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +50,11 @@ public class AddNewTransaction extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        prepareFields();
+
+        initializeDatePicker(binding.startDate);
+        initializeDatePicker(binding.endDate);
+        initializeCategoryPicker(binding.categorySelector, binding.categorySelectorLayout);
+        initializePeriodPicker(binding.periodPicker);
 
         InputTextCollector collector = new InputTextCollector(requireContext());
         binding.acceptButton.setOnClickListener(v -> {
@@ -66,13 +72,6 @@ public class AddNewTransaction extends Fragment {
     private void disableOrEnabledCyclicalFields(boolean enabled) {
         binding.periodPickerLayout.setEnabled(enabled);
         binding.endDateLayout.setEnabled(enabled);
-    }
-
-    private void prepareFields() {
-        initializeDatePicker(binding.startDate);
-        initializeDatePicker(binding.endDate);
-        initializeCategoryPicker(binding.categorySelector, binding.categorySelectorLayout);
-        initializePeriodPicker(binding.periodPicker);
     }
 
     public void initializeCategoryPicker(AutoCompleteTextView categorySelector, TextInputLayout categorySelectorLayout) {

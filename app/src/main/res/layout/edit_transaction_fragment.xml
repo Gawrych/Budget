@@ -7,88 +7,96 @@
             type="com.example.budgetmanagement.ui.transaction.TransactionSimpleDataForBinding" />
     </data>
 
-    <ScrollView
-        tools:context=".ui.transaction.AddNewTransaction"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mainScrollView"
-        android:theme="@style/Theme.MaterialComponents.Light">
+        android:background="@color/background">
 
-        <LinearLayout
-            android:id="@+id/layoutInScrollView"
+        <ScrollView
+            tools:context=".ui.transaction.AddNewTransaction"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:id="@+id/mainScrollView"
+            android:theme="@style/Theme.MaterialComponents.Light">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/titleLayout"
-                style="@style/TextInputLayoutCustomView"
-                android:hint="@string/title"
-                app:endIconDrawable="@drawable/block_smaller_icon">
+            <LinearLayout
+                android:id="@+id/layoutInScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/title"
-                    android:text="@{transactionSimpleDataForBinding.title}"
-                    style="@style/TextInputEditTextCustomView"
-                    android:inputType="textCapSentences" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/titleLayout"
+                    style="@style/TextInputLayoutCustomView"
+                    android:hint="@string/title"
+                    app:endIconDrawable="@drawable/block_smaller_icon">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/title"
+                        android:text="@{transactionSimpleDataForBinding.title}"
+                        style="@style/TextInputEditTextCustomView"
+                        android:inputType="textCapSentences" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/amountLayout"
-                style="@style/TextInputLayoutCustomView"
-                android:hint="@string/amount"
-                app:endIconDrawable="@drawable/dollar_coin_smaller_icon">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/amount"
-                    android:text="@{transactionSimpleDataForBinding.amount}"
-                    style="@style/TextInputEditTextCustomView"
-                    android:inputType="numberDecimal" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/amountLayout"
+                    style="@style/TextInputLayoutCustomView"
+                    android:hint="@string/amount"
+                    app:endIconDrawable="@drawable/dollar_coin_smaller_icon">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/amount"
+                        android:text="@{transactionSimpleDataForBinding.amount}"
+                        style="@style/TextInputEditTextCustomView"
+                        android:inputType="numberDecimal" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/categorySelectorLayout"
-                style="@style/LayoutExposedDropMenuCustomView"
-                app:endIconDrawable="@drawable/ic_baseline_category_24">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <AutoCompleteTextView
-                    android:id="@+id/categorySelector"
-                    android:text="@{transactionSimpleDataForBinding.categoryName}"
-                    style="@style/AutoCompleteCustomView"
-                    android:hint="@string/category" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/categorySelectorLayout"
+                    style="@style/LayoutExposedDropMenuCustomView"
+                    app:endIconDrawable="@drawable/ic_baseline_category_24">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <AutoCompleteTextView
+                        android:id="@+id/categorySelector"
+                        android:text="@{transactionSimpleDataForBinding.categoryName}"
+                        style="@style/AutoCompleteCustomView"
+                        android:hint="@string/category" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/startDateLayout"
-                style="@style/LayoutExposedDropMenuCustomView"
-                app:endIconDrawable="@drawable/calendar_smaller_icon">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <AutoCompleteTextView
-                    android:id="@+id/startDate"
-                    android:text="@{transactionSimpleDataForBinding.startDate}"
-                    style="@style/AutoCompleteCustomView"
-                    android:hint="@string/first_deadline" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/startDateLayout"
+                    style="@style/LayoutExposedDropMenuCustomView"
+                    app:endIconDrawable="@drawable/calendar_smaller_icon">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <AutoCompleteTextView
+                        android:id="@+id/startDate"
+                        android:text="@{transactionSimpleDataForBinding.startDate}"
+                        style="@style/AutoCompleteCustomView"
+                        android:hint="@string/first_deadline" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/profitSwitch"
-                android:theme="@style/SwitchMaterialTheme"
-                style="@style/SwitchMaterialCustomView"
-                android:checked="@{transactionSimpleDataForBinding.isProfit}"
-                android:layout_marginBottom="20dp"
-                android:text="@string/income" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/acceptButton"
-                style="@style/addButton" />
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/profitSwitch"
+                    android:theme="@style/SwitchMaterialTheme"
+                    style="@style/SwitchMaterialCustomView"
+                    android:checked="@{transactionSimpleDataForBinding.isProfit}"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/income" />
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </ScrollView>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/acceptButton"
+            android:layout_width="match_parent"
+            style="@style/addButton"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

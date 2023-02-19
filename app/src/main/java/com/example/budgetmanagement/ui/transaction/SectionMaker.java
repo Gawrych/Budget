@@ -19,7 +19,7 @@ public class SectionMaker {
     private final TransactionViewModel transactionViewModel;
     public final Map<String, Integer> months = new LinkedHashMap<>();
     private final ArrayList<Section> sectionList = new ArrayList<>();
-    private Context context;
+    private final Context context;
     private int year;
 
 
@@ -53,8 +53,7 @@ public class SectionMaker {
         allComingFromSelectedYear.forEach(item -> {
             int monthNumber = getMonthNumberFromDate(item.getDeadline());
             ArrayList<Transaction> currentList = transactionsCollection.get(monthNumber);
-            assert currentList != null;
-            currentList.add(item);
+            if (currentList != null) currentList.add(item);
             transactionsCollection.put(monthNumber, currentList);
         });
     }

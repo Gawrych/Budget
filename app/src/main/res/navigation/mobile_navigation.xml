@@ -54,11 +54,14 @@
         <action
             android:id="@+id/action_categoryList_to_categoryElementDetails"
             app:destination="@id/categoryElementDetails" />
+        <action
+            android:id="@+id/action_navigation_category_to_editCategory"
+            app:destination="@id/editCategory" />
     </fragment>
 
     <fragment
         android:id="@+id/addNewCategoryElement"
-        android:name="com.example.budgetmanagement.ui.category.AddNewCategoryElement"
+        android:name="com.example.budgetmanagement.ui.category.AddNewCategory"
         android:label="AddNewCategoryElement" >
         <action
             android:id="@+id/action_addNewCategoryElement_to_bottomSheetColorPicker"
@@ -100,4 +103,8 @@
         android:id="@+id/addNewTransactionBasedOnAnother"
         android:name="com.example.budgetmanagement.ui.transaction.AddNewTransactionBasedOnAnother"
         android:label="NewTransactionBasedOnAnother" />
+    <fragment
+        android:id="@+id/editCategory"
+        android:name="com.example.budgetmanagement.ui.category.EditCategory"
+        android:label="EditCategory" />
 </navigation>

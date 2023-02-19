@@ -28,9 +28,7 @@ public class AddNewTransactionBasedOnAnother extends AddNewTransaction {
     private CategoryBottomSheetSelector categoryPicker;
     private AppIconPack appIconPack;
 
-
     public AddNewTransactionBasedOnAnother() {}
-
 
     public static AddNewTransactionBasedOnAnother newInstance(int transactionId) {
         AddNewTransactionBasedOnAnother fragment = new AddNewTransactionBasedOnAnother();
@@ -54,25 +52,30 @@ public class AddNewTransactionBasedOnAnother extends AddNewTransaction {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        int transactionId = getArguments() != null ? getArguments().getInt(BUNDLE_TRANSACTION_ID, -1) : -1;
-        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        this.categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-
-        Transaction transactionAsPattern = transactionViewModel.getTransactionById(transactionId);
-
-        if (transactionAsPattern == null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-            builder.setMessage(R.string.error_element_with_this_id_was_not_found)
-                    .setPositiveButton("Ok", (dialog, id) -> {}).show();
+        Transaction transactionAsBase = getTransactionAsBaseFromBundle();
+        if (transactionAsBase == null) {
+            showErrorToUser();
             backToPreviousFragment();
             return;
         }
 
+        this.categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         this.categoryPicker = new CategoryBottomSheetSelector(this);
         this.appIconPack = ((AppIconPack) requireActivity().getApplication());
 
-        fillTextInputFields(transactionAsPattern);
+        fillTextInputFields(transactionAsBase);
+    }
+
+    private Transaction getTransactionAsBaseFromBundle() {
+        int transactionId = (getArguments() != null) ? getArguments().getInt(BUNDLE_TRANSACTION_ID, -1) : -1;
+        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        return transactionViewModel.getTransactionById(transactionId);
+    }
+
+    private void showErrorToUser() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        builder.setMessage(R.string.error_element_with_this_id_was_not_found)
+                .setPositiveButton("Ok", (dialog, id) -> {}).show();
     }
 
     private void fillTextInputFields(Transaction transaction) {

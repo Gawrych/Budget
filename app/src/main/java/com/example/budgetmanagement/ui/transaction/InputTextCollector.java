@@ -1,6 +1,8 @@
 package com.example.budgetmanagement.ui.transaction;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.EditText;
 
 import com.example.budgetmanagement.R;
@@ -20,17 +22,23 @@ public class InputTextCollector {
 
     public String collect(TextInputLayout inputLayout) {
         EditText editText = inputLayout.getEditText();
-        String value = editText == null ? "" : editText.getText().toString();
+        String value = (editText == null) ? "" : editText.getText().toString();
+
+        setTextWatchersToClearError(editText, inputLayout);
 
         if (value.isEmpty()) {
             setErrorMessage(inputLayout);
-            successCollectedData = false;
+            markCollectedDataAsFailure();
         }
 
         return value;
     }
 
-    private void setErrorMessage(TextInputLayout inputLayout) {
+    private void setTextWatchersToClearError(EditText editText, TextInputLayout inputLayout) {
+        if (editText != null) editText.addTextChangedListener(getTextWatcher(inputLayout));
+    }
+
+    public void setErrorMessage(TextInputLayout inputLayout) {
         inputLayout.setError(emptyFieldErrorMessage);
     }
 
@@ -49,5 +57,24 @@ public class InputTextCollector {
             return bigDecimal.negate().toPlainString();
         }
         return amount;
+    }
+
+    public void markCollectedDataAsFailure() {
+        successCollectedData = false;
+    }
+
+    private TextWatcher getTextWatcher(TextInputLayout fieldToBeCleared) {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                fieldToBeCleared.setError(null);
+            }
+        };
     }
 }

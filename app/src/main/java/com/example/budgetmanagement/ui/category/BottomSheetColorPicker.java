@@ -1,5 +1,6 @@
 package com.example.budgetmanagement.ui.category;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,22 +10,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.espresso.core.internal.deps.guava.primitives.Ints;
 
+import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.adapters.BottomColorPickerAdapter;
-import com.example.budgetmanagement.database.adapters.BottomMonthSelectorAdapter;
 import com.example.budgetmanagement.databinding.ColorPickerBottomSheetBinding;
-import com.example.budgetmanagement.databinding.MonthYearPickerBottomSheetBinding;
-import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class BottomSheetColorPicker extends BottomSheetDialogFragment
         implements BottomColorPickerAdapter.OnSelectedListener {
 
     public static final String BUNDLE_COLOR_POSITION = "colorPosition";
     public static final String BOTTOM_SHEET_COLOR_TAG = "bottomSheetColorPicker";
+    public static final int DEFAULT_ICON_ID = 955;
     private ColorPickerBottomSheetBinding binding;
     private OnColorSelectedListener colorSelectedListener;
-    private int selectedColorPos = 0;
+    private int selectedColorPosition;
+    private int selectedColorResources;
 
     public static BottomSheetColorPicker newInstance(int colorPos) {
         Bundle bundle = new Bundle();
@@ -54,7 +60,7 @@ public class BottomSheetColorPicker extends BottomSheetDialogFragment
         recyclerView.setLayoutManager(mLayoutManager);
 
         binding.acceptButton.setOnClickListener(v -> {
-            this.colorSelectedListener.onColorSelected(selectedColorPos);
+            this.colorSelectedListener.onColorSelected(this.selectedColorPosition, this.selectedColorResources);
             dismiss();
         });
     }
@@ -64,11 +70,17 @@ public class BottomSheetColorPicker extends BottomSheetDialogFragment
     }
 
     @Override
-    public void onContentSelected(int position) {
-        selectedColorPos = position;
+    public void onContentSelected(int position, int colorRes) {
+        this.selectedColorPosition = position;
+        this.selectedColorResources = colorRes;
     }
 
     public interface OnColorSelectedListener {
-        void onColorSelected(int colorPos);
+        void onColorSelected(int position, int colorRes);
+    }
+
+    public static int getColorPositionByResource(Context context, int colorRes) {
+        Integer[] colors = ArrayUtils.toWrapperArray(context.getResources().getIntArray(R.array.colors));
+        return List.of(colors).indexOf(colorRes);
     }
 }

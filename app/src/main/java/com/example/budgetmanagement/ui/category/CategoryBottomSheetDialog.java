@@ -83,11 +83,11 @@ public class CategoryBottomSheetDialog extends BottomSheetDialogFragment {
             return;
         }
 
-        AddNewCategoryElement addNewCategoryElement = AddNewCategoryElement.newInstance(categoryId, true);
-        Bundle bundle = addNewCategoryElement.getArguments();
+        EditCategory editCategory = EditCategory.newInstance(this.categoryId);
+        Bundle bundle = editCategory.getArguments();
 
         Navigation.findNavController(rootView)
-                .navigate(R.id.action_categoryList_to_addNewCategoryElement, bundle);
+                .navigate(R.id.action_navigation_category_to_editCategory, bundle);
         dismiss();
     }
 

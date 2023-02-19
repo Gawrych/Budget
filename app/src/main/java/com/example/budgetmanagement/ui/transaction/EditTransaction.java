@@ -65,26 +65,21 @@ public class EditTransaction extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int transactionId = getArguments() != null ? getArguments().getInt(BUNDLE_TRANSACTION_ID, -1) : -1;
-        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        this.categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-
-        transactionToEdit = transactionViewModel.getTransactionById(transactionId);
-
+        this.transactionToEdit = getTransactionToEditFromBundle();
         if (transactionToEdit == null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-            builder.setMessage(R.string.error_element_with_this_id_was_not_found)
-                    .setPositiveButton("Ok", (dialog, id) -> {}).show();
+            showErrorToUser();
             backToPreviousFragment();
             return;
         }
 
+        this.categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         this.categoryPicker = new CategoryBottomSheetSelector(this);
         this.appIconPack = ((AppIconPack) requireActivity().getApplication());
 
-        fillTextInputFields(transactionToEdit);
+        initializeDatePicker(binding.startDate);
+        initializeCategoryPicker(binding.categorySelector, binding.categorySelectorLayout);
 
-        prepareFields();
+        fillTextInputFields(transactionToEdit);
 
         InputTextCollector collector = new InputTextCollector(requireContext());
         binding.acceptButton.setOnClickListener(v -> {
@@ -96,14 +91,20 @@ public class EditTransaction extends Fragment {
         });
     }
 
-    private void prepareFields() {
-        initializeDatePicker(binding.startDate);
-        initializeCategoryPicker(binding.categorySelector, binding.categorySelectorLayout);
+    private Transaction getTransactionToEditFromBundle() {
+        int transactionId = (getArguments() != null) ? getArguments().getInt(BUNDLE_TRANSACTION_ID, -1) : -1;
+        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        return transactionViewModel.getTransactionById(transactionId);
     }
 
-    public void initializeDatePicker(AutoCompleteTextView field) {
-        DatePickerDialog datePickerDialog = DateProcessor.getDatePickerDialog(requireContext(), field, transactionToEdit.getDeadline());
-        field.setOnClickListener(v -> datePickerDialog.show());
+    private void showErrorToUser() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        builder.setMessage(R.string.error_element_with_this_id_was_not_found)
+                .setPositiveButton("Ok", (dialog, id) -> {}).show();
+    }
+
+    private void backToPreviousFragment() {
+        requireActivity().onBackPressed();
     }
 
     private void fillTextInputFields(Transaction transaction) {
@@ -122,6 +123,11 @@ public class EditTransaction extends Fragment {
         TransactionSimpleDataForBinding dataForUi = new TransactionSimpleDataForBinding(
                 transaction.getTitle(), amount.abs().toPlainString(), categoryName, startDate, isProfit);
         binding.setTransactionSimpleDataForBinding(dataForUi);
+    }
+
+    public void initializeDatePicker(AutoCompleteTextView field) {
+        DatePickerDialog datePickerDialog = DateProcessor.getDatePickerDialog(requireContext(), field, transactionToEdit.getDeadline());
+        field.setOnClickListener(v -> datePickerDialog.show());
     }
 
     public void initializeCategoryPicker(AutoCompleteTextView categorySelector, TextInputLayout categorySelectorLayout) {
@@ -162,9 +168,5 @@ public class EditTransaction extends Fragment {
 
         transactionQuery.update();
         backToPreviousFragment();
-    }
-
-    private void backToPreviousFragment() {
-        requireActivity().onBackPressed();
     }
 }

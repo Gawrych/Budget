@@ -92,7 +92,9 @@ public class BottomColorPickerAdapter extends RecyclerView.Adapter<BottomColorPi
                 } else {
                     selectedColor.setChecked(true);
                 }
-                listener.onContentSelected(getBindingAdapterPosition());
+
+                int bindingPosition = getBindingAdapterPosition();
+                listener.onContentSelected(bindingPosition, colors[bindingPosition]);
             }
         }
     }
@@ -110,6 +112,6 @@ public class BottomColorPickerAdapter extends RecyclerView.Adapter<BottomColorPi
     }
 
     public interface OnSelectedListener {
-        void onContentSelected(int position);
+        void onContentSelected(int position, int colorRes);
     }
 }
