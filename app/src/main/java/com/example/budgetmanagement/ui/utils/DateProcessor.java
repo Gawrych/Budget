@@ -17,13 +17,13 @@ public class DateProcessor {
     public static final String MONTH_NAME_DATE_FORMAT = "d MMM";
     public static final String DEFAULT_DATE_FORMAT = "d MMM yyyy";
 
-    public static String parseDate(long dateInMillis) {
+    public static String parse(long dateInMillis) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
         LocalDate date = Instant.ofEpochMilli(dateInMillis).atZone(ZoneId.systemDefault()).toLocalDate();
         return dateTimeFormatter.format(date);
     }
 
-    public static String parseDate(long dateInMillis, String dateFormat) {
+    public static String parse(long dateInMillis, String dateFormat) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat);
         LocalDate date = Instant.ofEpochMilli(dateInMillis).atZone(ZoneId.systemDefault()).toLocalDate();
         return dateTimeFormatter.format(date);
@@ -34,11 +34,6 @@ public class DateProcessor {
         LocalDate localDate = LocalDate.parse(dateInPattern, dateTimeFormatter);
         Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
         return instant.toEpochMilli();
-    }
-
-    public static String getTodayDate(String dateFormat) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat);
-        return dateTimeFormatter.format(LocalDate.now());
     }
 
     public static String[] getShortMonths() {
@@ -55,7 +50,7 @@ public class DateProcessor {
                 (view, year, monthOfYear, dayOfMonth) -> {
                     Calendar selectedDate = Calendar.getInstance();
                     selectedDate.set(year, monthOfYear, dayOfMonth);
-                    field.setText(DateProcessor.parseDate((
+                    field.setText(DateProcessor.parse((
                                     selectedDate.getTimeInMillis()),
                             DEFAULT_DATE_FORMAT));
                 }, mYear, mMonth, mDay);

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="transactionDataForBinding" type="com.example.budgetmanagement.ui.details.TransactionDataForBinding"/>
+        <variable name="transactionConverterForBinding" type="com.example.budgetmanagement.ui.details.TransactionConverterForBinding"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/detailsConstraintLayout"
@@ -17,7 +17,7 @@
         <TextView
             android:id="@+id/executedOutstanding"
             style="@style/ExecutedOutstanding"
-            android:visibility="@{transactionDataForBinding.isExecutedViewMode}"
+            android:visibility="@{transactionConverterForBinding.isExecutedViewMode}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +33,7 @@
         <TextView
             android:id="@+id/transactionName"
             style="@style/DetailsValueField"
-            android:text="@{transactionDataForBinding.title}"
+            android:text="@{transactionConverterForBinding.title}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/transactionTitleLabel" />
 
@@ -49,14 +49,14 @@
             android:id="@+id/amountIcon"
             style="@style/DetailsIconField"
             android:contentDescription="@string/amount_icon"
-            android:src="@{transactionDataForBinding.amountIcon}"
+            android:src="@{transactionConverterForBinding.amountIcon}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
 
         <TextView
             android:id="@+id/amount"
             style="@style/DetailsValueField"
-            android:text="@{transactionDataForBinding.amount}"
+            android:text="@{transactionConverterForBinding.amount}"
             android:layout_marginStart="5dp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/amountIcon"
@@ -92,7 +92,7 @@
         <ImageView
             android:id="@+id/categoryIcon"
             style="@style/DetailsIconField"
-            android:src="@{transactionDataForBinding.icon}"
+            android:src="@{transactionConverterForBinding.icon}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/categoryLabel"
             android:contentDescription="@string/category_icon" />
@@ -101,7 +101,7 @@
             android:id="@+id/categoryName"
             style="@style/DetailsValueField"
             android:layout_marginStart="10dp"
-            android:text="@{transactionDataForBinding.categoryName}"
+            android:text="@{transactionConverterForBinding.categoryName}"
             app:layout_constraintStart_toEndOf="@+id/categoryIcon"
             app:layout_constraintTop_toBottomOf="@+id/categoryLabel" />
 
@@ -116,16 +116,16 @@
         <TextView
             android:id="@+id/remainingDate"
             style="@style/DetailsValueField"
-            android:text="@{transactionDataForBinding.remainingDate}"
-            android:textColor="@{transactionDataForBinding.remainingColor}"
+            android:text="@{transactionConverterForBinding.remainingDate}"
+            android:textColor="@{transactionConverterForBinding.remainingColor}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/deadlineLabel" />
 
         <TextView
             android:id="@+id/remainingDays"
             style="@style/DetailsValueField"
-            android:text="@{transactionDataForBinding.remainingDays}"
-            android:textColor="@{transactionDataForBinding.remainingColor}"
+            android:text="@{transactionConverterForBinding.remainingDays}"
+            android:textColor="@{transactionConverterForBinding.remainingColor}"
             app:layout_constraintBottom_toBottomOf="@+id/remainingDate"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -140,7 +140,7 @@
         <TextView
             android:id="@+id/executeDate"
             style="@style/DetailsValueField"
-            android:text="@{transactionDataForBinding.executedDate}"
+            android:text="@{transactionConverterForBinding.executedDate}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/executeDateLabel" />
 
@@ -155,7 +155,7 @@
         <TextView
             android:id="@+id/addDate"
             style="@style/DetailsValueField"
-            android:text="@{transactionDataForBinding.addDate}"
+            android:text="@{transactionConverterForBinding.addDate}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addDateLabel" />
 
@@ -176,7 +176,7 @@
         <TextView
             android:id="@+id/lastEditDate"
             style="@style/DetailsValueField"
-            android:text="@{transactionDataForBinding.lastEditDate}"
+            android:text="@{transactionConverterForBinding.lastEditDate}"
             app:layout_constraintStart_toStartOf="@+id/lastEditDateLabel"
             app:layout_constraintTop_toBottomOf="@+id/lastEditDateLabel" />
 

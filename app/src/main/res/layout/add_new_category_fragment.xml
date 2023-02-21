@@ -5,6 +5,16 @@
     <data>
         <variable name="categorySimpleDataForBinding"
             type="com.example.budgetmanagement.ui.category.CategorySimpleDataForBinding" />
+        <variable
+            name="addNewCategory"
+            type="com.example.budgetmanagement.ui.category.AddNewCategory" />
+        <import type="android.graphics.drawable.Drawable"/>
+        <variable
+            name="selectedIcon"
+            type="Drawable" />
+        <variable
+            name="selectedIconName"
+            type="String" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         tools:context=".ui.category.AddNewCategory"
@@ -48,10 +58,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/iconPickerLayout"
+                app:endIconDrawable="@{selectedIcon}"
                 style="@style/LayoutExposedDropMenuCustomView">
 
                 <AutoCompleteTextView
                     android:id="@+id/iconPicker"
+                    android:text="@{selectedIconName}"
                     style="@style/AutoCompleteCustomView"
                     android:hint="@string/Icon" />
 
@@ -80,6 +92,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/acceptButton"
             android:layout_width="match_parent"
+            android:onClick="@{() -> addNewCategory.acceptButtonClick()}"
             style="@style/addButton"
             app:layout_constraintBottom_toBottomOf="parent" />
 

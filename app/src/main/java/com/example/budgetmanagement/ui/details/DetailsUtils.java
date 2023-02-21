@@ -51,7 +51,7 @@ public abstract class DetailsUtils {
     }
 
     public String getValueOrLabel(long modifiedDate, boolean condition) {
-        return condition ? DateProcessor.parseDate(modifiedDate) : getFragment().getString(R.string.never);
+        return condition ? DateProcessor.parse(modifiedDate) : getFragment().getString(R.string.never);
     }
 
     public abstract Fragment getFragment();

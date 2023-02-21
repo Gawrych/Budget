@@ -140,7 +140,7 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
     }
 
     private void setDateField(TextView dateField, long repeatDate) {
-        dateField.setText(DateProcessor.parseDate(repeatDate, MONTH_NAME_DATE_FORMAT));
+        dateField.setText(DateProcessor.parse(repeatDate, MONTH_NAME_DATE_FORMAT));
     }
 
     private void setRemainingDays(TextView remainingDays, long deadline, boolean isExecuted) {

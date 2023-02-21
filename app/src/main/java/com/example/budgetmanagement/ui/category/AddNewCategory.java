@@ -56,18 +56,19 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.binding.setAddNewCategory(this);
 
         initializeIconPicker(binding.iconPicker);
         initializeColorPicker(binding.colorPicker, binding.colorPickerLayout);
+    }
 
+    public void acceptButtonClick() {
         InputTextCollector collector = new InputTextCollector(requireContext());
-        this.binding.acceptButton.setOnClickListener(v -> {
-            collectData(collector);
-            if (collector.areCorrectlyCollected()) {
-                submitToDatabase();
-            }
-            collector.resetCollectedStatus();
-        });
+        collectData(collector);
+        if (collector.areCorrectlyCollected()) {
+            submitToDatabase();
+        }
+        collector.resetCollectedStatus();
     }
 
     private void initializeIconPicker(AutoCompleteTextView iconPicker) {
@@ -147,8 +148,9 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
     private void setIconToPickerLayout(@NonNull Icon selectedIcon) {
         this.iconId = selectedIcon.getId();
         Drawable pickedIcon = selectedIcon.getDrawable();
-        binding.iconPickerLayout.setEndIconDrawable(pickedIcon);
-        binding.iconPicker.setText(selectedIcon.getTags().get(0));
+
+        binding.setSelectedIcon(pickedIcon);
+        binding.setSelectedIconName(selectedIcon.getTags().get(0));
     }
 
     protected AddNewCategoryFragmentBinding getBinding() {

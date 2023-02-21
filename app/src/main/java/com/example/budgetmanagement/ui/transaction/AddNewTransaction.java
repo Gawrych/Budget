@@ -3,8 +3,6 @@ package com.example.budgetmanagement.ui.transaction;
 import android.app.DatePickerDialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +30,7 @@ public class AddNewTransaction extends Fragment {
     private String categoryName;
     private String startDateInPattern;
     private String endDateInPattern;
+    private AppIconPack appIconPack;
 
     public AddNewTransaction() {}
 
@@ -50,50 +49,43 @@ public class AddNewTransaction extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.binding.setAddNewTransaction(this);
 
-        initializeDatePicker(binding.startDate);
-        initializeDatePicker(binding.endDate);
-        initializeCategoryPicker(binding.categorySelector, binding.categorySelectorLayout);
-        initializePeriodPicker(binding.periodPicker);
+        initializeDatePicker(this.binding.startDate);
+        initializeDatePicker(this.binding.endDate);
+        initializeCategoryPicker(this.binding.categorySelector);
+        initializePeriodPicker(this.binding.periodPicker);
+    }
 
+    public void acceptButtonClick() {
         InputTextCollector collector = new InputTextCollector(requireContext());
-        binding.acceptButton.setOnClickListener(v -> {
-            collectData(collector);
-            if (collector.areCorrectlyCollected()) {
-                submitToDatabase();
-            }
-            collector.resetCollectedStatus();
-        });
-
-        binding.cyclicalSwitch.setOnCheckedChangeListener((button, isChecked) ->
-                disableOrEnabledCyclicalFields(isChecked));
+        collectData(collector);
+        if (collector.areCorrectlyCollected()) {
+            submitToDatabase();
+        }
+        collector.resetCollectedStatus();
     }
 
-    private void disableOrEnabledCyclicalFields(boolean enabled) {
-        binding.periodPickerLayout.setEnabled(enabled);
-        binding.endDateLayout.setEnabled(enabled);
+    public void disableOrEnabledCyclicalFields(boolean enabled) {
+        this.binding.setIsCyclical(enabled);
     }
 
-    public void initializeCategoryPicker(AutoCompleteTextView categorySelector, TextInputLayout categorySelectorLayout) {
+    public void initializeCategoryPicker(AutoCompleteTextView categorySelector) {
         CategoryBottomSheetSelector categoryPicker = new CategoryBottomSheetSelector(this);
-        AppIconPack appIconPack = ((AppIconPack) requireActivity().getApplication());
         categoryPicker.getBottomSheetDialog().setOnDismissListener(v -> {
-            setTextForField(
-                    categoryPicker.getSelectedCategoryName(),
-                    categorySelector);
-            setIconForField(
-                    appIconPack.getDrawableIconFromPack(categoryPicker.getIconId()),
-                    categorySelectorLayout);
+            setCategoryName(categoryPicker.getSelectedCategoryName());
+            setCategoryIcon(categoryPicker.getIconId());
         });
         categorySelector.setOnClickListener(v -> categoryPicker.show());
     }
 
-    public void setTextForField(String text, AutoCompleteTextView field) {
-        field.setText(text);
+    protected void setCategoryName(String text) {
+        this.binding.setCategoryName(text);
     }
 
-    public void setIconForField(Drawable icon, TextInputLayout field) {
-        field.setEndIconDrawable(icon);
+    protected void setCategoryIcon(int icon) {
+        if (this.appIconPack == null) this.appIconPack = ((AppIconPack) requireActivity().getApplication());
+        this.binding.setCategoryIcon(appIconPack.getDrawableIconFromPack(icon));
     }
 
     private void initializePeriodPicker(AutoCompleteTextView periodPicker) {

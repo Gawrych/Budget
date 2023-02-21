@@ -24,9 +24,6 @@ import java.math.BigDecimal;
 public class AddNewTransactionBasedOnAnother extends AddNewTransaction {
 
     public static final String BUNDLE_TRANSACTION_ID = "transactionId";
-    private CategoryViewModel categoryViewModel;
-    private CategoryBottomSheetSelector categoryPicker;
-    private AppIconPack appIconPack;
 
     public AddNewTransactionBasedOnAnother() {}
 
@@ -59,10 +56,6 @@ public class AddNewTransactionBasedOnAnother extends AddNewTransaction {
             return;
         }
 
-        this.categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-        this.categoryPicker = new CategoryBottomSheetSelector(this);
-        this.appIconPack = ((AppIconPack) requireActivity().getApplication());
-
         fillTextInputFields(transactionAsBase);
     }
 
@@ -79,22 +72,18 @@ public class AddNewTransactionBasedOnAnother extends AddNewTransaction {
     }
 
     private void fillTextInputFields(Transaction transaction) {
-        Category category = this.categoryViewModel.getCategoryById(transaction.getCategoryId());
-        String categoryName = category.getName();
-        String startDate = DateProcessor.parseDate(transaction.getDeadline());
+        TransactionValuesForBinding transactionValues = new TransactionValuesForBinding(
+                transaction.getTitle(),
+                transaction.getAmount(),
+                transaction.getDeadline(),
+                new BigDecimal(transaction.getAmount()).signum() > 0
+        );
+        super.getBinding().setTransactionValues(transactionValues);
 
-        BigDecimal amount = new BigDecimal(transaction.getAmount());
-        boolean isProfit = amount.signum() > 0;
-
-        this.categoryPicker.setCategory(transaction.getCategoryId());
-
-        setIconForField(
-                appIconPack.getDrawableIconFromPack(categoryPicker.getIconId()),
-                super.getBinding().categorySelectorLayout);
-        TransactionSimpleDataForBinding dataForUi = new TransactionSimpleDataForBinding(
-                transaction.getTitle(), amount.abs().toPlainString(), categoryName, startDate, isProfit);
-
-        super.getBinding().setTransactionSimpleDataForBinding(dataForUi);
+        CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        Category category = categoryViewModel.getCategoryById(transaction.getCategoryId());
+        super.setCategoryIcon(category.getIcon());
+        super.setCategoryName(category.getName());
     }
 
     private void backToPreviousFragment() {

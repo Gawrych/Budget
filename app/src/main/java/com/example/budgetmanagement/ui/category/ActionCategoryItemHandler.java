@@ -56,11 +56,10 @@ public class ActionCategoryItemHandler extends BottomSheetDialogFragment {
         }
 
         binding.editLayout.setOnClickListener(v -> editSelectedElement());
-
-        binding.deleteLayout.setOnClickListener(v -> deleteItem());
+        binding.deleteLayout.setOnClickListener(v -> deleteItemChoiceDialog());
     }
 
-    private void deleteItem() {
+    private void deleteItemChoiceDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setMessage(R.string.are_you_sure_to_delete)
                 .setPositiveButton(R.string.delete, (dialog, id) -> {

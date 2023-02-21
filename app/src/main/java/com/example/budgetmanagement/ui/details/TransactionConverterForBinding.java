@@ -20,7 +20,7 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 
-public class TransactionDataForBinding extends DetailsUtils {
+public class TransactionConverterForBinding extends DetailsUtils {
 
     private final Transaction transaction;
     private final Category category;
@@ -39,7 +39,7 @@ public class TransactionDataForBinding extends DetailsUtils {
     public String executedDate;
     private final Fragment fragment;
 
-    public TransactionDataForBinding(int transactionId, @NonNull Fragment fragment) {
+    public TransactionConverterForBinding(int transactionId, @NonNull Fragment fragment) {
         this.fragment = fragment;
 
         TransactionViewModel transactionViewModel = new ViewModelProvider(fragment).get(TransactionViewModel.class);
@@ -60,8 +60,8 @@ public class TransactionDataForBinding extends DetailsUtils {
         this.executedDate = super.getValueOrLabel(transaction.getExecutedDate(), this.isExecuted);
         this.icon = super.getCategoryIcon(category);
         this.amountIcon = super.getAmountIconDependOfValue(transaction.getAmount());
-        this.remainingDate = DateProcessor.parseDate(transaction.getDeadline());
-        this.addDate = DateProcessor.parseDate(transaction.getAddDate());
+        this.remainingDate = DateProcessor.parse(transaction.getDeadline());
+        this.addDate = DateProcessor.parse(transaction.getAddDate());
         setRemainingDaysWithPrefix(transaction);
         this.isExecutedViewMode = this.isExecuted ? View.VISIBLE : View.INVISIBLE;
     }

@@ -35,7 +35,7 @@ public class CategoryDetails extends DetailsUtils {
         name = category.getName();
         budget = category.getBudget();
         categoryIcon = super.getCategoryIcon(category);
-        addDate = DateProcessor.parseDate(category.getAddDate());
+        addDate = DateProcessor.parse(category.getAddDate());
         budgetIcon = super.getAmountIconDependOfValue(category.getBudget());
         lastEditDate = super.getValueOrLabel(category.getModifiedDate(), category.getModifiedDate() != 0);
     }

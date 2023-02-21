@@ -3,8 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="transactionSimpleDataForBinding"
-            type="com.example.budgetmanagement.ui.transaction.TransactionSimpleDataForBinding" />
+        <import type="com.example.budgetmanagement.ui.utils.DateProcessor" />
+        <variable name="transactionValues"
+            type="com.example.budgetmanagement.ui.transaction.TransactionValuesForBinding" />
+        <variable
+            name="addNewTransaction"
+            type="com.example.budgetmanagement.ui.transaction.AddNewTransaction" />
+        <variable
+            name="categoryName"
+            type="String" />
+        <variable
+            name="categoryIcon"
+            type="android.graphics.drawable.Drawable" />
+        <variable
+            name="isCyclical"
+            type="boolean" />
     </data>
 
     <ScrollView
@@ -29,7 +42,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/title"
-                    android:text="@{transactionSimpleDataForBinding.title}"
+                    android:text="@{transactionValues.title}"
                     style="@style/TextInputEditTextCustomView"
                     android:inputType="textCapSentences" />
 
@@ -43,7 +56,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/amount"
-                    android:text="@{transactionSimpleDataForBinding.amount}"
+                    android:text="@{transactionValues.amount}"
                     style="@style/TextInputEditTextCustomView"
                     android:inputType="numberDecimal" />
 
@@ -52,11 +65,11 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/categorySelectorLayout"
                 style="@style/LayoutExposedDropMenuCustomView"
-                app:endIconDrawable="@drawable/ic_baseline_category_24">
+                app:endIconDrawable="@{categoryIcon}">
 
                 <AutoCompleteTextView
                     android:id="@+id/categorySelector"
-                    android:text="@{transactionSimpleDataForBinding.categoryName}"
+                    android:text="@{categoryName}"
                     style="@style/AutoCompleteCustomView"
                     android:hint="@string/category" />
 
@@ -69,7 +82,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/startDate"
-                    android:text="@{transactionSimpleDataForBinding.startDate}"
+                    android:text="@{transactionValues.deadline == 0 ? `` : DateProcessor.parse(transactionValues.deadline)}"
                     style="@style/AutoCompleteCustomView"
                     android:hint="@string/first_deadline" />
 
@@ -79,7 +92,7 @@
                 android:id="@+id/profitSwitch"
                 android:theme="@style/SwitchMaterialTheme"
                 style="@style/SwitchMaterialCustomView"
-                android:checked="@{transactionSimpleDataForBinding.isProfit}"
+                android:checked="@{transactionValues.isProfit}"
                 android:layout_marginBottom="20dp"
                 android:text="@string/income" />
 
@@ -89,12 +102,13 @@
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/cyclicalSwitch"
                 android:theme="@style/SwitchMaterialTheme"
+                android:onCheckedChanged="@{(button, isChecked) -> addNewTransaction.disableOrEnabledCyclicalFields(isChecked)}"
                 style="@style/SwitchMaterialCustomView"
                 android:text="@string/cyclical_transaction" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/periodPickerLayout"
-                android:enabled="false"
+                android:enabled="@{isCyclical}"
                 style="@style/LayoutExposedDropMenuCustomView">
 
                 <AutoCompleteTextView
@@ -107,7 +121,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/endDateLayout"
                 style="@style/LayoutExposedDropMenuCustomView"
-                android:enabled="false"
+                android:enabled="@{isCyclical}"
                 app:endIconDrawable="@drawable/calendar_smaller_icon">
 
                 <AutoCompleteTextView
@@ -131,6 +145,7 @@
 
             <Button
                 android:id="@+id/acceptButton"
+                android:onClick="@{() -> addNewTransaction.acceptButtonClick()}"
                 style="@style/addButton" />
 
             </LinearLayout>

@@ -33,14 +33,14 @@ public class EditTransaction extends Fragment {
     public static final String BUNDLE_TRANSACTION_ID = "transactionId";
     private Transaction transactionToEdit;
     private EditTransactionFragmentBinding binding;
-    private CategoryViewModel categoryViewModel;
 
-    private CategoryBottomSheetSelector categoryPicker;
     private String title;
     private String amount;
     private String categoryName;
     private String startDateInPattern;
     private AppIconPack appIconPack;
+
+//    TODO: Change button text to edit from add
 
     public static EditTransaction newInstance(int transactionId) {
         Bundle bundle = new Bundle();
@@ -65,6 +65,8 @@ public class EditTransaction extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.binding.setEditTransaction(this);
+
         this.transactionToEdit = getTransactionToEditFromBundle();
         if (transactionToEdit == null) {
             showErrorToUser();
@@ -72,23 +74,9 @@ public class EditTransaction extends Fragment {
             return;
         }
 
-        this.categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-        this.categoryPicker = new CategoryBottomSheetSelector(this);
-        this.appIconPack = ((AppIconPack) requireActivity().getApplication());
-
         initializeDatePicker(binding.startDate);
-        initializeCategoryPicker(binding.categorySelector, binding.categorySelectorLayout);
-
+        initializeCategoryPicker(binding.categorySelector);
         fillTextInputFields(transactionToEdit);
-
-        InputTextCollector collector = new InputTextCollector(requireContext());
-        binding.acceptButton.setOnClickListener(v -> {
-            collectData(collector);
-            if (collector.areCorrectlyCollected()) {
-                updateTransactionInDatabase();
-            }
-            collector.resetCollectedStatus();
-        });
     }
 
     private Transaction getTransactionToEditFromBundle() {
@@ -107,47 +95,42 @@ public class EditTransaction extends Fragment {
         requireActivity().onBackPressed();
     }
 
-    private void fillTextInputFields(Transaction transaction) {
-        Category category = this.categoryViewModel.getCategoryById(transaction.getCategoryId());
-        String categoryName = category.getName();
-        String startDate = DateProcessor.parseDate(transaction.getDeadline());
-
-        BigDecimal amount = new BigDecimal(transaction.getAmount());
-        boolean isProfit = amount.signum() > 0;
-
-        this.categoryPicker.setCategory(transaction.getCategoryId());
-        setIconForField(
-                appIconPack.getDrawableIconFromPack(categoryPicker.getIconId()),
-                binding.categorySelectorLayout);
-
-        TransactionSimpleDataForBinding dataForUi = new TransactionSimpleDataForBinding(
-                transaction.getTitle(), amount.abs().toPlainString(), categoryName, startDate, isProfit);
-        binding.setTransactionSimpleDataForBinding(dataForUi);
-    }
-
     public void initializeDatePicker(AutoCompleteTextView field) {
         DatePickerDialog datePickerDialog = DateProcessor.getDatePickerDialog(requireContext(), field, transactionToEdit.getDeadline());
         field.setOnClickListener(v -> datePickerDialog.show());
     }
 
-    public void initializeCategoryPicker(AutoCompleteTextView categorySelector, TextInputLayout categorySelectorLayout) {
+    public void initializeCategoryPicker(AutoCompleteTextView categorySelector) {
+        CategoryBottomSheetSelector categoryPicker = new CategoryBottomSheetSelector(this);
         categoryPicker.getBottomSheetDialog().setOnDismissListener(v -> {
-            setTextForField(
-                    categoryPicker.getSelectedCategoryName(),
-                    categorySelector);
-            setIconForField(
-                    appIconPack.getDrawableIconFromPack(categoryPicker.getIconId()),
-                    categorySelectorLayout);
+            setCategoryName(categoryPicker.getSelectedCategoryName());
+            setCategoryIcon(categoryPicker.getIconId());
         });
         categorySelector.setOnClickListener(v -> categoryPicker.show());
     }
 
-    private void setTextForField(String text, AutoCompleteTextView field) {
-        field.setText(text);
+    private void fillTextInputFields(Transaction transaction) {
+        TransactionValuesForBinding transactionValues = new TransactionValuesForBinding(
+                transaction.getTitle(),
+                transaction.getAmount(),
+                transaction.getDeadline(),
+                new BigDecimal(transaction.getAmount()).signum() > 0
+        );
+        this.binding.setTransactionValues(transactionValues);
+
+        CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        Category category = categoryViewModel.getCategoryById(transaction.getCategoryId());
+        setCategoryIcon(category.getIcon());
+        setCategoryName(category.getName());
     }
 
-    private void setIconForField(Drawable icon, TextInputLayout field) {
-        field.setEndIconDrawable(icon);
+    private void setCategoryName(String text) {
+        this.binding.setCategoryName(text);
+    }
+
+    private void setCategoryIcon(int icon) {
+        if (this.appIconPack == null) this.appIconPack = ((AppIconPack) requireActivity().getApplication());
+        this.binding.setCategoryIcon(appIconPack.getDrawableIconFromPack(icon));
     }
 
     public void collectData(InputTextCollector collector) {
@@ -157,7 +140,7 @@ public class EditTransaction extends Fragment {
         this.startDateInPattern = collector.collect(binding.startDateLayout);
     }
 
-    public void updateTransactionInDatabase() {
+    public void submitToDatabase() {
         TransactionQuery transactionQuery = new TransactionQuery(requireContext(), this);
         transactionQuery.createTransactionToUpdate(
                 this.transactionToEdit,
@@ -168,5 +151,14 @@ public class EditTransaction extends Fragment {
 
         transactionQuery.update();
         backToPreviousFragment();
+    }
+
+    public void acceptButtonClick() {
+        InputTextCollector collector = new InputTextCollector(requireContext());
+        collectData(collector);
+        if (collector.areCorrectlyCollected()) {
+            submitToDatabase();
+        }
+        collector.resetCollectedStatus();
     }
 }
