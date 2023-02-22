@@ -190,16 +190,13 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
             mainIcon.setBackground(ovalWithColorBackground);
         }
     }
+
     private Drawable getDrawableWithColor(int drawableId, int colorId) {
         Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), drawableId, null);
-
-        if (drawable != null) {
-            Drawable drawableWrapped = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawableWrapped, colorId);
-            return drawableWrapped;
-        }
-
-        return null;
+        if (drawable == null) return null;
+        Drawable drawableWrapped = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawableWrapped, colorId);
+        return drawableWrapped;
     }
 
     @Override

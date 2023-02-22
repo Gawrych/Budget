@@ -5,50 +5,36 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.compose.ui.platform.InfiniteAnimationPolicy;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.databinding.CategoryChildViewBinding;
+import com.example.budgetmanagement.ui.category.CategoryChildValues;
+import com.example.budgetmanagement.ui.category.CategoryFragment;
 
-public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-    private TextView text;
-    private ImageView categoryIcon;
-    private ImageView budgetIcon;
-    private ConstraintLayout cardLayout;
-    private OnNoteListener onNoteListener;
+import java.util.zip.Inflater;
 
-    public CategoryViewHolder(View itemView, OnNoteListener onNoteListener) {
+public class CategoryViewHolder extends RecyclerView.ViewHolder {
+    private final CategoryChildViewBinding binding;
+    private final CategoryFragment categoryFragment;
+
+    public CategoryViewHolder(View itemView, CategoryFragment categoryFragment) {
         super(itemView);
-        text = itemView.findViewById(R.id.textView);
-        categoryIcon = itemView.findViewById(R.id.categoryIcon);
-        cardLayout = itemView.findViewById(R.id.cardLayout);
-        budgetIcon = itemView.findViewById(R.id.budgetIcon);
-        this.onNoteListener = onNoteListener;
-        itemView.setOnClickListener(this);
-        itemView.setOnLongClickListener(this);
+        this.binding = CategoryChildViewBinding.bind(itemView);
+        this.categoryFragment = categoryFragment;
     }
 
-    public void bind(Drawable icon, Drawable coloredBackground, int backgroundColor, String title, String budget, Drawable budgetIconWithColor) {
-        text.setText(title);
-        categoryIcon.setImageDrawable(icon);
-        categoryIcon.setBackground(coloredBackground);
-        budgetIcon.setImageDrawable(budgetIconWithColor);
-        cardLayout.setBackgroundColor(backgroundColor);
-    }
-
-    @Override
-    public void onClick(View v) {
-        onNoteListener.onNoteClick(getBindingAdapterPosition());
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-        onNoteListener.onLongNoteClick(getBindingAdapterPosition());
-        return true;
-    }
-
-    public interface OnNoteListener {
-        void onNoteClick(int position);
-        void onLongNoteClick(int position);
+    public void bind(int categoryId, Drawable categoryIcon, Drawable categoryIconBackground, int cardLayoutBackgroundColor, String title, Drawable budgetIconWithColor) {
+        this.binding.setCategoryId(categoryId);
+        this.binding.setCategoryFragment(this.categoryFragment);
+        CategoryChildValues categoryValues = new CategoryChildValues(
+                title,
+                categoryIcon,
+                categoryIconBackground,
+                budgetIconWithColor,
+                cardLayoutBackgroundColor);
+        this.binding.setCategoryValues(categoryValues);
     }
 }

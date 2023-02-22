@@ -15,6 +15,9 @@
         <variable
             name="selectedIconName"
             type="String" />
+        <variable
+            name="buttonTitle"
+            type="String" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         tools:context=".ui.category.AddNewCategory"
@@ -94,6 +97,7 @@
             android:layout_width="match_parent"
             android:onClick="@{() -> addNewCategory.acceptButtonClick()}"
             style="@style/addButton"
+            android:text="@{buttonTitle}"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

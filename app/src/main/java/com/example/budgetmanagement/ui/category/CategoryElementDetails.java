@@ -1,5 +1,6 @@
 package com.example.budgetmanagement.ui.category;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,20 +10,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
+import com.example.budgetmanagement.database.rooms.Category;
+import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.databinding.CategoryElementDetailsBinding;
 import com.example.budgetmanagement.ui.details.CategoryDetails;
 
 public class CategoryElementDetails extends Fragment {
 
     private CategoryElementDetailsBinding binding;
-    public static final String CATEGORY_ID_ARG = "categoryId";
+    public static final String BUNDLE_CATEGORY_ID = "categoryId";
 
     public static CategoryElementDetails newInstance(int categoryId) {
         CategoryElementDetails fragment = new CategoryElementDetails();
         Bundle args = new Bundle();
-        args.putInt(CATEGORY_ID_ARG, categoryId);
+        args.putInt(BUNDLE_CATEGORY_ID, categoryId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -37,17 +41,29 @@ public class CategoryElementDetails extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        int categoryId = getArguments() != null ? getArguments().getInt(CATEGORY_ID_ARG, -1) : -1;
-
+        int categoryId = getCategoryIdFromBundle();
         if (categoryId == -1) {
-            Toast.makeText(requireContext(), R.string.not_found_id, Toast.LENGTH_SHORT).show();
-            requireActivity().onBackPressed();
+            showToUserErrorNotFoundInDatabase();
+            backToPreviousFragment();
             return;
         }
 
         CategoryDetails categoryDetails = new CategoryDetails(categoryId, this);
         binding.setCategoryDetails(categoryDetails);
+    }
+
+    private void backToPreviousFragment() {
+        requireActivity().onBackPressed();
+    }
+
+    private int getCategoryIdFromBundle() {
+        return (getArguments() != null) ? getArguments().getInt(BUNDLE_CATEGORY_ID, -1) : -1;
+    }
+
+    private void showToUserErrorNotFoundInDatabase() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        builder.setMessage(R.string.error_element_with_this_id_was_not_found)
+                .setPositiveButton("Ok", (dialog, id) -> {}).show();
     }
 
     @Override

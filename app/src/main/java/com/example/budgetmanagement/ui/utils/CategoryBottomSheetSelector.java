@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.ui.utils;
 
+import android.content.Context;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.adapters.CategoryBottomSheetAdapter;
 import com.example.budgetmanagement.database.rooms.Category;
-import com.example.budgetmanagement.database.viewholders.CategoryViewHolder;
+import com.example.budgetmanagement.database.viewholders.CategoryBottomSheetViewHolder;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.maltaisn.icondialog.pack.IconPack;
@@ -17,7 +19,7 @@ import com.maltaisn.icondialog.pack.IconPack;
 import java.util.List;
 import java.util.Objects;
 
-public class CategoryBottomSheetSelector extends Fragment implements CategoryViewHolder.OnNoteListener {
+public class CategoryBottomSheetSelector extends Fragment implements CategoryBottomSheetViewHolder.OnNoteListener {
 
     private BottomSheetDialog bottomSheetDialog;
     private LiveData<List<Category>> categoryLiveData;
@@ -27,23 +29,25 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
 
     public CategoryBottomSheetSelector(Fragment rootFragment) {
         categoryViewModel = new ViewModelProvider(rootFragment).get(CategoryViewModel.class);
-
+        Context context = rootFragment.requireContext();
+        
         IconPack iconPack = ((AppIconPack) rootFragment.requireActivity().getApplication()).getIconPack();
 
         final CategoryBottomSheetAdapter categoryBottomSheetAdapter =
                 new CategoryBottomSheetAdapter(
                         new CategoryBottomSheetAdapter.CategoryBottomSheetEntityDiff(),
+                        context,
                         iconPack,
-                        this::onNoteClick);
+                        this);
 
         categoryLiveData = categoryViewModel.getAllCategory();
         categoryLiveData.observe(rootFragment.getViewLifecycleOwner(),
                 categoryBottomSheetAdapter::submitList);
 
-        bottomSheetDialog = new BottomSheetDialog(rootFragment.requireContext());
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog);
+        bottomSheetDialog = new BottomSheetDialog(context);
+        bottomSheetDialog.setContentView(R.layout.category_selector);
 
-        RecyclerView bottomSheetRecyclerView = bottomSheetDialog.findViewById(R.id.monthsItems);
+        RecyclerView bottomSheetRecyclerView = bottomSheetDialog.findViewById(R.id.categoriesNames);
         Objects.requireNonNull(bottomSheetRecyclerView).setAdapter(categoryBottomSheetAdapter);
         bottomSheetRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
@@ -55,22 +59,11 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
     }
 
     @Override
-    public void onNoteClick(int position) {
-        List<Category> listOfEntity = categoryViewModel.getCategoryList();
-        this.selectedName = listOfEntity.get(position).getName();
-        this.iconId = listOfEntity.get(position).getIcon();
+    public void onNoteClick(int categoryId) {
+        Category selectedCategory = categoryViewModel.getCategoryById(categoryId);
+        this.selectedName = selectedCategory.getName();
+        this.iconId = selectedCategory.getIcon();
         bottomSheetDialog.cancel();
-    }
-
-    public void setCategory(int categoryId) {
-        Category categoryToSet = this.categoryViewModel.getCategoryById(categoryId);
-        this.selectedName = categoryToSet.getName();
-        this.iconId = categoryToSet.getIcon();
-    }
-
-    @Override
-    public void onLongNoteClick(int position) {
-        onNoteClick(position);
     }
 
     public BottomSheetDialog getBottomSheetDialog() {
@@ -92,5 +85,4 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryVie
     public void resetIconId() {
         this.iconId = 955;
     }
-
 }

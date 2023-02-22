@@ -76,8 +76,7 @@ public class AddNewTransactionBasedOnAnother extends AddNewTransaction {
                 transaction.getTitle(),
                 transaction.getAmount(),
                 transaction.getDeadline(),
-                new BigDecimal(transaction.getAmount()).signum() > 0
-        );
+                new BigDecimal(transaction.getAmount()).signum() > 0);
         super.getBinding().setTransactionValues(transactionValues);
 
         CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
