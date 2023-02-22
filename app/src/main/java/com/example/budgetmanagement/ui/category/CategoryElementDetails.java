@@ -1,22 +1,17 @@
 package com.example.budgetmanagement.ui.category;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.database.rooms.Category;
-import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.databinding.CategoryElementDetailsBinding;
 import com.example.budgetmanagement.ui.details.CategoryDetails;
+import com.example.budgetmanagement.ui.utils.BundleHelper;
 
 public class CategoryElementDetails extends Fragment {
 
@@ -41,9 +36,9 @@ public class CategoryElementDetails extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int categoryId = getCategoryIdFromBundle();
+        int categoryId = BundleHelper.getItemIdFromBundle(getArguments(), null);
         if (categoryId == -1) {
-            showToUserErrorNotFoundInDatabase();
+            BundleHelper.showToUserErrorNotFoundInDatabase(requireActivity());
             backToPreviousFragment();
             return;
         }
@@ -54,16 +49,6 @@ public class CategoryElementDetails extends Fragment {
 
     private void backToPreviousFragment() {
         requireActivity().onBackPressed();
-    }
-
-    private int getCategoryIdFromBundle() {
-        return (getArguments() != null) ? getArguments().getInt(BUNDLE_CATEGORY_ID, -1) : -1;
-    }
-
-    private void showToUserErrorNotFoundInDatabase() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setMessage(R.string.error_element_with_this_id_was_not_found)
-                .setPositiveButton("Ok", (dialog, id) -> {}).show();
     }
 
     @Override

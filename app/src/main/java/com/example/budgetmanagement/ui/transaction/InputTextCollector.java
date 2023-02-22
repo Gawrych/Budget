@@ -17,7 +17,7 @@ public class InputTextCollector {
     private final String emptyFieldErrorMessage;
 
     public InputTextCollector(Context context) {
-        emptyFieldErrorMessage = context.getString(R.string.empty_field);
+        this.emptyFieldErrorMessage = context.getString(R.string.empty_field);
     }
 
     public String collect(TextInputLayout inputLayout) {
@@ -39,7 +39,7 @@ public class InputTextCollector {
     }
 
     public void setErrorMessage(TextInputLayout inputLayout) {
-        inputLayout.setError(emptyFieldErrorMessage);
+        inputLayout.setError(this.emptyFieldErrorMessage);
     }
 
     public boolean areCorrectlyCollected() {

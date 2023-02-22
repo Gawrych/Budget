@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.ui.transaction;
 
+import static com.example.budgetmanagement.ui.utils.BundleHelper.BUNDLE_TRANSACTION_ID;
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.graphics.drawable.Drawable;
@@ -22,6 +24,7 @@ import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.EditTransactionFragmentBinding;
 import com.example.budgetmanagement.ui.utils.AppIconPack;
+import com.example.budgetmanagement.ui.utils.BundleHelper;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.google.android.material.textfield.TextInputLayout;
@@ -30,7 +33,6 @@ import java.math.BigDecimal;
 
 public class EditTransaction extends Fragment {
 
-    public static final String BUNDLE_TRANSACTION_ID = "transactionId";
     private Transaction transactionToEdit;
     private EditTransactionFragmentBinding binding;
 
@@ -65,9 +67,9 @@ public class EditTransaction extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.binding.setEditTransaction(this);
 
-        this.transactionToEdit = getTransactionToEditFromBundle();
+        this.transactionToEdit = BundleHelper.getTransactionFromBundle(getArguments(), this);
         if (transactionToEdit == null) {
-            showErrorToUser();
+            BundleHelper.showToUserErrorNotFoundInDatabase(requireActivity());
             backToPreviousFragment();
             return;
         }
@@ -75,18 +77,6 @@ public class EditTransaction extends Fragment {
         initializeDatePicker(binding.startDate);
         initializeCategoryPicker(binding.categorySelector);
         fillTextInputFields(transactionToEdit);
-    }
-
-    private Transaction getTransactionToEditFromBundle() {
-        int transactionId = (getArguments() != null) ? getArguments().getInt(BUNDLE_TRANSACTION_ID, -1) : -1;
-        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        return transactionViewModel.getTransactionById(transactionId);
-    }
-
-    private void showErrorToUser() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setMessage(R.string.error_element_with_this_id_was_not_found)
-                .setPositiveButton("Ok", (dialog, id) -> {}).show();
     }
 
     private void backToPreviousFragment() {

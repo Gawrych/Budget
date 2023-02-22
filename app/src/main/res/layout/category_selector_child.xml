@@ -22,10 +22,7 @@
 
     <LinearLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
+        style="@style/bottomSheetItemLayoutWide"
         android:onClick="@{() -> categoryBottomSheetViewHolder.onClickListener(categoryId)}"
         tools:ignore="UseCompoundDrawables">
 

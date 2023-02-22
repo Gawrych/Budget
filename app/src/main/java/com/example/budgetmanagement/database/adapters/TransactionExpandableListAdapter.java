@@ -95,9 +95,7 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
 
     @Override
     public View getChildView(final int i, final int i1, boolean b, View view, ViewGroup viewGroup) {
-        if (view == null){
-            view = getInflatedView(viewGroup);
-        }
+        if (view == null) view = getInflatedView(viewGroup);
 
         TextView titleField = view.findViewById(R.id.titleLayout);
         TextView amountField = view.findViewById(R.id.amount);

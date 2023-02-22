@@ -1,6 +1,5 @@
 package com.example.budgetmanagement.ui.category;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,19 +7,16 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Category;
 import com.example.budgetmanagement.database.rooms.CategoryQuery;
-import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
-import com.maltaisn.icondialog.IconDialog;
+import com.example.budgetmanagement.ui.utils.BundleHelper;
 
 import java.math.BigDecimal;
 
-public class EditCategory extends AddNewCategory {
+public class EditCategory extends AddNewCategory implements BundleHelper {
 
-    private static final String BUNDLE_CATEGORY_ID = "categoryId";
     private Category categoryToEdit;
 
     public static EditCategory newInstance(int categoryId) {
@@ -47,27 +43,14 @@ public class EditCategory extends AddNewCategory {
         super.onViewCreated(view, savedInstanceState);
         super.getBinding().setButtonTitle(getString(R.string.edit));
 
-
-        categoryToEdit = getCategoryToEditFromBundle();
+        categoryToEdit = BundleHelper.getCategoryFromBundle(getArguments(),this);
         if (categoryToEdit == null) {
-            showToUserErrorNotFoundInDatabase();
+            BundleHelper.showToUserErrorNotFoundInDatabase(requireActivity());
             super.backToPreviousFragment();
             return;
         }
 
         fillTextInputFields(categoryToEdit);
-    }
-
-    private Category getCategoryToEditFromBundle() {
-        int categoryId = (getArguments() != null) ? getArguments().getInt(BUNDLE_CATEGORY_ID, -1) : -1;
-        CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-        return categoryViewModel.getCategoryById(categoryId);
-    }
-
-    private void showToUserErrorNotFoundInDatabase() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setMessage(R.string.error_element_with_this_id_was_not_found)
-                .setPositiveButton("Ok", (dialog, id) -> {}).show();
     }
 
     private void fillTextInputFields(Category category) {

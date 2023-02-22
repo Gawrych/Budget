@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.ui.transaction;
 
+import static com.example.budgetmanagement.ui.utils.BundleHelper.BUNDLE_TRANSACTION_ID;
+
 import android.app.AlertDialog;
 import android.os.Bundle;
 
@@ -18,6 +20,7 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.ActionTransactionHandlerBottomSheetBinding;
+import com.example.budgetmanagement.ui.utils.BundleHelper;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.Calendar;
@@ -25,13 +28,12 @@ import java.util.Calendar;
 public class ActionTransactionItemHandler extends BottomSheetDialogFragment {
 
     private ActionTransactionHandlerBottomSheetBinding binding;
-    private static final String BUNDLE_COMING_VALUE = "coming_value";
-    private TransactionViewModel transactionViewModel;
     private Transaction transaction;
+    private TransactionViewModel transactionViewModel;
 
-    public static ActionTransactionItemHandler newInstance(int comingId) {
+    public static ActionTransactionItemHandler newInstance(int transactionId) {
         Bundle bundle = new Bundle();
-        bundle.putInt(BUNDLE_COMING_VALUE, comingId);
+        bundle.putInt(BUNDLE_TRANSACTION_ID, transactionId);
         ActionTransactionItemHandler bottomComing = new ActionTransactionItemHandler();
         bottomComing.setArguments(bundle);
         return bottomComing;
@@ -47,58 +49,26 @@ public class ActionTransactionItemHandler extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-
-        int transactionId = getArguments() != null ? getArguments().getInt(BUNDLE_COMING_VALUE, -1) : -1;
-
-        if (transactionId == -1) {
-            Toast.makeText(requireContext(), R.string.coming_id_not_found, Toast.LENGTH_SHORT).show();
-            dismiss();
-            return;
-        }
-
-        this.transaction = transactionViewModel.getTransactionById(transactionId);
-
+        this.transaction = BundleHelper.getTransactionFromBundle(getArguments(), this);
         if (transaction == null) {
-            Toast.makeText(requireContext(), R.string.coming_not_found+transactionId, Toast.LENGTH_SHORT).show();
+            BundleHelper.showToUserErrorNotFoundInDatabase(requireActivity());
             dismiss();
             return;
         }
 
-        if (transaction.isExecuted()) {
-            changeButtonText();
-        }
-
-        binding.executeLayout.setOnClickListener(v -> execute());
-
-        binding.duplicateLayout.setOnClickListener(v -> createNewComingByThisPattern());
-
-        binding.editLayout.setOnClickListener(v -> edit());
-
-        binding.deleteLayout.setOnClickListener(v -> delete());
+        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        this.binding.setActionTransactionItemHandler(this);
+        this.binding.setIsExecuted(transaction.isExecuted());
     }
 
-    private void changeButtonText() {
-        binding.executeLabel.setText(R.string.realized);
-    }
-
-    public void execute() {
-        boolean negateExecute = !this.transaction.isExecuted();
-        this.transaction.setExecuted(negateExecute);
-        this.transaction.setExecutedDate(getTodayDate().getTimeInMillis());
-        updateComingInDatabase();
+    public void executeActionOnClick(boolean isExecuted) {
+        this.transaction.setExecuted(!isExecuted);
+        this.transaction.setExecutedDate(System.currentTimeMillis());
+        transactionViewModel.update(this.transaction);
         dismiss();
     }
 
-    private Calendar getTodayDate() {
-        return Calendar.getInstance();
-    }
-
-    private void updateComingInDatabase() {
-        transactionViewModel.update(this.transaction);
-    }
-
-    private void delete() {
+    public void deleteActionOnClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setMessage(R.string.are_you_sure_to_delete)
                 .setPositiveButton(R.string.delete, (dialog, id) -> {
@@ -113,7 +83,7 @@ public class ActionTransactionItemHandler extends BottomSheetDialogFragment {
         transactionViewModel.delete(this.transaction);
     }
 
-    private void edit() {
+    public void editActionOnClick() {
         View rootView = getRootView();
         if (rootView == null) {
             dismiss();
@@ -128,7 +98,7 @@ public class ActionTransactionItemHandler extends BottomSheetDialogFragment {
         dismiss();
     }
 
-    private void createNewComingByThisPattern() {
+    public void duplicateActionOnClick() {
         View rootView = getRootView();
         if (rootView == null) {
             dismiss();
@@ -146,10 +116,7 @@ public class ActionTransactionItemHandler extends BottomSheetDialogFragment {
 
     private View getRootView() {
         Fragment parentFragment = getParentFragment();
-        if (parentFragment == null) {
-            return null;
-        }
-
-        return  parentFragment.getView();
+        if (parentFragment == null) return null;
+        return parentFragment.getView();
     }
 }

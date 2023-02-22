@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.ui.transaction;
 
+import static com.example.budgetmanagement.ui.utils.BundleHelper.BUNDLE_TRANSACTION_ID;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,16 +17,16 @@ import android.widget.Toast;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.databinding.TransactionDetailsBinding;
 import com.example.budgetmanagement.ui.details.TransactionConverterForBinding;
+import com.example.budgetmanagement.ui.utils.BundleHelper;
 
 public class TransactionDetails extends Fragment {
 
-    public static final String TRANSACTION_ID_ARG = "transactionId";
     private TransactionDetailsBinding binding;
 
     public static TransactionDetails newInstance(int comingId) {
         TransactionDetails fragment = new TransactionDetails();
         Bundle args = new Bundle();
-        args.putInt(TRANSACTION_ID_ARG, comingId);
+        args.putInt(BUNDLE_TRANSACTION_ID, comingId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,10 +41,9 @@ public class TransactionDetails extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int transactionId = getArguments() != null ? getArguments().getInt(TRANSACTION_ID_ARG, -1) : -1;
-
+        int transactionId = BundleHelper.getItemIdFromBundle(getArguments(), BUNDLE_TRANSACTION_ID);
         if (transactionId == -1) {
-            Toast.makeText(requireContext(), R.string.not_found_id, Toast.LENGTH_SHORT).show();
+            BundleHelper.showToUserErrorNotFoundInDatabase(requireActivity());
             requireActivity().onBackPressed();
             return;
         }

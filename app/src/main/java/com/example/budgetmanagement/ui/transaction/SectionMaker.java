@@ -41,7 +41,6 @@ public class SectionMaker {
         sectionList.clear();
         collectTransactionByMonthId();
         months.forEach((name, id) -> sectionList.add(new Section(name, transactionsCollection.get(id))));
-
         return sectionList;
     }
 

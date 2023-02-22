@@ -1,89 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:paddingBottom="20dp"
-    android:orientation="vertical"
-    android:id="@+id/buttons"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".ui.transaction.ActionTransactionItemHandler">
+    <data>
+        <variable
+            name="actionTransactionItemHandler"
+            type="com.example.budgetmanagement.ui.transaction.ActionTransactionItemHandler" />
+        <variable
+            name="isExecuted"
+            type="boolean" />
+    </data>
 
     <LinearLayout
-        android:id="@+id/executeLayout"
-        style="@style/DetailsButtonLayout"
-        tools:ignore="UseCompoundDrawables">
+        style="@style/bottomSheetLayout"
+        android:id="@+id/buttons">
 
-        <ImageView
-            android:id="@+id/executeIcon"
-            style="@style/DetailsIconButtonField"
-            android:src="@drawable/ic_baseline_done_all_24"
-            android:contentDescription="@string/done_check_sign" />
+        <LinearLayout
+            android:id="@+id/executeLayout"
+            android:onClick="@{() -> actionTransactionItemHandler.executeActionOnClick(isExecuted)}"
+            style="@style/bottomSheetItemLayout">
 
-        <TextView
-            android:id="@+id/executeLabel"
-            style="@style/DetailsLabelButtonField"
-            android:text="@string/execute" />
+            <TextView
+                android:id="@+id/executeAction"
+                style="@style/bottomSheetTextViewItem"
+                android:text="@{isExecuted ? @string/cancel : @string/realize}"
+                app:drawableStartCompat="@drawable/ic_baseline_done_all_24"
+                android:textColor="@color/mat_green"
+                app:drawableTint="@color/mat_green" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/duplicateLayout"
+            android:onClick="@{() -> actionTransactionItemHandler.duplicateActionOnClick()}"
+            style="@style/bottomSheetItemLayout">
+
+            <TextView
+                android:id="@+id/duplicateAction"
+                style="@style/bottomSheetTextViewItem"
+                android:text="@string/create_similar"
+                app:drawableStartCompat="@drawable/ic_baseline_content_copy_24" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/editLayout"
+            android:onClick="@{() -> actionTransactionItemHandler.editActionOnClick()}"
+            style="@style/bottomSheetItemLayout">
+
+            <TextView
+                android:id="@+id/editAction"
+                style="@style/bottomSheetTextViewItem"
+                android:text="@string/edit"
+                app:drawableStartCompat="@drawable/ic_baseline_edit_24" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/deleteLayout"
+            android:onClick="@{() -> actionTransactionItemHandler.deleteActionOnClick()}"
+            style="@style/bottomSheetItemLayout">
+
+            <TextView
+                android:id="@+id/deleteAction"
+                style="@style/bottomSheetTextViewItem"
+                android:text="@string/delete"
+                app:drawableStartCompat="@drawable/ic_baseline_delete_24"
+                android:textColor="@color/mat_red"
+                app:drawableTint="@color/mat_red" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/duplicateLayout"
-        style="@style/DetailsButtonLayout"
-        tools:ignore="UseCompoundDrawables">
-
-        <ImageView
-            android:id="@+id/duplicateIcon"
-            style="@style/DetailsIconButtonField"
-            android:src="@drawable/ic_baseline_content_copy_24"
-            app:tint="@color/font_default"
-            android:contentDescription="@string/duplicate_icon" />
-
-        <TextView
-            android:id="@+id/duplicateLabel"
-            style="@style/DetailsLabelButtonField"
-            android:text="@string/create_similar" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/editLayout"
-        style="@style/DetailsButtonLayout"
-        tools:ignore="UseCompoundDrawables">
-
-        <ImageView
-            android:id="@+id/editIcon"
-            style="@style/DetailsIconButtonField"
-            android:src="@drawable/ic_baseline_edit_24"
-            app:tint="@color/font_default"
-            android:contentDescription="@string/edit_icon" />
-
-        <TextView
-            android:id="@+id/editLabel"
-            style="@style/DetailsLabelButtonField"
-            android:text="@string/edit" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/deleteLayout"
-        style="@style/DetailsButtonLayout"
-        tools:ignore="UseCompoundDrawables">
-
-        <ImageView
-            android:id="@+id/deleteIcon"
-            style="@style/DetailsIconButtonField"
-            android:src="@drawable/ic_baseline_delete_24"
-            app:tint="@color/mat_red"
-            android:contentDescription="@string/delete_icon" />
-
-        <TextView
-            android:id="@+id/deleteLabel"
-            style="@style/DetailsLabelButtonField"
-            android:text="@string/delete"
-            android:textColor="@color/mat_red"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</layout>

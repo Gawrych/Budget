@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.ui.category;
 
+import static com.example.budgetmanagement.ui.utils.BundleHelper.BUNDLE_CATEGORY_ID;
+
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,19 +19,17 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.ActionCategoryHandlerBottomSheetBinding;
+import com.example.budgetmanagement.ui.utils.BundleHelper;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class ActionCategoryItemHandler extends BottomSheetDialogFragment {
 
     private ActionCategoryHandlerBottomSheetBinding binding;
-    private static final String BUNDLE_CATEGORY_VALUE = "coming_value";
-    private TransactionViewModel transactionViewModel;
-    private CategoryViewModel categoryViewModel;
     private int categoryId;
 
     public static ActionCategoryItemHandler newInstance(int categoryId) {
         Bundle bundle = new Bundle();
-        bundle.putInt(BUNDLE_CATEGORY_VALUE, categoryId);
+        bundle.putInt(BUNDLE_CATEGORY_ID, categoryId);
         ActionCategoryItemHandler bottomCategory = new ActionCategoryItemHandler();
         bottomCategory.setArguments(bundle);
         return bottomCategory;
@@ -45,21 +45,17 @@ public class ActionCategoryItemHandler extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-        this.transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        this.categoryId = getArguments() != null ? getArguments().getInt(BUNDLE_CATEGORY_VALUE, -1) : -1;
-
+        this.categoryId = BundleHelper.getItemIdFromBundle(getArguments(), BUNDLE_CATEGORY_ID);
         if (categoryId == -1) {
-            Toast.makeText(requireContext(), R.string.category_id_not_found, Toast.LENGTH_SHORT).show();
+            BundleHelper.showToUserErrorNotFoundInDatabase(requireActivity());
             dismiss();
             return;
         }
 
-        binding.editLayout.setOnClickListener(v -> editSelectedElement());
-        binding.deleteLayout.setOnClickListener(v -> deleteItemChoiceDialog());
+        this.binding.setActionCategoryItemHandler(this);
     }
 
-    private void deleteItemChoiceDialog() {
+    public void deleteActionOnCLick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setMessage(R.string.are_you_sure_to_delete)
                 .setPositiveButton(R.string.delete, (dialog, id) -> {
@@ -71,16 +67,18 @@ public class ActionCategoryItemHandler extends BottomSheetDialogFragment {
     }
 
     private void removeFromDatabase() {
+        TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         transactionViewModel.changeAllFromDeletedCategoryToDefault(this.categoryId);
+
+        CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         categoryViewModel.delete(this.categoryId);
     }
 
-    private void editSelectedElement() {
-        View rootView = getRootView();
-        if (rootView == null) {
-            dismiss();
-            return;
-        }
+    public void editActionOnCLick() {
+        Fragment parentFragment = getParentFragment();
+        if (parentFragment == null) return;
+        View rootView = parentFragment.getView();
+        if (rootView == null) return;
 
         EditCategory editCategory = EditCategory.newInstance(this.categoryId);
         Bundle bundle = editCategory.getArguments();
@@ -88,14 +86,5 @@ public class ActionCategoryItemHandler extends BottomSheetDialogFragment {
         Navigation.findNavController(rootView)
                 .navigate(R.id.action_navigation_category_to_editCategory, bundle);
         dismiss();
-    }
-
-    private View getRootView() {
-        Fragment parentFragment = getParentFragment();
-        if (parentFragment == null) {
-            return null;
-        }
-
-        return  parentFragment.getView();
     }
 }
