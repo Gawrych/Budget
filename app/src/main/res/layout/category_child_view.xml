@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="140dp"
-    android:gravity="center"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="categoryValues"
+            type="com.example.budgetmanagement.ui.category.CategoryChildValues" />
+        <variable
+            name="categoryFragment"
+            type="com.example.budgetmanagement.ui.category.CategoryFragment" />
+        <variable
+            name="categoryId"
+            type="int" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="140dp"
+        android:gravity="center" >
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
@@ -14,64 +26,69 @@
         android:layout_marginEnd="5dp"
         app:cardCornerRadius="7dp"
         app:cardElevation="1dp"
-        android:clickable="false"
+        android:onClick="@{() -> categoryFragment.onItemClickListener(categoryId)}"
+        android:onLongClick="@{() -> categoryFragment.onItemLongClickListener(categoryId)}"
+        android:clickable="true"
         app:cardBackgroundColor="@color/white">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cardLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@{categoryValues.cardLayoutBackgroundColor}">
 
-            <ImageView
-                android:id="@+id/categoryIcon"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:layout_marginStart="20dp"
-                android:background="@drawable/icon_background"
-                android:contentDescription="@string/category_icon"
-                android:elevation="5dp"
-                android:padding="7dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_shopping_basket_24"
-                app:tint="@color/white" />
+                <ImageView
+                    android:id="@+id/categoryIcon"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="20dp"
+                    android:background="@{categoryValues.categoryIconBackground}"
+                    android:contentDescription="@string/category_icon"
+                    android:elevation="5dp"
+                    android:padding="7dp"
+                    app:layout_constraintBottom_toTopOf="@+id/title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@{categoryValues.categoryIcon, default=@drawable/ic_outline_icon_not_found_24}"
+                    app:tint="@color/white" />
 
-            <ImageView
-                android:id="@+id/budgetIcon"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/background_oval"
-                android:backgroundTint="@color/indigo"
-                android:contentDescription="@string/category_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_arrow_drop_up_24" />
+                <ImageView
+                    android:id="@+id/budgetIcon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/background_oval"
+                    android:backgroundTint="@color/indigo"
+                    android:contentDescription="@string/category_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@{categoryValues.budgetIconWithColor, default=@drawable/ic_outline_icon_not_found_24}" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:gravity="center"
-                android:text="Example name"
-                android:textColor="@color/dark_accent"
-                android:textSize="16sp"
-                android:background="@drawable/round_all_corners"
-                android:backgroundTint="@color/white_30"
-                android:padding="5dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/categoryIcon" />
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center"
+                    android:text="@{categoryValues.title}"
+                    android:textColor="@color/dark_accent"
+                    android:textSize="16sp"
+                    android:background="@drawable/round_all_corners"
+                    android:backgroundTint="@color/white_30"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/categoryIcon" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
 
-</LinearLayout>
+    </LinearLayout>
+
+</layout>

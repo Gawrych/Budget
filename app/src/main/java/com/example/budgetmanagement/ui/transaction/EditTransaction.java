@@ -40,8 +40,6 @@ public class EditTransaction extends Fragment {
     private String startDateInPattern;
     private AppIconPack appIconPack;
 
-//    TODO: Change button text to edit from add
-
     public static EditTransaction newInstance(int transactionId) {
         Bundle bundle = new Bundle();
         bundle.putInt(BUNDLE_TRANSACTION_ID, transactionId);

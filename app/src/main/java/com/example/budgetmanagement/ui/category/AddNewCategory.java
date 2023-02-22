@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.CategoryQuery;
-import com.example.budgetmanagement.databinding.AddNewCategoryFragmentBinding;
+import com.example.budgetmanagement.databinding.AddNewEditCategoryFragmentBinding;
 import com.example.budgetmanagement.ui.transaction.InputTextCollector;
 import com.example.budgetmanagement.ui.utils.AppIconPack;
 import com.google.android.material.textfield.TextInputLayout;
@@ -33,7 +33,7 @@ import java.util.List;
 public class AddNewCategory extends Fragment implements IconDialog.Callback {
 
     private static final String ICON_DIALOG_TAG = "iconDialog";
-    private AddNewCategoryFragmentBinding binding;
+    private AddNewEditCategoryFragmentBinding binding;
     private int iconId;
     private int colorPosition;
     private int colorResources;
@@ -49,7 +49,7 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.binding = AddNewCategoryFragmentBinding.inflate(inflater, container, false);
+        this.binding = AddNewEditCategoryFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -57,6 +57,7 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.binding.setAddNewCategory(this);
+        this.binding.setButtonTitle(getString(R.string.add));
 
         initializeIconPicker(binding.iconPicker);
         initializeColorPicker(binding.colorPicker, binding.colorPickerLayout);
@@ -153,7 +154,7 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
         binding.setSelectedIconName(selectedIcon.getTags().get(0));
     }
 
-    protected AddNewCategoryFragmentBinding getBinding() {
+    protected AddNewEditCategoryFragmentBinding getBinding() {
         return binding;
     }
 

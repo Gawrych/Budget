@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.ColorUtils;
@@ -17,22 +19,23 @@ import androidx.recyclerview.widget.ListAdapter;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.viewholders.CategoryViewHolder;
 import com.example.budgetmanagement.database.rooms.Category;
+import com.example.budgetmanagement.ui.category.CategoryFragment;
+import com.maltaisn.icondialog.data.Icon;
 import com.maltaisn.icondialog.pack.IconPack;
 
 import java.math.BigDecimal;
 
 public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
 
-    private CategoryViewHolder.OnNoteListener mOnNoteListener;
-    private IconPack iconPack;
-    private View view;
-    private Context context;
+    private final CategoryFragment categoryFragment;
+    private final IconPack iconPack;
+    private final Context context;
 
-    public CategoryAdapter(@NonNull DiffUtil.ItemCallback<Category> diffCallback, IconPack iconPack, CategoryViewHolder.OnNoteListener onNoteListener, Context context) {
+    public CategoryAdapter(@NonNull DiffUtil.ItemCallback<Category> diffCallback, IconPack iconPack, CategoryFragment categoryFragment, Context context) {
         super(diffCallback);
         this.iconPack = iconPack;
         this.context = context;
-        this.mOnNoteListener = onNoteListener;
+        this.categoryFragment = categoryFragment;
     }
 
     @NonNull
@@ -45,7 +48,8 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         Category current = getItem(position);
         int iconId = current.getIcon();
-        Drawable icon = iconPack.getIcon(iconId).getDrawable();
+        Icon iconPackIcon = iconPack.getIcon(iconId);
+        Drawable icon = (iconPackIcon == null) ? getNotFoundIcon() : iconPackIcon.getDrawable();
 
         int color = current.getColor();
         Drawable coloredBackground =
@@ -53,7 +57,12 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
 
         int backgroundColor = ColorUtils.setAlphaComponent(color, 51);
 
-        holder.bind(icon, coloredBackground, backgroundColor, current.getName(), current.getBudget(), getAmountIconDependOfValue(current.getBudget()));
+        holder.bind(current.getCategoryId(), icon, coloredBackground, backgroundColor, current.getName(), getAmountIconDependOfValue(current.getBudget()));
+    }
+
+    @Nullable
+    private Drawable getNotFoundIcon() {
+        return AppCompatResources.getDrawable(this.context, R.drawable.ic_outline_icon_not_found_24);
     }
 
     public Drawable getAmountIconDependOfValue(String value) {
@@ -71,14 +80,10 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
 
     private Drawable getDrawableWithColor(int drawableId, int colorId) {
         Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), drawableId, null);
-
-        if (drawable != null) {
-            Drawable drawableWrapped = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawableWrapped, colorId);
-            return drawableWrapped;
-        }
-
-        return null;
+        if (drawable == null) return null;
+        Drawable drawableWrapped = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawableWrapped, colorId);
+        return drawableWrapped;
     }
 
     private int getColorFromRes(int colorId) {
@@ -86,9 +91,9 @@ public class CategoryAdapter extends ListAdapter<Category, CategoryViewHolder> {
     }
 
     public CategoryViewHolder create(ViewGroup parent) {
-        view = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.category_child_view, parent, false);
-        return new CategoryViewHolder(view, mOnNoteListener);
+        return new CategoryViewHolder(view, categoryFragment);
     }
 
     public static class CategoryDiff extends DiffUtil.ItemCallback<Category> {
