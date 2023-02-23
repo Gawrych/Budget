@@ -1,75 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/mainLayout"
-    android:layout_width="match_parent"
-    android:layout_height="88dp"
-    android:paddingStart="24dp"
-    android:paddingEnd="24dp">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="com.example.budgetmanagement.ui.utils.DateProcessor" />
+        <import type="com.example.budgetmanagement.R" />
+        <variable name="transactionFragment"
+            type="com.example.budgetmanagement.database.adapters.TransactionExpandableListAdapter" />
+        <variable name="transactionId"
+            type="int" />
+        <variable name="title"
+            type="String" />
+        <variable name="remainingDays"
+            type="String" />
+        <variable name="remainingDaysTextColor"
+            type="int" />
+        <variable name="amount"
+            type="String" />
+        <variable name="deadlineDate"
+            type="long" />
+        <variable name="isProfit"
+            type="boolean" />
+        <variable name="icon"
+            type="android.graphics.drawable.Drawable" />
+        <variable name="iconBackground"
+            type="android.graphics.drawable.Drawable" />
+    </data>
 
-    <ImageView
-        android:id="@+id/outOfDateIcon"
-        style="@style/comingChildItemIcon"
-        android:src="@drawable/ic_baseline_event_busy_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:onClick="@{() -> transactionFragment.onChildCLickListener(transactionId)}"
+        android:layout_height="88dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
 
-    <TextView
-        android:id="@+id/titleLayout"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="5dp"
-        android:gravity="center_vertical|bottom"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="@string/default_item_title_value"
-        android:textColor="#303030"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/amount"
-        app:layout_constraintStart_toEndOf="@+id/outOfDateIcon"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/outOfDateIcon"
+            style="@style/comingChildItemIcon"
+            android:src="@{icon, default=@drawable/ic_outline_icon_not_found_24}"
+            android:background="@{iconBackground}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/category_icon" />
 
-    <TextView
-        android:id="@+id/remainingDays"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginTop="10dp"
-        android:gravity="bottom"
-        android:text="@string/remaining_days_example"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@+id/titleLayout"
-        app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
+        <TextView
+            android:id="@+id/titleLayout"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="center_vertical|bottom"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{title}"
+            android:textColor="#303030"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/amount"
+            app:layout_constraintStart_toEndOf="@+id/outOfDateIcon"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/repeatDate"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:gravity="bottom"
-        android:layout_marginTop="10dp"
-        android:text="@string/date_in_day_month_pattern_example"
-        android:textColor="@color/font_default"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
+        <TextView
+            android:id="@+id/remainingDays"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="bottom"
+            android:text="@{remainingDays}"
+            android:textColor="@{remainingDaysTextColor}"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/titleLayout"
+            app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
 
-    <TextView
-        android:id="@+id/amount"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="13dp"
-        android:gravity="bottom|end"
+        <TextView
+            android:id="@+id/repeatDate"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:text="@{DateProcessor.parse(deadlineDate, DateProcessor.MONTH_NAME_DATE_FORMAT)}"
+            android:textColor="@color/font_default"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
 
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="13dp"
+            android:gravity="bottom|end"
+            android:text="@{@string/amount_with_polish_currency(amount)}"
+            android:textColor="@{isProfit ? @color/main_green : @color/black}"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-        android:text="@string/default_amount_value"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

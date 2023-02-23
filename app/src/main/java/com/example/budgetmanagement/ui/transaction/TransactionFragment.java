@@ -25,7 +25,7 @@ import com.maltaisn.icondialog.pack.IconPack;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class TransactionFragment extends Fragment {
+public class TransactionFragment extends Fragment implements TransactionExpandableListAdapter.OnChildClickListener {
 
     public static final String COMING_BOTTOM_SHEET_TAG = "coming_bottom_sheet";
     private ArrayList<Section> currentSectionList = new ArrayList<>();
@@ -34,6 +34,8 @@ public class TransactionFragment extends Fragment {
     private TransactionFragmentBinding binding;
     private SectionMaker sectionMaker;
     private int selectedYear;
+    private View view;
+    private TransactionViewModel transactionViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,16 +52,18 @@ public class TransactionFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        this.view = view;
         super.onViewCreated(view, savedInstanceState);
+        this.binding.setTransactionFragment(this);
 
         IconPack iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
         expandableListAdapter = new TransactionExpandableListAdapter
-                (requireContext(), this.currentSectionList, this, iconPack);
+                (requireContext(), this.currentSectionList, this, iconPack, this);
 
         binding.expandableListView.setAdapter(expandableListAdapter);
         binding.yearPicker.setText(String.valueOf(selectedYear));
 
-        TransactionViewModel transactionViewModel =
+        transactionViewModel =
                 new ViewModelProvider(this).get(TransactionViewModel.class);
 
         sectionMaker = new SectionMaker(transactionViewModel, requireContext(), selectedYear);
@@ -79,12 +83,22 @@ public class TransactionFragment extends Fragment {
         binding.expandableListView.setOnItemLongClickListener
                 ((parent, v, flatPosition, id) -> showItemBottomSheetMenu(parent, flatPosition));
 
-        binding.addButton.setOnClickListener(root -> Navigation.findNavController(root)
-                .navigate(R.id.action_navigation_transaction_to_addNewTransactionElement));
-
         binding.expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
+    }
 
-        binding.yearPicker.setOnClickListener(v -> prepareYearPicker());
+    @Override
+    public void onChildClickListener(int transactionId) {
+        Transaction transaction = transactionViewModel.getTransactionById(transactionId);
+        TransactionDetails transactionDetails =
+                TransactionDetails.newInstance(transaction.getTransactionId());
+        Navigation.findNavController(view).navigate(
+                R.id.action_navigation_transaction_to_transactionElementDetails,
+                transactionDetails.getArguments());
+    }
+
+    public void addButtonOnCLick() {
+        Navigation.findNavController(this.view)
+                .navigate(R.id.action_navigation_transaction_to_addNewTransactionElement);
     }
 
     private int getActualPositionToScroll() {
@@ -124,7 +138,7 @@ public class TransactionFragment extends Fragment {
         return false;
     }
 
-    private void prepareYearPicker() {
+    public void yearSelectorOnClick() {
         final Calendar calendarInstance = Calendar.getInstance();
         int mMonth = calendarInstance.get(Calendar.MONTH);
         int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);

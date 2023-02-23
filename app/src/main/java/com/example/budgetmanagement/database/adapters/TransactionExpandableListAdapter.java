@@ -1,7 +1,5 @@
 package com.example.budgetmanagement.database.adapters;
 
-import static com.example.budgetmanagement.ui.utils.DateProcessor.MONTH_NAME_DATE_FORMAT;
-
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
@@ -15,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -22,17 +21,17 @@ import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Category;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
+import com.example.budgetmanagement.databinding.TransactionChildViewBinding;
 import com.example.budgetmanagement.ui.transaction.Section;
-import com.example.budgetmanagement.ui.utils.AmountFieldModifierToViewHolder;
-import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.maltaisn.icondialog.data.Icon;
 import com.maltaisn.icondialog.pack.IconPack;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
 
 public class TransactionExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -40,11 +39,13 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
     private final IconPack iconPack;
     private ArrayList<Section> items;
     private final CategoryViewModel categoryViewModel;
+    private final OnChildClickListener onChildClickListener;
 
-    public TransactionExpandableListAdapter(Context context, ArrayList<Section> items, ViewModelStoreOwner owner, IconPack iconPack) {
+    public TransactionExpandableListAdapter(Context context, ArrayList<Section> items, ViewModelStoreOwner owner, IconPack iconPack, OnChildClickListener onChildClickListener) {
         this.context = context;
         this.items = items;
         this.iconPack = iconPack;
+        this.onChildClickListener = onChildClickListener;
         categoryViewModel = new ViewModelProvider(owner).get(CategoryViewModel.class);
     }
 
@@ -95,53 +96,35 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
 
     @Override
     public View getChildView(final int i, final int i1, boolean b, View view, ViewGroup viewGroup) {
-        if (view == null) view = getInflatedView(viewGroup);
+//       TODO: Get back to well working version
+        if (view == null) {
+            LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+            view = inflater.inflate(R.layout.transaction_group_view, viewGroup, false);
+            final TransactionChildViewBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.transaction_child_view, viewGroup, false);
+            if (binding == null) return null;
 
-        TextView titleField = view.findViewById(R.id.titleLayout);
-        TextView amountField = view.findViewById(R.id.amount);
-        TextView dateField = view.findViewById(R.id.repeatDate);
-        TextView remainingDaysField = view.findViewById(R.id.remainingDays);
-        ImageView mainIconField = view.findViewById(R.id.outOfDateIcon);
+            Transaction item = getChild(i, i1);
+            Category category = categoryViewModel.getCategoryById(item.getCategoryId());
+            long repeatDate = item.getDeadline();
+            Drawable icon = convertIconIdToDrawable(category.getIcon());
+            Drawable iconBackground = getIconBackground(category.getColor());
 
-        Transaction item = getChild(i, i1);
-        String amount = item.getAmount();
-        long repeatDate = item.getDeadline();
-        boolean isExecuted = item.isExecuted();
+            binding.setTransactionFragment(this);
+            binding.setTransactionId(item.getTransactionId());
+            binding.setTitle(item.getTitle());
+            binding.setAmount(item.getAmount());
+            binding.setDeadlineDate(repeatDate);
+            binding.setIsProfit(new BigDecimal(item.getAmount()).signum() > 0);
+            binding.setIcon(icon);
+            binding.setIconBackground(iconBackground);
+            setRemainingDays(binding, repeatDate, item.isExecuted());
 
-        setTitleField(titleField, item.getTitle());
-        setAmountField(amountField, amount);
-        setDateField(dateField, repeatDate);
-        setRemainingDays(remainingDaysField, repeatDate, isExecuted);
-        setMainIcon(mainIconField, item.getCategoryId());
-
+            view = binding.getRoot();
+        }
         return view;
     }
 
-    private View getInflatedView(ViewGroup viewGroup) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        return inflater.inflate(R.layout.transaction_child_view, viewGroup, false);
-    }
-
-    private void setTitleField(TextView titleField, String title) {
-        titleField.setText(title);
-    }
-
-    private void setAmountField(TextView amountField, String amount) {
-        AmountFieldModifierToViewHolder amountFieldModifierToViewHolder = new AmountFieldModifierToViewHolder(amountField);
-        amountFieldModifierToViewHolder.setRedColorIfIsNegative(amount);
-        amountField.setText(getAmountWithCurrency(amount));
-    }
-
-    private String getAmountWithCurrency(String amount) {
-        String currency = context.getString(R.string.polish_currency);
-        return context.getString(R.string.amount_with_currency, amount, currency);
-    }
-
-    private void setDateField(TextView dateField, long repeatDate) {
-        dateField.setText(DateProcessor.parse(repeatDate, MONTH_NAME_DATE_FORMAT));
-    }
-
-    private void setRemainingDays(TextView remainingDays, long deadline, boolean isExecuted) {
+    private void setRemainingDays(TransactionChildViewBinding binding, long deadline, boolean isExecuted) {
         int days = getRemainingDaysNumber(deadline);
         int textColor;
         String remainingDaysText;
@@ -160,8 +143,8 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
             textColor = R.color.font_default;
         }
 
-        remainingDays.setText(remainingDaysText);
-        remainingDays.setTextColor(context.getColor(textColor));
+        binding.setRemainingDays(remainingDaysText);
+        binding.setRemainingDaysTextColor(context.getColor(textColor));
     }
 
     private int getRemainingDaysNumber(long finalDate) {
@@ -174,27 +157,26 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
         return (int) ChronoUnit.DAYS.between(startDate, endDate);
     }
 
-    private void setMainIcon(ImageView mainIcon, int categoryId) {
-        Category category = categoryViewModel.getCategoryById(categoryId);
-
-        int iconId = category.getIcon();
-        Drawable icon = Objects.requireNonNull(iconPack.getIcon(iconId)).getDrawable();
-        mainIcon.setImageDrawable(icon);
-
-        int color = category.getColor();
-        Drawable ovalWithColorBackground = getDrawableWithColor(R.drawable.background_oval, color);
-
-        if (ovalWithColorBackground != null) {
-            mainIcon.setBackground(ovalWithColorBackground);
-        }
-    }
-
-    private Drawable getDrawableWithColor(int drawableId, int colorId) {
-        Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), drawableId, null);
+    private Drawable getIconBackground(int colorRes) {
+        Drawable drawable = ResourcesCompat.getDrawable(this.context.getResources(), R.drawable.background_oval, null);
         if (drawable == null) return null;
         Drawable drawableWrapped = DrawableCompat.wrap(drawable);
-        DrawableCompat.setTint(drawableWrapped, colorId);
+        DrawableCompat.setTint(drawableWrapped, colorRes);
         return drawableWrapped;
+    }
+
+    private Drawable convertIconIdToDrawable(int iconId) {
+        Icon iconFromIconPack = iconPack.getIcon(iconId);
+        if (iconFromIconPack == null) return null;
+        return iconFromIconPack.getDrawable();
+    }
+
+    public void onChildCLickListener(int transactionId) {
+        this.onChildClickListener.onChildClickListener(transactionId);
+    }
+
+    public interface OnChildClickListener {
+        void onChildClickListener(int transactionId);
     }
 
     @Override

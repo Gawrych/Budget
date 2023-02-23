@@ -33,16 +33,8 @@
 
             <TextView
                 android:id="@+id/yearPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:drawablePadding="10dp"
-                android:gravity="center"
+                style="@style/yearSelector"
                 android:text="@string/default_year"
-                android:layout_marginEnd="15dp"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_down_24"
-                app:drawableTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/onlyYearCheckBox"
                 app:layout_constraintTop_toTopOf="parent" />

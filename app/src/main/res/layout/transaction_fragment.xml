@@ -1,61 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/mainLayout"
-    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".ui.transaction.TransactionFragment">
+    <data>
+        <import type="java.time.Year" />
+        <variable name="transactionFragment" type="com.example.budgetmanagement.ui.transaction.TransactionFragment"/>
+    </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/title_bar_for_item_list"
-        style="@style/topBar">
-
-        <TextView
-            android:id="@+id/yearPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:drawablePadding="10dp"
-            android:gravity="center"
-            android:text="@string/default_year"
-            android:layout_marginEnd="15dp"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_down_24"
-            app:drawableTint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/addButton"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/addButton"
-            style="@style/topBarIcon"
-            app:srcCompat="@drawable/ic_baseline_add_24"
-            android:contentDescription="@string/add_button_content_desc"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/rounded_top_left_corner_blue_white"
-        android:id="@+id/expandableListLayout">
+        android:id="@+id/mainLayout"
+        android:orientation="vertical">
 
-        <ExpandableListView
-            android:id="@+id/expandableListView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/title_bar_for_item_list"
+            style="@style/topBar">
+
+            <TextView
+                android:id="@+id/yearPicker"
+                style="@style/yearSelector"
+                android:text="@{Year.now().toString()}"
+                android:onClick="@{() -> transactionFragment.yearSelectorOnClick()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/addButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/addButton"
+                style="@style/topBarIcon"
+                android:onClick="@{() -> transactionFragment.addButtonOnCLick()}"
+                app:srcCompat="@drawable/ic_baseline_add_24"
+                android:contentDescription="@string/add_button_content_desc"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@null"
-            android:groupIndicator="@null"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_top_left_corner_blue_white"
+            android:id="@+id/expandableListLayout">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ExpandableListView
+                android:id="@+id/expandableListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"
+                android:groupIndicator="@null"
 
-</LinearLayout>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</layout>

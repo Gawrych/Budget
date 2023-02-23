@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class}, version = 257, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class}, version = 258, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
