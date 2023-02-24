@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
+            android:paddingBottom="50dp"
             android:background="@drawable/rounded_top_left_corner_blue_white"
             android:layout_alignParentBottom="true"
             android:paddingTop="20dp"

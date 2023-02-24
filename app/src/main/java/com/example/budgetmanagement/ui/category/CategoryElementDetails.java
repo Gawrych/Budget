@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.ui.category;
 
+import static com.example.budgetmanagement.ui.utils.BundleHelper.BUNDLE_CATEGORY_ID;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +18,6 @@ import com.example.budgetmanagement.ui.utils.BundleHelper;
 public class CategoryElementDetails extends Fragment {
 
     private CategoryElementDetailsBinding binding;
-    public static final String BUNDLE_CATEGORY_ID = "categoryId";
 
     public static CategoryElementDetails newInstance(int categoryId) {
         CategoryElementDetails fragment = new CategoryElementDetails();
@@ -36,7 +37,7 @@ public class CategoryElementDetails extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int categoryId = BundleHelper.getItemIdFromBundle(getArguments(), null);
+        int categoryId = BundleHelper.getItemIdFromBundle(getArguments(), BUNDLE_CATEGORY_ID);
         if (categoryId == -1) {
             BundleHelper.showToUserErrorNotFoundInDatabase(requireActivity());
             backToPreviousFragment();
