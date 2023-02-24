@@ -33,12 +33,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         resources = getResources();
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.custom_action_bar_layout);
-        getSupportActionBar().setElevation(0);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.custom_action_bar_layout);
+            getSupportActionBar().setElevation(0);
+        }
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_statistics, R.id.navigation_transaction, R.id.navigation_category, R.id.navigation_settings)
+                R.id.navigation_statistics, R.id.navigation_transaction, R.id.navigation_category)
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
@@ -62,9 +64,6 @@ public class MainActivity extends AppCompatActivity {
             } else if (destination == R.id.transactionDetails) {
                 navBar.setVisibility(View.GONE);
                 fragmentName.setText(R.string.details);
-            } else if (destination == R.id.navigation_settings) {
-                navBar.setVisibility(View.VISIBLE);
-                fragmentName.setText(R.string.fragment_name_settings);
             } else if (destination == R.id.periodComparatorFragment) {
                 navBar.setVisibility(View.GONE);
                 fragmentName.setText(R.string.fragment_name_statistics);
@@ -88,10 +87,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
