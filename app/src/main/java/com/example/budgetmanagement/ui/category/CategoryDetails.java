@@ -11,16 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.budgetmanagement.databinding.CategoryElementDetailsBinding;
-import com.example.budgetmanagement.ui.details.CategoryDetails;
+import com.example.budgetmanagement.databinding.CategoryDetailsBinding;
 import com.example.budgetmanagement.ui.utils.BundleHelper;
 
-public class CategoryElementDetails extends Fragment {
+public class CategoryDetails extends Fragment {
 
-    private CategoryElementDetailsBinding binding;
+    private CategoryDetailsBinding binding;
 
-    public static CategoryElementDetails newInstance(int categoryId) {
-        CategoryElementDetails fragment = new CategoryElementDetails();
+    public static CategoryDetails newInstance(int categoryId) {
+        CategoryDetails fragment = new CategoryDetails();
         Bundle args = new Bundle();
         args.putInt(BUNDLE_CATEGORY_ID, categoryId);
         fragment.setArguments(args);
@@ -30,7 +29,7 @@ public class CategoryElementDetails extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = CategoryElementDetailsBinding.inflate(inflater, container, false);
+        binding = CategoryDetailsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -44,8 +43,8 @@ public class CategoryElementDetails extends Fragment {
             return;
         }
 
-        CategoryDetails categoryDetails = new CategoryDetails(categoryId, this);
-        binding.setCategoryDetails(categoryDetails);
+        CategoryValuesHandler categoryValuesHandler = new CategoryValuesHandler(categoryId, this);
+        binding.setCategoryValuesHandler(categoryValuesHandler);
     }
 
     private void backToPreviousFragment() {

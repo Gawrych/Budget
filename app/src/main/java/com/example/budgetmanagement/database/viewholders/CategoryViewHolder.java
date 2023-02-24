@@ -14,6 +14,7 @@ import com.example.budgetmanagement.databinding.CategoryChildViewBinding;
 import com.example.budgetmanagement.ui.category.CategoryChildValues;
 import com.example.budgetmanagement.ui.category.CategoryFragment;
 
+import java.math.BigDecimal;
 import java.util.zip.Inflater;
 
 public class CategoryViewHolder extends RecyclerView.ViewHolder {
@@ -26,14 +27,14 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
         this.categoryFragment = categoryFragment;
     }
 
-    public void bind(int categoryId, Drawable categoryIcon, Drawable categoryIconBackground, int cardLayoutBackgroundColor, String title, Drawable budgetIconWithColor) {
+    public void bind(int categoryId, Drawable categoryIcon, Drawable categoryIconBackground, int cardLayoutBackgroundColor, String title, String budget) {
         this.binding.setCategoryId(categoryId);
         this.binding.setCategoryFragment(this.categoryFragment);
         CategoryChildValues categoryValues = new CategoryChildValues(
                 title,
                 categoryIcon,
                 categoryIconBackground,
-                budgetIconWithColor,
+                budget,
                 cardLayoutBackgroundColor);
         this.binding.setCategoryValues(categoryValues);
     }

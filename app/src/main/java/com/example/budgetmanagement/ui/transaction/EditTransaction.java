@@ -122,7 +122,7 @@ public class EditTransaction extends Fragment {
     }
 
     public void collectData(InputTextCollector collector) {
-        this.title = collector.collect(binding.titleLayout);
+        this.title = collector.collect(binding.titleTextView);
         this.amount = collector.collectBasedOnProfitSwitch(binding.amountLayout, binding.profitSwitch);
         this.categoryName = collector.collect(binding.categorySelectorLayout);
         this.startDateInPattern = collector.collect(binding.startDateLayout);

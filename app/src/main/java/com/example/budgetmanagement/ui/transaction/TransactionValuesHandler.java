@@ -1,8 +1,7 @@
-package com.example.budgetmanagement.ui.details;
+package com.example.budgetmanagement.ui.transaction;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,33 +12,33 @@ import com.example.budgetmanagement.database.rooms.Category;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
-import com.example.budgetmanagement.ui.utils.DateProcessor;
+import com.example.budgetmanagement.ui.utils.CategoryIconHelper;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 
-public class TransactionConverterForBinding extends DetailsUtils {
+public class TransactionValuesHandler implements CategoryIconHelper {
 
     private final Transaction transaction;
     private final Category category;
     public String title;
-    public String amount;
-    public Drawable amountIcon;
+    public BigDecimal amount;
     public Drawable icon;
-    public String addDate;
+    public Drawable iconBackground;
+    public long addDate;
     public String categoryName;
-    public String lastEditDate;
-    public String remainingDate;
-    public int isExecutedViewMode;
-    private boolean isExecuted;
+    public long lastEditDate;
+    public long remainingDate;
+    public boolean isExecuted;
     public String remainingDays;
     public int remainingColor;
-    public String executedDate;
+    public long executedDate;
     private final Fragment fragment;
 
-    public TransactionConverterForBinding(int transactionId, @NonNull Fragment fragment) {
+    public TransactionValuesHandler(int transactionId, @NonNull Fragment fragment) {
         this.fragment = fragment;
 
         TransactionViewModel transactionViewModel = new ViewModelProvider(fragment).get(TransactionViewModel.class);
@@ -53,17 +52,16 @@ public class TransactionConverterForBinding extends DetailsUtils {
 
     public void setValues() {
         this.title = transaction.getTitle();
-        this.amount = transaction.getAmount();
+        this.amount = new BigDecimal(transaction.getAmount());
         this.categoryName = category.getName();
         this.isExecuted = transaction.isExecuted();
-        this.lastEditDate = super.getValueOrLabel(transaction.getLastEditDate(), (transaction.getLastEditDate() != 0));
-        this.executedDate = super.getValueOrLabel(transaction.getExecutedDate(), this.isExecuted);
-        this.icon = super.getCategoryIcon(category);
-        this.amountIcon = super.getAmountIconDependOfValue(transaction.getAmount());
-        this.remainingDate = DateProcessor.parse(transaction.getDeadline());
-        this.addDate = DateProcessor.parse(transaction.getAddDate());
+        this.lastEditDate = transaction.getLastEditDate();
+        this.executedDate = transaction.getExecutedDate();
+        this.icon = CategoryIconHelper.getCategoryIcon(category.getIcon(), this.fragment.requireActivity());
+        this.iconBackground = CategoryIconHelper.getIconBackground(this.fragment.requireContext(), this.category.getColor(), R.drawable.background_oval);
+        this.remainingDate = transaction.getDeadline();
+        this.addDate = transaction.getAddDate();
         setRemainingDaysWithPrefix(transaction);
-        this.isExecutedViewMode = this.isExecuted ? View.VISIBLE : View.INVISIBLE;
     }
 
     private void setRemainingDaysWithPrefix(Transaction transaction) {
@@ -71,7 +69,7 @@ public class TransactionConverterForBinding extends DetailsUtils {
         int textColor;
         String remainingDaysText;
 
-        Context context = getContext();
+        Context context = this.fragment.requireContext();
 
         if (this.isExecuted) {
             remainingDaysText = "";
@@ -91,11 +89,6 @@ public class TransactionConverterForBinding extends DetailsUtils {
         this.remainingColor = context.getColor(textColor);
     }
 
-    @NonNull
-    private Context getContext() {
-        return this.fragment.requireContext();
-    }
-
     private int getRemainingDaysNumber(long endDateInMillis) {
         Calendar endDate = Calendar.getInstance();
         endDate.setTimeInMillis(endDateInMillis);
@@ -104,10 +97,5 @@ public class TransactionConverterForBinding extends DetailsUtils {
         LocalDate deadline = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         return (int) ChronoUnit.DAYS.between(today, deadline);
-    }
-
-    @Override
-    public Fragment getFragment() {
-        return this.fragment;
     }
 }

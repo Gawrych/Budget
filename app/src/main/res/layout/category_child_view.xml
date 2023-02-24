@@ -63,7 +63,9 @@
                     android:contentDescription="@string/category_icon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:src="@{categoryValues.budgetIconWithColor, default=@drawable/ic_outline_icon_not_found_24}" />
+                    android:src="@{categoryValues.budget.signum() > 0 ? @drawable/ic_baseline_arrow_drop_up_24 : @drawable/ic_baseline_arrow_drop_down_24, default=@drawable/ic_outline_icon_not_found_24}"
+                    app:tint="@{categoryValues.budget.signum() > 0 ? @color/mat_green : @color/mat_red}" />
+
 
                 <TextView
                     android:id="@+id/title"

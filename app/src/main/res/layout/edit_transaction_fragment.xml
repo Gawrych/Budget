@@ -34,7 +34,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/titleLayout"
+                    android:id="@+id/titleTextView"
                     style="@style/TextInputLayoutCustomView"
                     android:hint="@string/title"
                     app:endIconDrawable="@drawable/block_smaller_icon">
@@ -54,7 +54,7 @@
                     app:endIconDrawable="@drawable/dollar_coin_smaller_icon">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/amount"
+                        android:id="@+id/amountTextView"
                         android:text="@{String.valueOf(Math.abs(Integer.parseInt(transactionValues.amount)))}"
                         style="@style/TextInputEditTextCustomView"
                         android:inputType="numberDecimal" />

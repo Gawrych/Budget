@@ -113,7 +113,7 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
     }
 
     public void collectData(InputTextCollector collector) {
-        this.title = collector.collect(binding.titleLayout);
+        this.title = collector.collect(binding.titleTextView);
         this.amount = collector.collectBasedOnProfitSwitch(binding.amountLayout, binding.profitSwitch);
         collector.collect(binding.iconPickerLayout);
         collector.collect(binding.colorPickerLayout);

@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="transactionConverterForBinding" type="com.example.budgetmanagement.ui.details.TransactionConverterForBinding"/>
+        <import type="android.view.View" />
+        <import type="com.example.budgetmanagement.ui.utils.DateProcessor" />
+        <variable name="transactionValuesHandler" type="com.example.budgetmanagement.ui.transaction.TransactionValuesHandler"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/detailsConstraintLayout"
@@ -17,7 +19,7 @@
         <TextView
             android:id="@+id/executedOutstanding"
             style="@style/ExecutedOutstanding"
-            android:visibility="@{transactionConverterForBinding.isExecutedViewMode}"
+            android:visibility="@{transactionValuesHandler.isExecuted ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,53 +35,27 @@
         <TextView
             android:id="@+id/transactionName"
             style="@style/DetailsValueField"
-            android:text="@{transactionConverterForBinding.title}"
+            android:text="@{transactionValuesHandler.title}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/transactionTitleLabel" />
 
         <TextView
             android:id="@+id/amountLabel"
             style="@style/DetailsLabelField"
-            android:labelFor="@+id/amount"
+            android:labelFor="@+id/amountTextView"
             android:text="@string/amount"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/transactionName"/>
 
-        <ImageView
-            android:id="@+id/amountIcon"
-            style="@style/DetailsIconField"
-            android:contentDescription="@string/amount_icon"
-            android:src="@{transactionConverterForBinding.amountIcon}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
-
         <TextView
-            android:id="@+id/amount"
+            android:id="@+id/amountTextView"
             style="@style/DetailsValueField"
-            android:text="@{transactionConverterForBinding.amount}"
-            android:layout_marginStart="5dp"
+            android:text="@{@string/amount_with_polish_currency(transactionValuesHandler.amount.abs().toPlainString())}"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/amountIcon"
-            app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
-
-        <TextView
-            android:id="@+id/currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:gravity="bottom|center_horizontal"
-            android:text="@string/polish_currency"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/amount"
-            app:layout_constraintStart_toEndOf="@+id/amount"
-            app:layout_constraintTop_toTopOf="@+id/amount" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/categoryGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="categoryLabel, categoryIcon, categoryName" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/amountLabel"
+            app:drawableStartCompat="@{transactionValuesHandler.amount.signum() > 0 ? @drawable/ic_baseline_arrow_drop_up_24 : @drawable/ic_baseline_arrow_drop_down_24, default=@drawable/ic_outline_icon_not_found_24}"
+            app:drawableTint="@{transactionValuesHandler.amount.signum() > 0 ? @color/mat_green : @color/mat_red}" />
 
         <TextView
             android:id="@+id/categoryLabel"
@@ -87,21 +63,28 @@
             android:labelFor="@+id/categoryName"
             android:text="@string/category"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amount"/>
+            app:layout_constraintTop_toBottomOf="@+id/amountTextView"/>
+
 
         <ImageView
             android:id="@+id/categoryIcon"
-            style="@style/DetailsIconField"
-            android:src="@{transactionConverterForBinding.icon}"
+            style="@style/categoryIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="8dp"
+            android:src="@{transactionValuesHandler.icon, default=@drawable/ic_outline_icon_not_found_24}"
+            android:background="@{transactionValuesHandler.iconBackground}"
+            android:contentDescription="@string/category_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/categoryName"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/categoryLabel"
-            android:contentDescription="@string/category_icon" />
+            app:layout_constraintTop_toTopOf="@+id/categoryName" />
 
         <TextView
             android:id="@+id/categoryName"
             style="@style/DetailsValueField"
             android:layout_marginStart="10dp"
-            android:text="@{transactionConverterForBinding.categoryName}"
+            android:layout_marginTop="14dp"
+            android:text="@{transactionValuesHandler.categoryName}"
             app:layout_constraintStart_toEndOf="@+id/categoryIcon"
             app:layout_constraintTop_toBottomOf="@+id/categoryLabel" />
 
@@ -116,16 +99,16 @@
         <TextView
             android:id="@+id/remainingDate"
             style="@style/DetailsValueField"
-            android:text="@{transactionConverterForBinding.remainingDate}"
-            android:textColor="@{transactionConverterForBinding.remainingColor}"
+            android:text="@{transactionValuesHandler.remainingDate != 0 ? DateProcessor.parse(transactionValuesHandler.remainingDate) : @string/never}"
+            android:textColor="@{transactionValuesHandler.remainingColor}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/deadlineLabel" />
 
         <TextView
-            android:id="@+id/remainingDays"
+            android:id="@+id/remainingDaysTextView"
             style="@style/DetailsValueField"
-            android:text="@{transactionConverterForBinding.remainingDays}"
-            android:textColor="@{transactionConverterForBinding.remainingColor}"
+            android:text="@{transactionValuesHandler.remainingDays}"
+            android:textColor="@{transactionValuesHandler.remainingColor}"
             app:layout_constraintBottom_toBottomOf="@+id/remainingDate"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -135,12 +118,12 @@
             android:labelFor="@+id/executeDate"
             android:text="@string/executedDate"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/remainingDays" />
+            app:layout_constraintTop_toBottomOf="@+id/remainingDaysTextView" />
 
         <TextView
             android:id="@+id/executeDate"
             style="@style/DetailsValueField"
-            android:text="@{transactionConverterForBinding.executedDate}"
+            android:text="@{transactionValuesHandler.executedDate != 0 ? DateProcessor.parse(transactionValuesHandler.executedDate) : @string/never}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/executeDateLabel" />
 
@@ -155,15 +138,9 @@
         <TextView
             android:id="@+id/addDate"
             style="@style/DetailsValueField"
-            android:text="@{transactionConverterForBinding.addDate}"
+            android:text="@{transactionValuesHandler.addDate != 0 ? DateProcessor.parse(transactionValuesHandler.addDate) : @string/never}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addDateLabel" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/editDateGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="lastEditDateLabel, lastEditDate" />
 
         <TextView
             android:id="@+id/lastEditDateLabel"
@@ -176,7 +153,7 @@
         <TextView
             android:id="@+id/lastEditDate"
             style="@style/DetailsValueField"
-            android:text="@{transactionConverterForBinding.lastEditDate}"
+            android:text="@{transactionValuesHandler.lastEditDate != 0 ? DateProcessor.parse(transactionValuesHandler.lastEditDate) : @string/never}"
             app:layout_constraintStart_toStartOf="@+id/lastEditDateLabel"
             app:layout_constraintTop_toBottomOf="@+id/lastEditDateLabel" />
 

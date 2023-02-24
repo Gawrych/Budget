@@ -2,17 +2,13 @@ package com.example.budgetmanagement.database.adapters;
 
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -24,8 +20,8 @@ import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.databinding.TransactionChildViewBinding;
 import com.example.budgetmanagement.databinding.TransactionGroupViewBinding;
+import com.example.budgetmanagement.ui.utils.CategoryIconHelper;
 import com.example.budgetmanagement.ui.transaction.Section;
-import com.maltaisn.icondialog.data.Icon;
 import com.maltaisn.icondialog.pack.IconPack;
 
 import java.math.BigDecimal;
@@ -122,29 +118,15 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
         binding.setVariable(BR.amount, item.getAmount());
         binding.setVariable(BR.deadlineDate, item.getDeadline());
         binding.setVariable(BR.isProfit, new BigDecimal(item.getAmount()).signum() > 0);
-        binding.setVariable(BR.icon, convertIconIdToDrawable(category.getIcon()));
-        binding.setVariable(BR.iconBackground, getIconBackground(category.getColor()));
+        binding.setVariable(BR.icon, CategoryIconHelper.getCategoryIcon(category.getIcon(), this.iconPack));
+        binding.setVariable(BR.iconBackground, CategoryIconHelper.getIconBackground(this.context, category.getColor(), R.drawable.background_oval));
         setRemainingDays(binding, item.getDeadline(), item.isExecuted());
         binding.executePendingBindings();
         return view;
     }
 
-    private Drawable getIconBackground(int colorRes) {
-        Drawable drawable = ResourcesCompat.getDrawable(this.context.getResources(), R.drawable.background_oval, null);
-        if (drawable == null) return null;
-        Drawable drawableWrapped = DrawableCompat.wrap(drawable);
-        DrawableCompat.setTint(drawableWrapped, colorRes);
-        return drawableWrapped;
-    }
-
-    private Drawable convertIconIdToDrawable(int iconId) {
-        Icon iconFromIconPack = iconPack.getIcon(iconId);
-        if (iconFromIconPack == null) return null;
-        return iconFromIconPack.getDrawable();
-    }
-
     private void setRemainingDays(ViewDataBinding binding, long deadline, boolean isExecuted) {
-        int days = getRemainingDaysNumber(deadline);
+        int days = calculateRemainingDaysNumber(deadline);
         int textColor;
         String remainingDaysText;
 
@@ -166,7 +148,7 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
         binding.setVariable(BR.remainingDaysTextColor, context.getColor(textColor));
     }
 
-    private int getRemainingDaysNumber(long finalDate) {
+    private int calculateRemainingDaysNumber(long finalDate) {
         Calendar otherDate = Calendar.getInstance();
         otherDate.setTimeInMillis(finalDate);
 

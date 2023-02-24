@@ -44,11 +44,9 @@ public class CategoryFragment extends Fragment {
         this.view = view;
         RecyclerView recyclerView = binding.monthsItems;
 
-        IconPack iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
-
         final CategoryAdapter adapter =
-                new CategoryAdapter(new CategoryAdapter.CategoryDiff(), iconPack,
-                        this, requireContext());
+                new CategoryAdapter(new CategoryAdapter.CategoryDiff(),
+                        this);
         recyclerView.setAdapter(adapter);
 
         CategoryViewModel categoryViewModel =
@@ -67,9 +65,9 @@ public class CategoryFragment extends Fragment {
     }
 
     private void openDetailsFragment(int categoryId) {
-        CategoryElementDetails elementDetails = CategoryElementDetails.newInstance(categoryId);
+        CategoryDetails elementDetails = CategoryDetails.newInstance(categoryId);
         Navigation.findNavController(this.view)
-                .navigate(R.id.action_categoryList_to_categoryElementDetails, elementDetails.getArguments());
+                .navigate(R.id.action_categoryList_to_categoryDetails, elementDetails.getArguments());
     }
 
     public void onItemClickListener(int categoryId) {

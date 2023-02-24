@@ -12,11 +12,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.databinding.TransactionDetailsBinding;
-import com.example.budgetmanagement.ui.details.TransactionConverterForBinding;
 import com.example.budgetmanagement.ui.utils.BundleHelper;
 
 public class TransactionDetails extends Fragment {
@@ -48,8 +46,8 @@ public class TransactionDetails extends Fragment {
             return;
         }
 
-        TransactionConverterForBinding TransactionConverterForBinding = new TransactionConverterForBinding(transactionId, this);
-        binding.setTransactionConverterForBinding(TransactionConverterForBinding);
+        TransactionValuesHandler TransactionValuesHandler = new TransactionValuesHandler(transactionId, this);
+        binding.setTransactionValuesHandler(TransactionValuesHandler);
     }
 
     @Override

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="categoryDetails" type="com.example.budgetmanagement.ui.details.CategoryDetails"/>
+        <import type="com.example.budgetmanagement.ui.utils.DateProcessor" />
+        <variable name="categoryValuesHandler" type="com.example.budgetmanagement.ui.category.CategoryValuesHandler"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/detailsConstraintLayout"
@@ -13,7 +14,7 @@
         android:background="@drawable/bottom_line_short"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
-        tools:context=".ui.category.CategoryElementDetails">
+        tools:context=".ui.category.CategoryValuesHandler">
 
         <TextView
             android:id="@+id/categoryNameLabel"
@@ -26,7 +27,7 @@
         <TextView
             android:id="@+id/categoryName"
             style="@style/DetailsValueField"
-            android:text="@{categoryDetails.name}"
+            android:text="@{categoryValuesHandler.name}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/categoryNameLabel" />
 
@@ -38,33 +39,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/categoryName" />
 
-        <ImageView
-            android:id="@+id/profitIcon"
-            style="@style/DetailsIconField"
-            android:contentDescription="@string/amount_icon"
-            android:src="@{categoryDetails.budgetIcon}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/budgetLabel" />
-
         <TextView
             android:id="@+id/budget"
             style="@style/DetailsValueField"
-            android:layout_marginStart="5dp"
-            android:text="@{categoryDetails.budget}"
+            android:text="@{@string/amount_with_polish_currency(categoryValuesHandler.budget.abs().toPlainString())}"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/profitIcon"
-            app:layout_constraintTop_toBottomOf="@+id/budgetLabel" />
-
-        <TextView
-            android:id="@+id/currency"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:gravity="bottom|center_horizontal"
-            android:text="@string/polish_currency"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/budget"
-            app:layout_constraintStart_toEndOf="@+id/budget" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/budgetLabel"
+            app:drawableStartCompat="@{categoryValuesHandler.budget.signum() > 0 ? @drawable/ic_baseline_arrow_drop_up_24 : @drawable/ic_baseline_arrow_drop_down_24, default=@drawable/ic_outline_icon_not_found_24}"
+            app:drawableTint="@{categoryValuesHandler.budget.signum() > 0 ? @color/mat_green : @color/mat_red}" />
 
         <TextView
             android:id="@+id/iconLabel"
@@ -75,9 +58,11 @@
             app:layout_constraintTop_toBottomOf="@+id/budget" />
 
         <ImageView
-            android:id="@+id/icon"
-            style="@style/DetailsIconField"
-            android:src="@{categoryDetails.categoryIcon}"
+            android:id="@+id/categoryIcon"
+            style="@style/categoryIcon"
+            android:layout_marginTop="10dp"
+            android:src="@{categoryValuesHandler.categoryIcon, default=@drawable/ic_outline_icon_not_found_24}"
+            android:background="@{categoryValuesHandler.categoryIconBackground}"
             android:contentDescription="@string/category_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iconLabel" />
@@ -88,12 +73,12 @@
             android:labelFor="@+id/addDate"
             android:text="@string/created_date"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/icon" />
+            app:layout_constraintTop_toBottomOf="@+id/categoryIcon" />
 
         <TextView
             android:id="@+id/addDate"
             style="@style/DetailsValueField"
-            android:text="@{categoryDetails.addDate}"
+            android:text="@{categoryValuesHandler.addDate != 0 ? DateProcessor.parse(categoryValuesHandler.addDate) : @string/never}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addDateLabel" />
 
@@ -108,7 +93,7 @@
         <TextView
             android:id="@+id/editDate"
             style="@style/DetailsValueField"
-            android:text="@{categoryDetails.lastEditDate}"
+            android:text="@{categoryValuesHandler.lastEditDate != 0 ? DateProcessor.parse(categoryValuesHandler.lastEditDate) : @string/never}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editDateLabel" />
 

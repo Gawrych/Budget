@@ -5,22 +5,16 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Category;
 import com.example.budgetmanagement.database.viewholders.CategoryBottomSheetViewHolder;
-import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
-import com.maltaisn.icondialog.data.Icon;
+import com.example.budgetmanagement.ui.utils.CategoryIconHelper;
 import com.maltaisn.icondialog.pack.IconPack;
-
-import java.util.Objects;
 
 public class CategoryBottomSheetAdapter extends ListAdapter<Category, CategoryBottomSheetViewHolder> {
 
@@ -44,23 +38,9 @@ public class CategoryBottomSheetAdapter extends ListAdapter<Category, CategoryBo
     @Override
     public void onBindViewHolder(CategoryBottomSheetViewHolder holder, int position) {
         Category category = getItem(position);
-        Drawable icon = convertIconIdToDrawable(category.getIcon());
-        Drawable iconBackground = getIconBackground(category.getColor());
-        holder.bind(category.getCategoryId(), category.getName(), icon, iconBackground);
-    }
-
-    private Drawable getIconBackground(int colorRes) {
-        Drawable drawable = ResourcesCompat.getDrawable(this.context.getResources(), R.drawable.icon_background, null);
-        if (drawable == null) return null;
-        Drawable drawableWrapped = DrawableCompat.wrap(drawable);
-        DrawableCompat.setTint(drawableWrapped, colorRes);
-        return drawableWrapped;
-    }
-
-    private Drawable convertIconIdToDrawable(int iconId) {
-        Icon iconFromIconPack = iconPack.getIcon(iconId);
-        if (iconFromIconPack == null) return null;
-        return iconFromIconPack.getDrawable();
+        Drawable categoryIcon = CategoryIconHelper.getCategoryIcon(category.getIcon(), this.iconPack);
+        Drawable categoryIconBackground = CategoryIconHelper.getIconBackground(this.context, category.getColor(), R.drawable.icon_background);
+        holder.bind(category.getCategoryId(), category.getName(), categoryIcon, categoryIconBackground);
     }
 
     public CategoryBottomSheetViewHolder create(ViewGroup parent) {

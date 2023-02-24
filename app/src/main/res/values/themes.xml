@@ -269,7 +269,7 @@
 
 <!--    Coming child view -->
 
-    <style name="comingChildItemIcon">
+    <style name="categoryIcon">
         <item name="android:layout_width">35dp</item>
         <item name="android:layout_height">35dp</item>
         <item name="tint">@color/white</item>

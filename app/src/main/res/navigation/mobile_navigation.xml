@@ -52,8 +52,8 @@
             android:id="@+id/action_categoryList_to_addNewCategoryElement"
             app:destination="@id/addNewCategoryElement" />
         <action
-            android:id="@+id/action_categoryList_to_categoryElementDetails"
-            app:destination="@id/categoryElementDetails" />
+            android:id="@+id/action_categoryList_to_categoryDetails"
+            app:destination="@id/categoryDetails" />
         <action
             android:id="@+id/action_navigation_category_to_editCategory"
             app:destination="@id/editCategory" />
@@ -81,10 +81,10 @@
         android:name="com.example.budgetmanagement.ui.transaction.TransactionDetails"
         android:label="TransactionElementDetails" />
     <fragment
-        android:id="@+id/categoryElementDetails"
-        android:name="com.example.budgetmanagement.ui.category.CategoryElementDetails"
+        android:id="@+id/categoryDetails"
+        android:name="com.example.budgetmanagement.ui.category.CategoryDetails"
         android:label="fragment_category_element_details"
-        tools:layout="@layout/category_element_details" />
+        tools:layout="@layout/category_details" />
     <fragment
         android:id="@+id/periodComparatorFragment"
         android:name="com.example.budgetmanagement.ui.statistics.PeriodComparatorFragment"
