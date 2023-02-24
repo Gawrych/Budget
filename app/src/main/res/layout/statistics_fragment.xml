@@ -5,6 +5,7 @@
     tools:context=".ui.transaction.AddNewTransaction"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:theme="@style/Theme.MaterialComponents.Light">
 
     <LinearLayout
@@ -173,117 +174,97 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/periodStatistics"
-            style="@style/statisticFragmentCard">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                style="@style/statisticFragmentCardLayout">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/periodStatistics"
+                style="@style/statisticFragmentCard"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/periodComparatorStatisticsCardView"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/monthName"
-                    style="@style/statisticFragmentCardLabel"
-                    android:text="@string/period_statistic"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/periodStatisticCardArrowIcon"
-                    app:layout_constraintStart_toEndOf="@+id/chartImage"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/statisticFragmentCardLayout">
 
-                <ImageView
-                    android:id="@+id/chartImage"
-                    style="@style/statisticFragmentCardIcon"
-                    android:contentDescription="@string/statistics_card_image"
-                    android:src="@drawable/bar_chart"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/monthName"
+                        style="@style/statisticFragmentCardLabel"
+                        android:text="@string/period_statistic"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/chartImage" />
 
-                <ImageView
-                    android:id="@+id/periodStatisticCardArrowIcon"
-                    style="@style/statisticFragmentCardCheckArrow"
-                    android:contentDescription="@string/statistic_move_arrow"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/chartImage"
+                        style="@style/statisticFragmentCardIcon"
+                        android:contentDescription="@string/statistics_card_image"
+                        android:src="@drawable/bar_chart"
+                        app:layout_constraintBottom_toTopOf="@+id/monthName"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/periodStatisticCardArrowIcon"
+                        style="@style/statisticFragmentCardCheckArrow"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="10dp"
+                        android:contentDescription="@string/statistic_move_arrow"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/periodComparatorStatisticsCardView"
-            style="@style/statisticFragmentCard">
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                style="@style/statisticFragmentCardLayout">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/periodComparatorStatisticsCardView"
+                style="@style/statisticFragmentCard"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/periodStatistics"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/periodComparatorStatisticsIcon"
-                    style="@style/statisticFragmentCardIcon"
-                    android:contentDescription="@string/statistics_card_image"
-                    android:src="@drawable/pie_chart"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/statisticFragmentCardLayout">
 
-                <TextView
-                    android:id="@+id/periodComparatorStatisticsLabel"
-                    style="@style/statisticFragmentCardLabel"
-                    android:text="@string/compare_periods"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/periodComparatorCardArrowIcon"
-                    app:layout_constraintStart_toEndOf="@+id/periodComparatorStatisticsIcon"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/periodComparatorStatisticsIcon"
+                        style="@style/statisticFragmentCardIcon"
+                        android:contentDescription="@string/statistics_card_image"
+                        android:src="@drawable/pie_chart"
+                        app:layout_constraintBottom_toTopOf="@+id/periodComparatorStatisticsLabel"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/periodComparatorCardArrowIcon"
-                    style="@style/statisticFragmentCardCheckArrow"
-                    android:contentDescription="@string/statistic_move_arrow"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/periodComparatorStatisticsLabel"
+                        style="@style/statisticFragmentCardLabel"
+                        android:text="@string/compare_periods"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/periodComparatorStatisticsIcon" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/periodComparatorCardArrowIcon"
+                        style="@style/statisticFragmentCardCheckArrow"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="10dp"
+                        android:contentDescription="@string/statistic_move_arrow"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/categoryStatisticsCardView"
-            android:layout_marginBottom="50dp"
-            style="@style/statisticFragmentCard">
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                style="@style/statisticFragmentCardLayout">
-
-                <ImageView
-                    android:id="@+id/categoryStatisticsIcon"
-                    style="@style/statisticFragmentCardIcon"
-                    android:contentDescription="@string/statistics_card_image"
-                    android:src="@drawable/statistics_category_icon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/categoryStatisticsLabel"
-                    style="@style/statisticFragmentCardLabel"
-                    android:text="@string/categories_statistics"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/categoryCardArrowIcon"
-                    app:layout_constraintStart_toEndOf="@+id/categoryStatisticsIcon"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/categoryCardArrowIcon"
-                    style="@style/statisticFragmentCardCheckArrow"
-                    android:contentDescription="@string/statistic_move_arrow"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 </ScrollView>
