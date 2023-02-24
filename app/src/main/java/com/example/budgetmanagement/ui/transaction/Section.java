@@ -18,7 +18,7 @@ public class Section {
         return label;
     }
 
-    public List<Transaction> getComingAndTransactionList() {
+    public List<Transaction> getTransactionList() {
         return transactionList;
     }
 }

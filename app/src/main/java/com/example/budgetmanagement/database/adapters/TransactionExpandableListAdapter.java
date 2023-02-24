@@ -8,20 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
+import com.example.budgetmanagement.BR;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.Category;
 import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.databinding.TransactionChildViewBinding;
+import com.example.budgetmanagement.databinding.TransactionGroupViewBinding;
 import com.example.budgetmanagement.ui.transaction.Section;
 import com.maltaisn.icondialog.data.Icon;
 import com.maltaisn.icondialog.pack.IconPack;
@@ -45,8 +47,8 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
         this.context = context;
         this.items = items;
         this.iconPack = iconPack;
-        this.onChildClickListener = onChildClickListener;
         categoryViewModel = new ViewModelProvider(owner).get(CategoryViewModel.class);
+        this.onChildClickListener = onChildClickListener;
     }
 
     public void updateItems(ArrayList<Section> items) {
@@ -68,7 +70,7 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
 
     @Override
     public int getChildrenCount(int i) {
-        return items.get(i).getComingAndTransactionList().size();
+        return items.get(i).getTransactionList().size();
     }
 
     @Override
@@ -78,53 +80,70 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
 
     @Override
     public Transaction getChild(int i, int i1) {
-        return items.get(i).getComingAndTransactionList().get(i1);
+        return items.get(i).getTransactionList().get(i1);
     }
 
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-        Section section = items.get(i);
-        String sectionTitle = section.getLabel();
-        if(view == null) {
+        TransactionGroupViewBinding binding;
+        if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.transaction_group_view, viewGroup, false);
+            binding = DataBindingUtil.inflate(inflater, R.layout.transaction_group_view, viewGroup, false);
+            view = binding.getRoot();
+        } else {
+            binding = DataBindingUtil.getBinding(view);
+            if (binding == null) return null;
         }
-        TextView sectionName = view.findViewById(R.id.sectionName);
-        sectionName.setText(sectionTitle);
+
+        Section section = items.get(i);
+        binding.setVariable(BR.groupName, section.getLabel());
+        binding.executePendingBindings();
         return view;
     }
 
     @Override
     public View getChildView(final int i, final int i1, boolean b, View view, ViewGroup viewGroup) {
-//       TODO: Get back to well working version
+        TransactionChildViewBinding binding;
         if (view == null) {
-            LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-            view = inflater.inflate(R.layout.transaction_group_view, viewGroup, false);
-            final TransactionChildViewBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.transaction_child_view, viewGroup, false);
-            if (binding == null) return null;
-
-            Transaction item = getChild(i, i1);
-            Category category = categoryViewModel.getCategoryById(item.getCategoryId());
-            long repeatDate = item.getDeadline();
-            Drawable icon = convertIconIdToDrawable(category.getIcon());
-            Drawable iconBackground = getIconBackground(category.getColor());
-
-            binding.setTransactionFragment(this);
-            binding.setTransactionId(item.getTransactionId());
-            binding.setTitle(item.getTitle());
-            binding.setAmount(item.getAmount());
-            binding.setDeadlineDate(repeatDate);
-            binding.setIsProfit(new BigDecimal(item.getAmount()).signum() > 0);
-            binding.setIcon(icon);
-            binding.setIconBackground(iconBackground);
-            setRemainingDays(binding, repeatDate, item.isExecuted());
-
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            binding = DataBindingUtil.inflate(inflater, R.layout.transaction_child_view, viewGroup, false);
             view = binding.getRoot();
+        } else {
+            binding = DataBindingUtil.getBinding(view);
+            if (binding == null) return null;
         }
+
+        Transaction item = getChild(i, i1);
+        Category category = categoryViewModel.getCategoryById(item.getCategoryId());
+
+        binding.setVariable(BR.transactionExpandableListAdapter, this);
+        binding.setVariable(BR.transactionId, item.getTransactionId());
+        binding.setVariable(BR.title, item.getTitle());
+        binding.setVariable(BR.amount, item.getAmount());
+        binding.setVariable(BR.deadlineDate, item.getDeadline());
+        binding.setVariable(BR.isProfit, new BigDecimal(item.getAmount()).signum() > 0);
+        binding.setVariable(BR.icon, convertIconIdToDrawable(category.getIcon()));
+        binding.setVariable(BR.iconBackground, getIconBackground(category.getColor()));
+        setRemainingDays(binding, item.getDeadline(), item.isExecuted());
+        binding.executePendingBindings();
         return view;
     }
 
-    private void setRemainingDays(TransactionChildViewBinding binding, long deadline, boolean isExecuted) {
+    private Drawable getIconBackground(int colorRes) {
+        Drawable drawable = ResourcesCompat.getDrawable(this.context.getResources(), R.drawable.background_oval, null);
+        if (drawable == null) return null;
+        Drawable drawableWrapped = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawableWrapped, colorRes);
+        return drawableWrapped;
+    }
+
+    private Drawable convertIconIdToDrawable(int iconId) {
+        Icon iconFromIconPack = iconPack.getIcon(iconId);
+        if (iconFromIconPack == null) return null;
+        return iconFromIconPack.getDrawable();
+    }
+
+    private void setRemainingDays(ViewDataBinding binding, long deadline, boolean isExecuted) {
         int days = getRemainingDaysNumber(deadline);
         int textColor;
         String remainingDaysText;
@@ -143,8 +162,8 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
             textColor = R.color.font_default;
         }
 
-        binding.setRemainingDays(remainingDaysText);
-        binding.setRemainingDaysTextColor(context.getColor(textColor));
+        binding.setVariable(BR.remainingDays, remainingDaysText);
+        binding.setVariable(BR.remainingDaysTextColor, context.getColor(textColor));
     }
 
     private int getRemainingDaysNumber(long finalDate) {
@@ -157,26 +176,18 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
         return (int) ChronoUnit.DAYS.between(startDate, endDate);
     }
 
-    private Drawable getIconBackground(int colorRes) {
-        Drawable drawable = ResourcesCompat.getDrawable(this.context.getResources(), R.drawable.background_oval, null);
-        if (drawable == null) return null;
-        Drawable drawableWrapped = DrawableCompat.wrap(drawable);
-        DrawableCompat.setTint(drawableWrapped, colorRes);
-        return drawableWrapped;
-    }
-
-    private Drawable convertIconIdToDrawable(int iconId) {
-        Icon iconFromIconPack = iconPack.getIcon(iconId);
-        if (iconFromIconPack == null) return null;
-        return iconFromIconPack.getDrawable();
-    }
-
     public void onChildCLickListener(int transactionId) {
-        this.onChildClickListener.onChildClickListener(transactionId);
+        this.onChildClickListener.openDetailsFragment(transactionId);
+    }
+
+    public boolean onChildLongCLickListener(int transactionId) {
+        this.onChildClickListener.showActionTransactionHandler(transactionId);
+        return true;
     }
 
     public interface OnChildClickListener {
-        void onChildClickListener(int transactionId);
+        void openDetailsFragment(int transactionId);
+        void showActionTransactionHandler(int transactionId);
     }
 
     @Override

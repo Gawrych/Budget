@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +25,7 @@ import java.util.Calendar;
 
 public class TransactionFragment extends Fragment implements TransactionExpandableListAdapter.OnChildClickListener {
 
-    public static final String COMING_BOTTOM_SHEET_TAG = "coming_bottom_sheet";
+    public static final String TRANSACTION_ACTION_HANDLER_TAG = "TransactionActionHandlerTag";
     private ArrayList<Section> currentSectionList = new ArrayList<>();
     private TransactionExpandableListAdapter expandableListAdapter;
     private DatePickerDialog datePickerDialog;
@@ -75,25 +73,6 @@ public class TransactionFragment extends Fragment implements TransactionExpandab
 
 //        int actualPositionToScroll = getActualPositionToScroll();
 //        binding.expandableListView.smoothScrollToPositionFromTop(actualPositionToScroll, 0);
-
-        binding.expandableListView.setOnChildClickListener
-                ((parent, v, groupPosition, childPosition, id)
-                        -> openDetailsFragment(groupPosition, childPosition, view));
-
-        binding.expandableListView.setOnItemLongClickListener
-                ((parent, v, flatPosition, id) -> showItemBottomSheetMenu(parent, flatPosition));
-
-        binding.expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
-    }
-
-    @Override
-    public void onChildClickListener(int transactionId) {
-        Transaction transaction = transactionViewModel.getTransactionById(transactionId);
-        TransactionDetails transactionDetails =
-                TransactionDetails.newInstance(transaction.getTransactionId());
-        Navigation.findNavController(view).navigate(
-                R.id.action_navigation_transaction_to_transactionElementDetails,
-                transactionDetails.getArguments());
     }
 
     public void addButtonOnCLick() {
@@ -105,37 +84,26 @@ public class TransactionFragment extends Fragment implements TransactionExpandab
         int monthNumber = getMonthFromDate(Calendar.getInstance().getTimeInMillis());
         int endPosition = monthNumber;
         for (int i=0; i<monthNumber; i++) {
-            endPosition += this.currentSectionList.get(i).getComingAndTransactionList().size();
+            endPosition += this.currentSectionList.get(i).getTransactionList().size();
         }
         return endPosition;
     }
 
-    private boolean openDetailsFragment(int groupPosition, int childPosition, View view) {
-        Transaction transaction =
-                expandableListAdapter.getChild(groupPosition, childPosition);
+    @Override
+    public void openDetailsFragment(int transactionId) {
+        Transaction transaction = transactionViewModel.getTransactionById(transactionId);
         TransactionDetails transactionDetails =
                 TransactionDetails.newInstance(transaction.getTransactionId());
         Navigation.findNavController(view).navigate(
                 R.id.action_navigation_transaction_to_transactionElementDetails,
                 transactionDetails.getArguments());
-        return true;
     }
 
-    private boolean showItemBottomSheetMenu(AdapterView<?> parent, int flatPosition) {
-        long packedPosition = ((ExpandableListView) parent).getExpandableListPosition(flatPosition);
-        if (ExpandableListView.getPackedPositionType(packedPosition)
-                == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-            int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
-            int childPosition = ExpandableListView.getPackedPositionChild(packedPosition);
-
-            Transaction transaction =
-                    expandableListAdapter.getChild(groupPosition, childPosition);
-            ActionTransactionItemHandler bottomSheet =
-                    ActionTransactionItemHandler.newInstance(transaction.getTransactionId());
-            bottomSheet.show(getParentFragmentManager(), COMING_BOTTOM_SHEET_TAG);
-            return true;
-        }
-        return false;
+    @Override
+    public void showActionTransactionHandler(int transactionId) {
+        ActionTransactionItemHandler bottomSheet =
+                ActionTransactionItemHandler.newInstance(transactionId);
+        bottomSheet.show(getParentFragmentManager(), TRANSACTION_ACTION_HANDLER_TAG);
     }
 
     public void yearSelectorOnClick() {

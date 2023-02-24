@@ -4,7 +4,7 @@
     <data>
         <import type="com.example.budgetmanagement.ui.utils.DateProcessor" />
         <import type="com.example.budgetmanagement.R" />
-        <variable name="transactionFragment"
+        <variable name="transactionExpandableListAdapter"
             type="com.example.budgetmanagement.database.adapters.TransactionExpandableListAdapter" />
         <variable name="transactionId"
             type="int" />
@@ -29,7 +29,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
-        android:onClick="@{() -> transactionFragment.onChildCLickListener(transactionId)}"
+        android:onClick="@{() -> transactionExpandableListAdapter.onChildCLickListener(transactionId)}"
+        android:onLongClick="@{() -> transactionExpandableListAdapter.onChildLongCLickListener(transactionId)}"
+        android:foreground="?attr/selectableItemBackground"
         android:layout_height="88dp"
         android:paddingStart="24dp"
         android:paddingEnd="24dp">
