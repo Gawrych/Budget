@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -60,5 +61,15 @@ public class DateProcessor {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(parseDateInPatternToMillis(dateInPattern, dateFormat));
         return calendar;
+    }
+
+    public static int getRemainingDays(long deadline) {
+        Calendar otherDate = Calendar.getInstance();
+        otherDate.setTimeInMillis(deadline);
+
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = otherDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return (int) ChronoUnit.DAYS.between(startDate, endDate);
     }
 }

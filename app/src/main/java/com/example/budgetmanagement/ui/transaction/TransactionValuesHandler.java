@@ -13,6 +13,7 @@ import com.example.budgetmanagement.database.rooms.Transaction;
 import com.example.budgetmanagement.database.viewmodels.CategoryViewModel;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.ui.utils.CategoryIconHelper;
+import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -65,7 +66,7 @@ public class TransactionValuesHandler implements CategoryIconHelper {
     }
 
     private void setRemainingDaysWithPrefix(Transaction transaction) {
-        int days = getRemainingDaysNumber(transaction.getDeadline());
+        int days = DateProcessor.getRemainingDays(transaction.getDeadline());
         int textColor;
         String remainingDaysText;
 
@@ -87,15 +88,5 @@ public class TransactionValuesHandler implements CategoryIconHelper {
 
         this.remainingDays = remainingDaysText;
         this.remainingColor = context.getColor(textColor);
-    }
-
-    private int getRemainingDaysNumber(long endDateInMillis) {
-        Calendar endDate = Calendar.getInstance();
-        endDate.setTimeInMillis(endDateInMillis);
-
-        LocalDate today = LocalDate.now();
-        LocalDate deadline = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        return (int) ChronoUnit.DAYS.between(today, deadline);
     }
 }

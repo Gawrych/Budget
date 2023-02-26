@@ -93,7 +93,7 @@
             android:layout_height="30dp"
             android:layout_marginTop="13dp"
             android:gravity="bottom|end"
-            android:text="@{@string/amount_with_polish_currency(amount)}"
+            android:text="@{@string/string_with_currency(amount)}"
             android:textColor="@{isProfit ? @color/main_green : @color/black}"
             android:textStyle="bold"
             android:textSize="16sp"

@@ -22,6 +22,7 @@ import com.example.budgetmanagement.databinding.TransactionChildViewBinding;
 import com.example.budgetmanagement.databinding.TransactionGroupViewBinding;
 import com.example.budgetmanagement.ui.utils.CategoryIconHelper;
 import com.example.budgetmanagement.ui.transaction.Section;
+import com.example.budgetmanagement.ui.utils.DateProcessor;
 import com.maltaisn.icondialog.pack.IconPack;
 
 import java.math.BigDecimal;
@@ -126,7 +127,7 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
     }
 
     private void setRemainingDays(ViewDataBinding binding, long deadline, boolean isExecuted) {
-        int days = calculateRemainingDaysNumber(deadline);
+        int days = DateProcessor.getRemainingDays(deadline);
         int textColor;
         String remainingDaysText;
 
@@ -146,16 +147,6 @@ public class TransactionExpandableListAdapter extends BaseExpandableListAdapter 
 
         binding.setVariable(BR.remainingDays, remainingDaysText);
         binding.setVariable(BR.remainingDaysTextColor, context.getColor(textColor));
-    }
-
-    private int calculateRemainingDaysNumber(long finalDate) {
-        Calendar otherDate = Calendar.getInstance();
-        otherDate.setTimeInMillis(finalDate);
-
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = otherDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        return (int) ChronoUnit.DAYS.between(startDate, endDate);
     }
 
     public void onChildCLickListener(int transactionId) {

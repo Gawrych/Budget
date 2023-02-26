@@ -50,7 +50,7 @@
         <TextView
             android:id="@+id/amountTextView"
             style="@style/DetailsValueField"
-            android:text="@{@string/amount_with_polish_currency(transactionValuesHandler.amount.abs().toPlainString())}"
+            android:text="@{@string/string_with_currency(transactionValuesHandler.amount.abs().toPlainString())}"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/amountLabel"

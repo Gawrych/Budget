@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.example.budgetmanagement.R;
 
-import java.text.BreakIterator;
-
 public class PeriodComparatorValues {
 
     public final Context context;
@@ -53,7 +51,7 @@ public class PeriodComparatorValues {
     }
 
     private String formatCurrencyWithSign(int value, String currency) {
-        return getFormattedAmount(R.string.amount_with_currency, getNumberWithSign(value), currency);
+        return getFormattedAmount(R.string.string_with_currency, getNumberWithSign(value), currency);
     }
 
     private String formatDaysWithSign(int value) {

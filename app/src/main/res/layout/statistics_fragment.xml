@@ -1,270 +1,283 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.transaction.AddNewTransaction"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:theme="@style/Theme.MaterialComponents.Light">
-
-    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="com.example.budgetmanagement.ui.utils.DateProcessor" />
+        <variable name="statisticsFragment"
+            type="com.example.budgetmanagement.ui.statistics.StatisticsFragment"/>
+        <variable name="globalStats"
+            type="com.example.budgetmanagement.ui.statistics.GlobalStatsSummary" />
+    </data>
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         android:background="@color/background"
-        tools:context=".ui.statistics.StatisticsFragment">
+        android:theme="@style/Theme.MaterialComponents.Light">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/wavy_background">
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/generalStatsNew"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:background="@color/background">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/allTransactionNumberLayout"
-                style="@style/globalStatsSmallTile"
-                app:layout_constraintEnd_toStartOf="@+id/nearestLoss"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/allTransactionsNumber"
-                    style="@style/globalStatsAmountPositive"
-                    app:layout_constraintBottom_toTopOf="@+id/allTransactionNumberLabel"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/allTransactionNumberLabel"
-                    style="@style/globalStatsLabel"
-                    android:text="@string/transactions"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/allTransactionsNumber" />
-
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/wavy_background">
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nearestProfit"
-                style="@style/globalStatsTile"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/allTransactionNumberLayout"
-                app:layout_constraintStart_toStartOf="@+id/allTransactionNumberLayout"
-                app:layout_constraintTop_toBottomOf="@+id/allTransactionNumberLayout">
+                android:id="@+id/generalStatsNew"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background">
 
-                <ImageView
-                    android:id="@+id/nextIncomeIcon"
-                    style="@style/globalStatsIconPositive"
-                    android:contentDescription="@string/global_statistics_positive_icon"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/nextIncomeRemainingDays"
-                    style="@style/globalStatsRemainingDays"
-                    android:text="@string/remaining_days_example"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/nextIncomeAmount"
-                    style="@style/globalStatsAmountPositive"
-                    app:layout_constraintBottom_toTopOf="@+id/nextIncomeLabel"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nextIncomeIcon" />
-
-                <TextView
-                    android:id="@+id/nextIncomeLabel"
-                    style="@style/globalStatsLabel"
-                    android:layout_marginBottom="20dp"
-                    android:text="@string/next_income"
-                    android:labelFor="@+id/afterTimeTransactionNumber"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nearestLoss"
-                style="@style/globalStatsTile"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/allTransactionNumberLayout"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/nextPaymentIcon"
-                    style="@style/globalStatsIconNegative"
-                    android:contentDescription="@string/global_statistics_negative_icon"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/nextPaymentRemainingDays"
-                    style="@style/globalStatsRemainingDays"
-                    android:text="@string/remaining_days_example"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/nextPaymentAmount"
-                    style="@style/globalStatsAmountNegative"
-                    app:layout_constraintBottom_toTopOf="@+id/nextPaymentLabel"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nextPaymentIcon" />
-
-                <TextView
-                    android:id="@+id/nextPaymentLabel"
-                    style="@style/globalStatsLabel"
-                    android:text="@string/next_payment"
-                    android:layout_marginBottom="20dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/allTransactionNumberLayout2"
-                style="@style/globalStatsSmallTile"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/nearestLoss"
-                app:layout_constraintStart_toStartOf="@+id/nearestLoss"
-                app:layout_constraintTop_toBottomOf="@+id/nearestLoss">
-
-                <TextView
-                    android:id="@+id/allTransactionsAfterTheTimeNumber"
-                    style="@style/globalStatsAmountNegative"
-                    app:layout_constraintBottom_toTopOf="@+id/transactionAfterDeadlineLabel"
-                    app:layout_constraintEnd_toEndOf="parent"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/allTransactionNumberLayout"
+                    style="@style/globalStatsSmallTile"
+                    app:layout_constraintEnd_toStartOf="@+id/nearestLoss"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/transactionAfterDeadlineLabel"
-                    style="@style/globalStatsLabel"
-                    android:text="@string/after_the_deadline"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/allTransactionsAfterTheTimeNumber" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/periodStatistics"
-                style="@style/statisticFragmentCard"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/periodComparatorStatisticsCardView"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout style="@style/statisticFragmentCardLayout">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/monthName"
-                        style="@style/statisticFragmentCardLabel"
-                        android:text="@string/period_statistic"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:id="@+id/allTransactionsNumber"
+                        style="@style/globalStatsAmountPositive"
+                        android:text="@{String.valueOf(globalStats.numberOfTransactions)}"
+                        app:layout_constraintBottom_toTopOf="@+id/allTransactionNumberLabel"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/chartImage" />
-
-                    <ImageView
-                        android:id="@+id/chartImage"
-                        style="@style/statisticFragmentCardIcon"
-                        android:contentDescription="@string/statistics_card_image"
-                        android:src="@drawable/bar_chart"
-                        app:layout_constraintBottom_toTopOf="@+id/monthName"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/periodStatisticCardArrowIcon"
-                        style="@style/statisticFragmentCardCheckArrow"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="10dp"
-                        android:contentDescription="@string/statistic_move_arrow"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/periodComparatorStatisticsCardView"
-                style="@style/statisticFragmentCard"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/periodStatistics"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout style="@style/statisticFragmentCardLayout">
-
-                    <ImageView
-                        android:id="@+id/periodComparatorStatisticsIcon"
-                        style="@style/statisticFragmentCardIcon"
-                        android:contentDescription="@string/statistics_card_image"
-                        android:src="@drawable/pie_chart"
-                        app:layout_constraintBottom_toTopOf="@+id/periodComparatorStatisticsLabel"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/periodComparatorStatisticsLabel"
-                        style="@style/statisticFragmentCardLabel"
-                        android:text="@string/compare_periods"
+                        android:id="@+id/allTransactionNumberLabel"
+                        style="@style/globalStatsLabel"
+                        android:text="@string/transactions"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/periodComparatorStatisticsIcon" />
-
-                    <ImageView
-                        android:id="@+id/periodComparatorCardArrowIcon"
-                        style="@style/statisticFragmentCardCheckArrow"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="10dp"
-                        android:contentDescription="@string/statistic_move_arrow"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@+id/allTransactionsNumber" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/nearestProfit"
+                    style="@style/globalStatsTile"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/allTransactionNumberLayout"
+                    app:layout_constraintStart_toStartOf="@+id/allTransactionNumberLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/allTransactionNumberLayout">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/nextIncomeIcon"
+                        style="@style/globalStatsIconPositive"
+                        android:contentDescription="@string/global_statistics_positive_icon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
-</ScrollView>
+                    <TextView
+                        android:id="@+id/nextIncomeRemainingDays"
+                        style="@style/globalStatsRemainingDays"
+                        android:text="@{globalStats.nextIncomeTransaction != null ? (DateProcessor.getRemainingDays(globalStats.nextIncomeTransaction.deadline) != 0 ? @string/in_number_days(DateProcessor.getRemainingDays(globalStats.nextIncomeTransaction.deadline)) : @string/today) : ``}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/nextIncomeAmount"
+                        style="@style/globalStatsAmountPositive"
+                        android:text="@{globalStats.nextIncomeTransaction != null ? `+`+@string/integer_with_currency(Integer.valueOf(globalStats.nextIncomeTransaction.amount)) : `0`}"
+                        app:layout_constraintBottom_toTopOf="@+id/nextIncomeLabel"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/nextIncomeIcon" />
+
+                    <TextView
+                        android:id="@+id/nextIncomeLabel"
+                        style="@style/globalStatsLabel"
+                        android:layout_marginBottom="20dp"
+                        android:text="@string/next_income"
+                        android:labelFor="@+id/afterTimeTransactionNumber"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/nearestLoss"
+                    style="@style/globalStatsTile"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/allTransactionNumberLayout"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/nextPaymentIcon"
+                        style="@style/globalStatsIconNegative"
+                        android:contentDescription="@string/global_statistics_negative_icon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/nextPaymentRemainingDays"
+                        style="@style/globalStatsRemainingDays"
+                        android:text="@{globalStats.nextPaymentTransaction != null ? (DateProcessor.getRemainingDays(globalStats.nextPaymentTransaction.deadline) != 0 ? @string/in_number_days(DateProcessor.getRemainingDays(globalStats.nextPaymentTransaction.deadline)) : @string/today) : ``}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/nextPaymentAmount"
+                        style="@style/globalStatsAmountNegative"
+                        android:text="@{globalStats.nextPaymentTransaction != null ? @string/integer_with_currency(Integer.valueOf(globalStats.nextPaymentTransaction.amount)) : `0`}"
+                        app:layout_constraintBottom_toTopOf="@+id/nextPaymentLabel"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/nextPaymentIcon" />
+
+                    <TextView
+                        android:id="@+id/nextPaymentLabel"
+                        style="@style/globalStatsLabel"
+                        android:text="@string/next_payment"
+                        android:layout_marginBottom="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/allTransactionNumberLayout2"
+                    style="@style/globalStatsSmallTile"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/nearestLoss"
+                    app:layout_constraintStart_toStartOf="@+id/nearestLoss"
+                    app:layout_constraintTop_toBottomOf="@+id/nearestLoss">
+
+                    <TextView
+                        android:id="@+id/allTransactionsAfterTheTimeNumber"
+                        style="@style/globalStatsAmountNegative"
+                        android:text="@{String.valueOf(globalStats.numberOfTransactionsAfterTheTime)}"
+                        app:layout_constraintBottom_toTopOf="@+id/transactionAfterDeadlineLabel"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/transactionAfterDeadlineLabel"
+                        style="@style/globalStatsLabel"
+                        android:text="@string/after_the_deadline"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/allTransactionsAfterTheTimeNumber" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/periodStatistics"
+                    style="@style/statisticFragmentCard"
+                    android:onClick="@{() -> statisticsFragment.openPeriodStatistics()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/periodComparatorStatisticsCardView"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout style="@style/statisticFragmentCardLayout">
+
+                        <TextView
+                            android:id="@+id/monthName"
+                            style="@style/statisticFragmentCardLabel"
+                            android:text="@string/period_statistic"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/chartImage" />
+
+                        <ImageView
+                            android:id="@+id/chartImage"
+                            style="@style/statisticFragmentCardIcon"
+                            android:contentDescription="@string/statistics_card_image"
+                            android:src="@drawable/bar_chart"
+                            app:layout_constraintBottom_toTopOf="@+id/monthName"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/periodStatisticCardArrowIcon"
+                            style="@style/statisticFragmentCardCheckArrow"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="10dp"
+                            android:contentDescription="@string/statistic_move_arrow"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/periodComparatorStatisticsCardView"
+                    style="@style/statisticFragmentCard"
+                    android:onClick="@{() -> statisticsFragment.openPeriodComparatorStatistics()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/periodStatistics"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout style="@style/statisticFragmentCardLayout">
+
+                        <ImageView
+                            android:id="@+id/periodComparatorStatisticsIcon"
+                            style="@style/statisticFragmentCardIcon"
+                            android:contentDescription="@string/statistics_card_image"
+                            android:src="@drawable/pie_chart"
+                            app:layout_constraintBottom_toTopOf="@+id/periodComparatorStatisticsLabel"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/periodComparatorStatisticsLabel"
+                            style="@style/statisticFragmentCardLabel"
+                            android:text="@string/compare_periods"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/periodComparatorStatisticsIcon" />
+
+                        <ImageView
+                            android:id="@+id/periodComparatorCardArrowIcon"
+                            style="@style/statisticFragmentCardCheckArrow"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="10dp"
+                            android:contentDescription="@string/statistic_move_arrow"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

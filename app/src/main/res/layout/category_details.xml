@@ -42,7 +42,7 @@
         <TextView
             android:id="@+id/budget"
             style="@style/DetailsValueField"
-            android:text="@{@string/amount_with_polish_currency(categoryValuesHandler.budget.abs().toPlainString())}"
+            android:text="@{@string/string_with_currency(categoryValuesHandler.budget.abs().toPlainString())}"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/budgetLabel"
