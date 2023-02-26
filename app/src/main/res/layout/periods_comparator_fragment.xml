@@ -6,6 +6,8 @@
     <data>
         <variable name="periodComparatorValues"
             type="com.example.budgetmanagement.ui.statistics.PeriodComparatorValues" />
+        <variable name="periodComparatorFragment"
+            type="com.example.budgetmanagement.ui.statistics.PeriodComparatorFragment" />
     </data>
 
     <ScrollView
@@ -26,6 +28,7 @@
                 <ImageButton
                     android:id="@+id/swapPeriods"
                     style="@style/topBarIcon"
+                    android:onClick="@{() -> periodComparatorFragment.swapPeriods()}"
                     android:contentDescription="@string/icon"
                     app:srcCompat="@drawable/ic_baseline_compare_arrows_24"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -35,6 +38,7 @@
                 <ImageButton
                     android:id="@+id/selectDate"
                     style="@style/topBarIcon"
+                    android:onClick="@{() -> periodComparatorFragment.onClickSelectDate()}"
                     android:contentDescription="@string/selectDateToCompare"
                     android:src="@drawable/ic_baseline_edit_calendar_24"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -44,6 +48,7 @@
                 <CheckBox
                     android:id="@+id/onlyYearCheckBox"
                     style="@style/topBarIcon"
+                    android:onCheckedChanged="@{(button, isChecked) -> periodComparatorFragment.onClickOnlyYearModeCheckbox(isChecked)}"
                     android:button="@drawable/date_picker_selector"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
