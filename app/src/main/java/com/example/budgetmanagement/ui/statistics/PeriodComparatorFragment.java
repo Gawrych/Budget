@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
-import com.example.budgetmanagement.databinding.FragmentPeriodComparatorBinding;
+import com.example.budgetmanagement.databinding.PeriodsComparatorFragmentBinding;
 import com.github.mikephil.charting.charts.BarChart;
 
 public class PeriodComparatorFragment extends Fragment {
@@ -25,7 +25,7 @@ public class PeriodComparatorFragment extends Fragment {
     private static final int MONTHS_STATS_MODE = 0;
     private static final int YEARS_STATS_MODE = 1;
     private int mode;
-    private FragmentPeriodComparatorBinding binding;
+    private PeriodsComparatorFragmentBinding binding;
     private PeriodComparatorElementsCreator periodElementsCreator;
     private LinearLayout chartLayout;
 
@@ -37,7 +37,7 @@ public class PeriodComparatorFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentPeriodComparatorBinding.inflate(inflater, container, false);
+        binding = PeriodsComparatorFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

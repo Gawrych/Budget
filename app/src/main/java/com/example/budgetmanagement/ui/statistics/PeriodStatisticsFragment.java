@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
-import com.example.budgetmanagement.databinding.FragmentPeriodStatisticsBinding;
+import com.example.budgetmanagement.databinding.PeriodStatisticsFragmentBinding;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
 
 import java.util.Calendar;
@@ -27,7 +27,7 @@ public class PeriodStatisticsFragment extends Fragment {
 
     private static final int MONTHS_STATS_MODE = 0;
     private static final int YEARS_STATS_MODE = 1;
-    private FragmentPeriodStatisticsBinding binding;
+    private PeriodStatisticsFragmentBinding binding;
     private TransactionViewModel transactionViewModel;
     private DatePickerDialog datePickerDialog;
     private int selectedYear;
@@ -44,34 +44,28 @@ public class PeriodStatisticsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentPeriodStatisticsBinding.inflate(inflater, container, false);
+        binding = PeriodStatisticsFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        this.binding.setPeriodStatisticsFragment(this);
+        this.transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
 
-//        TODO: Add info icon
-
-        currentDate = Calendar.getInstance();
-
+        this.currentDate = Calendar.getInstance();
         setCurrentYearAsStartValueToChartAndStats();
-
         setMode(MONTHS_STATS_MODE);
-
-        binding.onlyYearCheckBox.setOnClickListener(v -> {
-            if (binding.onlyYearCheckBox.isChecked()) {
-                setMode(YEARS_STATS_MODE);
-            } else {
-                setMode(MONTHS_STATS_MODE);
-            }
-        });
-
         showStatsFromSelectedChartBar(currentDate.get(Calendar.MONTH));
+    }
 
-        binding.yearPicker.setOnClickListener(v -> changeYearForChartMonths());
+    public void onCLickYearPicker() {
+        changeYearForChartMonths();
+    }
+
+    public void onClickOnlyYearModeCheckbox(boolean isChecked) {
+        setMode(isChecked ? YEARS_STATS_MODE : MONTHS_STATS_MODE);
     }
 
     private void setMode(int newMode) {
@@ -87,65 +81,51 @@ public class PeriodStatisticsFragment extends Fragment {
     }
 
     private void setChartToMonthPeriod() {
-        MonthsStatsCollector monthsStatsCollector = new MonthsStatsCollector(transactionViewModel);
-        periodSummary = monthsStatsCollector.getStats(this.selectedYear);
+        MonthsStatsCollector monthsStatsCollector = new MonthsStatsCollector(this.transactionViewModel);
+        this.periodSummary = monthsStatsCollector.getStats(this.selectedYear);
 
-        barChart = new PeriodStatisticsBarChart(binding);
-        barChart.setMonthsAsLabels(DateProcessor.getShortMonths());
-        barChart.setData(periodSummary);
-        barChart.setPositionToMoveView(currentDate.get(Calendar.MONTH));
-        barChart.drawChart();
-
-        barChart.setOnValueSelected(this::showStatsFromSelectedChartBar);
+        this.barChart = new PeriodStatisticsBarChart(binding);
+        this.barChart.setMonthsAsLabels(DateProcessor.getShortMonths());
+        this.barChart.setData(periodSummary);
+        this.barChart.setPositionToMoveView(currentDate.get(Calendar.MONTH));
+        this.barChart.drawChart();
+        this.barChart.setOnValueSelected(this::showStatsFromSelectedChartBar);
     }
 
     private void setChartToYearPeriod() {
-        YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(transactionViewModel);
-        periodSummary = yearsStatsCollector.getStats().values().toArray(new PeriodSummary[0]);
+        YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(this.transactionViewModel);
+        this.periodSummary = yearsStatsCollector.getStats().values().toArray(new PeriodSummary[0]);
 
-        barChart = new PeriodStatisticsBarChart(binding);
-        barChart.setYearsAsLabels(yearsStatsCollector.getYears());
-        barChart.setData(periodSummary);
-        barChart.drawChart();
-
-        barChart.setOnValueSelected(this::showStatsFromSelectedChartBar);
+        this.barChart = new PeriodStatisticsBarChart(this.binding);
+        this.barChart.setYearsAsLabels(yearsStatsCollector.getYears());
+        this.barChart.setData(this.periodSummary);
+        this.barChart.drawChart();
+        this.barChart.setOnValueSelected(this::showStatsFromSelectedChartBar);
     }
 
     private void showStatsFromSelectedChartBar(int selectedValue) {
-        PeriodSummary selectedPeriodSummary = periodSummary[selectedValue];
-        binding.allTransactionsNumber.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactions()));
-        binding.numberOfTransactionsAfterTheTime.setText(String.valueOf(selectedPeriodSummary.getNumberOfTransactionsAfterTheTime()));
-        binding.numberOfRemainingTransaction.setText(String.valueOf(selectedPeriodSummary.getNumberOfRemainingTransactions()));
-        binding.averageTimeAfterTheDeadline.setText(getAmountWithDayLabel(selectedPeriodSummary.getAverageTimeAfterTheDeadlineInDays()));
-        binding.averagePercentPayOnTime.setText(getAmountWithPercentage(selectedPeriodSummary.getPercentageOfTransactionsExecutedOnTime()));
-    }
-
-    private String getAmountWithDayLabel(int amount) {
-        return getString(R.string.amount_with_day_label, String.valueOf(amount));
-    }
-
-    private String getAmountWithPercentage(int amount) {
-        return getString(R.string.amount_with_percent, amount);
+        PeriodSummary selectedPeriodSummary = this.periodSummary[selectedValue];
+        this.binding.setPeriodSummary(selectedPeriodSummary);
     }
 
     private void changeYearForChartMonths() {
         final Calendar calendarInstance = Calendar.getInstance();
         int mMonth = calendarInstance.get(Calendar.MONTH);
         int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
-        datePickerDialog = new DatePickerDialog(requireContext(),
+        this.datePickerDialog = new DatePickerDialog(requireContext(),
                 (view, year, monthOfYear, dayOfMonth) -> {}, this.selectedYear, mMonth, mDay);
 
-        datePickerDialog.getDatePicker().getTouchables().get(0).performClick();
-        datePickerDialog.getDatePicker().getTouchables().get(1).setVisibility(View.GONE);
-        datePickerDialog.getDatePicker()
+        this.datePickerDialog.getDatePicker().getTouchables().get(0).performClick();
+        this.datePickerDialog.getDatePicker().getTouchables().get(1).setVisibility(View.GONE);
+        this.datePickerDialog.getDatePicker()
                 .setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
                     this.selectedYear = year;
-                    binding.yearPicker.setText(String.valueOf(year));
+                    binding.setYearPickerValue(Integer.toString(year));
                     setChartToMonthPeriod();
                     showStatsFromSelectedChartBar(this.currentDate.get(Calendar.MONTH));
-                    datePickerDialog.cancel();
+                    this.datePickerDialog.cancel();
                 });
-        datePickerDialog.show();
+        this.datePickerDialog.show();
     }
 
     private void setCurrentYearAsStartValueToChartAndStats() {
@@ -153,25 +133,14 @@ public class PeriodStatisticsFragment extends Fragment {
     }
 
     private void showYearPicker() {
-        TextView yearPicker = binding.yearPicker;
-        yearPicker.setClickable(true);
-        yearPicker.setTextColor(getResources().getColor(R.color.white, null));
-        setTextViewDrawableColor(yearPicker, R.color.white);
+        this.binding.setIsYearPickerClickable(true);
     }
 
     private void hideYearPicker() {
-        TextView yearPicker = binding.yearPicker;
-        yearPicker.setClickable(false);
-        yearPicker.setTextColor(getResources().getColor(R.color.white_30, null));
-        setTextViewDrawableColor(yearPicker, R.color.white_30);
+        this.binding.setIsYearPickerClickable(false);
     }
 
-    private void setTextViewDrawableColor(TextView textView, int color) {
-        for (Drawable drawable : textView.getCompoundDrawables()) {
-            if (drawable != null) {
-                drawable.setColorFilter(new PorterDuffColorFilter(ContextCompat
-                        .getColor(textView.getContext(), color), PorterDuff.Mode.SRC_IN));
-            }
-        }
+    public void showInfo() {
+        // TODO: Add info dialog
     }
 }

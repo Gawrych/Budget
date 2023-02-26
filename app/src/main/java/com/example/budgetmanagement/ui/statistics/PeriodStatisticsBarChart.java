@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.widget.LinearLayout;
 
 import com.example.budgetmanagement.R;
-import com.example.budgetmanagement.databinding.FragmentPeriodStatisticsBinding;
+import com.example.budgetmanagement.databinding.PeriodStatisticsFragmentBinding;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -17,36 +17,35 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 
 public class PeriodStatisticsBarChart implements OnChartValueSelectedListener {
 
     private final Context context;
     private PeriodSummary[] periodSummary;
-    private final FragmentPeriodStatisticsBinding binding;
+    private final PeriodStatisticsFragmentBinding binding;
     private final ArrayList<String> chartLabels = new ArrayList<>();
     private OnValueSelected onValueSelected;
     private int positionToMoveView = 0;
 
-    public PeriodStatisticsBarChart(FragmentPeriodStatisticsBinding binding) {
+    public PeriodStatisticsBarChart(PeriodStatisticsFragmentBinding binding) {
         this.binding = binding;
         this.context = binding.getRoot().getContext();
     }
 
     public void drawChart() {
-        BarChart barChartView = new BarChart(context);
+        BarChart barChartView = new BarChart(this.context);
         barChartView.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         barChartView.setId(R.id.periodBarChart);
 
         BarChartCreator barChartCreator = new BarChartCreator(barChartView);
-        barChartCreator.create(chartLabels, getDataForBarChart());
+        barChartCreator.create(this.chartLabels, getDataForBarChart());
 
         barChartView.setOnChartValueSelectedListener(this);
-        barChartView.moveViewToX(positionToMoveView);
+        barChartView.moveViewToX(this.positionToMoveView);
 
-        LinearLayout chartLayout = binding.chartLayout;
+        LinearLayout chartLayout = this.binding.chartLayout;
         chartLayout.removeAllViews();
         chartLayout.addView(barChartCreator.getBarChart());
     }
@@ -94,17 +93,17 @@ public class PeriodStatisticsBarChart implements OnChartValueSelectedListener {
                 .mapToObj(String::valueOf)
                 .toArray(String[]::new);
 
-        chartLabels.clear();
-        chartLabels.add("Chart is skipping this line, but it have to be here");
-        Collections.addAll(chartLabels, labels);
-        chartLabels.add("Chart is skipping this line, but it have to be here");
+        this.chartLabels.clear();
+        this.chartLabels.add("Chart is skipping this line, but it have to be here");
+        Collections.addAll(this.chartLabels, labels);
+        this.chartLabels.add("Chart is skipping this line, but it have to be here");
     }
 
     public void setMonthsAsLabels(String[] labels) {
-        chartLabels.clear();
-        chartLabels.add("Chart is skipping this line, but it have to be here");
-        Collections.addAll(chartLabels, labels);
-        chartLabels.add("Chart is skipping this line, but it have to be here");
+        this.chartLabels.clear();
+        this.chartLabels.add("Chart is skipping this line, but it have to be here");
+        Collections.addAll(this.chartLabels, labels);
+        this.chartLabels.add("Chart is skipping this line, but it have to be here");
     }
 
     public void setOnValueSelected(OnValueSelected listener) {

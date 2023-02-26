@@ -83,7 +83,7 @@
         android:id="@+id/periodComparatorFragment"
         android:name="com.example.budgetmanagement.ui.statistics.PeriodComparatorFragment"
         android:label="fragment_period_comparator"
-        tools:layout="@layout/fragment_period_comparator" />
+        tools:layout="@layout/periods_comparator_fragment" />
     <fragment
         android:id="@+id/periodStatisticsFragment"
         android:name="com.example.budgetmanagement.ui.statistics.PeriodStatisticsFragment"

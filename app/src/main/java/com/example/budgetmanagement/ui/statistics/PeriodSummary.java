@@ -19,14 +19,12 @@ public class PeriodSummary {
     public PeriodSummary() {}
 
     public void add(Transaction item) {
-//        TODO: Change this to make for loop there, and get argument in List type
         numberOfTransactions++;
 
-        BigDecimal amount = new BigDecimal(item.getAmount());
-        if (amount.signum() == 1) {
-            incomeBalance = incomeBalance.add(amount);
+        if (item.isProfit()) {
+            incomeBalance = incomeBalance.add(new BigDecimal(item.getAmount()));
         } else {
-            lossBalance = lossBalance.add(amount);
+            lossBalance = lossBalance.add(new BigDecimal(item.getAmount()));
         }
 
         boolean isExecuted = item.isExecuted();
@@ -34,8 +32,7 @@ public class PeriodSummary {
             numberOfExecutedTransactions++;
         }
 
-        Calendar today = Calendar.getInstance();
-        float millisOfTransactionAfterTheTime = today.getTimeInMillis() - item.getDeadline();
+        float millisOfTransactionAfterTheTime = System.currentTimeMillis() - item.getDeadline();
         boolean isTransactionAfterTheTime = millisOfTransactionAfterTheTime > 0;
         if(!isExecuted && isTransactionAfterTheTime) {
             averageTransactionDelay += millisOfTransactionAfterTheTime;
