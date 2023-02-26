@@ -5,60 +5,71 @@ import com.example.budgetmanagement.database.rooms.Transaction;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class GlobalStatsSummary {
 
     private final int numberOfTransactions;
     private final int numberOfTransactionsAfterTheTime;
-
-    private Transaction nextIncomeTransaction;
-
-    private Transaction nextPaymentTransaction;
+    private final Transaction nextIncomeTransaction;
+    private final Transaction nextPaymentTransaction;
 
     public GlobalStatsSummary(List<Transaction> allTransactions) {
-//        TODO: Change this to for loop
-        Calendar today = Calendar.getInstance();
-        long todayInMillis = today.getTimeInMillis();
         numberOfTransactions = allTransactions.size();
 
-        numberOfTransactionsAfterTheTime = (int) allTransactions
+        List<Transaction> onlyNotExecutedTransactions = allTransactions
                 .stream()
-                .filter(item -> !item.isExecuted())
-                .filter(item -> todayInMillis - item.getDeadline() > 0) // millisOfTransactionAfterTheTime
-                .count();
-
-        DateTimeZone defaultTimeZone = DateTimeZone.getDefault();
-        long firstMillisTodayDay = new DateTime(todayInMillis, defaultTimeZone).withTimeAtStartOfDay().getMillis();
-
-        List<Transaction> allTransactionsWithExpireDateAboveTodayDate = allTransactions
-                .stream()
-                .filter(item -> item.getDeadline() >= firstMillisTodayDay)
-                .filter(item -> !item.isExecuted())
+                .filter(this::isNotExecuted)
                 .collect(Collectors.toList());
 
-        Optional<Transaction> nextPaymentOptional = allTransactionsWithExpireDateAboveTodayDate.stream()
-                .filter(item -> {
-                    BigDecimal amount = new BigDecimal(item.getAmount());
-                    return amount.signum() != 1;
-                })
-                .min(Comparator.comparingLong(item -> Math.abs(item.getDeadline() - todayInMillis)));
+        this.numberOfTransactionsAfterTheTime = (int) onlyNotExecutedTransactions
+                .stream()
+                .filter(this::isOverdue)
+                .count();
 
-        nextPaymentOptional.ifPresent(comingAndTransaction -> nextPaymentTransaction = comingAndTransaction);
+        List<Transaction> futureTransactions = onlyNotExecutedTransactions
+                .stream()
+                .filter(this::isFuture)
+                .collect(Collectors.toList());
 
-        Optional<Transaction> nextIncomeOptional = allTransactionsWithExpireDateAboveTodayDate.stream()
-                .filter(item -> {
-                    BigDecimal amount = new BigDecimal(item.getAmount());
-                    return amount.signum() == 1;
-                })
-                .min(Comparator.comparingLong(item -> Math.abs(item.getDeadline() - todayInMillis)));
+        nextPaymentTransaction = getFirstTransaction(futureTransactions, this::isNotProfit);
+        nextIncomeTransaction = getFirstTransaction(futureTransactions, this::isProfit);
+    }
 
-        nextIncomeOptional.ifPresent(comingAndTransaction -> nextIncomeTransaction = comingAndTransaction);
+    private Transaction getFirstTransaction(List<Transaction> list, Predicate<Transaction> condition) {
+        long todayInMillis = System.currentTimeMillis();
+        return list.stream()
+                .filter(condition)
+                .min(Comparator.comparingLong(item -> Math.abs(item.getDeadline() - todayInMillis)))
+                .orElse(null);
+    }
+
+    private boolean isNotExecuted(Transaction transaction) {
+        return !transaction.isExecuted();
+    }
+
+    private boolean isOverdue(Transaction transaction) {
+        long todayInMillis = System.currentTimeMillis();
+        return todayInMillis - transaction.getDeadline() > 0;
+    }
+
+    private boolean isFuture(Transaction transaction) {
+        long todayInMillis = System.currentTimeMillis();
+        long firstMillisTodayDay = new DateTime(todayInMillis, DateTimeZone.getDefault())
+                .withTimeAtStartOfDay().getMillis();
+        return transaction.getDeadline() >= firstMillisTodayDay;
+    }
+
+    private boolean isNotProfit(Transaction transaction) {
+        return !transaction.isProfit();
+    }
+
+    private boolean isProfit(Transaction transaction) {
+        return transaction.isProfit();
     }
 
     public int getNumberOfTransactions() {
