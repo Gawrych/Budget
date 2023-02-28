@@ -32,6 +32,7 @@ public class ActionTransactionItemHandler extends BottomSheetDialogFragment {
     private ActionTransactionHandlerBottomSheetBinding binding;
     private Transaction transaction;
     private TransactionViewModel transactionViewModel;
+    private long lastOnDeleteClickTime;
 
     public static ActionTransactionItemHandler newInstance(int transactionId) {
         Bundle bundle = new Bundle();
@@ -71,13 +72,19 @@ public class ActionTransactionItemHandler extends BottomSheetDialogFragment {
     }
 
     public void deleteActionOnClick() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setMessage(R.string.are_you_sure_to_delete)
-                .setPositiveButton(R.string.delete, (dialog, id) -> {
-                    removeFromDatabase();
-                    dismiss();
-                })
-                .setNeutralButton(R.string.cancel, (dialog, id) -> {}).show();
+        long currentTime = System.currentTimeMillis();
+        if (this.lastOnDeleteClickTime < currentTime - 1000) {
+            this.lastOnDeleteClickTime = currentTime;
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+            builder.setMessage(R.string.are_you_sure_to_delete)
+                    .setPositiveButton(R.string.delete, (dialog, id) -> {
+                        removeFromDatabase();
+                        Toast.makeText(requireContext(), R.string.element_removed, Toast.LENGTH_SHORT).show();
+                        dismiss();
+                    })
+                    .setNeutralButton(R.string.cancel, (dialog, id) -> {
+                    }).show();
+        }
     }
 
     private void removeFromDatabase() {

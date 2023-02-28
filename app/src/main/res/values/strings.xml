@@ -94,4 +94,5 @@
     <string name="select">Wybierz</string>
     <string name="reduce_year">reduce year</string>
     <string name="increase_year">increase year</string>
+    <string name="element_removed">Element został usunięty</string>
 </resources>

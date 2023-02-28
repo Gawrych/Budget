@@ -26,6 +26,7 @@ public class ActionCategoryItemHandler extends BottomSheetDialogFragment {
 
     private ActionCategoryHandlerBottomSheetBinding binding;
     private int categoryId;
+    private long lastOnDeleteClickTime;
 
     public static ActionCategoryItemHandler newInstance(int categoryId) {
         Bundle bundle = new Bundle();
@@ -56,13 +57,19 @@ public class ActionCategoryItemHandler extends BottomSheetDialogFragment {
     }
 
     public void deleteActionOnCLick() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setMessage(R.string.are_you_sure_to_delete)
-                .setPositiveButton(R.string.delete, (dialog, id) -> {
-                    removeFromDatabase();
-                    dismiss();
-                })
-                .setNeutralButton(R.string.cancel, (dialog, id) -> {}).show();
+        long currentTime = System.currentTimeMillis();
+        if (this.lastOnDeleteClickTime < currentTime - 1000) {
+            this.lastOnDeleteClickTime = currentTime;
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+            builder.setMessage(R.string.are_you_sure_to_delete)
+                    .setPositiveButton(R.string.delete, (dialog, id) -> {
+                        removeFromDatabase();
+                        Toast.makeText(requireContext(), R.string.element_removed, Toast.LENGTH_SHORT).show();
+                        dismiss();
+                    })
+                    .setNeutralButton(R.string.cancel, (dialog, id) -> {
+                    }).show();
+        }
     }
 
     private void removeFromDatabase() {
