@@ -24,13 +24,12 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:textColor="@color/mat_green"
-        android:text="Wybierz"
+        android:text="@string/select"
         style="?android:attr/borderlessButtonStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/colorItems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

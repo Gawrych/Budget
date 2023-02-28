@@ -7,7 +7,6 @@
         <import type="java.time.Year" />
         <variable name="transactionFragment" type="com.example.budgetmanagement.ui.transaction.TransactionFragment"/>
     </data>
-
     <LinearLayout
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"

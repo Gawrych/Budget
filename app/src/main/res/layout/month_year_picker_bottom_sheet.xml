@@ -1,134 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.statistics.BottomSheetMonthYearPicker">
-
-    <Button
-        android:id="@+id/cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginEnd="10dp"
-        android:textColor="@color/mat_red"
-        style="?android:attr/borderlessButtonStyle"
-        android:text="Anuluj"
-        app:layout_constraintEnd_toStartOf="@+id/select"
-        app:layout_constraintTop_toTopOf="@+id/select" />
-
-    <Button
-        android:id="@+id/select"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:textColor="@color/mat_green"
-        android:backgroundTint="@color/white"
-        android:text="Wybierz"
-        style="?android:attr/borderlessButtonStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RadioGroup
-        android:id="@+id/dateRadioGroup"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="java.time.Year" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/first_color_theme"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cancel">
+        android:layout_height="match_parent"
+        tools:context=".ui.statistics.BottomSheetMonthYearPicker">
 
-        <RadioButton
-            android:id="@+id/secondDate"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/mat_red"
+            style="?android:attr/borderlessButtonStyle"
+            android:text="@string/cancel"
+            app:layout_constraintEnd_toStartOf="@+id/select"
+            app:layout_constraintTop_toTopOf="@+id/select" />
+
+        <Button
+            android:id="@+id/select"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/bottom_sheet_picker_buttons"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:text="@string/date_example"
-            android:textSize="16sp" />
+            android:textColor="@color/mat_green"
+            android:backgroundTint="@color/white"
+            android:text="@string/select"
+            style="?android:attr/borderlessButtonStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/firstDate"
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/first_color_theme"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cancel">
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/bottom_sheet_picker_buttons"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:text="@string/date_example"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@drawable/bottom_sheet_picker_buttons"
+                android:button="@android:color/transparent"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:checked="true"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:text="@string/date_example"
+                android:textSize="16sp" />
+
+        </RadioGroup>
+
+        <ImageView
+            android:id="@+id/leftArrow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="30dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_keyboard_arrow_left_24"
+            android:background="@drawable/press_feedback_background"
+            app:layout_constraintBottom_toBottomOf="@+id/year"
+            app:layout_constraintEnd_toStartOf="@+id/year"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/year"
+            android:contentDescription="@string/reduce_year" />
+
+        <TextView
+            android:id="@+id/year"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/bottom_sheet_picker_buttons"
-            android:button="@android:color/transparent"
-            android:textColor="@color/white"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:checked="true"
+            android:layout_marginTop="100dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:text="@string/date_example"
-            android:textSize="16sp" />
+            android:text="@{Year.now().toString()}"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/rightArrow"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/leftArrow"
+            app:layout_constraintTop_toBottomOf="@+id/select" />
 
-    </RadioGroup>
+        <ImageView
+            android:id="@+id/rightArrow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="30dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+            app:layout_constraintBottom_toBottomOf="@+id/year"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/year"
+            app:layout_constraintTop_toTopOf="@+id/year"
+            android:contentDescription="@string/increase_year" />
 
-    <ImageView
-        android:id="@+id/leftArrow"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="30dp"
-        android:padding="5dp"
-        android:src="@drawable/ic_baseline_keyboard_arrow_left_24"
-        android:background="@drawable/press_feedback_background"
-        app:layout_constraintBottom_toBottomOf="@+id/year"
-        app:layout_constraintEnd_toStartOf="@+id/year"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/year" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/monthsItems"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/year" />
 
-    <TextView
-        android:id="@+id/year"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="100dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:text="2022"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/rightArrow"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/leftArrow"
-        app:layout_constraintTop_toBottomOf="@+id/select" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/rightArrow"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="30dp"
-        android:padding="5dp"
-        android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
-        app:layout_constraintBottom_toBottomOf="@+id/year"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/year"
-        app:layout_constraintTop_toTopOf="@+id/year" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/monthsItems"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:paddingBottom="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/year" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

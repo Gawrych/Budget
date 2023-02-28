@@ -25,7 +25,6 @@
         <variable name="iconBackground"
             type="android.graphics.drawable.Drawable" />
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"

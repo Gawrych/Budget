@@ -1,9 +1,9 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.BudgetManagement" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/first_color_theme</item>
+        <item name="colorPrimaryVariant">@color/second_color_theme</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/first_color_theme</item>
@@ -14,11 +14,4 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.BudgetManagement.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-    <style name="Theme.SystemBarColorsDemo.AppBarOverlay"
-        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="Theme.SystemBarColorsDemo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

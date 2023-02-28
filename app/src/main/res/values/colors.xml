@@ -1,78 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="yellow">#EAC68B</color>
 
     <color name="font_default">#808080</color>
     <color name="light_dark">#303030</color>
     <color name="main_green">#2E9F47</color>
-    <color name="dark_green">#145535</color>
-    <color name="loss_transaction">#FF6347</color>
-    <color name="profitTransaction">#2a9d8f</color>
     <color name="light_grey">#C0C0C0</color>
-    <color name="main_blue">#2374f7</color>
-    <color name="very_light_gray">#e5e5e5</color>
     <color name="grey">#dde3ea</color>
     <color name="dark_grey">#AAAAAA</color>
 
-    <color name="red">#f08080</color>
-    <color name="blue">#00b4d8</color>
-    <color name="accent_lighter">#A0696D</color>
-    <color name="cream">#feeae6</color>
-    <color name="blue_accent">#D1A170</color>
-    <color name="brown_accent">#6A5349</color>
-    <color name="light_blue">#E0E8F4</color>
-    <color name="orange_lite">#F1BC93</color>
     <color name="white_30">#4Dffffff</color>
     <color name="white_50">#80ffffff</color>
 
-    <color name="first_color_theme_backup">#3B378E</color>
-    <color name="second_color_theme_backup">#36338C</color>
-    <color name="accent_blue">#C2D4EE</color>
-    <color name="ghost_white">#F1F0F9</color>
     <color name="indigo">#F1F0F9</color>
-    <color name="indigo_5">#7858ff</color>
-    <color name="indigo_6">#5d36ff</color>
     <color name="first_color_theme">#3B378E</color>
     <color name="second_color_theme">#36338C</color>
-    <color name="lighter_accent">#4A45B0</color>
     <color name="darker_accent">#312E76</color>
     <color name="dark_accent">#2c2f42</color>
 
     <color name="mat_red">#E84855</color>
     <color name="mat_red_30">#33E84855</color>
-    <color name="mat_red_10">#1AE84855</color>
     <color name="mat_red_05">#0DE84855</color>
     <color name="mat_green">#3E885B</color>
     <color name="mat_green_30">#333E885B</color>
     <color name="mat_green_10">#1A3E885B</color>
     <color name="mat_green_05">#0D3E885B</color>
     <color name="mat_blue">#287cfa</color>
-    <color name="mat_blue_30">#33287cfa</color>
-    <color name="mat_blue_10">#1A287cfa</color>
-    <color name="mat_blue_05">#0D287cfa</color>
-    <color name="mat_orange_30">#33f79d65</color>
-    <color name="first_10">#1A3B378E</color>
 
     <color name="background">#F8F8FA</color>
     <color name="black_10">#0D303030</color>
-    <color name="straw">#E3E36A</color>
     <color name="orange">#f79d65</color>
-    <color name="orange_30">#33f79d65</color>
     <color name="violet">#8e94f2</color>
     <color name="cyan">#00FFFF</color>
     <color name="magenta">#FF00FF</color>
     <color name="light_red">#e76f51</color>
     <color name="pink">#FF4081</color>
     <color name="brown">#6f4518</color>
-    <color name="purple">#7B1FA2</color>
     <color name="teal">#009688</color>
     <color name="amber">#FFC107</color>
-    <color name="lime">#CDDC39</color>
 </resources>
