@@ -52,7 +52,9 @@ public class InputTextCollector {
     }
 
     public String collectBasedOnProfitSwitch(TextInputLayout amountLayout, SwitchMaterial profitSwitch) {
-        BigDecimal amountWithRounding = new BigDecimal(collect(amountLayout)).setScale(2, RoundingMode.UP).stripTrailingZeros();
+        String collectedValue = collect(amountLayout);
+        if (collectedValue.length() == 0) return "";
+        BigDecimal amountWithRounding = new BigDecimal(collectedValue).setScale(2, RoundingMode.UP).stripTrailingZeros();
         if (!profitSwitch.isChecked() && successCollectedData) {
              return amountWithRounding.negate().toPlainString();
         }
