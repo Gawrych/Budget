@@ -116,7 +116,7 @@ public class PeriodComparatorFragment extends Fragment {
 
     private void setValuesInDetailsSection() {
         PeriodStatsComparator statsComparator = this.periodElementsCreator.getStatsComparator();
-        PeriodComparatorValues values = new PeriodComparatorValues(requireContext(), statsComparator);
+        PeriodComparatorValues values = new PeriodComparatorValues(statsComparator);
         this.binding.setPeriodComparatorValues(values);
     }
 }

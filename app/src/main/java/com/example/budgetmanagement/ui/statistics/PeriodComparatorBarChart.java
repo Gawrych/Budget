@@ -47,8 +47,8 @@ public class PeriodComparatorBarChart {
     }
 
     private BarData getBarData() {
-        firstPeriod = periodStatsComparator.getFirstPeriod();
-        secondPeriod = periodStatsComparator.getSecondPeriod();
+        this.firstPeriod = this.periodStatsComparator.getFirstPeriod();
+        this.secondPeriod = this.periodStatsComparator.getSecondPeriod();
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(createLossDataSet());
@@ -68,10 +68,8 @@ public class PeriodComparatorBarChart {
 
     private ArrayList<BarEntry> createLossData() {
         ArrayList<BarEntry> loss = new ArrayList<>();
-
         loss.add(new BarEntry(1, secondPeriod.getLoss()));
         loss.add(new BarEntry(0, firstPeriod.getLoss()));
-
         return loss;
     }
 
@@ -85,10 +83,8 @@ public class PeriodComparatorBarChart {
 
     private ArrayList<BarEntry> createIncomeData() {
         ArrayList<BarEntry> income = new ArrayList<>();
-
         income.add(new BarEntry(1, secondPeriod.getIncome()));
         income.add(new BarEntry(0, firstPeriod.getIncome()));
-
         return income;
     }
 
@@ -102,10 +98,8 @@ public class PeriodComparatorBarChart {
 
     private ArrayList<BarEntry> createProfitData() {
         ArrayList<BarEntry> profit = new ArrayList<>();
-
         profit.add(new BarEntry(1, secondPeriod.getProfit()));
         profit.add(new BarEntry(0, firstPeriod.getProfit()));
-
         return profit;
     }
 
