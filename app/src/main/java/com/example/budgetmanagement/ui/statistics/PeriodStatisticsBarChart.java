@@ -58,20 +58,19 @@ public class PeriodStatisticsBarChart implements OnChartValueSelectedListener {
             loss.add(new BarEntry(i, this.periodSummary[i].getLoss()));
         }
 
-        BarDataSet set1 = new BarDataSet(loss, "loss");
-        set1.setHighlightEnabled(true);
-        set1.setColors(new int[]{R.color.mat_red}, this.context);
-        set1.setHighLightColor(Color.BLACK);
-        BarDataSet set2 = new BarDataSet(income, "income");
-        set2.setHighlightEnabled(true);
-        set2.setColors(new int[]{R.color.mat_green}, this.context);
-        set2.setHighLightColor(Color.BLACK);
-
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
-        dataSets.add(set2);
+        addNewSetToDataSet(loss, "loss", R.color.mat_red, dataSets);
+        addNewSetToDataSet(income, "income", R.color.mat_green, dataSets);
 
         return new BarData(dataSets);
+    }
+
+    private void addNewSetToDataSet(ArrayList<BarEntry> loss, String loss1, int mat_red, ArrayList<IBarDataSet> dataSets) {
+        BarDataSet set1 = new BarDataSet(loss, loss1);
+        set1.setHighlightEnabled(true);
+        set1.setColors(new int[]{mat_red}, this.context);
+        set1.setHighLightColor(Color.BLACK);
+        dataSets.add(set1);
     }
 
     public void setData(PeriodSummary[] periodSummary) {

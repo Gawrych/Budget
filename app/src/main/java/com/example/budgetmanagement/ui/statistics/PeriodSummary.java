@@ -19,40 +19,40 @@ public class PeriodSummary {
     public PeriodSummary() {}
 
     public void add(Transaction item) {
-        numberOfTransactions++;
+        this.numberOfTransactions++;
 
         if (item.isProfit()) {
-            incomeBalance = incomeBalance.add(new BigDecimal(item.getAmount()));
+            this.incomeBalance = this.incomeBalance.add(new BigDecimal(item.getAmount()));
         } else {
-            lossBalance = lossBalance.add(new BigDecimal(item.getAmount()));
+            this.lossBalance = this.lossBalance.add(new BigDecimal(item.getAmount()));
         }
 
         boolean isExecuted = item.isExecuted();
         if (isExecuted) {
-            numberOfExecutedTransactions++;
+            this.numberOfExecutedTransactions++;
         }
 
         float millisOfTransactionAfterTheTime = System.currentTimeMillis() - item.getDeadline();
         boolean isTransactionAfterTheTime = millisOfTransactionAfterTheTime > 0;
         if(!isExecuted && isTransactionAfterTheTime) {
-            averageTransactionDelay += millisOfTransactionAfterTheTime;
-            numberOfTransactionsAfterTheTime++;
+            this.averageTransactionDelay += millisOfTransactionAfterTheTime;
+            this.numberOfTransactionsAfterTheTime++;
         }
 
         float millisOfTransactionExecutedAfterTheTime = item.getExecutedDate() - item.getDeadline();
         boolean isTransactionExecutedAfterTheTime = millisOfTransactionExecutedAfterTheTime > 0;
         if (isExecuted && isTransactionExecutedAfterTheTime) {
-            averageTransactionDelay += millisOfTransactionExecutedAfterTheTime;
-            numberOfTransactionsExecutedAfterTheTime++;
+            this.averageTransactionDelay += millisOfTransactionExecutedAfterTheTime;
+            this.numberOfTransactionsExecutedAfterTheTime++;
         }
     }
 
     public float getLoss() {
-        return lossBalance.abs().intValue();
+        return this.lossBalance.abs().intValue();
     }
 
     public float getIncome() {
-        return incomeBalance.abs().intValue();
+        return this.incomeBalance.abs().intValue();
     }
 
     public float getProfit() {
@@ -60,28 +60,28 @@ public class PeriodSummary {
     }
 
     public int getNumberOfTransactions() {
-        return numberOfTransactions;
+        return this.numberOfTransactions;
     }
 
     public int getNumberOfTransactionsAfterTheTime() {
-        return numberOfTransactionsAfterTheTime;
+        return this.numberOfTransactionsAfterTheTime;
     }
 
     public int getNumberOfRemainingTransactions() {
-        return numberOfTransactions - numberOfExecutedTransactions;
+        return this.numberOfTransactions - this.numberOfExecutedTransactions;
     }
 
     public int getAverageTimeAfterTheDeadlineInDays() {
-        int sumNumberOfTransactionsAfterTheTime = numberOfTransactionsExecutedAfterTheTime+numberOfTransactionsAfterTheTime;
+        int sumNumberOfTransactionsAfterTheTime = this.numberOfTransactionsExecutedAfterTheTime+this.numberOfTransactionsAfterTheTime;
         if (sumNumberOfTransactionsAfterTheTime > 0) {
-            return (int) TimeUnit.MILLISECONDS.toDays(averageTransactionDelay / sumNumberOfTransactionsAfterTheTime);
+            return (int) TimeUnit.MILLISECONDS.toDays(this.averageTransactionDelay / sumNumberOfTransactionsAfterTheTime);
         }
         return 0;
     }
 
     public int getPercentageOfTransactionsExecutedOnTime() {
-        int sumNumberOfTransactionsAfterTheTime = numberOfTransactionsExecutedAfterTheTime+numberOfTransactionsAfterTheTime;
-        return percentageOfTotal(numberOfTransactions - sumNumberOfTransactionsAfterTheTime, numberOfTransactions);
+        int sumNumberOfTransactionsAfterTheTime = this.numberOfTransactionsExecutedAfterTheTime+this.numberOfTransactionsAfterTheTime;
+        return percentageOfTotal(this.numberOfTransactions - sumNumberOfTransactionsAfterTheTime, this.numberOfTransactions);
     }
 
     private int percentageOfTotal(float value, float total) {
