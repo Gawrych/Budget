@@ -55,7 +55,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/amountTextView"
-                        android:text="@{String.valueOf(Math.abs(Integer.parseInt(transactionValues.amount)))}"
+                        android:text="@{transactionValues.amount}"
                         style="@style/TextInputEditTextCustomView"
                         android:inputType="numberDecimal" />
 

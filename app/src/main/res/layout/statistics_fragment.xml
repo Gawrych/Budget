@@ -90,7 +90,7 @@
                     <TextView
                         android:id="@+id/nextIncomeAmount"
                         style="@style/globalStatsAmountPositive"
-                        android:text="@{globalStats.nextIncomeTransaction != null ? `+`+@string/integer_with_currency(Integer.valueOf(globalStats.nextIncomeTransaction.amount)) : `0`}"
+                        android:text="@{globalStats.nextIncomeTransaction != null ? `+`+@string/integer_with_currency((int) Float.valueOf(globalStats.nextIncomeTransaction.amount)) : `0`}"
                         app:layout_constraintBottom_toTopOf="@+id/nextIncomeLabel"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -133,7 +133,7 @@
                     <TextView
                         android:id="@+id/nextPaymentAmount"
                         style="@style/globalStatsAmountNegative"
-                        android:text="@{globalStats.nextPaymentTransaction != null ? @string/integer_with_currency(Integer.valueOf(globalStats.nextPaymentTransaction.amount)) : `0`}"
+                        android:text="@{globalStats.nextPaymentTransaction != null ? @string/integer_with_currency((int) Float.valueOf(globalStats.nextPaymentTransaction.amount)) : `0`}"
                         app:layout_constraintBottom_toTopOf="@+id/nextPaymentLabel"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

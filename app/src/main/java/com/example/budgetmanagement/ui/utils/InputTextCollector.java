@@ -1,4 +1,4 @@
-package com.example.budgetmanagement.ui.transaction;
+package com.example.budgetmanagement.ui.utils;
 
 import android.content.Context;
 import android.text.Editable;
@@ -10,6 +10,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class InputTextCollector {
 
@@ -51,12 +52,11 @@ public class InputTextCollector {
     }
 
     public String collectBasedOnProfitSwitch(TextInputLayout amountLayout, SwitchMaterial profitSwitch) {
-        String amount = collect(amountLayout);
+        BigDecimal amountWithRounding = new BigDecimal(collect(amountLayout)).setScale(2, RoundingMode.UP).stripTrailingZeros();
         if (!profitSwitch.isChecked() && successCollectedData) {
-            BigDecimal bigDecimal = new BigDecimal(amount);
-            return bigDecimal.negate().toPlainString();
+             return amountWithRounding.negate().toPlainString();
         }
-        return amount;
+        return amountWithRounding.toPlainString();
     }
 
     public void markCollectedDataAsFailure() {

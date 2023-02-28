@@ -1,5 +1,7 @@
 package com.example.budgetmanagement.ui.category;
 
+import java.math.BigDecimal;
+
 public class CategorySimpleDataForBinding {
 
     public String name;
@@ -8,7 +10,7 @@ public class CategorySimpleDataForBinding {
 
     public CategorySimpleDataForBinding(String name, String budget, boolean isProfit) {
         this.name = name;
-        this.budget = budget;
+        this.budget = new BigDecimal(budget).abs().stripTrailingZeros().toPlainString();
         this.isProfit = isProfit;
     }
 }

@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.budgetmanagement.R;
 import com.example.budgetmanagement.database.rooms.CategoryQuery;
 import com.example.budgetmanagement.databinding.AddNewEditCategoryFragmentBinding;
-import com.example.budgetmanagement.ui.transaction.InputTextCollector;
+import com.example.budgetmanagement.ui.utils.InputTextCollector;
 import com.example.budgetmanagement.ui.utils.AppIconPack;
 import com.google.android.material.textfield.TextInputLayout;
 import com.maltaisn.icondialog.IconDialog;

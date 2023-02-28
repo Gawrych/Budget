@@ -1,7 +1,6 @@
 package com.example.budgetmanagement.ui.transaction;
 
 import android.app.DatePickerDialog;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,7 @@ import com.example.budgetmanagement.databinding.AddNewTransactionFragmentBinding
 import com.example.budgetmanagement.ui.utils.AppIconPack;
 import com.example.budgetmanagement.ui.utils.CategoryBottomSheetSelector;
 import com.example.budgetmanagement.ui.utils.DateProcessor;
-import com.google.android.material.textfield.TextInputLayout;
+import com.example.budgetmanagement.ui.utils.InputTextCollector;
 
 public class AddNewTransaction extends Fragment {
 
