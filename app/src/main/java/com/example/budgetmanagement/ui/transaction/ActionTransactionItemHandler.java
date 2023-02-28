@@ -3,6 +3,7 @@ package com.example.budgetmanagement.ui.transaction;
 import static com.example.budgetmanagement.ui.utils.BundleHelper.BUNDLE_TRANSACTION_ID;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.example.budgetmanagement.database.viewmodels.TransactionViewModel;
 import com.example.budgetmanagement.databinding.ActionTransactionHandlerBottomSheetBinding;
 import com.example.budgetmanagement.ui.utils.BundleHelper;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 
@@ -74,7 +76,6 @@ public class ActionTransactionItemHandler extends BottomSheetDialogFragment {
                 .setPositiveButton(R.string.delete, (dialog, id) -> {
                     removeFromDatabase();
                     dismiss();
-                    Toast.makeText(requireContext(), R.string.element_removed, Toast.LENGTH_SHORT).show();
                 })
                 .setNeutralButton(R.string.cancel, (dialog, id) -> {}).show();
     }
