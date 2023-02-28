@@ -26,7 +26,6 @@ public class BottomSheetColorPicker extends BottomSheetDialogFragment
 
     public static final String BUNDLE_COLOR_POSITION = "colorPosition";
     public static final String BOTTOM_SHEET_COLOR_TAG = "bottomSheetColorPicker";
-    public static final int DEFAULT_ICON_ID = 955;
     private ColorPickerBottomSheetBinding binding;
     private OnColorSelectedListener colorSelectedListener;
     private int selectedColorPosition;
