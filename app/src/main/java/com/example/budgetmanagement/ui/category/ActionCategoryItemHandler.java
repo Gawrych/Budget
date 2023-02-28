@@ -61,7 +61,6 @@ public class ActionCategoryItemHandler extends BottomSheetDialogFragment {
                 .setPositiveButton(R.string.delete, (dialog, id) -> {
                     removeFromDatabase();
                     dismiss();
-                    Toast.makeText(requireContext(), R.string.element_removed, Toast.LENGTH_SHORT).show();
                 })
                 .setNeutralButton(R.string.cancel, (dialog, id) -> {}).show();
     }
