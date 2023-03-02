@@ -18,7 +18,7 @@ public class InputTextCollector {
     private final String emptyFieldErrorMessage;
 
     public InputTextCollector(Context context) {
-        this.emptyFieldErrorMessage = context.getString(R.string.empty_field);
+        emptyFieldErrorMessage = context.getString(R.string.empty_field);
     }
 
     public String collect(TextInputLayout inputLayout) {
@@ -40,15 +40,15 @@ public class InputTextCollector {
     }
 
     public void setErrorMessage(TextInputLayout inputLayout) {
-        inputLayout.setError(this.emptyFieldErrorMessage);
+        inputLayout.setError(emptyFieldErrorMessage);
     }
 
     public boolean areCorrectlyCollected() {
-        return this.successCollectedData;
+        return successCollectedData;
     }
 
     public void resetCollectedStatus() {
-        this.successCollectedData = true;
+        successCollectedData = true;
     }
 
     public String collectBasedOnProfitSwitch(TextInputLayout amountLayout, SwitchMaterial profitSwitch) {

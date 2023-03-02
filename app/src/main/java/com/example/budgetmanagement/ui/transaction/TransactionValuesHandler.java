@@ -43,25 +43,25 @@ public class TransactionValuesHandler implements CategoryIconHelper {
         this.fragment = fragment;
 
         TransactionViewModel transactionViewModel = new ViewModelProvider(fragment).get(TransactionViewModel.class);
-        this.transaction = transactionViewModel.getTransactionById(transactionId);
+        transaction = transactionViewModel.getTransactionById(transactionId);
 
         CategoryViewModel categoryViewModel = new ViewModelProvider(fragment).get(CategoryViewModel.class);
-        this.category = categoryViewModel.getCategoryById(transaction.getCategoryId());
+        category = categoryViewModel.getCategoryById(transaction.getCategoryId());
 
         setValues();
     }
 
     public void setValues() {
-        this.title = transaction.getTitle();
-        this.amount = new BigDecimal(transaction.getAmount());
-        this.categoryName = category.getName();
-        this.isExecuted = transaction.isExecuted();
-        this.lastEditDate = transaction.getLastEditDate();
-        this.executedDate = transaction.getExecutedDate();
-        this.icon = CategoryIconHelper.getCategoryIcon(category.getIcon(), this.fragment.requireActivity());
-        this.iconBackground = CategoryIconHelper.getIconBackground(this.fragment.requireContext(), this.category.getColor(), R.drawable.background_oval);
-        this.remainingDate = transaction.getDeadline();
-        this.addDate = transaction.getAddDate();
+        title = transaction.getTitle();
+        amount = new BigDecimal(transaction.getAmount());
+        categoryName = category.getName();
+        isExecuted = transaction.isExecuted();
+        lastEditDate = transaction.getLastEditDate();
+        executedDate = transaction.getExecutedDate();
+        icon = CategoryIconHelper.getCategoryIcon(category.getIcon(), fragment.requireActivity());
+        iconBackground = CategoryIconHelper.getIconBackground(fragment.requireContext(), category.getColor(), R.drawable.background_oval);
+        remainingDate = transaction.getDeadline();
+        addDate = transaction.getAddDate();
         setRemainingDaysWithPrefix(transaction);
     }
 
@@ -70,9 +70,9 @@ public class TransactionValuesHandler implements CategoryIconHelper {
         int textColor;
         String remainingDaysText;
 
-        Context context = this.fragment.requireContext();
+        Context context = fragment.requireContext();
 
-        if (this.isExecuted) {
+        if (isExecuted) {
             remainingDaysText = "";
             textColor = R.color.font_default;
         } else if (days == 0) {
@@ -86,7 +86,7 @@ public class TransactionValuesHandler implements CategoryIconHelper {
             textColor = R.color.font_default;
         }
 
-        this.remainingDays = remainingDaysText;
-        this.remainingColor = context.getColor(textColor);
+        remainingDays = remainingDaysText;
+        remainingColor = context.getColor(textColor);
     }
 }

@@ -52,7 +52,7 @@ public class ActionTransactionItemHandler extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.transaction = BundleHelper.getTransactionFromBundle(getArguments(), this);
+        transaction = BundleHelper.getTransactionFromBundle(getArguments(), this);
         if (transaction == null) {
             BundleHelper.showToUserErrorNotFoundInDatabase(requireActivity());
             dismiss();
@@ -60,21 +60,21 @@ public class ActionTransactionItemHandler extends BottomSheetDialogFragment {
         }
 
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        this.binding.setActionTransactionItemHandler(this);
-        this.binding.setIsExecuted(transaction.isExecuted());
+        binding.setActionTransactionItemHandler(this);
+        binding.setIsExecuted(transaction.isExecuted());
     }
 
     public void executeActionOnClick(boolean isExecuted) {
-        this.transaction.setExecuted(!isExecuted);
-        this.transaction.setExecutedDate(System.currentTimeMillis());
-        transactionViewModel.update(this.transaction);
+        transaction.setExecuted(!isExecuted);
+        transaction.setExecutedDate(System.currentTimeMillis());
+        transactionViewModel.update(transaction);
         dismiss();
     }
 
     public void deleteActionOnClick() {
         long currentTime = System.currentTimeMillis();
-        if (this.lastOnDeleteClickTime < currentTime - 1000) {
-            this.lastOnDeleteClickTime = currentTime;
+        if (lastOnDeleteClickTime < currentTime - 1000) {
+            lastOnDeleteClickTime = currentTime;
             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
             builder.setMessage(R.string.are_you_sure_to_delete)
                     .setPositiveButton(R.string.delete, (dialog, id) -> {
@@ -88,7 +88,7 @@ public class ActionTransactionItemHandler extends BottomSheetDialogFragment {
     }
 
     private void removeFromDatabase() {
-        transactionViewModel.delete(this.transaction);
+        transactionViewModel.delete(transaction);
     }
 
     public void editActionOnClick() {

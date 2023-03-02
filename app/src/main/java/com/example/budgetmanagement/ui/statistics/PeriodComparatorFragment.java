@@ -41,15 +41,15 @@ public class PeriodComparatorFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.binding.setPeriodComparatorFragment(this);
-        this.chartLayout = this.binding.chartLayout;
+        binding.setPeriodComparatorFragment(this);
+        chartLayout = binding.chartLayout;
 
-        this.periodElementsCreator =
+        periodElementsCreator =
                 new PeriodComparatorElementsCreator(requireContext(), this);
 
-        this.periodElementsCreator.getDatesPicker()
+        periodElementsCreator.getDatesPicker()
                 .setOnDateSelectedListener((firstYear, firstMonth, secondYear, secondMonth) -> {
-                    this.periodElementsCreator.setNewDates(firstYear, firstMonth, secondYear, secondMonth);
+                    periodElementsCreator.setNewDates(firstYear, firstMonth, secondYear, secondMonth);
             updateData();
         });
 
@@ -57,7 +57,7 @@ public class PeriodComparatorFragment extends Fragment {
     }
 
     public void onClickSelectDate() {
-        this.periodElementsCreator.getDatesPicker()
+        periodElementsCreator.getDatesPicker()
                 .show(getParentFragmentManager(), MONTH_YEAR_PICKER_TAG);
     }
 
@@ -70,19 +70,19 @@ public class PeriodComparatorFragment extends Fragment {
     }
 
     public void swapPeriods() {
-        this.periodElementsCreator.swapDates();
+        periodElementsCreator.swapDates();
         updateData();
     }
 
     private void setMonthsMode() {
-        this.mode = MONTHS_STATS_MODE;
-        this.periodElementsCreator.getDatesPicker().changeMode(MONTHS_AND_YEAR_MODE);
+        mode = MONTHS_STATS_MODE;
+        periodElementsCreator.getDatesPicker().changeMode(MONTHS_AND_YEAR_MODE);
         updateData();
     }
 
     private void setYearsMode() {
-        this.mode = YEARS_STATS_MODE;
-        this.periodElementsCreator.getDatesPicker().changeMode(ONLY_YEAR_MODE);
+        mode = YEARS_STATS_MODE;
+        periodElementsCreator.getDatesPicker().changeMode(ONLY_YEAR_MODE);
         updateData();
     }
 
@@ -90,33 +90,33 @@ public class PeriodComparatorFragment extends Fragment {
         setSummaryStats();
         setModeLabelsForChart();
 
-        BarChart barChart = this.periodElementsCreator.createBarChart();
+        BarChart barChart = periodElementsCreator.createBarChart();
 
-        this.chartLayout.removeAllViews();
-        this.chartLayout.addView(barChart);
+        chartLayout.removeAllViews();
+        chartLayout.addView(barChart);
 
         setValuesInDetailsSection();
     }
 
     private void setSummaryStats() {
         if (mode == MONTHS_STATS_MODE) {
-            this.periodElementsCreator.setMonthsSummaryStats();
+            periodElementsCreator.setMonthsSummaryStats();
         } else {
-            this.periodElementsCreator.setYearsSummaryStats();
+            periodElementsCreator.setYearsSummaryStats();
         }
     }
 
     private void setModeLabelsForChart() {
         if (mode == MONTHS_STATS_MODE) {
-            this.periodElementsCreator.setMonthsModeLabelsForChart();
+            periodElementsCreator.setMonthsModeLabelsForChart();
         } else {
-            this.periodElementsCreator.setYearsModeLabelsForChart();
+            periodElementsCreator.setYearsModeLabelsForChart();
         }
     }
 
     private void setValuesInDetailsSection() {
-        PeriodStatsComparator statsComparator = this.periodElementsCreator.getStatsComparator();
+        PeriodStatsComparator statsComparator = periodElementsCreator.getStatsComparator();
         PeriodComparatorValues values = new PeriodComparatorValues(statsComparator);
-        this.binding.setPeriodComparatorValues(values);
+        binding.setPeriodComparatorValues(values);
     }
 }

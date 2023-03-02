@@ -59,19 +59,19 @@ public class BottomSheetColorPicker extends BottomSheetDialogFragment
         recyclerView.setLayoutManager(mLayoutManager);
 
         binding.acceptButton.setOnClickListener(v -> {
-            this.colorSelectedListener.onColorSelected(this.selectedColorPosition, this.selectedColorResources);
+            colorSelectedListener.onColorSelected(selectedColorPosition, selectedColorResources);
             dismiss();
         });
     }
 
     public void setOnDateSelectedListener(OnColorSelectedListener listener) {
-        this.colorSelectedListener = listener;
+        colorSelectedListener = listener;
     }
 
     @Override
     public void onContentSelected(int position, int colorRes) {
-        this.selectedColorPosition = position;
-        this.selectedColorResources = colorRes;
+        selectedColorPosition = position;
+        selectedColorResources = colorRes;
     }
 
     public interface OnColorSelectedListener {

@@ -47,8 +47,8 @@ public class PeriodComparatorBarChart {
     }
 
     private BarData getBarData() {
-        this.firstPeriod = this.periodStatsComparator.getFirstPeriod();
-        this.secondPeriod = this.periodStatsComparator.getSecondPeriod();
+        firstPeriod = periodStatsComparator.getFirstPeriod();
+        secondPeriod = periodStatsComparator.getSecondPeriod();
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(createLossDataSet());
@@ -59,10 +59,10 @@ public class PeriodComparatorBarChart {
     }
 
     private BarDataSet createLossDataSet() {
-        String lossLegendTag = this.context.getString(R.string.loss);
+        String lossLegendTag = context.getString(R.string.loss);
         BarDataSet set1 = new BarDataSet(createLossData(), lossLegendTag);
         set1.setHighlightEnabled(false);
-        set1.setColors(new int[]{R.color.mat_red}, this.context);
+        set1.setColors(new int[]{R.color.mat_red}, context);
         return set1;
     }
 
@@ -74,10 +74,10 @@ public class PeriodComparatorBarChart {
     }
 
     private BarDataSet createIncomeDataSet() {
-        String incomeLegendTag = this.context.getString(R.string.income);
+        String incomeLegendTag = context.getString(R.string.income);
         BarDataSet set2 = new BarDataSet(createIncomeData(), incomeLegendTag);
         set2.setHighlightEnabled(false);
-        set2.setColors(new int[]{R.color.mat_green}, this.context);
+        set2.setColors(new int[]{R.color.mat_green}, context);
         return set2;
     }
 
@@ -89,10 +89,10 @@ public class PeriodComparatorBarChart {
     }
 
     private BarDataSet createProfitDataSet() {
-        String profitLegendTag = this.context.getString(R.string.profit);
+        String profitLegendTag = context.getString(R.string.profit);
         BarDataSet set3 = new BarDataSet(createProfitData(), profitLegendTag);
         set3.setHighlightEnabled(false);
-        set3.setColors(new int[]{R.color.mat_blue}, this.context);
+        set3.setColors(new int[]{R.color.mat_blue}, context);
         return set3;
     }
 

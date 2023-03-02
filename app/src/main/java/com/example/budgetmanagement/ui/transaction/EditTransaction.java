@@ -54,16 +54,16 @@ public class EditTransaction extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        this.binding = EditTransactionFragmentBinding.inflate(inflater, container, false);
-        return this.binding.getRoot();
+        binding = EditTransactionFragmentBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.binding.setEditTransaction(this);
+        binding.setEditTransaction(this);
 
-        this.transactionToEdit = BundleHelper.getTransactionFromBundle(getArguments(), this);
+        transactionToEdit = BundleHelper.getTransactionFromBundle(getArguments(), this);
         if (transactionToEdit == null) {
             BundleHelper.showToUserErrorNotFoundInDatabase(requireActivity());
             backToPreviousFragment();
@@ -100,7 +100,7 @@ public class EditTransaction extends Fragment {
                 transaction.getDeadline(),
                 new BigDecimal(transaction.getAmount()).signum() > 0
         );
-        this.binding.setTransactionValues(transactionValues);
+        binding.setTransactionValues(transactionValues);
 
         CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         Category category = categoryViewModel.getCategoryById(transaction.getCategoryId());
@@ -109,29 +109,29 @@ public class EditTransaction extends Fragment {
     }
 
     private void setCategoryName(String text) {
-        this.binding.setCategoryName(text);
+        binding.setCategoryName(text);
     }
 
     private void setCategoryIcon(int icon) {
-        if (this.appIconPack == null) this.appIconPack = ((AppIconPack) requireActivity().getApplication());
-        this.binding.setCategoryIcon(appIconPack.getDrawableIconFromPack(icon));
+        if (appIconPack == null) appIconPack = ((AppIconPack) requireActivity().getApplication());
+        binding.setCategoryIcon(appIconPack.getDrawableIconFromPack(icon));
     }
 
     public void collectData(InputTextCollector collector) {
-        this.title = collector.collect(binding.titleTextView);
-        this.amount = collector.collectBasedOnProfitSwitch(binding.amountLayout, binding.profitSwitch);
-        this.categoryName = collector.collect(binding.categorySelectorLayout);
-        this.startDateInPattern = collector.collect(binding.startDateLayout);
+        title = collector.collect(binding.titleTextView);
+        amount = collector.collectBasedOnProfitSwitch(binding.amountLayout, binding.profitSwitch);
+        categoryName = collector.collect(binding.categorySelectorLayout);
+        startDateInPattern = collector.collect(binding.startDateLayout);
     }
 
     public void submitToDatabase() {
         TransactionQuery transactionQuery = new TransactionQuery(requireContext(), this);
         transactionQuery.createTransactionToUpdate(
-                this.transactionToEdit,
-                this.title,
-                this.amount,
-                this.categoryName,
-                this.startDateInPattern);
+                transactionToEdit,
+                title,
+                amount,
+                categoryName,
+                startDateInPattern);
 
         transactionQuery.update();
         backToPreviousFragment();

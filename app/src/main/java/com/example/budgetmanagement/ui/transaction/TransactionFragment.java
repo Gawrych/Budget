@@ -38,7 +38,7 @@ public class TransactionFragment extends Fragment implements TransactionExpandab
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.selectedYear = Calendar.getInstance().get(Calendar.YEAR);
+        selectedYear = Calendar.getInstance().get(Calendar.YEAR);
     }
 
     @Override
@@ -52,11 +52,11 @@ public class TransactionFragment extends Fragment implements TransactionExpandab
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         this.view = view;
         super.onViewCreated(view, savedInstanceState);
-        this.binding.setTransactionFragment(this);
+        binding.setTransactionFragment(this);
 
         IconPack iconPack = ((AppIconPack) requireActivity().getApplication()).getIconPack();
         expandableListAdapter = new TransactionExpandableListAdapter
-                (requireContext(), this.currentSectionList, this, iconPack, this);
+                (requireContext(), currentSectionList, this, iconPack, this);
 
         binding.expandableListView.setAdapter(expandableListAdapter);
         binding.yearPicker.setText(String.valueOf(selectedYear));
@@ -67,16 +67,17 @@ public class TransactionFragment extends Fragment implements TransactionExpandab
         sectionMaker = new SectionMaker(transactionViewModel, requireContext(), selectedYear);
 
         transactionViewModel.getAllTransactionsByYear(selectedYear).observe(getViewLifecycleOwner(), list -> {
-            this.currentSectionList = sectionMaker.prepareSections();
+            currentSectionList = sectionMaker.prepareSections();
             notifyUpdatedList();
         });
 
+//        TODO: Add autoscroll
 //        int actualPositionToScroll = getActualPositionToScroll();
 //        binding.expandableListView.smoothScrollToPositionFromTop(actualPositionToScroll, 0);
     }
 
     public void addButtonOnCLick() {
-        Navigation.findNavController(this.view)
+        Navigation.findNavController(view)
                 .navigate(R.id.action_navigation_transaction_to_addNewTransactionElement);
     }
 
@@ -84,7 +85,7 @@ public class TransactionFragment extends Fragment implements TransactionExpandab
         int monthNumber = getMonthFromDate(Calendar.getInstance().getTimeInMillis());
         int endPosition = monthNumber;
         for (int i=0; i<monthNumber; i++) {
-            endPosition += this.currentSectionList.get(i).getTransactionList().size();
+            endPosition += currentSectionList.get(i).getTransactionList().size();
         }
         return endPosition;
     }
@@ -111,16 +112,16 @@ public class TransactionFragment extends Fragment implements TransactionExpandab
         int mMonth = calendarInstance.get(Calendar.MONTH);
         int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
          datePickerDialog = new DatePickerDialog(requireContext(),
-                (view, year, monthOfYear, dayOfMonth) -> {}, this.selectedYear, mMonth, mDay);
+                (view, year, monthOfYear, dayOfMonth) -> {}, selectedYear, mMonth, mDay);
 
         datePickerDialog.getDatePicker().getTouchables().get(0).performClick();
         datePickerDialog.getDatePicker().getTouchables().get(1).setVisibility(View.GONE);
         datePickerDialog.getDatePicker()
                 .setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
-                    this.selectedYear = year;
+                    selectedYear = year;
                     binding.yearPicker.setText(String.valueOf(year));
                     sectionMaker.changeYear(year);
-                    this.currentSectionList = sectionMaker.prepareSections();
+                    currentSectionList = sectionMaker.prepareSections();
                     notifyUpdatedList();
                     datePickerDialog.cancel();
         });
@@ -128,7 +129,7 @@ public class TransactionFragment extends Fragment implements TransactionExpandab
     }
 
     private void notifyUpdatedList() {
-        expandableListAdapter.updateItems(this.currentSectionList);
+        expandableListAdapter.updateItems(currentSectionList);
         expandableListAdapter.notifyAdapter(binding.expandableListView);
     }
 

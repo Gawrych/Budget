@@ -11,11 +11,11 @@ public class PeriodStatsComparator {
     }
 
     public int getPercentIncome() {
-        return percentGrowth(getObtainedIncome(), this.secondPeriod.getIncome());
+        return percentGrowth(getObtainedIncome(), secondPeriod.getIncome());
     }
 
     public int getPercentProfit() {
-        float secondProfit = this.secondPeriod.getIncome() - this.secondPeriod.getLoss();
+        float secondProfit = secondPeriod.getIncome() - secondPeriod.getLoss();
         int obtainedProfit = getObtainedProfit();
 
         if (secondProfit < 0) {
@@ -26,29 +26,29 @@ public class PeriodStatsComparator {
     }
 
     public int getPercentLoss() {
-        return percentGrowth(getObtainedLoss(), this.secondPeriod.getLoss());
+        return percentGrowth(getObtainedLoss(), secondPeriod.getLoss());
     }
 
     public int getObtainedIncome() {
-        return (int) (this.firstPeriod.getIncome() - this.secondPeriod.getIncome());
+        return (int) (firstPeriod.getIncome() - secondPeriod.getIncome());
     }
 
     public int getObtainedProfit() {
-        float firstProfit = this.firstPeriod.getIncome() - this.firstPeriod.getLoss();
-        float secondProfit = this.secondPeriod.getIncome() - this.secondPeriod.getLoss();
+        float firstProfit = firstPeriod.getIncome() - firstPeriod.getLoss();
+        float secondProfit = secondPeriod.getIncome() - secondPeriod.getLoss();
         return (int) (firstProfit - secondProfit);
     }
 
     public int getObtainedLoss() {
-        return (int) (this.firstPeriod.getLoss() - this.secondPeriod.getLoss());
+        return (int) (firstPeriod.getLoss() - secondPeriod.getLoss());
     }
 
     public int getGrowthAverageTimeAfterTheDeadlineInDays() {
-        return this.firstPeriod.getAverageTimeAfterTheDeadlineInDays() - this.secondPeriod.getAverageTimeAfterTheDeadlineInDays();
+        return firstPeriod.getAverageTimeAfterTheDeadlineInDays() - secondPeriod.getAverageTimeAfterTheDeadlineInDays();
     }
 
     public int getGrowthOfPercentOfTransactionsExecutedOnTime() {
-        return this.firstPeriod.getPercentageOfTransactionsExecutedOnTime() - this.secondPeriod.getPercentageOfTransactionsExecutedOnTime();
+        return firstPeriod.getPercentageOfTransactionsExecutedOnTime() - secondPeriod.getPercentageOfTransactionsExecutedOnTime();
     }
 
     private int percentGrowth(float obtained, float total) {
@@ -61,10 +61,10 @@ public class PeriodStatsComparator {
     }
 
     public PeriodSummary getFirstPeriod() {
-        return this.firstPeriod;
+        return firstPeriod;
     }
 
     public PeriodSummary getSecondPeriod() {
-        return this.secondPeriod;
+        return secondPeriod;
     }
 }

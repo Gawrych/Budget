@@ -25,29 +25,29 @@ public class BarChartCreator {
         setXAxis(chartLabels);
         setYAxis();
         setBarChartOptions(chartLabels, data);
-        this.barChart.invalidate();
+        barChart.invalidate();
     }
 
     private void setBarChartOptions(ArrayList<String> chartLabels, BarData data) {
-        this.barChart.setHighlightPerTapEnabled(true);
-        this.barChart.setDrawBarShadow(false);
-        this.barChart.getDescription().setEnabled(false);
-        this.barChart.setPinchZoom(false);
-        this.barChart.setScaleEnabled(false);
-        this.barChart.setDrawGridBackground(false);
-        this.barChart.getAxisRight().setEnabled(false);
-        this.barChart.getLegend().setEnabled(false);
-        this.barChart.setData(data);
-        this.barChart.setExtraBottomOffset(10);
-        this.barChart.setVisibleXRangeMaximum(4f);
-        this.barChart.moveViewToX(chartLabels.size());
-        this.barChart.groupBars(1f, groupSpace, barSpace);
-        this.barChart.resetZoom();
-        this.barChart.setFitBars(true);
+        barChart.setHighlightPerTapEnabled(true);
+        barChart.setDrawBarShadow(false);
+        barChart.getDescription().setEnabled(false);
+        barChart.setPinchZoom(false);
+        barChart.setScaleEnabled(false);
+        barChart.setDrawGridBackground(false);
+        barChart.getAxisRight().setEnabled(false);
+        barChart.getLegend().setEnabled(false);
+        barChart.setData(data);
+        barChart.setExtraBottomOffset(10);
+        barChart.setVisibleXRangeMaximum(4f);
+        barChart.moveViewToX(chartLabels.size());
+        barChart.groupBars(1f, groupSpace, barSpace);
+        barChart.resetZoom();
+        barChart.setFitBars(true);
     }
 
     private void setYAxis() {
-        YAxis leftAxis = this.barChart.getAxisLeft();
+        YAxis leftAxis = barChart.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
         leftAxis.setTextSize(12);
         leftAxis.setAxisLineColor(Color.WHITE);
@@ -58,7 +58,7 @@ public class BarChartCreator {
     }
 
     private void setXAxis(ArrayList<String> chartLabels) {
-        XAxis xAxis = this.barChart.getXAxis();
+        XAxis xAxis = barChart.getXAxis();
         xAxis.setCenterAxisLabels(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);

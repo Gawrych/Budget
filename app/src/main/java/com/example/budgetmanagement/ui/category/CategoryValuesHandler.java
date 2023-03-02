@@ -28,7 +28,7 @@ public class CategoryValuesHandler implements CategoryIconHelper {
         this.fragment = fragment;
 
         CategoryViewModel categoryViewModel = new ViewModelProvider(fragment).get(CategoryViewModel.class);
-        this.category = categoryViewModel.getCategoryById(categoryId);
+        category = categoryViewModel.getCategoryById(categoryId);
 
         setValues();
     }

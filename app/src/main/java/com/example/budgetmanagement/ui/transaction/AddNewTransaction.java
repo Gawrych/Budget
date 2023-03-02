@@ -41,19 +41,19 @@ public class AddNewTransaction extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        this.binding = AddNewTransactionFragmentBinding.inflate(inflater, container, false);
+        binding = AddNewTransactionFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.binding.setAddNewTransaction(this);
+        binding.setAddNewTransaction(this);
 
-        initializeDatePicker(this.binding.startDate);
-        initializeDatePicker(this.binding.endDate);
-        initializeCategoryPicker(this.binding.categorySelector);
-        initializePeriodPicker(this.binding.periodPicker);
+        initializeDatePicker(binding.startDate);
+        initializeDatePicker(binding.endDate);
+        initializeCategoryPicker(binding.categorySelector);
+        initializePeriodPicker(binding.periodPicker);
     }
 
     public void acceptButtonClick() {
@@ -66,7 +66,7 @@ public class AddNewTransaction extends Fragment {
     }
 
     public void disableOrEnabledCyclicalFields(boolean enabled) {
-        this.binding.setIsCyclical(enabled);
+        binding.setIsCyclical(enabled);
     }
 
     public void initializeCategoryPicker(AutoCompleteTextView categorySelector) {
@@ -79,12 +79,12 @@ public class AddNewTransaction extends Fragment {
     }
 
     protected void setCategoryName(String text) {
-        this.binding.setCategoryName(text);
+        binding.setCategoryName(text);
     }
 
     protected void setCategoryIcon(int icon) {
-        if (this.appIconPack == null) this.appIconPack = ((AppIconPack) requireActivity().getApplication());
-        this.binding.setCategoryIcon(appIconPack.getDrawableIconFromPack(icon));
+        if (appIconPack == null) appIconPack = ((AppIconPack) requireActivity().getApplication());
+        binding.setCategoryIcon(appIconPack.getDrawableIconFromPack(icon));
     }
 
     private void initializePeriodPicker(AutoCompleteTextView periodPicker) {
@@ -100,24 +100,24 @@ public class AddNewTransaction extends Fragment {
     }
 
     public void collectData(InputTextCollector collector) {
-        this.title = collector.collect(binding.titleTextView);
-        this.amount = collector.collectBasedOnProfitSwitch(binding.amountLayout, binding.profitSwitch);
-        this.categoryName = collector.collect(binding.categorySelectorLayout);
-        this.startDateInPattern = collector.collect(binding.startDateLayout);
+        title = collector.collect(binding.titleTextView);
+        amount = collector.collectBasedOnProfitSwitch(binding.amountLayout, binding.profitSwitch);
+        categoryName = collector.collect(binding.categorySelectorLayout);
+        startDateInPattern = collector.collect(binding.startDateLayout);
 
         if (binding.cyclicalSwitch.isChecked()) {
-            this.period = collector.collect(binding.periodPickerLayout);
-            this.endDateInPattern = collector.collect(binding.endDateLayout);
+            period = collector.collect(binding.periodPickerLayout);
+            endDateInPattern = collector.collect(binding.endDateLayout);
         }
     }
 
     public void submitToDatabase() {
         TransactionQuery transactionQuery = new TransactionQuery(requireContext(), this);
         transactionQuery.createNewTransaction(
-                this.title, this.amount, this.categoryName, this.startDateInPattern);
+                title, amount, categoryName, startDateInPattern);
 
         if (binding.cyclicalSwitch.isChecked()) {
-            transactionQuery.submitCyclical(this.endDateInPattern, this.period);
+            transactionQuery.submitCyclical(endDateInPattern, period);
         } else {
             transactionQuery.submit();
         }

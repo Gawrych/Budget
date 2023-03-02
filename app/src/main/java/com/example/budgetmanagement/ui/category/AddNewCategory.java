@@ -49,15 +49,15 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.binding = AddNewEditCategoryFragmentBinding.inflate(inflater, container, false);
+        binding = AddNewEditCategoryFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.binding.setAddNewCategory(this);
-        this.binding.setButtonTitle(getString(R.string.add));
+        binding.setAddNewCategory(this);
+        binding.setButtonTitle(getString(R.string.add));
 
         initializeIconPicker(binding.iconPicker);
         initializeColorPicker(binding.colorPicker, binding.colorPickerLayout);
@@ -77,7 +77,7 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
         settings.setSearchVisibility(IconDialog.SearchVisibility.ALWAYS);
 
         IconDialog iconDialogFoundByTag = (IconDialog) requireActivity().getSupportFragmentManager().findFragmentByTag(ICON_DIALOG_TAG);
-        this.iconDialog = (iconDialogFoundByTag == null) ? IconDialog.newInstance(settings.build()) : iconDialogFoundByTag;
+        iconDialog = (iconDialogFoundByTag == null) ? IconDialog.newInstance(settings.build()) : iconDialogFoundByTag;
 
         iconPicker.setOnClickListener(v -> iconDialog.show(getChildFragmentManager(), ICON_DIALOG_TAG));
     }
@@ -87,7 +87,7 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
             BottomSheetColorPicker bottomSheetColorPicker = BottomSheetColorPicker.newInstance(colorPosition);
             bottomSheetColorPicker.setOnDateSelectedListener((colorPos, colorRes) -> {
                 setColorValues(colorPos, colorRes);
-                setColorToPickerLayout(colorPicker, colorPickerLayout, this.colorResources);
+                setColorToPickerLayout(colorPicker, colorPickerLayout, colorResources);
             });
             bottomSheetColorPicker.show(getParentFragmentManager(), BOTTOM_SHEET_COLOR_TAG);
         });
@@ -95,8 +95,8 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
 
     private void setColorValues(int colorPos, int colorRes) {
         if (colorRes == 0 || colorPos == 0) return;
-        this.colorPosition = colorPos;
-        this.colorResources = colorRes;
+        colorPosition = colorPos;
+        colorResources = colorRes;
     }
 
     @SuppressLint("PrivateResource")
@@ -113,17 +113,17 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
     }
 
     public void collectData(InputTextCollector collector) {
-        this.title = collector.collect(binding.titleTextView);
-        this.amount = collector.collectBasedOnProfitSwitch(binding.amountLayout, binding.profitSwitch);
+        title = collector.collect(binding.titleTextView);
+        amount = collector.collectBasedOnProfitSwitch(binding.amountLayout, binding.profitSwitch);
         collector.collect(binding.iconPickerLayout);
         collector.collect(binding.colorPickerLayout);
 
-        if (this.iconId == 0) {
+        if (iconId == 0) {
             collector.setErrorMessage(binding.iconPickerLayout);
             collector.markCollectedDataAsFailure();
         }
 
-        if (this.colorResources == 0) {
+        if (colorResources == 0) {
             collector.setErrorMessage(binding.colorPickerLayout);
             collector.markCollectedDataAsFailure();
         }
@@ -134,10 +134,10 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
         categoryQuery.createCategory(
                 0,
                 System.currentTimeMillis(),
-                this.title,
-                this.amount,
-                this.iconId,
-                this.colorResources);
+                title,
+                amount,
+                iconId,
+                colorResources);
         categoryQuery.submit();
         backToPreviousFragment();
     }
@@ -147,7 +147,7 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
     }
 
     private void setIconToPickerLayout(@NonNull Icon selectedIcon) {
-        this.iconId = selectedIcon.getId();
+        iconId = selectedIcon.getId();
         Drawable pickedIcon = selectedIcon.getDrawable();
 
         binding.setSelectedIcon(pickedIcon);
@@ -168,7 +168,7 @@ public class AddNewCategory extends Fragment implements IconDialog.Callback {
     }
 
     private void setIconToIconDialog(int newIconId) {
-        this.iconDialog.setSelectedIconIds(new ArrayList<>(List.of(newIconId)));
+        iconDialog.setSelectedIconIds(new ArrayList<>(List.of(newIconId)));
     }
 
     protected void setColor(int newColorRes) {

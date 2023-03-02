@@ -39,9 +39,9 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.binding.setCategoryFragment(this);
+        binding.setCategoryFragment(this);
 
-        this.view = view;
+        view = view;
         RecyclerView recyclerView = binding.monthsItems;
 
         final CategoryAdapter adapter =
@@ -66,7 +66,7 @@ public class CategoryFragment extends Fragment {
 
     private void openDetailsFragment(int categoryId) {
         CategoryDetails elementDetails = CategoryDetails.newInstance(categoryId);
-        Navigation.findNavController(this.view)
+        Navigation.findNavController(view)
                 .navigate(R.id.action_categoryList_to_categoryDetails, elementDetails.getArguments());
     }
 
@@ -80,7 +80,7 @@ public class CategoryFragment extends Fragment {
     }
 
     public void addButtonClickListener() {
-        Navigation.findNavController(this.view)
+        Navigation.findNavController(view)
                 .navigate(R.id.action_categoryList_to_addNewCategoryElement);
     }
 

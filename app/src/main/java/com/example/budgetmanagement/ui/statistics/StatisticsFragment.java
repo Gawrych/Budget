@@ -33,25 +33,25 @@ public class StatisticsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        this.binding.setStatisticsFragment(this);
+        binding.setStatisticsFragment(this);
 
         TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         transactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), this::setGlobalStats);
     }
 
     public void openPeriodStatistics() {
-        Navigation.findNavController(this.view).navigate(
+        Navigation.findNavController(view).navigate(
                 R.id.action_navigation_statistics_to_periodStatisticsFragment);
     }
 
     public void openPeriodComparatorStatistics() {
-        Navigation.findNavController(this.view).navigate(
+        Navigation.findNavController(view).navigate(
                 R.id.action_navigation_statistics_to_periodComparatorFragment);
     }
 
     private void setGlobalStats(List<Transaction> allTransactions) {
         GlobalStatsSummary globalStats = new GlobalStatsSummary(allTransactions);
-        this.binding.setGlobalStats(globalStats);
+        binding.setGlobalStats(globalStats);
     }
 
     @Override

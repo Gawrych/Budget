@@ -51,10 +51,10 @@ public class PeriodStatisticsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.binding.setPeriodStatisticsFragment(this);
-        this.transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        binding.setPeriodStatisticsFragment(this);
+        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
 
-        this.currentDate = Calendar.getInstance();
+        currentDate = Calendar.getInstance();
         setCurrentYearAsStartValueToChartAndStats();
         setMode(MONTHS_STATS_MODE);
         showStatsFromSelectedChartBar(currentDate.get(Calendar.MONTH));
@@ -71,7 +71,7 @@ public class PeriodStatisticsFragment extends Fragment {
     private void setMode(int newMode) {
         if (newMode == MONTHS_STATS_MODE) {
             setChartToMonthPeriod();
-            showStatsFromSelectedChartBar(this.currentDate.get(Calendar.MONTH));
+            showStatsFromSelectedChartBar(currentDate.get(Calendar.MONTH));
             showYearPicker();
         } else if (newMode == YEARS_STATS_MODE) {
             setChartToYearPeriod();
@@ -81,63 +81,63 @@ public class PeriodStatisticsFragment extends Fragment {
     }
 
     private void setChartToMonthPeriod() {
-        MonthsStatsCollector monthsStatsCollector = new MonthsStatsCollector(this.transactionViewModel);
-        this.periodSummary = monthsStatsCollector.getStats(this.selectedYear);
+        MonthsStatsCollector monthsStatsCollector = new MonthsStatsCollector(transactionViewModel);
+        periodSummary = monthsStatsCollector.getStats(selectedYear);
 
-        this.barChart = new PeriodStatisticsBarChart(binding);
-        this.barChart.setMonthsAsLabels(DateProcessor.getShortMonths());
-        this.barChart.setData(periodSummary);
-        this.barChart.setPositionToMoveView(currentDate.get(Calendar.MONTH));
-        this.barChart.drawChart();
-        this.barChart.setOnValueSelected(this::showStatsFromSelectedChartBar);
+        barChart = new PeriodStatisticsBarChart(binding);
+        barChart.setMonthsAsLabels(DateProcessor.getShortMonths());
+        barChart.setData(periodSummary);
+        barChart.setPositionToMoveView(currentDate.get(Calendar.MONTH));
+        barChart.drawChart();
+        barChart.setOnValueSelected(this::showStatsFromSelectedChartBar);
     }
 
     private void setChartToYearPeriod() {
-        YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(this.transactionViewModel);
-        this.periodSummary = yearsStatsCollector.getStats().values().toArray(new PeriodSummary[0]);
+        YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(transactionViewModel);
+        periodSummary = yearsStatsCollector.getStats().values().toArray(new PeriodSummary[0]);
 
-        this.barChart = new PeriodStatisticsBarChart(this.binding);
-        this.barChart.setYearsAsLabels(yearsStatsCollector.getYears());
-        this.barChart.setData(this.periodSummary);
-        this.barChart.drawChart();
-        this.barChart.setOnValueSelected(this::showStatsFromSelectedChartBar);
+        barChart = new PeriodStatisticsBarChart(binding);
+        barChart.setYearsAsLabels(yearsStatsCollector.getYears());
+        barChart.setData(periodSummary);
+        barChart.drawChart();
+        barChart.setOnValueSelected(this::showStatsFromSelectedChartBar);
     }
 
     private void showStatsFromSelectedChartBar(int selectedValue) {
-        PeriodSummary selectedPeriodSummary = this.periodSummary[selectedValue];
-        this.binding.setPeriodSummary(selectedPeriodSummary);
+        PeriodSummary selectedPeriodSummary = periodSummary[selectedValue];
+        binding.setPeriodSummary(selectedPeriodSummary);
     }
 
     private void changeYearForChartMonths() {
         final Calendar calendarInstance = Calendar.getInstance();
         int mMonth = calendarInstance.get(Calendar.MONTH);
         int mDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
-        this.datePickerDialog = new DatePickerDialog(requireContext(),
-                (view, year, monthOfYear, dayOfMonth) -> {}, this.selectedYear, mMonth, mDay);
+        datePickerDialog = new DatePickerDialog(requireContext(),
+                (view, year, monthOfYear, dayOfMonth) -> {}, selectedYear, mMonth, mDay);
 
-        this.datePickerDialog.getDatePicker().getTouchables().get(0).performClick();
-        this.datePickerDialog.getDatePicker().getTouchables().get(1).setVisibility(View.GONE);
-        this.datePickerDialog.getDatePicker()
+        datePickerDialog.getDatePicker().getTouchables().get(0).performClick();
+        datePickerDialog.getDatePicker().getTouchables().get(1).setVisibility(View.GONE);
+        datePickerDialog.getDatePicker()
                 .setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
-                    this.selectedYear = year;
+                    selectedYear = year;
                     binding.setYearPickerValue(Integer.toString(year));
                     setChartToMonthPeriod();
-                    showStatsFromSelectedChartBar(this.currentDate.get(Calendar.MONTH));
-                    this.datePickerDialog.cancel();
+                    showStatsFromSelectedChartBar(currentDate.get(Calendar.MONTH));
+                    datePickerDialog.cancel();
                 });
-        this.datePickerDialog.show();
+        datePickerDialog.show();
     }
 
     private void setCurrentYearAsStartValueToChartAndStats() {
-        this.selectedYear = currentDate.get(Calendar.YEAR);
+        selectedYear = currentDate.get(Calendar.YEAR);
     }
 
     private void showYearPicker() {
-        this.binding.setIsYearPickerClickable(true);
+        binding.setIsYearPickerClickable(true);
     }
 
     private void hideYearPicker() {
-        this.binding.setIsYearPickerClickable(false);
+        binding.setIsYearPickerClickable(false);
     }
 
     public void showInfo() {

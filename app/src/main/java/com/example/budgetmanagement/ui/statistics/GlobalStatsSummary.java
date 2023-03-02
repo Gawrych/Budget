@@ -26,7 +26,7 @@ public class GlobalStatsSummary {
                 .filter(this::isNotExecuted)
                 .collect(Collectors.toList());
 
-        this.numberOfTransactionsAfterTheTime = (int) onlyNotExecutedTransactions
+        numberOfTransactionsAfterTheTime = (int) onlyNotExecutedTransactions
                 .stream()
                 .filter(this::isOverdue)
                 .count();

@@ -21,8 +21,7 @@ import java.util.Objects;
 
 public class CategoryBottomSheetSelector extends Fragment implements CategoryBottomSheetViewHolder.OnNoteListener {
 
-    private BottomSheetDialog bottomSheetDialog;
-    private LiveData<List<Category>> categoryLiveData;
+    private final BottomSheetDialog bottomSheetDialog;
     private final CategoryViewModel categoryViewModel;
     private String selectedName = "";
     private int iconId = 995;
@@ -40,7 +39,7 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryBot
                         iconPack,
                         this);
 
-        categoryLiveData = categoryViewModel.getAllCategory();
+        LiveData<List<Category>> categoryLiveData = categoryViewModel.getAllCategory();
         categoryLiveData.observe(rootFragment.getViewLifecycleOwner(),
                 categoryBottomSheetAdapter::submitList);
 
@@ -49,7 +48,7 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryBot
 
         RecyclerView bottomSheetRecyclerView = bottomSheetDialog.findViewById(R.id.categoriesNames);
         Objects.requireNonNull(bottomSheetRecyclerView).setAdapter(categoryBottomSheetAdapter);
-        bottomSheetRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        bottomSheetRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     public void show() {
@@ -61,13 +60,13 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryBot
     @Override
     public void onNoteClick(int categoryId) {
         Category selectedCategory = categoryViewModel.getCategoryById(categoryId);
-        this.selectedName = selectedCategory.getName();
-        this.iconId = selectedCategory.getIcon();
+        selectedName = selectedCategory.getName();
+        iconId = selectedCategory.getIcon();
         bottomSheetDialog.cancel();
     }
 
     public BottomSheetDialog getBottomSheetDialog() {
-        return this.bottomSheetDialog;
+        return bottomSheetDialog;
     }
 
     public String getSelectedCategoryName() {
@@ -79,10 +78,10 @@ public class CategoryBottomSheetSelector extends Fragment implements CategoryBot
     }
 
     public void resetSelectedName() {
-        this.selectedName = "Różne";
+        selectedName = "Różne";
     }
 
     public void resetIconId() {
-        this.iconId = 955;
+        iconId = 955;
     }
 }

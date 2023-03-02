@@ -27,7 +27,7 @@ public class PeriodComparatorElementsCreator {
     private BottomSheetMonthYearPicker datesPicker;
 
     public PeriodComparatorElementsCreator(Context context, ViewModelStoreOwner owner) {
-        this.transactionViewModel = new ViewModelProvider(owner).get(TransactionViewModel.class);
+        transactionViewModel = new ViewModelProvider(owner).get(TransactionViewModel.class);
         this.context = context;
         setDefaultDates();
         initializePeriodPicker();
@@ -35,57 +35,57 @@ public class PeriodComparatorElementsCreator {
 
     private void setDefaultDates() {
         Calendar currentDate = Calendar.getInstance();
-        this.firstMonth = currentDate.get(Calendar.MONTH);
-        this.firstYear = currentDate.get(Calendar.YEAR);
+        firstMonth = currentDate.get(Calendar.MONTH);
+        firstYear = currentDate.get(Calendar.YEAR);
 
         currentDate.add(Calendar.MONTH, -1);
-        this.secondMonth = currentDate.get(Calendar.MONTH);
-        this.secondYear = currentDate.get(Calendar.YEAR);
+        secondMonth = currentDate.get(Calendar.MONTH);
+        secondYear = currentDate.get(Calendar.YEAR);
     }
 
     private void initializePeriodPicker() {
-        this.datesPicker = BottomSheetMonthYearPicker.newInstance(MONTHS_AND_YEAR_MODE,
-                this.firstYear, this.firstMonth, this.secondYear, this.secondMonth);
-        this.datesPicker.setDatesFromBundle();
-        this.datesPicker.setCancelable(false);
+        datesPicker = BottomSheetMonthYearPicker.newInstance(MONTHS_AND_YEAR_MODE,
+                firstYear, firstMonth, secondYear, secondMonth);
+        datesPicker.setDatesFromBundle();
+        datesPicker.setCancelable(false);
     }
 
     public void setMonthsModeLabelsForChart() {
         String[] labels = new String[2];
         String[] monthsNames = context.getResources().getStringArray(R.array.months);
-        labels[1] = monthsNames[this.firstMonth] + " " + this.firstYear;
-        labels[0] = monthsNames[this.secondMonth] + " " + this.secondYear;
+        labels[1] = monthsNames[firstMonth] + " " + firstYear;
+        labels[0] = monthsNames[secondMonth] + " " + secondYear;
         this.labels = labels;
     }
 
     public void setYearsModeLabelsForChart() {
         String[] labels = new String[2];
-        labels[1] = String.valueOf(this.firstYear);
-        labels[0] = String.valueOf(this.secondYear);
+        labels[1] = String.valueOf(firstYear);
+        labels[0] = String.valueOf(secondYear);
         this.labels = labels;
     }
 
     public void setMonthsSummaryStats() {
-        MonthsStatsCollector monthsStatsCollector = new MonthsStatsCollector(this.transactionViewModel);
-        PeriodSummary[] firstPeriodSummary = monthsStatsCollector.getStats(this.firstYear);
-        PeriodSummary[] secondPeriodSummary = monthsStatsCollector.getStats(this.secondYear);
-        this.statsComparator = new PeriodStatsComparator(firstPeriodSummary[this.firstMonth], secondPeriodSummary[this.secondMonth]);
+        MonthsStatsCollector monthsStatsCollector = new MonthsStatsCollector(transactionViewModel);
+        PeriodSummary[] firstPeriodSummary = monthsStatsCollector.getStats(firstYear);
+        PeriodSummary[] secondPeriodSummary = monthsStatsCollector.getStats(secondYear);
+        statsComparator = new PeriodStatsComparator(firstPeriodSummary[firstMonth], secondPeriodSummary[secondMonth]);
     }
 
     public void setYearsSummaryStats() {
-        YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(this.transactionViewModel);
+        YearsStatsCollector yearsStatsCollector = new YearsStatsCollector(transactionViewModel);
         HashMap<Integer, PeriodSummary> yearsSummary = yearsStatsCollector.getStats();
 
-        PeriodSummary firstPeriod = yearsSummary.getOrDefault(this.firstYear, new PeriodSummary());
-        PeriodSummary secondPeriod = yearsSummary.getOrDefault(this.secondYear, new PeriodSummary());
+        PeriodSummary firstPeriod = yearsSummary.getOrDefault(firstYear, new PeriodSummary());
+        PeriodSummary secondPeriod = yearsSummary.getOrDefault(secondYear, new PeriodSummary());
 
-        this.statsComparator = new PeriodStatsComparator(firstPeriod, secondPeriod);
+        statsComparator = new PeriodStatsComparator(firstPeriod, secondPeriod);
     }
 
     public BarChart createBarChart() {
-        PeriodComparatorBarChart barChart = new PeriodComparatorBarChart(this.context);
-        barChart.setLabels(this.labels);
-        barChart.setData(this.statsComparator);
+        PeriodComparatorBarChart barChart = new PeriodComparatorBarChart(context);
+        barChart.setLabels(labels);
+        barChart.setData(statsComparator);
         return barChart.drawChart();
     }
 
@@ -97,15 +97,15 @@ public class PeriodComparatorElementsCreator {
     }
 
     public void swapDates() {
-        setNewDates(this.secondYear, this.secondMonth, this.firstYear, this.firstMonth);
-        this.datesPicker.swapDates();
+        setNewDates(secondYear, secondMonth, firstYear, firstMonth);
+        datesPicker.swapDates();
     }
 
     public PeriodStatsComparator getStatsComparator() {
-        return this.statsComparator;
+        return statsComparator;
     }
 
     public BottomSheetMonthYearPicker getDatesPicker() {
-        return this.datesPicker;
+        return datesPicker;
     }
 }

@@ -46,20 +46,20 @@ public class ActionCategoryItemHandler extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.categoryId = BundleHelper.getItemIdFromBundle(getArguments(), BUNDLE_CATEGORY_ID);
+        categoryId = BundleHelper.getItemIdFromBundle(getArguments(), BUNDLE_CATEGORY_ID);
         if (categoryId == -1) {
             BundleHelper.showToUserErrorNotFoundInDatabase(requireActivity());
             dismiss();
             return;
         }
 
-        this.binding.setActionCategoryItemHandler(this);
+        binding.setActionCategoryItemHandler(this);
     }
 
     public void deleteActionOnCLick() {
         long currentTime = System.currentTimeMillis();
-        if (this.lastOnDeleteClickTime < currentTime - 1000) {
-            this.lastOnDeleteClickTime = currentTime;
+        if (lastOnDeleteClickTime < currentTime - 1000) {
+            lastOnDeleteClickTime = currentTime;
             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
             builder.setMessage(R.string.are_you_sure_to_delete)
                     .setPositiveButton(R.string.delete, (dialog, id) -> {
@@ -74,10 +74,10 @@ public class ActionCategoryItemHandler extends BottomSheetDialogFragment {
 
     private void removeFromDatabase() {
         TransactionViewModel transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        transactionViewModel.changeAllFromDeletedCategoryToDefault(this.categoryId);
+        transactionViewModel.changeAllFromDeletedCategoryToDefault(categoryId);
 
         CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-        categoryViewModel.delete(this.categoryId);
+        categoryViewModel.delete(categoryId);
     }
 
     public void editActionOnCLick() {
@@ -86,7 +86,7 @@ public class ActionCategoryItemHandler extends BottomSheetDialogFragment {
         View rootView = parentFragment.getView();
         if (rootView == null) return;
 
-        EditCategory editCategory = EditCategory.newInstance(this.categoryId);
+        EditCategory editCategory = EditCategory.newInstance(categoryId);
         Bundle bundle = editCategory.getArguments();
 
         Navigation.findNavController(rootView)

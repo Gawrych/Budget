@@ -30,22 +30,22 @@ public class PeriodStatisticsBarChart implements OnChartValueSelectedListener {
 
     public PeriodStatisticsBarChart(PeriodStatisticsFragmentBinding binding) {
         this.binding = binding;
-        this.context = binding.getRoot().getContext();
+        context = binding.getRoot().getContext();
     }
 
     public void drawChart() {
-        BarChart barChartView = new BarChart(this.context);
+        BarChart barChartView = new BarChart(context);
         barChartView.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         barChartView.setId(R.id.periodBarChart);
 
         BarChartCreator barChartCreator = new BarChartCreator(barChartView);
-        barChartCreator.create(this.chartLabels, getDataForBarChart());
+        barChartCreator.create(chartLabels, getDataForBarChart());
 
         barChartView.setOnChartValueSelectedListener(this);
-        barChartView.moveViewToX(this.positionToMoveView);
+        barChartView.moveViewToX(positionToMoveView);
 
-        LinearLayout chartLayout = this.binding.chartLayout;
+        LinearLayout chartLayout = binding.chartLayout;
         chartLayout.removeAllViews();
         chartLayout.addView(barChartCreator.getBarChart());
     }
@@ -53,9 +53,9 @@ public class PeriodStatisticsBarChart implements OnChartValueSelectedListener {
     private BarData getDataForBarChart() {
         ArrayList<BarEntry> loss = new ArrayList<>();
         ArrayList<BarEntry> income = new ArrayList<>();
-        for (int i = 0; i < this.periodSummary.length; i++) {
-            income.add(new BarEntry(i, this.periodSummary[i].getIncome()));
-            loss.add(new BarEntry(i, this.periodSummary[i].getLoss()));
+        for (int i = 0; i < periodSummary.length; i++) {
+            income.add(new BarEntry(i, periodSummary[i].getIncome()));
+            loss.add(new BarEntry(i, periodSummary[i].getLoss()));
         }
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
@@ -68,7 +68,7 @@ public class PeriodStatisticsBarChart implements OnChartValueSelectedListener {
     private void addNewSetToDataSet(ArrayList<BarEntry> loss, String loss1, int mat_red, ArrayList<IBarDataSet> dataSets) {
         BarDataSet set1 = new BarDataSet(loss, loss1);
         set1.setHighlightEnabled(true);
-        set1.setColors(new int[]{mat_red}, this.context);
+        set1.setColors(new int[]{mat_red}, context);
         set1.setHighLightColor(Color.BLACK);
         dataSets.add(set1);
     }
@@ -78,13 +78,13 @@ public class PeriodStatisticsBarChart implements OnChartValueSelectedListener {
     }
 
     public void setPositionToMoveView(int position) {
-        this.positionToMoveView = position;
+        positionToMoveView = position;
     }
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         int selectedPos = (int) (e.getX() - 1);
-        this.onValueSelected.onValueSelected(selectedPos);
+        onValueSelected.onValueSelected(selectedPos);
     }
 
     public void setYearsAsLabels(int[] years) {
@@ -92,21 +92,21 @@ public class PeriodStatisticsBarChart implements OnChartValueSelectedListener {
                 .mapToObj(String::valueOf)
                 .toArray(String[]::new);
 
-        this.chartLabels.clear();
-        this.chartLabels.add("Chart is skipping this line, but it have to be here");
-        Collections.addAll(this.chartLabels, labels);
-        this.chartLabels.add("Chart is skipping this line, but it have to be here");
+        chartLabels.clear();
+        chartLabels.add("Chart is skipping this line, but it have to be here");
+        Collections.addAll(chartLabels, labels);
+        chartLabels.add("Chart is skipping this line, but it have to be here");
     }
 
     public void setMonthsAsLabels(String[] labels) {
-        this.chartLabels.clear();
-        this.chartLabels.add("Chart is skipping this line, but it have to be here");
-        Collections.addAll(this.chartLabels, labels);
-        this.chartLabels.add("Chart is skipping this line, but it have to be here");
+        chartLabels.clear();
+        chartLabels.add("Chart is skipping this line, but it have to be here");
+        Collections.addAll(chartLabels, labels);
+        chartLabels.add("Chart is skipping this line, but it have to be here");
     }
 
     public void setOnValueSelected(OnValueSelected listener) {
-        this.onValueSelected = listener;
+        onValueSelected = listener;
     }
 
     public interface OnValueSelected {
