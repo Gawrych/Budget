@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Transaction.class, Category.class}, version = 263, exportSchema = false)
+@Database(entities = {Transaction.class, Category.class}, version = 6, exportSchema = false)
 public abstract class BudgetRoomDatabase extends RoomDatabase {
 
     public abstract TransactionDao transactionDao();
@@ -49,19 +49,114 @@ public abstract class BudgetRoomDatabase extends RoomDatabase {
                 Category category = new Category(1, "Różne", 955, -12679077, "-1", System.currentTimeMillis(), 0);
                 Category category2 = new Category(2, "Spożywcze", 255, -14123782, "-1", System.currentTimeMillis(), 0);
                 Category category3 = new Category(3, "Pensje", 256, -1554347, "1", System.currentTimeMillis(), 0);
+                Category category4 = new Category(4, "Podatki", 252, -65281, "-2500", System.currentTimeMillis(), 0);
+                Category category5 = new Category(5, "Mieszkanie", 471, -7432974, "-3200", System.currentTimeMillis(), 0);
+                Category category6 = new Category(6, "Subskrypcje", 278, -549531, "-300", System.currentTimeMillis(), 0);
+                Category category7 = new Category(7, "Koszta JDG", 261, -49023, "-3000", System.currentTimeMillis(), 0);
                 categoryDao.insert(category);
                 categoryDao.insert(category2);
                 categoryDao.insert(category3);
+                categoryDao.insert(category4);
+                categoryDao.insert(category5);
+                categoryDao.insert(category6);
+                categoryDao.insert(category7);
 
                 TransactionDao transactionDao = INSTANCE.transactionDao();
                 Calendar calendar = Calendar.getInstance();
+                calendar.set(2023, 0, 10);
 
-                for (int i=0; i<5; i++) {
-                    Transaction transaction = new Transaction(i, 2,
-                            "Samochód", "-200", System.currentTimeMillis(),
-                            0, false, calendar.getTimeInMillis(), calendar.get(Calendar.YEAR), 1241155550L);
+                for (int i=1; i<13; i++) {
+                    Calendar fewDaysBeforeTheDeadline = Calendar.getInstance();
+                    fewDaysBeforeTheDeadline.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                    fewDaysBeforeTheDeadline.add(Calendar.DAY_OF_MONTH, -5);
+
+                    Transaction transaction = new Transaction(i,
+                            3,
+                            "Wypłata",
+                            "6000",
+                            System.currentTimeMillis(),
+                            0,
+                            System.currentTimeMillis() > calendar.getTimeInMillis(),
+                            calendar.getTimeInMillis(),
+                            calendar.get(Calendar.YEAR),
+                            fewDaysBeforeTheDeadline.getTimeInMillis());
                     transactionDao.insert(transaction);
-                    calendar.add(Calendar.DAY_OF_MONTH, 12);
+
+                    if ((calendar.get(Calendar.MONTH) % 2) == 1) {
+
+                        calendar.add(Calendar.DAY_OF_MONTH, 6);
+                        Transaction transaction2 = new Transaction(i+12,
+                                1,
+                                "Paliwo",
+                                "-450",
+                                System.currentTimeMillis(),
+                                0,
+                                System.currentTimeMillis() > calendar.getTimeInMillis(),
+                                calendar.getTimeInMillis(),
+                                calendar.get(Calendar.YEAR),
+                                fewDaysBeforeTheDeadline.getTimeInMillis());
+                        transactionDao.insert(transaction2);
+                    }
+
+                    calendar.add(Calendar.DAY_OF_MONTH, 3);
+
+                    Transaction transaction3 = new Transaction(i+24,
+                            4,
+                            "Mały ZUS",
+                            "-341.72",
+                            System.currentTimeMillis(),
+                            0,
+                            System.currentTimeMillis() > calendar.getTimeInMillis(),
+                            calendar.getTimeInMillis(),
+                            calendar.get(Calendar.YEAR),
+                            fewDaysBeforeTheDeadline.getTimeInMillis());
+                    transactionDao.insert(transaction3);
+
+                    calendar.add(Calendar.DAY_OF_MONTH, 4);
+
+                    Transaction transaction4 = new Transaction(i+36,
+                            5,
+                            "Czynsz",
+                            "-2700",
+                            System.currentTimeMillis(),
+                            0,
+                            System.currentTimeMillis() > calendar.getTimeInMillis(),
+                            calendar.getTimeInMillis(),
+                            calendar.get(Calendar.YEAR),
+                            fewDaysBeforeTheDeadline.getTimeInMillis());
+                    transactionDao.insert(transaction4);
+
+                    calendar.set(Calendar.DAY_OF_MONTH, 10);
+                    fewDaysBeforeTheDeadline.add(Calendar.DAY_OF_MONTH, 5);
+                    Transaction transaction5 = new Transaction(i+48,
+                            6,
+                            "Storytel",
+                            "-39.90",
+                            System.currentTimeMillis(),
+                            0,
+                            System.currentTimeMillis() > calendar.getTimeInMillis(),
+                            calendar.getTimeInMillis(),
+                            calendar.get(Calendar.YEAR),
+                            fewDaysBeforeTheDeadline.getTimeInMillis());
+                    transactionDao.insert(transaction5);
+                    fewDaysBeforeTheDeadline.add(Calendar.DAY_OF_MONTH, -5);
+
+                    calendar.set(Calendar.DAY_OF_MONTH, 15);
+
+                    Transaction transaction6 = new Transaction(i+60,
+                            7,
+                            "Rata za sprzęt",
+                            "-1472.82",
+                            System.currentTimeMillis(),
+                            0,
+                            System.currentTimeMillis() > calendar.getTimeInMillis(),
+                            calendar.getTimeInMillis(),
+                            calendar.get(Calendar.YEAR),
+                            fewDaysBeforeTheDeadline.getTimeInMillis());
+                    transactionDao.insert(transaction6);
+
+                    calendar.set(Calendar.MONTH, i);
+                    calendar.set(Calendar.DAY_OF_MONTH, 10);
                 }
             });
         }
