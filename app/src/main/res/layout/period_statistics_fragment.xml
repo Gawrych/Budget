@@ -101,19 +101,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/infoIcon"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:onClick="@{() -> periodStatisticsFragment.showInfo()}"
-                        android:contentDescription="@string/transaction_icon_desc"
-                        android:padding="4dp"
-                        android:src="@drawable/ic_outline_info_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/dark_accent" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="@style/detailsItemLayout">

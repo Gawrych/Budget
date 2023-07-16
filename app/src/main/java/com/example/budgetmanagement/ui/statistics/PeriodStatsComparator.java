@@ -47,8 +47,8 @@ public class PeriodStatsComparator {
         return firstPeriod.getAverageTimeAfterTheDeadlineInDays() - secondPeriod.getAverageTimeAfterTheDeadlineInDays();
     }
 
-    public int getGrowthOfPercentOfTransactionsExecutedOnTime() {
-        return firstPeriod.getPercentageOfTransactionsExecutedOnTime() - secondPeriod.getPercentageOfTransactionsExecutedOnTime();
+    public String getGrowthOfPercentOfTransactionsExecutedOnTime() {
+        return percentIncreaseOrDecrease(firstPeriod.getPercentageOfTransactionsExecutedOnTime(), secondPeriod.getPercentageOfTransactionsExecutedOnTime());
     }
 
     private int percentGrowth(float obtained, float total) {
@@ -58,6 +58,21 @@ public class PeriodStatsComparator {
             return 100;
         }
         return (int) (obtained * 100 / total);
+    }
+
+    private String percentIncreaseOrDecrease(float newNumber, float originalNumber) {
+        float obtained = 0;
+        String sign = "";
+
+        if (newNumber < originalNumber) {
+            obtained = newNumber - originalNumber;
+            sign = "-";
+        } else {
+            obtained = originalNumber - newNumber;
+            sign = "+";
+        }
+
+        return sign + Math.abs(percentGrowth(obtained, originalNumber));
     }
 
     public PeriodSummary getFirstPeriod() {

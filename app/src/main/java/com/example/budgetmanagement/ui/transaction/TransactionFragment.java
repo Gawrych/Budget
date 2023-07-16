@@ -70,24 +70,11 @@ public class TransactionFragment extends Fragment implements TransactionExpandab
             currentSectionList = sectionMaker.prepareSections();
             notifyUpdatedList();
         });
-
-//        TODO: Add autoscroll
-//        int actualPositionToScroll = getActualPositionToScroll();
-//        binding.expandableListView.smoothScrollToPositionFromTop(actualPositionToScroll, 0);
     }
 
     public void addButtonOnCLick() {
         Navigation.findNavController(view)
                 .navigate(R.id.action_navigation_transaction_to_addNewTransactionElement);
-    }
-
-    private int getActualPositionToScroll() {
-        int monthNumber = getMonthFromDate(Calendar.getInstance().getTimeInMillis());
-        int endPosition = monthNumber;
-        for (int i=0; i<monthNumber; i++) {
-            endPosition += currentSectionList.get(i).getTransactionList().size();
-        }
-        return endPosition;
     }
 
     @Override
@@ -131,12 +118,6 @@ public class TransactionFragment extends Fragment implements TransactionExpandab
     private void notifyUpdatedList() {
         expandableListAdapter.updateItems(currentSectionList);
         expandableListAdapter.notifyAdapter(binding.expandableListView);
-    }
-
-    private int getMonthFromDate(long dateInMillis) {
-        Calendar date = Calendar.getInstance();
-        date.setTimeInMillis(dateInMillis);
-        return date.get(Calendar.MONTH);
     }
 
     @Override

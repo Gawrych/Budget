@@ -139,8 +139,4 @@ public class PeriodStatisticsFragment extends Fragment {
     private void hideYearPicker() {
         binding.setIsYearPickerClickable(false);
     }
-
-    public void showInfo() {
-        // TODO: Add info dialog
-    }
 }

@@ -31,7 +31,7 @@ public class PeriodComparatorValues {
         amountOfLossIncrease = getNumberWithSign(statsComparator.getObtainedLoss());
 
         averageGrowthTimeAfterTheDeadline = getNumberWithSign(statsComparator.getGrowthAverageTimeAfterTheDeadlineInDays());
-        growthPayOnTimeInPercentagePoints = getNumberWithSign(statsComparator.getGrowthOfPercentOfTransactionsExecutedOnTime());
+        growthPayOnTimeInPercentagePoints = statsComparator.getGrowthOfPercentOfTransactionsExecutedOnTime();
     }
 
     private String getNumberWithSign(int number) {

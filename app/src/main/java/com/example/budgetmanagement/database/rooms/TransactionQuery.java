@@ -62,6 +62,7 @@ public class TransactionQuery {
             submit();
             calendar.add(period, 1);
             this.transaction.setDeadline(calendar.getTimeInMillis());
+            this.transaction.setDeadlineYear(calendar.get(Calendar.YEAR));
         }
     }
 

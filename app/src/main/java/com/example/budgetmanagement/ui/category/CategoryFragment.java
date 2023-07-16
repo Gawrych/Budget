@@ -41,7 +41,7 @@ public class CategoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.setCategoryFragment(this);
 
-        view = view;
+        this.view = view;
         RecyclerView recyclerView = binding.monthsItems;
 
         final CategoryAdapter adapter =

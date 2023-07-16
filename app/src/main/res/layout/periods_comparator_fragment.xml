@@ -95,18 +95,6 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
-                            android:id="@+id/infoIcon"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:padding="4dp"
-                            android:contentDescription="@string/transaction_icon_desc"
-                            android:src="@drawable/ic_outline_info_24"
-                            app:tint="@color/dark_accent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout style="@style/detailsItemLayout">
@@ -281,59 +269,10 @@
                         <TextView
                             android:id="@+id/averageGrowthTimeAfterTheDeadline"
                             style="@style/detailsItemData"
-                            android:text="@{@string/amount_with_percentage_points(periodComparatorValues.averageGrowthTimeAfterTheDeadline)}"
+                            android:text="@{@string/amount_with_day_label(periodComparatorValues.averageGrowthTimeAfterTheDeadline)}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/averageTimeAfterTheDeadlineLabel" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout style="@style/detailsItemLayout">
-
-                        <ImageView
-                            android:id="@+id/payOnTimeLabelIcon"
-                            style="@style/detailsItemIcon"
-                            android:backgroundTint="@color/mat_green"
-                            android:layout_marginEnd="10dp"
-                            android:contentDescription="@string/transaction_icon_desc"
-                            android:src="@drawable/ic_baseline_done_all_24"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/payOnTimeLabel" />
-
-                        <TextView
-                            android:id="@+id/payOnTimeLabel"
-                            style="@style/detailsItemLabel"
-                            android:labelFor="@+id/allTransactionNumber"
-                            android:text="@string/paid_on_time"
-                            app:layout_constraintBottom_toTopOf="@+id/growthPayOnTimeInPercentagePoints"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_chainStyle="spread" />
-
-                        <TextView
-                            android:id="@+id/payOnTimeInPercentageSecondPeriod"
-                            style="@style/detailsItemExtraDataWithIcon"
-                            android:layout_marginBottom="10dp"
-                            android:text="@{@string/amount_with_percent(periodComparatorValues.payOnTimeInPercentageSecondPeriod)}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/payOnTimeInPercentageFirstPeriod" />
-
-                        <TextView
-                            android:id="@+id/payOnTimeInPercentageFirstPeriod"
-                            style="@style/detailsItemExtraData"
-                            android:layout_marginEnd="10dp"
-                            android:text="@{@string/amount_with_percent(periodComparatorValues.payOnTimeInPercentageFirstPeriod)}"
-                            app:layout_constraintBottom_toBottomOf="@+id/payOnTimeInPercentageSecondPeriod"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/payOnTimeInPercentageSecondPeriod" />
-
-                        <TextView
-                            android:id="@+id/growthPayOnTimeInPercentagePoints"
-                            style="@style/detailsItemData"
-                            android:text="@{@string/amount_with_day_label(periodComparatorValues.growthPayOnTimeInPercentagePoints)}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/payOnTimeLabel" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
