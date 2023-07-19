@@ -49,6 +49,6 @@ The transaction fragment is divided into 12 months, so you can easily see all of
 3. Run the app on your device or emulator
 
 ## Contact
-Paweł Gawrych - [LinkedIn](www.linkedin.com/in/Gawrych) <br/>
+Paweł Gawrych - [LinkedIn](https://www.linkedin.com/in/Gawrych) <br/>
 Email - pawelgawrych203@gmail.com <br/>
 Web Application - [DelayFlight.pl](https://www.delayflight.pl/) <br/>
